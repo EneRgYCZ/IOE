@@ -27,4 +27,8 @@ $ yarn
 ```
 $ yarn dev  
 ```
+
+```
+$ ./vendor/bin/sail artisan migrate:fresh --seed
+```
 The last command should run the app
