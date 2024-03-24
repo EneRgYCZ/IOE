@@ -25,18 +25,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::group(
-    ['middleware' => ['auth', 'verified']],
-    function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('Dashboard');
-        })->name('dashboard');
-
-        Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
-            Route::get('/index', [\App\Http\Controllers\ReportController::class, 'index'])->name('index');
-        });
-    }
-);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
