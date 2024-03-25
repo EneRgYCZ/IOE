@@ -1,0 +1,64 @@
+name: Frontend
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  frontend-style:
+    if: '! github.event.pull_request.draft'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
+        with:
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Frontend Styling
+        run: yarn run style:test
+
+  frontend-lint:
+    if: '! github.event.pull_request.draft'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
+        with:
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Frontend Styling
+        run: yarn run lint:test
+
+  frontend-type:
+    if: '! github.event.pull_request.draft'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
+        with:
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Frontend Type
+        run: yarn run type:test
+
