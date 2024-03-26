@@ -32,7 +32,6 @@ Route::get('/employees', [\App\Http\Controllers\EmployeeController::class, 'inde
 //Route::get('/equipment', [\App\Http\Controllers\Equiment::class, 'index'])->name('index');
 //Route::get('/logs', [\App\Http\Controllers\Logs::class, 'index'])->name('index');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

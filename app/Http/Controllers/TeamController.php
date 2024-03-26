@@ -19,14 +19,14 @@ class TeamController extends Controller
     {
         $teams =
             QueryBuilder::for(Team::query())
-            ->allowedSorts('id', 'team_name', 'description')
-            ->allowedFilters(
-                'id',
-                'team_name',
-                'description',
-            )
-            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-            ->withQueryString();
+                ->allowedSorts('id', 'team_name', 'description')
+                ->allowedFilters(
+                    'id',
+                    'team_name',
+                    'description',
+                )
+                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+                ->withQueryString();
 
         return Inertia::render('Teams/index', [
             'teams' => $teams,

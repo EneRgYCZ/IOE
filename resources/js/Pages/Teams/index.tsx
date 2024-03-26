@@ -2,8 +2,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Team } from "@/types";
 import React from "react";
 
-const Teams = ({teams}: PageProps<{teams: PaginatedResponse<Team>}>) => {
-
+const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
     console.log(teams);
 
     return (
@@ -11,6 +10,6 @@ const Teams = ({teams}: PageProps<{teams: PaginatedResponse<Team>}>) => {
             <h1>Teams</h1>
         </GuestLayout>
     );
-}
+};
 
 export default Teams;

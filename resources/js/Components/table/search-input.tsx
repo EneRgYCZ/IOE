@@ -5,7 +5,6 @@ import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { HiXMark } from "react-icons/hi2";
 
-
 const SearchInput: React.FC<{
     input: QueryBuilderSearchInput;
     searchUpdatedHandler: (input: QueryBuilderSearchInput, newValue: string) => void;
@@ -27,7 +26,11 @@ const SearchInput: React.FC<{
                 debouncedUpdateSearchInputValue();
             }}
             InputProps={{
-                startAdornment: <InputAdornment position="start" sx={{ pr: 2}}>{input.label}</InputAdornment>,
+                startAdornment: (
+                    <InputAdornment position="start" sx={{ pr: 2 }}>
+                        {input.label}
+                    </InputAdornment>
+                ),
                 endAdornment: (
                     <InputAdornment position="end">
                         <Tooltip title="Clear selection">

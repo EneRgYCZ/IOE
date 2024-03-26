@@ -3,7 +3,6 @@ import { Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 
 const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Employee> }>) => {
-
     console.log(employees);
 
     return (

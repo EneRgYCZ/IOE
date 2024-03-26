@@ -11,10 +11,15 @@ use Inertia\Response;
 class Table
 {
     private string $name = 'default';
+
     private string $pageName = 'page';
+
     private string $defaultSort = '';
+
     private array $perPageOptions = [15, 30, 50, 100];
+
     private Collection $columns;
+
     private Collection $searchInputs;
 
     private static array $defaultQueryBuilderConfig = [];
@@ -27,7 +32,7 @@ class Table
         $this->searchInputs = collect();
     }
 
-    private function query(string $key, array|string $default = null): array|string|null
+    private function query(string $key, array|string|null $default = null): array|string|null
     {
         return $this->request->query(
             $this->name === 'default' ? $key : "{$this->name}_{$key}",

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 class ColumnFilter implements Arrayable
 {
     public readonly string $key;
+
     public readonly array $options;
+
     public ?array $value = [];
 
     public function __construct(

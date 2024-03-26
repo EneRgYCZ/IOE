@@ -26,7 +26,7 @@ const SearchToggler: React.FC<{
         const [shown, setShown] = useState(search.shown);
 
         return (
-            <FormControl >
+            <FormControl>
                 <Box>
                     <FormLabel>
                         <Typography sx={{ textTransform: "uppercase" }}>{search.label}</Typography>
