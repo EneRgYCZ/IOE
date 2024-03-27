@@ -26,40 +26,44 @@ const NavigationBar = () => {
                     },
                     "& .Mui-selected": {
                         color: "#fff !important",
-                        backgroundColor: "#1218f4"
+                        backgroundColor: "#1976d2"
                     }
                 }}
             >
-                <Link
-                    href={route("employees.index")}
-                    value="/employees"
-                    className={selectedUrl === "/employees" ? "Mui-selected" : ""}
-                >
-                    <Tab label="Employees" value="/employees" aria-label="Employees Page" />
+                <Link href={route("employees.index")} value="/employees">
+                    <Tab
+                        className={selectedUrl === "/employees" ? "Mui-selected" : ""}
+                        label="Employees"
+                        value="/employees"
+                        aria-label="Employees Page"
+                    />
                 </Link>
 
-                <Link
-                    href={route("equipment.index")}
-                    value="/equipment"
-                    className={selectedUrl === "/equipment" ? "Mui-selected" : ""}
-                >
-                    <Tab label="Equipment" value="/equipment" aria-label="Equipment Page" />
+                <Link href={route("equipment.index")} value="/equipment">
+                    <Tab
+                        className={selectedUrl === "/equipment" ? "Mui-selected" : ""}
+                        label="Equipment"
+                        value="/equipment"
+                        aria-label="Equipment Page"
+                    />
                 </Link>
 
-                <Link
-                    href={route("teams.index")}
-                    value="/teams"
-                    className={selectedUrl === "/teams" ? "Mui-selected" : ""}
-                >
-                    <Tab label="Teams" value="/teams" aria-label="Phone Page" />
+                <Link href={route("teams.index")} value="/teams">
+                    <Tab
+                        className={selectedUrl === "/teams" ? "Mui-selected" : ""}
+                        label="Teams"
+                        value="/teams"
+                        aria-label="Phone Page"
+                    />
                 </Link>
 
-                <Link
-                    href={route("logs.index")}
-                    value="/logs"
-                    className={selectedUrl === "/logs" ? "Mui-selected" : ""}
-                >
-                    <Tab label="Logs" value="/logs" aria-label="Logs Page" />
+                <Link href={route("logs.index")} value="/logs">
+                    <Tab
+                        className={selectedUrl === "/logs" ? "Mui-selected" : ""}
+                        label="Logs"
+                        value="/logs"
+                        aria-label="Logs Page"
+                    />
                 </Link>
             </Tabs>
         </Box>
