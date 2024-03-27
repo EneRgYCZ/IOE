@@ -20,7 +20,7 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
             <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
                 <Table <Employee>
                     data={employees}
-                    actionRenderer={employee =>
+                    actionRenderer={() =>
                         (
                             <TableCell align="center">
                                 <Button variant="contained" sx={tableButtonMargins}>

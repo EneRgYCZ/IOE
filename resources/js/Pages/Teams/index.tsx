@@ -20,7 +20,7 @@ const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
             <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
                 <Table <Team>
                     data={teams}
-                    actionRenderer={team =>
+                    actionRenderer={() =>
                         (
                             <TableCell align="center">
                                 <Button variant="contained">
