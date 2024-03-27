@@ -114,3 +114,12 @@ export interface MeetingRoomLaptop {
     created_at: string;
     updated_at: string;
 }
+
+export interface Logs {
+    id: number;
+    model: string;
+    action: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+}
