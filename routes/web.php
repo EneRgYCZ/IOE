@@ -25,12 +25,24 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard', [
+        'hello' => 'Hello World',
+    ]);
+});
 
-Route::get('/teams', [\App\Http\Controllers\TeamController::class, 'index'])->name('index');
-Route::get('/employees', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
-//Route::get('/equipment', [\App\Http\Controllers\Equiment::class, 'index'])->name('index');
-//Route::get('/logs', [\App\Http\Controllers\Logs::class, 'index'])->name('index');
+Route::group(['prefix' => 'teams', 'as' => 'teams.'], function () {
+    Route::get('/', [\App\Http\Controllers\TeamController::class, 'index'])->name('index');
+});
+Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
+    Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
+});
+Route::group(['prefix' => 'equipment', 'as' => 'equipment.'], function () {
+    Route::get('/', [\App\Http\Controllers\EquipmentController::class, 'index'])->name('index');
+});
+Route::group(['prefix' => 'logs', 'as' => 'logs.'], function () {
+    Route::get('/', [\App\Http\Controllers\LogsController::class, 'index'])->name('index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status', ['flex', 'static']);
             $table->integer('floor');
             $table->integer('island_number');
-            $table->enum('type', ['developer', 'non-developer']);
+            $table->enum('workspace_type', ['developer', 'non-developer']);
             $table->boolean('updated_in_q1');
             $table->foreignId('employee_id')->nullable()->constrained();
             $table->timestamps();

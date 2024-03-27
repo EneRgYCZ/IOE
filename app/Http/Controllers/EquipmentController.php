@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Desktop;
+use App\Models\Laptop;
+use App\Models\MeetingRoomLaptop;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -34,8 +36,37 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        return Inertia::render('Teams/index', [
+        $laptops = QueryBuilder::for(Laptop::query())
+            ->allowedSorts('id', 'serial_number', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'employee_id')
+            ->allowedFilters(
+                'id',
+                'serial_number',
+                'status',
+                'floor',
+                'island_number',
+                'workspace_type',
+                'updated_in_q1',
+                'employee_id',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
+            ->allowedSorts('id', 'serial_number', 'floor', 'room_number', 'updated_in_q1')
+            ->allowedFilters(
+                'id',
+                'serial_number',
+                'floor',
+                'room_number',
+                'updated_in_q1',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        return Inertia::render('Equipment/index', [
             'desktops' => $desktops,
+            'laptops' => $laptops,
+            'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
@@ -57,8 +88,35 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('type', 'Type', shown: true))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
+        })->table(function (Table $table) {
+            $table
+                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
+                ->addColumn(new Column('serial_number', 'Serial Number', sortable: true))
+                ->addColumn(new Column('status', 'Status', sortable: true))
+                ->addColumn(new Column('floor', 'Floor', sortable: true))
+                ->addColumn(new Column('island_number', 'Island Number', sortable: true))
+                ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
+                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
+                ->addSearchInput(new SearchInput('serial_number', 'Serial Number', shown: true))
+                ->addSearchInput(new SearchInput('status', 'Status', shown: true))
+                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
+                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
+                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
+                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
+        })->table(function (Table $table) {
+            $table
+                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
+                ->addColumn(new Column('serial_number', 'Serial Number', sortable: true))
+                ->addColumn(new Column('floor', 'Floor', sortable: true))
+                ->addColumn(new Column('room_number', 'Room Number', sortable: true))
+                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addSearchInput(new SearchInput('serial_number', 'Serial Number', shown: true))
+                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
+                ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
+                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true));
         });
-
     }
 
     /**
