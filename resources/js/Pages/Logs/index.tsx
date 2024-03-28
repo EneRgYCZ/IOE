@@ -1,15 +1,17 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Logs, PageProps, PaginatedResponse } from "@/types";
+import { PageProps, PaginatedResponse, Logs } from "@/types";
 import React from "react";
+import { Card } from "@mui/material";
+import { Table } from "@/Components/table/table";
 
-const Index = ({ logs }: PageProps<{ logs: PaginatedResponse<Logs> }>) => {
-    console.log(logs);
-
+const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<Logs> }>) => {
     return (
         <GuestLayout>
-            <h1>Logs</h1>
+            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
+                <Table<Logs> data={logs} />
+            </Card>
         </GuestLayout>
     );
 };
 
-export default Index;
+export default Log;
