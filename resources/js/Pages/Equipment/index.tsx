@@ -1,8 +1,9 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { DesktopPC, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import {Button, Card, Fab, TableCell} from "@mui/material";
-import Table from "@/Components/table/table";
+import {Box, Button, Card, Fab, TableCell} from "@mui/material";
+import { Table } from "@/Components/table/table";
+
 
 const Equipment = ({
     desktops,
@@ -29,51 +30,53 @@ const Equipment = ({
 
     return (
         <GuestLayout>
-            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
-                <Table<DesktopPC>
-                    data={desktops}
-                    actionRenderer={() => (
-                        <TableCell align="center">
-                            <Button variant="contained" sx={tableButtonMargins}>
-                                EDIT
-                            </Button>
-                            <Button variant="contained" color="error">
-                                DELETE
-                            </Button>
-                        </TableCell>
-                    )}
-                />
-            </Card>
-            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
-                <Table<Laptop>
-                    data={laptops}
-                    actionRenderer={() => (
-                        <TableCell align="center">
-                            <Button variant="contained" sx={tableButtonMargins}>
-                                EDIT
-                            </Button>
-                            <Button variant="contained" color="error">
-                                DELETE
-                            </Button>
-                        </TableCell>
-                    )}
-                />
-            </Card>
-            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
-                <Table<MeetingRoomLaptop>
-                    data={meetingRoomLaptops}
-                    actionRenderer={() => (
-                        <TableCell align="center">
-                            <Button variant="contained" sx={tableButtonMargins}>
-                                EDIT
-                            </Button>
-                            <Button variant="contained" color="error">
-                                DELETE
-                            </Button>
-                        </TableCell>
-                    )}
-                />
-            </Card>
+            <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                <Card variant="outlined" sx={{ width: "70%", alignItems: "center", marginBottom: "30px" }}>
+                    <Table<DesktopPC>
+                        data={desktops}
+                        actionRenderer={() => (
+                            <TableCell align="center">
+                                <Button variant="contained" sx={tableButtonMargins}>
+                                    EDIT
+                                </Button>
+                                <Button variant="contained" color="error">
+                                    DELETE
+                                </Button>
+                            </TableCell>
+                        )}
+                    />
+                </Card>
+                <Card variant="outlined" sx={{ width: "70%", alignItems: "center", marginBottom: "30px" }}>
+                    <Table<Laptop>
+                        data={laptops}
+                        actionRenderer={() => (
+                            <TableCell align="center">
+                                <Button variant="contained" sx={tableButtonMargins}>
+                                    EDIT
+                                </Button>
+                                <Button variant="contained" color="error">
+                                    DELETE
+                                </Button>
+                            </TableCell>
+                        )}
+                    />
+                </Card>
+                <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
+                    <Table<MeetingRoomLaptop>
+                        data={meetingRoomLaptops}
+                        actionRenderer={() => (
+                            <TableCell align="center">
+                                <Button variant="contained" sx={tableButtonMargins}>
+                                    EDIT
+                                </Button>
+                                <Button variant="contained" color="error">
+                                    DELETE
+                                </Button>
+                            </TableCell>
+                        )}
+                    />
+                </Card>
+            </Box>
             <Fab variant="extended" color="primary" sx={addButtonStyle}>
                 Add equipment
             </Fab>
