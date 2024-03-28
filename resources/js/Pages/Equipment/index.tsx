@@ -32,6 +32,7 @@ const Equipment = ({
             <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                 <Card variant="outlined" sx={{ width: "70%", alignItems: "center", marginBottom: "30px" }}>
                     <Table<DesktopPC>
+                        name="desktops"
                         data={desktops}
                         actionRenderer={() => (
                             <TableCell align="center">
@@ -47,6 +48,7 @@ const Equipment = ({
                 </Card>
                 <Card variant="outlined" sx={{ width: "70%", alignItems: "center", marginBottom: "30px" }}>
                     <Table<Laptop>
+                        name="laptops"
                         data={laptops}
                         actionRenderer={() => (
                             <TableCell align="center">
@@ -62,6 +64,7 @@ const Equipment = ({
                 </Card>
                 <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
                     <Table<MeetingRoomLaptop>
+                        name="meetingRoomLaptops"
                         data={meetingRoomLaptops}
                         actionRenderer={() => (
                             <TableCell align="center">

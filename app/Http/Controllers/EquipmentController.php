@@ -68,7 +68,7 @@ class EquipmentController extends Controller
             'laptops' => $laptops,
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
-            $table
+            $table->setName('desktops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('serial_number', 'Serial Number', sortable: true))
                 ->addColumn(new Column('double_pc', 'Double PC', sortable: true))
@@ -89,7 +89,7 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
         })->table(function (Table $table) {
-            $table
+            $table->setName('laptops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('serial_number', 'Serial Number', sortable: true))
                 ->addColumn(new Column('status', 'Status', sortable: true))
@@ -106,7 +106,7 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
         })->table(function (Table $table) {
-            $table
+            $table->setName('meetingRoomLaptops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('serial_number', 'Serial Number', sortable: true))
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
