@@ -1,9 +1,8 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { DesktopPC, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import {Box, Button, Card, Fab, TableCell} from "@mui/material";
+import { Box, Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
-
 
 const Equipment = ({
     desktops,
