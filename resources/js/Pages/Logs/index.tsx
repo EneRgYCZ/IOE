@@ -7,7 +7,11 @@ const Index = ({ logs }: PageProps<{ logs: PaginatedResponse<Logs> }>) => {
 
     return (
         <GuestLayout>
-            <h1>Logs</h1>
+            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
+                <Table<Logs>
+                    data={logs}
+                />
+            </Card>
         </GuestLayout>
     );
 };
