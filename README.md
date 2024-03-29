@@ -47,8 +47,8 @@ The last command should run the app
   
 - Rishab: Equipment and Logs pages
 
-## Link with features
-Features: Below, we have listed the features and BDDs that we have attempted to complete.
+## Link with features (Attempted)
+Below, we have listed the features and BDDs that we have attempted to complete.
 
 • Database visualisation
 
@@ -59,6 +59,7 @@ Relevant BDDs: Teams overview (BDD1), Employees Overview (BDD8), Equipment Overv
 Relevant BDDs: Toggle between overviews (BDD24), Highlighting Current Page (BDD25), Fixed Menu Position (BDD26)
 
 
+## Link with features (To be done)
 We still need to do:
 
 Team Members Overview (BDD2), Sorting of Columns (BDD22) and  Keyboard Shortcuts (BDD29) for the overviews and the navigation.
