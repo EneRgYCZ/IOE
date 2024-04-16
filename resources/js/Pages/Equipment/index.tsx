@@ -3,12 +3,13 @@ import { DesktopPC, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } fr
 import React from "react";
 import { Box, Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
+import {Link} from "@inertiajs/react";
 
 const Equipment = ({
-    desktops,
-    laptops,
-    meetingRoomLaptops
-}: PageProps<{
+                       desktops,
+                       laptops,
+                       meetingRoomLaptops
+                   }: PageProps<{
     desktops: PaginatedResponse<DesktopPC>;
     laptops: PaginatedResponse<Laptop>;
     meetingRoomLaptops: PaginatedResponse<MeetingRoomLaptop>;
@@ -34,14 +35,16 @@ const Equipment = ({
                     <Table<DesktopPC>
                         name="desktops"
                         data={desktops}
-                        actionRenderer={() => (
+                        actionRenderer={desktop => (
                             <TableCell align="center">
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Button variant="contained" color="error">
-                                    DELETE
-                                </Button>
+                                <Link href={route('equipment.destroyDesktop', desktop.id)} method="delete">
+                                    <Button variant="contained" color="error">
+                                        DELETE
+                                    </Button>
+                                </Link>
                             </TableCell>
                         )}
                     />
@@ -50,14 +53,16 @@ const Equipment = ({
                     <Table<Laptop>
                         name="laptops"
                         data={laptops}
-                        actionRenderer={() => (
+                        actionRenderer={laptop => (
                             <TableCell align="center">
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Button variant="contained" color="error">
-                                    DELETE
-                                </Button>
+                                <Link href={route('equipment.destroyLaptop', laptop.id)} method="delete">
+                                    <Button variant="contained" color="error">
+                                        DELETE
+                                    </Button>
+                                </Link>
                             </TableCell>
                         )}
                     />
@@ -66,14 +71,16 @@ const Equipment = ({
                     <Table<MeetingRoomLaptop>
                         name="meetingRoomLaptops"
                         data={meetingRoomLaptops}
-                        actionRenderer={() => (
+                        actionRenderer={meetingRoomLaptop => (
                             <TableCell align="center">
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Button variant="contained" color="error">
-                                    DELETE
-                                </Button>
+                                <Link href={route('equipment.destroyMeetingRoomLaptop', meetingRoomLaptop.id)} method="delete">
+                                    <Button variant="contained" color="error">
+                                        DELETE
+                                    </Button>
+                                </Link>
                             </TableCell>
                         )}
                     />

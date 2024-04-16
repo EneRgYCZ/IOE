@@ -162,8 +162,24 @@ class EquipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroyDesktop(Desktop $desktop)
     {
-        //
+        $desktop->delete();
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function destroyLaptop(Laptop $laptop)
+    {
+        $laptop->delete();
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
+    {
+        $meetingRoomLaptop->delete();
+
+        return redirect(route('equipment.index'));
     }
 }

@@ -39,6 +39,11 @@ Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
 });
 Route::group(['prefix' => 'equipment', 'as' => 'equipment.'], function () {
     Route::get('/', [\App\Http\Controllers\EquipmentController::class, 'index'])->name('index');
+    Route::post('/', [\App\Http\Controllers\EquipmentController::class, 'store'])->name('store');
+    Route::patch('/', [\App\Http\Controllers\EquipmentController::class, 'update'])->name('update');
+    Route::delete('/{desktop}', [\App\Http\Controllers\EquipmentController::class, 'destroyDesktop'])->name('destroyDesktop');
+    Route::delete('/{laptop}', [\App\Http\Controllers\EquipmentController::class, 'destroyLaptop'])->name('destroyLaptop');
+    Route::delete('/{meetingRoomLaptop}', [\App\Http\Controllers\EquipmentController::class, 'destroyMeetingRoomLaptop'])->name('destroyMeetingRoomLaptop');
 });
 Route::group(['prefix' => 'logs', 'as' => 'logs.'], function () {
     Route::get('/', [\App\Http\Controllers\LogsController::class, 'index'])->name('index');
