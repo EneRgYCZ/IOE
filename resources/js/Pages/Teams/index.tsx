@@ -3,6 +3,7 @@ import { PageProps, PaginatedResponse, Team } from "@/types";
 import React from "react";
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
+import { Link } from "@inertiajs/react";
 
 const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
     const tableButtonMargins = {
@@ -20,15 +21,17 @@ const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
             <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
                 <Table<Team>
                     data={teams}
-                    actionRenderer={() => (
+                    actionRenderer={team => (
                         <TableCell align="center">
                             <Button variant="contained">VIEW</Button>
                             <Button variant="contained" sx={tableButtonMargins}>
                                 EDIT
                             </Button>
-                            <Button variant="contained" color="error">
-                                DELETE
-                            </Button>
+                            <Link href={route('teams.destroy', team.id)} method="delete">
+                                <Button variant="contained" color="error">
+                                    DELETE
+                                </Button>
+                            </Link>
                         </TableCell>
                     )}
                 />
