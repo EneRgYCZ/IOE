@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Logs;
 use App\Table\Column;
 use App\Table\SearchInput;
-use Illuminate\Http\Request;
+use App\Table\Table;
 use Inertia\Inertia;
+use Spatie\Activitylog\Models\Activity as Logs;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class LogsController extends Controller
@@ -16,10 +16,12 @@ class LogsController extends Controller
      */
     public function index()
     {
-        $logs = QueryBuilder::for(Logs::class)
-            ->allowedSorts('id', 'model', 'action', 'description')
-            ->allowedFilters('id', 'model', 'action', 'description')
-            ->paginate(request('perPage') ?? 10)
+        $logs = QueryBuilder::for(Logs::query()->with('causer', 'subject'))
+            ->allowedSorts('id', 'event')
+            ->allowedFilters(
+                'event',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
         return Inertia::render('Logs/index', [
@@ -27,59 +29,19 @@ class LogsController extends Controller
         ])->table(function ($table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('model', 'Model', sortable: true))
-                ->addColumn(new Column('action', 'Action', sortable: true))
+                ->addColumn(new Column('subject_type', 'Model', sortable: true))
+                ->addColumn(new Column('event', 'Event', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
-                ->addSearchInput(new SearchInput('model', 'Model', shown: true))
-                ->addSearchInput(new SearchInput('action', 'Action', shown: true))
+                ->addSearchInput(new SearchInput('subject_type', 'Model', shown: true))
+                ->addSearchInput(new SearchInput('event', 'Event', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true));
         });
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Logs $logs)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Logs $logs)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Logs $logs)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Logs $logs)
     {
         //
     }
