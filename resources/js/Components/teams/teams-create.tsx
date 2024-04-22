@@ -2,8 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Fab, FormControl, FormLabel, Modal } from '@mui/material';
-import { Link } from "@inertiajs/react";
+import { Fab, FormControl, FormLabel, Modal, Typography } from '@mui/material';
+import { Link, useForm } from "@inertiajs/react";
 import { Team } from "@/types";
 
 
@@ -12,8 +12,32 @@ const TeamCreateForm = () => {
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
+    const { data, setData, post } = useForm({
+        team_name: "",
+        description: ""
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.id;
+        const value = e.target.value;
+        setData(data => ({
+            ...data,
+            [key]: value
+        }));
+    };
+
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        post(route("teams.store"));
+        setData ({
+            team_name: "",
+            description: ""
+        });
+        handleFormClose();
+    };
+
     const formStyle = {
-        position: 'absolute' as 'absolute', 
+        position: 'absolute', 
         top: '50%', 
         left: '50%', 
         transform: 'translate(-50%, -50%)', 
@@ -43,13 +67,27 @@ const TeamCreateForm = () => {
             onClose={handleFormClose}
         >
             <Box sx={formStyle}>
-                <FormControl>
+                <Typography variant="h5" gutterBottom>
+                    Create Team
+                </Typography>
+                <form onSubmit={submit}>
                     <FormLabel>Team Name</FormLabel>
-                    <TextField sx={fieldStyle}></TextField>
+                    <TextField 
+                        id={"team_name"}
+                        value={data.team_name}
+                        onChange={handleChange}
+                        sx={fieldStyle}
+                        variant="outlined"
+                    />
                     <FormLabel>Team Description</FormLabel>
-                    <TextField sx={fieldStyle}></TextField>
-                    <Button variant="contained" onClick={handleFormClose}>Submit</Button>
-                </FormControl>
+                    <TextField id={"description"}
+                        value={data.description}
+                        onChange={handleChange}
+                        sx={fieldStyle}
+                        variant="outlined"
+                    />
+                    <Button variant="contained" type={"submit"}>Submit</Button>
+                </form>
             </Box>
         </Modal>
         </div>

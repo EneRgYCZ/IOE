@@ -53,7 +53,7 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $request->create();
+        Team::create($request->all());
         return redirect(route('teams.index'));
     }
 
@@ -78,7 +78,7 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $chirp->update();
+        $team->update();
         return redirect(route('teams.index'));
     }
 

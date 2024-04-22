@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 
 Route::group(['prefix' => 'teams', 'as' => 'teams.'], function () {
     Route::get('/', [\App\Http\Controllers\TeamController::class, 'index'])->name('index');
-    Route::post('/{team}', [\App\Http\Controllers\TeamController::class, 'store'])->name('store');
+    Route::post('/', [\App\Http\Controllers\TeamController::class, 'store'])->name('store');
     Route::patch('/{team}', [\App\Http\Controllers\TeamController::class, 'update'])->name('update');
     Route::delete('/{team}', [\App\Http\Controllers\TeamController::class, 'destroy'])->name('destroy');
 });
