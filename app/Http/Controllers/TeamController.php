@@ -45,7 +45,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -54,6 +54,7 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         Team::create($request->all());
+
         return redirect(route('teams.index'));
     }
 
@@ -79,6 +80,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update();
+
         return redirect(route('teams.index'));
     }
 
@@ -88,6 +90,7 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         $team->delete();
+
         return redirect(route('teams.index'));
     }
 }

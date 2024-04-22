@@ -1,11 +1,9 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { Fab, FormControl, FormLabel, Modal, Typography } from '@mui/material';
-import { Link, useForm } from "@inertiajs/react";
-import { Team } from "@/types";
-
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Fab, FormLabel, Modal, Typography } from "@mui/material";
+import { useForm } from "@inertiajs/react";
 
 const TeamCreateForm = () => {
     const [formOpen, setFormOpen] = React.useState(false);
@@ -29,7 +27,7 @@ const TeamCreateForm = () => {
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("teams.store"));
-        setData ({
+        setData({
             team_name: "",
             description: ""
         });
@@ -37,19 +35,19 @@ const TeamCreateForm = () => {
     };
 
     const formStyle = {
-        position: 'absolute', 
-        top: '50%', 
-        left: '50%', 
-        transform: 'translate(-50%, -50%)', 
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
         backgroundColor: "#fff",
         padding: "20px",
-        border: '2px solid #009ddf',
-    }
+        border: "2px solid #009ddf"
+    };
 
     const fieldStyle = {
         marginBottom: "10px",
         width: "100%"
-    }
+    };
 
     const addButtonStyle = {
         position: "fixed",
@@ -59,39 +57,39 @@ const TeamCreateForm = () => {
 
     return (
         <div>
-        <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={handleFormOpen}>
-            Add team
-        </Fab>
-        <Modal
-            open={formOpen}
-            onClose={handleFormClose}
-        >
-            <Box sx={formStyle}>
-                <Typography variant="h5" gutterBottom>
-                    Create Team
-                </Typography>
-                <form onSubmit={submit}>
-                    <FormLabel>Team Name</FormLabel>
-                    <TextField 
-                        id={"team_name"}
-                        value={data.team_name}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        variant="outlined"
-                    />
-                    <FormLabel>Team Description</FormLabel>
-                    <TextField id={"description"}
-                        value={data.description}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        variant="outlined"
-                    />
-                    <Button variant="contained" type={"submit"}>Submit</Button>
-                </form>
-            </Box>
-        </Modal>
+            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={handleFormOpen}>
+                Add team
+            </Fab>
+            <Modal open={formOpen} onClose={handleFormClose}>
+                <Box sx={formStyle}>
+                    <Typography variant="h5" gutterBottom>
+                        Create Team
+                    </Typography>
+                    <form onSubmit={submit}>
+                        <FormLabel>Team Name</FormLabel>
+                        <TextField
+                            id={"team_name"}
+                            value={data.team_name}
+                            onChange={handleChange}
+                            sx={fieldStyle}
+                            variant="outlined"
+                        />
+                        <FormLabel>Team Description</FormLabel>
+                        <TextField
+                            id={"description"}
+                            value={data.description}
+                            onChange={handleChange}
+                            sx={fieldStyle}
+                            variant="outlined"
+                        />
+                        <Button variant="contained" type={"submit"}>
+                            Submit
+                        </Button>
+                    </form>
+                </Box>
+            </Modal>
         </div>
-    );        
+    );
 };
 
 export default TeamCreateForm;
