@@ -11,7 +11,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const { data, setData, post } = useForm({
+    const { data, setData, patch } = useForm({
         team_name: team.team_name,
         description: team.description
     });
@@ -27,11 +27,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("teams.update", team.id));
-        setData({
-            team_name: "",
-            description: ""
-        });
+        patch(route("teams.update", team.id));
         handleFormClose();
     };
 

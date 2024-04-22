@@ -79,7 +79,7 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $team->update();
+        $team->update($request->all());
 
         return redirect(route('teams.index'));
     }

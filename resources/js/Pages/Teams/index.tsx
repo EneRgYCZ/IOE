@@ -7,6 +7,9 @@ import { Link } from "@inertiajs/react";
 import TeamEditForm from "@/Components/teams/teams-update";
 import TeamCreateForm from "@/Components/teams/teams-create";
 
+// Put the form outside
+// const [team, setTeam] = useState() and then pass this team to the form instead of the one in the action renderer
+
 const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
     return (
         <GuestLayout>
