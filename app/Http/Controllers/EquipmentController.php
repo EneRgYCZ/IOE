@@ -170,9 +170,25 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function updateDesktop(Request $request, Desktop $desktop)
     {
-        //
+        $desktop->update($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function updateLaptop(Request $request, Laptop $laptop)
+    {
+        $laptop->update($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
+    {
+        $meetingRoomLaptop->update($request->all());
+
+        return redirect(route('equipment.index'));
     }
 
     /**

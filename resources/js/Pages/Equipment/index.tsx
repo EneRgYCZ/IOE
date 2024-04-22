@@ -7,6 +7,9 @@ import { Link } from "@inertiajs/react";
 import AddDesktop from "@/Pages/Equipment/AddDesktop";
 import AddLaptop from "@/Pages/Equipment/AddLaptop";
 import AddMeetingRoomLaptop from "@/Pages/Equipment/AddMeetingRoomLaptop";
+import EditDesktop from "@/Pages/Equipment/EditDesktop";
+import EditLaptop from "@/Pages/Equipment/EditLaptop";
+import EditMeetingRoomLaptop from "@/Pages/Equipment/EditMeetingRoomLaptop";
 
 const Equipment = ({
     desktops,
@@ -24,12 +27,14 @@ const Equipment = ({
     const addButtonBox = {
         position: "fixed",
         width: "250px",
+        pointerEvents: "none",
         bottom: 16,
         right: 16
     };
 
     const addButtonStyle = {
         display: "block",
+        pointerEvents: "initial",
         marginTop: "16px",
         marginLeft: "auto"
     };
@@ -37,8 +42,15 @@ const Equipment = ({
     const [formOpen, setFormOpen] = React.useState({
         addDesktop: false,
         addLaptop: false,
-        addMeetingRoomLaptop: false
+        addMeetingRoomLaptop: false,
+        editDesktop: false,
+        editLaptop: false,
+        editMeetingRoomLaptop: false
     });
+
+    const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
+    const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
+    const [currentMeetingRoomLaptop, setCurrentMeetingRoomLaptop] = React.useState<MeetingRoomLaptop | null>(null);
 
     return (
         <GuestLayout>
@@ -49,7 +61,14 @@ const Equipment = ({
                         data={desktops}
                         actionRenderer={desktop => (
                             <TableCell align="center">
-                                <Button variant="contained" sx={tableButtonMargins}>
+                                <Button
+                                    variant="contained"
+                                    sx={tableButtonMargins}
+                                    onClick={() => {
+                                        setCurrentDesktop(desktop);
+                                        setFormOpen({ ...formOpen, editDesktop: true });
+                                    }}
+                                >
                                     EDIT
                                 </Button>
                                 <Link href={route("equipment.destroyDesktop", desktop.id)} method="delete">
@@ -67,7 +86,14 @@ const Equipment = ({
                         data={laptops}
                         actionRenderer={laptop => (
                             <TableCell align="center">
-                                <Button variant="contained" sx={tableButtonMargins}>
+                                <Button
+                                    variant="contained"
+                                    sx={tableButtonMargins}
+                                    onClick={() => {
+                                        setCurrentLaptop(laptop);
+                                        setFormOpen({ ...formOpen, editLaptop: true });
+                                    }}
+                                >
                                     EDIT
                                 </Button>
                                 <Link href={route("equipment.destroyLaptop", laptop.id)} method="delete">
@@ -85,7 +111,14 @@ const Equipment = ({
                         data={meetingRoomLaptops}
                         actionRenderer={meetingRoomLaptop => (
                             <TableCell align="center">
-                                <Button variant="contained" sx={tableButtonMargins}>
+                                <Button
+                                    variant="contained"
+                                    sx={tableButtonMargins}
+                                    onClick={() => {
+                                        setCurrentMeetingRoomLaptop(meetingRoomLaptop);
+                                        setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
+                                    }}
+                                >
                                     EDIT
                                 </Button>
                                 <Link
@@ -139,6 +172,21 @@ const Equipment = ({
                 isOpen={formOpen.addMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: false })}
             ></AddMeetingRoomLaptop>
+            <EditDesktop
+                isOpen={formOpen.editDesktop}
+                handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
+                desktop={currentDesktop}
+            ></EditDesktop>
+            <EditLaptop
+                isOpen={formOpen.editLaptop}
+                handleClose={() => setFormOpen({ ...formOpen, editLaptop: false })}
+                laptop={currentLaptop}
+            ></EditLaptop>
+            <EditMeetingRoomLaptop
+                isOpen={formOpen.editMeetingRoomLaptop}
+                handleClose={() => setFormOpen({ ...formOpen, editMeetingRoomLaptop: false })}
+                meetingRoomLaptop={currentMeetingRoomLaptop}
+            ></EditMeetingRoomLaptop>
         </GuestLayout>
     );
 };
