@@ -81,12 +81,12 @@ export interface DesktopPC {
     doublePC: boolean;
     needsDock: boolean;
     location: string;
-    staus: string;
+    status: string;
     floor: number;
     islandNumber: number;
     workspaceType: string;
     updatedInQ1: boolean;
-    eployee_id: number;
+    employee_id: number;
     created_at: string;
     updated_at: string;
 }
@@ -95,12 +95,12 @@ export interface Laptop {
     id: number;
     serial_number: string;
     location: string;
-    staus: string;
+    status: string;
     floor: number;
     islandNumber: number;
     workspaceType: string;
     updatedInQ1: boolean;
-    eployee_id: number;
+    employee_id: number;
     created_at: string;
     updated_at: string;
 }
