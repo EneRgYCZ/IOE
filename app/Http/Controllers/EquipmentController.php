@@ -130,9 +130,25 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeDesktop(Request $request)
     {
-        //
+        Desktop::create($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function storeLaptop(Request $request)
+    {
+        Laptop::create($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function storeMeetingRoomLaptop(Request $request)
+    {
+        MeetingRoomLaptop::create($request->all());
+
+        return redirect(route('equipment.index'));
     }
 
     /**

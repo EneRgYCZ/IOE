@@ -3,7 +3,8 @@ import { DesktopPC, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } fr
 import React from "react";
 import { Box, Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import {Link} from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
+import AddDesktop from "@/Pages/Equipment/AddDesktop";
 
 const Equipment = ({
                        desktops,
@@ -14,10 +15,6 @@ const Equipment = ({
     laptops: PaginatedResponse<Laptop>;
     meetingRoomLaptops: PaginatedResponse<MeetingRoomLaptop>;
 }>) => {
-    console.log(desktops);
-    console.log(laptops);
-    console.log(meetingRoomLaptops);
-
     const tableButtonMargins = {
         margin: "0 10px"
     };
@@ -27,6 +24,8 @@ const Equipment = ({
         bottom: 16,
         right: 16
     };
+
+    const [formOpen, setFormOpen] = React.useState(false);
 
     return (
         <GuestLayout>
@@ -40,7 +39,7 @@ const Equipment = ({
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Link href={route('equipment.destroyDesktop', desktop.id)} method="delete">
+                                <Link href={route("equipment.destroyDesktop", desktop.id)} method="delete">
                                     <Button variant="contained" color="error">
                                         DELETE
                                     </Button>
@@ -58,7 +57,7 @@ const Equipment = ({
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Link href={route('equipment.destroyLaptop', laptop.id)} method="delete">
+                                <Link href={route("equipment.destroyLaptop", laptop.id)} method="delete">
                                     <Button variant="contained" color="error">
                                         DELETE
                                     </Button>
@@ -76,7 +75,10 @@ const Equipment = ({
                                 <Button variant="contained" sx={tableButtonMargins}>
                                     EDIT
                                 </Button>
-                                <Link href={route('equipment.destroyMeetingRoomLaptop', meetingRoomLaptop.id)} method="delete">
+                                <Link
+                                    href={route("equipment.destroyMeetingRoomLaptop", meetingRoomLaptop.id)}
+                                    method="delete"
+                                >
                                     <Button variant="contained" color="error">
                                         DELETE
                                     </Button>
@@ -86,9 +88,10 @@ const Equipment = ({
                     />
                 </Card>
             </Box>
-            <Fab variant="extended" color="primary" sx={addButtonStyle}>
+            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setFormOpen(true)}>
                 Add equipment
             </Fab>
+            <AddDesktop isOpen={formOpen} handleClose={() => setFormOpen(false)}></AddDesktop>
         </GuestLayout>
     );
 };
