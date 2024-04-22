@@ -5,12 +5,14 @@ import { Box, Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { Link } from "@inertiajs/react";
 import AddDesktop from "@/Pages/Equipment/AddDesktop";
+import AddLaptop from "@/Pages/Equipment/AddLaptop";
+import AddMeetingRoomLaptop from "@/Pages/Equipment/AddMeetingRoomLaptop";
 
 const Equipment = ({
-                       desktops,
-                       laptops,
-                       meetingRoomLaptops
-                   }: PageProps<{
+    desktops,
+    laptops,
+    meetingRoomLaptops
+}: PageProps<{
     desktops: PaginatedResponse<DesktopPC>;
     laptops: PaginatedResponse<Laptop>;
     meetingRoomLaptops: PaginatedResponse<MeetingRoomLaptop>;
@@ -19,13 +21,24 @@ const Equipment = ({
         margin: "0 10px"
     };
 
-    const addButtonStyle = {
+    const addButtonBox = {
         position: "fixed",
+        width: "250px",
         bottom: 16,
         right: 16
     };
 
-    const [formOpen, setFormOpen] = React.useState(false);
+    const addButtonStyle = {
+        display: "block",
+        marginTop: "16px",
+        marginLeft: "auto"
+    };
+
+    const [formOpen, setFormOpen] = React.useState({
+        addDesktop: false,
+        addLaptop: false,
+        addMeetingRoomLaptop: false
+    });
 
     return (
         <GuestLayout>
@@ -88,10 +101,44 @@ const Equipment = ({
                     />
                 </Card>
             </Box>
-            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setFormOpen(true)}>
-                Add equipment
-            </Fab>
-            <AddDesktop isOpen={formOpen} handleClose={() => setFormOpen(false)}></AddDesktop>
+            <Box sx={addButtonBox}>
+                <Fab
+                    variant="extended"
+                    color="primary"
+                    sx={addButtonStyle}
+                    onClick={() => setFormOpen({ ...formOpen, addDesktop: true })}
+                >
+                    Add desktop
+                </Fab>
+                <Fab
+                    variant="extended"
+                    color="primary"
+                    sx={addButtonStyle}
+                    onClick={() => setFormOpen({ ...formOpen, addLaptop: true })}
+                >
+                    Add laptop
+                </Fab>
+                <Fab
+                    variant="extended"
+                    color="primary"
+                    sx={addButtonStyle}
+                    onClick={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: true })}
+                >
+                    Add meeting room laptop
+                </Fab>
+            </Box>
+            <AddDesktop
+                isOpen={formOpen.addDesktop}
+                handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
+            ></AddDesktop>
+            <AddLaptop
+                isOpen={formOpen.addLaptop}
+                handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
+            ></AddLaptop>
+            <AddMeetingRoomLaptop
+                isOpen={formOpen.addMeetingRoomLaptop}
+                handleClose={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: false })}
+            ></AddMeetingRoomLaptop>
         </GuestLayout>
     );
 };

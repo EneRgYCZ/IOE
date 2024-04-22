@@ -3,11 +3,9 @@ import Modal from "@mui/material/Modal";
 import { Box, Button, FormControlLabel, Switch, TextField, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 
-const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
+const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues = {
         serial_number: "",
-        double_pc: false,
-        needs_dock: false,
         status: "",
         floor: "",
         island_number: "",
@@ -29,7 +27,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("equipment.storeDesktop"));
+        post(route("equipment.storeLaptop"));
         setData(initialValues);
     };
 
@@ -51,7 +49,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <Typography variant="h5" gutterBottom>
-                    Add Desktop
+                    Add Laptop
                 </Typography>
                 <form onSubmit={submit}>
                     <TextField
@@ -61,25 +59,6 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={fieldStyle}
                         label="Serial number"
                         variant="outlined"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Switch defaultChecked checked={data.double_pc} id={"double_pc"} onChange={handleChange} />
-                        }
-                        sx={fieldStyle}
-                        label="Double PC"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                defaultChecked
-                                checked={data.needs_dock}
-                                id={"needs_dock"}
-                                onChange={handleChange}
-                            />
-                        }
-                        sx={fieldStyle}
-                        label="Needs dock"
                     />
                     <TextField
                         id={"status"}
@@ -141,4 +120,4 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         </Modal>
     );
 };
-export default AddDesktop;
+export default AddLaptop;

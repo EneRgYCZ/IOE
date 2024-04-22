@@ -3,19 +3,13 @@ import Modal from "@mui/material/Modal";
 import { Box, Button, FormControlLabel, Switch, TextField, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 
-const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
+const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues = {
         serial_number: "",
-        double_pc: false,
-        needs_dock: false,
-        status: "",
         floor: "",
-        island_number: "",
-        workspace_type: "",
-        updated_in_q1: false,
-        employee_id: ""
+        room_number: "",
+        updated_in_q1: false
     };
-
     const { data, setData, post } = useForm(initialValues);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +23,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("equipment.storeDesktop"));
+        post(route("equipment.storeMeetingRoomLaptop"));
         setData(initialValues);
     };
 
@@ -51,7 +45,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <Typography variant="h5" gutterBottom>
-                    Add Desktop
+                    Add Meeting Room Laptop
                 </Typography>
                 <form onSubmit={submit}>
                     <TextField
@@ -60,33 +54,6 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         onChange={handleChange}
                         sx={fieldStyle}
                         label="Serial number"
-                        variant="outlined"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Switch defaultChecked checked={data.double_pc} id={"double_pc"} onChange={handleChange} />
-                        }
-                        sx={fieldStyle}
-                        label="Double PC"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                defaultChecked
-                                checked={data.needs_dock}
-                                id={"needs_dock"}
-                                onChange={handleChange}
-                            />
-                        }
-                        sx={fieldStyle}
-                        label="Needs dock"
-                    />
-                    <TextField
-                        id={"status"}
-                        value={data.status}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Status"
                         variant="outlined"
                     />
                     <TextField
@@ -98,19 +65,11 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         variant="outlined"
                     />
                     <TextField
-                        id={"island_number"}
-                        value={data.island_number}
+                        id={"room_number"}
+                        value={data.room_number}
                         onChange={handleChange}
                         sx={fieldStyle}
-                        label="Island number"
-                        variant="outlined"
-                    />
-                    <TextField
-                        id={"workspace_type"}
-                        value={data.workspace_type}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Workspace type"
+                        label="Room number"
                         variant="outlined"
                     />
                     <FormControlLabel
@@ -125,14 +84,6 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={fieldStyle}
                         label="Updated in Q1"
                     />
-                    <TextField
-                        id={"employee_id"}
-                        value={data.employee_id}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Employee ID"
-                        variant="outlined"
-                    />
                     <Button variant="contained" type={"submit"}>
                         Submit
                     </Button>
@@ -141,4 +92,4 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         </Modal>
     );
 };
-export default AddDesktop;
+export default AddMeetingRoomLaptop;
