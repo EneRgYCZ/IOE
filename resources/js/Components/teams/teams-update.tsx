@@ -46,6 +46,12 @@ const TeamEditForm = ({ team }: { team: Team }) => {
         width: "100%"
     };
 
+    React.useEffect(() => {
+        if (team !== null) {
+            setData(team);
+        }
+    }, [team]);
+
     return (
         <div>
             <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleFormOpen}>
