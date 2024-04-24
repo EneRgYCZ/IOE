@@ -36,6 +36,9 @@ Route::group(['prefix' => 'teams', 'as' => 'teams.'], function () {
 });
 Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
     Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
+    Route::post('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('store');
+    Route::patch('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('update');
+    Route::delete('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('destroy');
 });
 Route::group(['prefix' => 'equipment', 'as' => 'equipment.'], function () {
     Route::get('/', [\App\Http\Controllers\EquipmentController::class, 'index'])->name('index');
