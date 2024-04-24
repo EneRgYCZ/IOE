@@ -115,11 +115,43 @@ export interface MeetingRoomLaptop {
     updated_at: string;
 }
 
-export interface Logs {
+export type ActivityLog = BaseActivityLog | UpdateActivityLog;
+
+export type BaseActivityLog = {
     id: number;
-    model: string;
-    action: string;
+    log_name: string;
     description: string;
+    subject_type: string;
+    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | null;
+    event: string;
+    subject_id: number;
+    causer_type: string;
+    causer_id: number;
+    causer: User | null;
+    properties: {
+        attributes: Record<string, unknown>;
+    };
+    batch_uuid: string;
     created_at: string;
     updated_at: string;
-}
+};
+
+export type UpdateActivityLog = {
+    id: number;
+    log_name: string;
+    description: string;
+    subject_type: string;
+    event: "updated";
+    subject: string;
+    subject_id: number;
+    causer_type: string;
+    causer_id: number;
+    causer: User | null;
+    properties: {
+        attributes: Record<string, unknown>;
+        old: Record<string, unknown>;
+    };
+    batch_uuid: string;
+    created_at: string;
+    updated_at: string;
+};

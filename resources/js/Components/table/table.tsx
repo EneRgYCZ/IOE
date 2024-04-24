@@ -10,7 +10,7 @@ import ColumnToggler from "./column-toggler";
 import Paginator from "./paginator";
 import SearchInput from "./search-input";
 import SearchToggler from "./search-toggler";
-import { Box, Card, Stack, TableCell, Typography, Table as MultiTable } from "@mui/material";
+import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow } from "@mui/material";
 
 export type CellRenderer<T> = (
     data: T,
@@ -351,7 +351,7 @@ export const Table = <T,>({
                         <tbody>
                             {data.data.map((row, idx) => {
                                 return (
-                                    <tr key={idx}>
+                                    <TableRow key={idx}>
                                         {tableData.columns.map(col => {
                                             if (col.hidden) {
                                                 return null;
@@ -366,7 +366,7 @@ export const Table = <T,>({
                                         })}
 
                                         {actionRenderer && actionRenderer(row)}
-                                    </tr>
+                                    </TableRow>
                                 );
                             })}
                         </tbody>
