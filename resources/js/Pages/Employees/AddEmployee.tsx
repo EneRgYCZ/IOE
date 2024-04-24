@@ -1,13 +1,13 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, FormControlLabel, Switch, TextField} from "@mui/material";
+import { Box, Button, TextField} from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee } from '../../types/index';
 
 
 const AddEmployee = (props: {isOpen:boolean; handleClose:()=>void})=>{
     const defaultValues = {
-        employee_id:"",
+        id:"",
         first_name:"",
         last_name:""
     };
@@ -64,10 +64,6 @@ const AddEmployee = (props: {isOpen:boolean; handleClose:()=>void})=>{
         cursor: 'pointer',
     };
 
-    const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
-    };
     const {data, setData, post} = useForm(defaultValues);
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         
@@ -97,8 +93,8 @@ const AddEmployee = (props: {isOpen:boolean; handleClose:()=>void})=>{
                 </Button>
       
                 <TextField
-                        id={"employee_id"}
-                        value={data.serial_number}
+                        id={"id"}
+                        value={data.id}
                         onChange={handleChange}
                         sx={inputFieldStyle}
                         label="Employee ID"

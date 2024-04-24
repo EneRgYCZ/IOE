@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, FormControlLabel, Switch, TextField} from "@mui/material";
+import { Box, Button, TextField} from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee } from '../../types/index';
 
@@ -58,10 +58,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
         cursor: 'pointer',
     };
 
-    const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
-    };
+    
     const {data, setData, patch} = useForm({
         id: props.employee?.id,
         first_name: props.employee?.first_name,
@@ -103,7 +100,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
       
                 <TextField
                         id={"employee_id"}
-                        value={data.serial_number}
+                        value={data.id}
                         onChange={handleChange}
                         sx={inputFieldStyle}
                         label="Employee ID"
