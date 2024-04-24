@@ -1,11 +1,13 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee } from "@/types";
 import React from "react";
+import { useState } from 'react';
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import {Link} from "@inertiajs/react";
-import { link } from "fs";
-
+import {Link, useForm} from "@inertiajs/react";
+import EditEmployee from "./EditEmployee";
+//import addEmployee from "@/Pages/Employees/AddEmployee';
+import AddEmployee from './AddEmployee';
 
 const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Employee> }>) => {
     const tableButtonMargins = {
@@ -17,37 +19,42 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
         bottom: 16,
         right: 16
     };
-
-    // const handleClick=(employee: { id: any; })=> {
-    //     console.log("Button Clicked")
-    //     console.log(employee.id)
-        
-    // }
+    
+    const [add,setAdd] = useState(false);
+    const [edit,setEdit] = useState(false);
+    const [empEdit, setEmpEdit] = useState<Employee|null>(null);
 
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
                 <Table<Employee>
-                    
                     data={employees}
                     actionRenderer={(employee: { id: any; }) => (
                         <TableCell align="center">
-                            <Button variant="contained" sx={tableButtonMargins}>
+                            <Button variant="contained" sx={tableButtonMargins} onClick={()=>{setEdit(true); setEmpEdit(Employee)}}>
                                 EDIT
                             </Button>
-                            <Link href={route("employee.destroy", employee.id)} method="delete">
+                            
+                            <Link href={route("employees.destroy", employee.id)} method="delete">
                             <Button variant="contained" color="error">
                                 DELETE
                             </Button>
                             </Link>
-                           
+                            
                         </TableCell>
                     )}
                 />
             </Card>
-            <Fab variant="extended" color="primary" sx={addButtonStyle} >
+            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={()=>setAdd(true)}>
                 Add employee
             </Fab>
+            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} />
+            
+            <EditEmployee
+                isOpen ={edit}
+                handleClose={()=>setEdit(false)}
+                employee={empEdit}
+            />
         </GuestLayout>
     );
 };

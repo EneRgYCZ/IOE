@@ -29,51 +29,27 @@ class EmployeeController extends Controller
             'employees' => $employees,
         ])->table(function (Table $table) {
             $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
+                ->addColumn(new Column('id', 'ID', sortable: true))
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
+                ->addSearchInput(new SearchInput('id', 'ID', shown: false))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
                 ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true));
         });
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $request->create();
+        Employee::create($request->all());
         return redirect(route('employee.index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Employee $employee)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $employee->update($request->all());
+        return redirect(route('employee.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Employee $employee)
     {
         $employee->delete();
