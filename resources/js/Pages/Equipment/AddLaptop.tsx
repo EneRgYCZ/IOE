@@ -1,6 +1,18 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, FormControlLabel, Switch, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Switch,
+    TextField,
+    Typography
+} from "@mui/material";
 import { useForm } from "@inertiajs/react";
 
 const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
@@ -19,6 +31,15 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.type === "text" ? e.target.value : e.target.checked;
+        setData(data => ({
+            ...data,
+            [key]: value
+        }));
+    };
+
+    const handleSelectChange = (e: SelectChangeEvent) => {
+        const key = e.target.name;
+        const value = e.target.value;
         setData(data => ({
             ...data,
             [key]: value
@@ -60,14 +81,21 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         label="Serial number"
                         variant="outlined"
                     />
-                    <TextField
-                        id={"status"}
-                        value={data.status}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Status"
-                        variant="outlined"
-                    />
+                    <FormControl sx={fieldStyle}>
+                        <InputLabel id="status_label">Status</InputLabel>
+                        <Select
+                            labelId="status_label"
+                            name="status"
+                            label="Status"
+                            value={data.status}
+                            variant="outlined"
+                            onChange={handleSelectChange}
+                        >
+                            <MenuItem value="static">Static</MenuItem>
+                            <MenuItem value="flex">Flex</MenuItem>
+                            <MenuItem value="">Not set</MenuItem>
+                        </Select>
+                    </FormControl>
                     <TextField
                         id={"floor"}
                         value={data.floor}
@@ -84,14 +112,20 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         label="Island number"
                         variant="outlined"
                     />
-                    <TextField
-                        id={"workspace_type"}
-                        value={data.workspace_type}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Workspace type"
-                        variant="outlined"
-                    />
+                    <FormControl sx={fieldStyle}>
+                        <InputLabel id="workspace_type_label">Workspace type</InputLabel>
+                        <Select
+                            labelId="workspace_type_label"
+                            name="workspace_type"
+                            label="Workspace type"
+                            value={data.workspace_type}
+                            variant="outlined"
+                            onChange={handleSelectChange}
+                        >
+                            <MenuItem value="developer">Developer</MenuItem>
+                            <MenuItem value="non-developer">Non-developer</MenuItem>
+                        </Select>
+                    </FormControl>
                     <FormControlLabel
                         control={
                             <Switch
