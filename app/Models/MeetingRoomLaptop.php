@@ -18,6 +18,7 @@ class MeetingRoomLaptop extends Model
         'room_number',
         'updated_in_q1',
     ];
+
     use LogsActivity;
 
     public function getActivitylogOptions(): LogOptions

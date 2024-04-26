@@ -22,6 +22,7 @@ class Desktop extends Model
         'updated_in_q1',
         'employee_id',
     ];
+
     use LogsActivity;
 
     public function getActivitylogOptions(): LogOptions
