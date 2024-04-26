@@ -78,15 +78,15 @@ export interface Team {
 export interface DesktopPC {
     id: number;
     serial_number: string;
-    doublePC: boolean;
-    needsDock: boolean;
+    double_pc: boolean;
+    needs_dock: boolean;
     location: string;
-    staus: string;
+    status: string;
     floor: number;
-    islandNumber: number;
-    workspaceType: string;
-    updatedInQ1: boolean;
-    eployee_id: number;
+    island_number: number;
+    workspace_type: string;
+    updated_in_q1: boolean;
+    employee_id: number;
     created_at: string;
     updated_at: string;
 }
@@ -95,12 +95,12 @@ export interface Laptop {
     id: number;
     serial_number: string;
     location: string;
-    staus: string;
+    status: string;
     floor: number;
-    islandNumber: number;
-    workspaceType: string;
-    updatedInQ1: boolean;
-    eployee_id: number;
+    island_number: number;
+    workspace_type: string;
+    updated_in_q1: boolean;
+    employee_id: number;
     created_at: string;
     updated_at: string;
 }
@@ -109,8 +109,8 @@ export interface MeetingRoomLaptop {
     id: number;
     serial_number: string;
     floor: number;
-    roomNumber: number;
-    updatedInQ1: boolean;
+    room_number: number;
+    updated_in_q1: boolean;
     created_at: string;
     updated_at: string;
 }

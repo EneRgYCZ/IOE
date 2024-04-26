@@ -10,6 +10,14 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class MeetingRoomLaptop extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'serial_number',
+        'floor',
+        'room_number',
+        'updated_in_q1',
+    ];
     use LogsActivity;
 
     public function getActivitylogOptions(): LogOptions
