@@ -130,9 +130,25 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeDesktop(Request $request)
     {
-        //
+        Desktop::create($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function storeLaptop(Request $request)
+    {
+        Laptop::create($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function storeMeetingRoomLaptop(Request $request)
+    {
+        MeetingRoomLaptop::create($request->all());
+
+        return redirect(route('equipment.index'));
     }
 
     /**
@@ -154,16 +170,48 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function updateDesktop(Request $request, Desktop $desktop)
     {
-        //
+        $desktop->update($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function updateLaptop(Request $request, Laptop $laptop)
+    {
+        $laptop->update($request->all());
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
+    {
+        $meetingRoomLaptop->update($request->all());
+
+        return redirect(route('equipment.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroyDesktop(Desktop $desktop)
     {
-        //
+        $desktop->delete();
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function destroyLaptop(Laptop $laptop)
+    {
+        $laptop->delete();
+
+        return redirect(route('equipment.index'));
+    }
+
+    public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
+    {
+        $meetingRoomLaptop->delete();
+
+        return redirect(route('equipment.index'));
     }
 }
