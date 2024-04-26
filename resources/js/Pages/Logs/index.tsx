@@ -24,7 +24,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 return (
                     <TableCell key={cellKey}>
                         {"Employee"}
-                        {" - "}
+                        {": "}
                         {employee.first_name}
                     </TableCell>
                 );
@@ -34,7 +34,13 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                     return <TableCell key={cellKey}>Deleted</TableCell>;
                 }
                 const team = row.subject as Team;
-                return <TableCell key={cellKey}>{team.team_name}</TableCell>;
+                return (
+                    <TableCell key={cellKey}>
+                        {"Team"}
+                        {": "}
+                        {team.team_name}
+                    </TableCell>
+                );
             }
             if (row.subject_type === "App\\Models\\Desktop") {
                 if (row.subject === null) {
@@ -43,7 +49,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const desktop = row.subject as DesktopPC;
                 return (
                     <TableCell key={cellKey}>
-                        {"Desktop"} {"-"}
+                        {"Desktop"} {": "}
                         {desktop.serial_number}
                     </TableCell>
                 );
@@ -55,7 +61,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const laptop = row.subject as Laptop;
                 return (
                     <TableCell key={cellKey}>
-                        {"Laptop"} {"-"}
+                        {"Laptop"} {": "}
                         {laptop.serial_number}
                     </TableCell>
                 );
@@ -67,7 +73,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const MeetingRoomLaptop = row.subject as MeetingRoomLaptop;
                 return (
                     <TableCell key={cellKey}>
-                        {"Meeting Room Laptop"} {"-"} {MeetingRoomLaptop.serial_number}
+                        {"Meeting Room Laptop"} {": "} {MeetingRoomLaptop.serial_number}
                     </TableCell>
                 );
             }
