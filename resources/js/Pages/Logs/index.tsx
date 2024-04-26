@@ -23,8 +23,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const employee = row.subject as Employee;
                 return (
                     <TableCell key={cellKey}>
-                        {"Employee"}
-                        {": "}
+                        {"Employee: "}
                         {employee.first_name}
                     </TableCell>
                 );
@@ -36,8 +35,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const team = row.subject as Team;
                 return (
                     <TableCell key={cellKey}>
-                        {"Team"}
-                        {": "}
+                        {"Team: "}
                         {team.team_name}
                     </TableCell>
                 );
@@ -49,7 +47,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const desktop = row.subject as DesktopPC;
                 return (
                     <TableCell key={cellKey}>
-                        {"Desktop"} {": "}
+                        {"Desktop: "}
                         {desktop.serial_number}
                     </TableCell>
                 );
@@ -61,7 +59,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const laptop = row.subject as Laptop;
                 return (
                     <TableCell key={cellKey}>
-                        {"Laptop"} {": "}
+                        {"Laptop: "}
                         {laptop.serial_number}
                     </TableCell>
                 );
@@ -73,7 +71,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const MeetingRoomLaptop = row.subject as MeetingRoomLaptop;
                 return (
                     <TableCell key={cellKey}>
-                        {"Meeting Room Laptop"} {": "} {MeetingRoomLaptop.serial_number}
+                        {"Meeting Room Laptop: "} {MeetingRoomLaptop.serial_number}
                     </TableCell>
                 );
             }
