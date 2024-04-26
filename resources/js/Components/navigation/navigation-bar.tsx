@@ -10,7 +10,7 @@ const NavigationBar = () => {
     useEffect(() => setSelectedUrl(window.location.pathname));
 
     return (
-        <Box sx={{ width: "100%", backgroundColor: "#009ddf" }}>
+        <Box sx={{ backgroundColor: "#009ddf" }}>
             <Tabs
                 value={selectedUrl}
                 centered
