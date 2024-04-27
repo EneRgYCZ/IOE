@@ -7,7 +7,6 @@ import { useForm, usePage } from "@inertiajs/react";
 import { Team } from "@/types";
 
 const TeamEditForm = ({ team }: { team: Team }) => {
-    const { errors } = usePage().props;
     const [formOpen, setFormOpen] = React.useState(false);
     const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
