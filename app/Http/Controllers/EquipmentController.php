@@ -9,6 +9,7 @@ use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -132,21 +133,44 @@ class EquipmentController extends Controller
      */
     public function storeDesktop(Request $request)
     {
-        Desktop::create($request->all());
+        Desktop::create($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'double_pc' => ['boolean'],
+            'needs_dock' => ['boolean'],
+            'status' => [Rule::in(['static', 'flex'])],
+            'floor' => ['required', 'max:5'],
+            'island_number' => ['required', 'max:5'],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'updated_in_q1' => ['boolean'],
+            'employee_id' => [],
+        ]));
 
         return redirect(route('equipment.index'));
     }
 
     public function storeLaptop(Request $request)
     {
-        Laptop::create($request->all());
+        Laptop::create($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'status' => [Rule::in(['static', 'flex'])],
+            'floor' => ['required', 'max:5'],
+            'island_number' => ['required', 'max:5'],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'updated_in_q1' => ['boolean'],
+            'employee_id' => [],
+        ]));
 
         return redirect(route('equipment.index'));
     }
 
     public function storeMeetingRoomLaptop(Request $request)
     {
-        MeetingRoomLaptop::create($request->all());
+        MeetingRoomLaptop::create($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'floor' => ['required', 'max:5'],
+            'room_number' => ['required', 'max:5'],
+            'updated_in_q1' => ['boolean'],
+        ]));
 
         return redirect(route('equipment.index'));
     }
@@ -172,21 +196,44 @@ class EquipmentController extends Controller
      */
     public function updateDesktop(Request $request, Desktop $desktop)
     {
-        $desktop->update($request->all());
+        $desktop->update($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'double_pc' => ['boolean'],
+            'needs_dock' => ['boolean'],
+            'status' => [Rule::in(['static', 'flex'])],
+            'floor' => ['required', 'max:5'],
+            'island_number' => ['required', 'max:5'],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'updated_in_q1' => ['boolean'],
+            'employee_id' => [],
+        ]));
 
         return redirect(route('equipment.index'));
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
     {
-        $laptop->update($request->all());
+        $laptop->update($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'status' => [Rule::in(['static', 'flex'])],
+            'floor' => ['required', 'max:5'],
+            'island_number' => ['required', 'max:5'],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'updated_in_q1' => ['boolean'],
+            'employee_id' => [],
+        ]));
 
         return redirect(route('equipment.index'));
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
-        $meetingRoomLaptop->update($request->all());
+        $meetingRoomLaptop->update($request->validate([
+            'serial_number' => ['required', 'max:50'],
+            'floor' => ['required', 'max:5'],
+            'room_number' => ['required', 'max:5'],
+            'updated_in_q1' => ['boolean'],
+        ]));
 
         return redirect(route('equipment.index'));
     }
