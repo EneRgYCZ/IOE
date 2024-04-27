@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormLabel, Modal, Typography } from "@mui/material";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { Team } from "@/types";
 
 const TeamEditForm = ({ team }: { team: Team }) => {
