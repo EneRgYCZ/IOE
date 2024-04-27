@@ -3,10 +3,12 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Fab, FormLabel, Modal, Typography } from "@mui/material";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 
 const TeamCreateForm = () => {
+    const { errors } = usePage().props;
     const [formOpen, setFormOpen] = React.useState(false);
+    const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
@@ -22,6 +24,18 @@ const TeamCreateForm = () => {
             ...data,
             [key]: value
         }));
+    };
+
+    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData(data => ({
+            ...data,
+            [e.target.id]: e.target.value
+        }));
+        if (e.target.validity.valid) {
+            setTeamNameError(false);
+        } else {
+            setTeamNameError(true);
+        }
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,6 +69,14 @@ const TeamCreateForm = () => {
         right: 16
     };
 
+    React.useEffect(() => {
+        if (errors.team_name) {
+            alert("The team could not be added. " + errors.team_name);
+        } else if (errors.description) {
+            alert("The team could not be added. " + errors.description);
+        }
+    }, [errors]);
+
     return (
         <div>
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={handleFormOpen}>
@@ -70,9 +92,15 @@ const TeamCreateForm = () => {
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
-                            onChange={handleChange}
+                            required
+                            onChange={handleTeamNameChange}
                             sx={fieldStyle}
                             variant="outlined"
+                            error={teamNameError}
+                            helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                            inputProps={{
+                                pattern: "[A-Za-z ]+"
+                            }}
                         />
                         <FormLabel>Team Description</FormLabel>
                         <TextField
