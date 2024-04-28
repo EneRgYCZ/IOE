@@ -64,7 +64,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
         last_name: props.employee?.last_name
     });
     React.useEffect(()=>{
-        if(props.employee){
+        if(props.employee !== null){
             setData(props.employee)
         }
     },[props.employee])
@@ -82,13 +82,14 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(props.employee){
-            patch(route("employees.update"),data);
+            console.log(props.employee.id);
+            patch(route("employees.update"),props.employee.id);
             props.handleClose();
         }
     };
 
     return (
-        <Modal open={props.isOpen}>
+        <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <h2 style={{ margin:'0px' }}>Add Employee</h2>
                 <form onSubmit={submit}>
@@ -115,13 +116,13 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
                 variant="outlined"
                 />
 
-                <Button variant="contained" sx={submitButtonStyle} type={submit}>
+                <Button variant="contained" type={"submit"}>
                     Submit
                 </Button>
                 </form>
             </Box>
         </Modal>
-    )
-}
+    );
+};
 
 export default EditEmployee;

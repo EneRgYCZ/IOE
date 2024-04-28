@@ -42,14 +42,14 @@ class EmployeeController extends Controller
         return redirect(route('employees.index'));
         
     }
-
-    public function update(Request $request, Employee $employee)
+    
+    public function update(Request $request, Employee $employee) 
     {
         $employee->update($request->all());
         return redirect(route('employees.index'));
     }
 
-    public function destroy(Employee $employee)
+    public function destroy(Employee $employee) 
     {
         $employee->delete();
         return redirect(route('employees.index'));

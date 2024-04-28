@@ -83,7 +83,7 @@ const AddEmployee = (props: {isOpen:boolean; handleClose:()=>void})=>{
     }
 
     return (
-        <Modal open={props.isOpen}>
+        <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <h2 style={{ margin:'0px' }}>Add Employee</h2>
                 <form onSubmit={submit}>
