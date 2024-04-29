@@ -22,11 +22,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
 
     const customCellRenderer: CellRenderer<ActivityLog> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at") {
-            return (
-                <TableCell key={cellKey}>
-                    {dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}
-                </TableCell>
-            );
+            return <TableCell key={cellKey}>{dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}</TableCell>;
         }
         if (col.key === "subject_type") {
             if (row.subject_type === "App\\Models\\Employee") {
@@ -67,8 +63,14 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\Desktop") {
-                if (row.subject === null) {
-                    return <TableCell key={cellKey}>Deleted</TableCell>;
+                if (deleteTypeGuard(row)) {
+                    const desktop = row.properties.old as DesktopPC;
+                    return (
+                        <TableCell key={cellKey}>
+                            {"Desktop: "}
+                            {desktop.serial_number}
+                        </TableCell>
+                    );
                 }
                 const desktop = row.subject as DesktopPC;
                 return (
@@ -79,8 +81,14 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\Laptop") {
-                if (row.subject === null) {
-                    return <TableCell key={cellKey}>Deleted</TableCell>;
+                if (deleteTypeGuard(row)) {
+                    const laptop = row.properties.old as Laptop;
+                    return (
+                        <TableCell key={cellKey}>
+                            {"Laptop: "}
+                            {laptop.serial_number}
+                        </TableCell>
+                    );
                 }
                 const laptop = row.subject as Laptop;
                 return (
@@ -91,8 +99,14 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\MeetingRoomLaptop") {
-                if (row.subject === null) {
-                    return <TableCell key={cellKey}>Deleted</TableCell>;
+                if (deleteTypeGuard(row)) {
+                    const meetingRoomLaptop = row.properties.old as MeetingRoomLaptop;
+                    return (
+                        <TableCell key={cellKey}>
+                            {"MeetingRoomLaptop: "}
+                            {meetingRoomLaptop.serial_number}
+                        </TableCell>
+                    );
                 }
                 const MeetingRoomLaptop = row.subject as MeetingRoomLaptop;
                 return (
