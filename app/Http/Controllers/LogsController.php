@@ -17,11 +17,12 @@ class LogsController extends Controller
     public function index()
     {
         $logs = QueryBuilder::for(Logs::query()->with('causer', 'subject'))
-            ->allowedSorts('id', 'event', 'subject_type')
+            ->allowedSorts('id', 'event', 'subject_type', 'updated_at')
             ->allowedFilters(
                 'event',
                 'subject_type'
             )
+            ->orderByDesc('updated_at')
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
@@ -35,13 +36,5 @@ class LogsController extends Controller
                 ->addSearchInput(new SearchInput('subject_type', 'Entity', shown: true))
                 ->addSearchInput(new SearchInput('event', 'Event', shown: true));
         });
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Logs $logs)
-    {
-        //
     }
 }
