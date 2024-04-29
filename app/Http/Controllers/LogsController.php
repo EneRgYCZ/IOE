@@ -20,7 +20,8 @@ class LogsController extends Controller
             ->allowedSorts('id', 'event', 'subject_type', 'updated_at')
             ->allowedFilters(
                 'event',
-                'subject_type'
+                'subject_type',
+                'updated_at'
             )
             ->orderByDesc('updated_at')
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
@@ -33,6 +34,7 @@ class LogsController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('subject_type', 'Entity', sortable: true))
                 ->addColumn(new Column('event', 'Event', sortable: true))
+                ->addColumn(new Column('updated_at', 'Date', sortable: true))
                 ->addSearchInput(new SearchInput('subject_type', 'Entity', shown: true))
                 ->addSearchInput(new SearchInput('event', 'Event', shown: true));
         });

@@ -14,6 +14,10 @@ class Team extends Model
 
     protected $fillable = ['team_name', 'description'];
 
+    protected $cast = [
+        'updated_at' => 'datetime'
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return
