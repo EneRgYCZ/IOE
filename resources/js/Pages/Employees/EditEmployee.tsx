@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, FormControlLabel, Switch, TextField} from "@mui/material";
+import { Box, Button, TextField} from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee } from '../../types/index';
 
@@ -14,7 +14,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
         transform: "translate(-50%, -50%)",
         backgroundColor: "white",
         padding: "20px",
-        width: '400px', 
+        width: '400px',
         height: '450px',
         border: '1px solid #ccc',
         borderRadius: '8px',
@@ -58,10 +58,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
         cursor: 'pointer',
     };
 
-    const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
-    };
+
     const {data, setData, patch} = useForm({
         id: props.employee?.id,
         first_name: props.employee?.first_name,
@@ -74,7 +71,7 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
     },[props.employee])
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        
+
         const key = e.target.id;
         const value = e.target.value;
         setData(data => ({
@@ -96,14 +93,14 @@ const EditEmployee = (props: {isOpen:boolean; handleClose:()=>void;employee:Empl
             <Box sx={modalStyle}>
                 <h2 style={{ margin:'0px' }}>Add Employee</h2>
                 <form onSubmit={submit}>
-            
+
                 <Button sx={closeButtonStyle} onClick={props.handleClose}>
                     X
                 </Button>
-      
+
                 <TextField
                         id={"employee_id"}
-                        value={data.serial_number}
+                        value={data.id}
                         onChange={handleChange}
                         sx={inputFieldStyle}
                         label="Employee ID"
