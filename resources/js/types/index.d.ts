@@ -76,43 +76,43 @@ export interface Team {
 }
 
 export interface DesktopPC {
-    id: number;
+    id?: number;
     serial_number: string;
     double_pc: boolean;
     needs_dock: boolean;
-    location: string;
+    location?: string;
     status: string;
-    floor: number;
-    island_number: number;
+    floor?: number;
+    island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
-    employee_id: number;
-    created_at: string;
-    updated_at: string;
+    employee_id?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Laptop {
-    id: number;
+    id?: number;
     serial_number: string;
-    location: string;
+    location?: string;
     status: string;
-    floor: number;
-    island_number: number;
+    floor?: number;
+    island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
-    employee_id: number;
-    created_at: string;
-    updated_at: string;
+    employee_id?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface MeetingRoomLaptop {
-    id: number;
+    id?: number;
     serial_number: string;
-    floor: number;
-    room_number: number;
+    floor?: number;
+    room_number?: number;
     updated_in_q1: boolean;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export type ActivityLog = BaseActivityLog | UpdateActivityLog;
