@@ -22,12 +22,19 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         employee_id: undefined
     };
 
-    const { data, setData, post } = useForm(initialValues);
+    const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
 
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    const submit = () => {
         post(route("equipment.storeDesktop"));
         setData(initialValues);
+        props.handleClose();
     };
 
     const modalStyle = {

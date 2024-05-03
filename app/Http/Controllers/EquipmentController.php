@@ -171,15 +171,15 @@ class EquipmentController extends Controller
     {
         Desktop::create($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
-            'desktop_number' => ['required', 'max:50'],
+            'pc_number' => ['required', 'max:50'],
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
             'double_pc' => ['boolean'],
             'needs_dock' => ['boolean'],
-            'status' => [Rule::in(['static', 'flex'])],
+            'status' => [Rule::in(['static', 'flex', ''])],
             'floor' => ['required', 'max:5'],
             'island_number' => ['required', 'max:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
@@ -195,10 +195,10 @@ class EquipmentController extends Controller
             'laptop_number' => ['required', 'max:50'],
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
-            'status' => [Rule::in(['static', 'flex'])],
+            'status' => [Rule::in(['static', 'flex', ''])],
             'floor' => ['required', 'max:5'],
             'island_number' => ['required', 'max:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
@@ -215,7 +215,7 @@ class EquipmentController extends Controller
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['required', 'max:5'],
-            'room_number' => ['required', 'max:5'],
+            'room_number' => ['max:5'],
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));
@@ -246,7 +246,7 @@ class EquipmentController extends Controller
     {
         $desktop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
-            'desktop_number' => ['required', 'max:50'],
+            'pc_number' => ['required', 'max:50'],
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
             'double_pc' => ['boolean'],
@@ -290,7 +290,7 @@ class EquipmentController extends Controller
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['required', 'max:5'],
-            'room_number' => ['required', 'max:5'],
+            'room_number' => ['max:5'],
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));

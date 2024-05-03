@@ -18,8 +18,8 @@ return new class extends Migration
             $table->enum('location', ['ghh', 'waagstraat']);
             $table->enum('side', ['north', 'south']);
             $table->integer('floor');
-            $table->string('room_number');
-            $table->boolean('updated_in_q1');
+            $table->string('room_number')->nullable();
+            $table->boolean('updated_in_q1')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

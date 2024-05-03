@@ -6,7 +6,7 @@ import { DesktopPC } from "@/types";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
 
 const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop: DesktopPC | null }) => {
-    const { data, setData, patch } = useForm<DesktopPC>({
+    const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<DesktopPC>({
         full_number_identifier: props.desktop ? props.desktop.full_number_identifier : "",
         pc_number: props.desktop ? props.desktop.pc_number : "",
         location: props.desktop ? props.desktop.location : "",
@@ -23,13 +23,19 @@ const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop:
     });
 
     React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    React.useEffect(() => {
         if (props.desktop !== null) {
             setData(props.desktop);
         }
     }, [props.desktop]);
 
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const submit = () => {
         if (props.desktop) {
             patch(route("equipment.updateDesktop", props.desktop.id));
             props.handleClose();

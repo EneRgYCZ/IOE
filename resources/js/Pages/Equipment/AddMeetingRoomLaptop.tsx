@@ -16,12 +16,19 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
         updated_in_q1: false,
         remarks: ""
     };
-    const { data, setData, post } = useForm(initialValues);
+    const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
 
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    const submit = () => {
         post(route("equipment.storeMeetingRoomLaptop"));
         setData(initialValues);
+        props.handleClose();
     };
 
     const modalStyle = {

@@ -10,7 +10,7 @@ const EditMeetingRoomLaptop = (props: {
     handleClose: () => void;
     meetingRoomLaptop: MeetingRoomLaptop | null;
 }) => {
-    const { data, setData, patch } = useForm<MeetingRoomLaptop>({
+    const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<MeetingRoomLaptop>({
         full_number_identifier: props.meetingRoomLaptop ? props.meetingRoomLaptop.full_number_identifier : "",
         laptop_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.laptop_number : "",
         location: props.meetingRoomLaptop ? props.meetingRoomLaptop.location : "",
@@ -22,13 +22,19 @@ const EditMeetingRoomLaptop = (props: {
     });
 
     React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    React.useEffect(() => {
         if (props.meetingRoomLaptop !== null) {
             setData(props.meetingRoomLaptop);
         }
     }, [props.meetingRoomLaptop]);
 
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const submit = () => {
         if (props.meetingRoomLaptop) {
             patch(route("equipment.updateMeetingRoomLaptop", props.meetingRoomLaptop.id));
             props.handleClose();

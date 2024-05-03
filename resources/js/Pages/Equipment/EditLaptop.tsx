@@ -6,7 +6,7 @@ import { Laptop } from "@/types";
 import LaptopForm from "@/Components/Equipment/LaptopForm";
 
 const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: Laptop | null }) => {
-    const { data, setData, patch } = useForm<Laptop>({
+    const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<Laptop>({
         full_number_identifier: props.laptop ? props.laptop.full_number_identifier : "",
         laptop_number: props.laptop ? props.laptop.laptop_number : "",
         location: props.laptop ? props.laptop.location : "",
@@ -21,13 +21,19 @@ const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: L
     });
 
     React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    React.useEffect(() => {
         if (props.laptop !== null) {
             setData(props.laptop);
         }
     }, [props.laptop]);
 
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const submit = () => {
         if (props.laptop) {
             patch(route("equipment.updateLaptop", props.laptop.id));
             props.handleClose();

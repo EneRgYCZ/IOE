@@ -2,6 +2,7 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    FormHelperText,
     InputLabel,
     MenuItem,
     Select,
@@ -12,14 +13,43 @@ import {
 import React from "react";
 import { DesktopPC } from "@/types";
 
-const DesktopForm = (props: {
-    data: DesktopPC;
-    setData: (data: DesktopPC) => void;
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-}) => {
+const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => void; onSubmit: () => void }) => {
     const fieldStyle = {
         margin: "5px 0",
         width: "100%"
+    };
+
+    const [errors, setErrors] = React.useState({
+        full_number_identifier: false,
+        pc_number: false,
+        location: false,
+        side: false,
+        floor: false,
+        island_number: false
+    });
+
+    const validation = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        setErrors({
+            full_number_identifier: props.data.full_number_identifier.trim() == "",
+            pc_number: props.data.pc_number.trim() == "",
+            location: props.data.location.trim() == "",
+            side: props.data.side.trim() == "",
+            floor: props.data.floor == undefined,
+            island_number: props.data.island_number == undefined
+        });
+
+        if (
+            props.data.full_number_identifier.trim() != "" &&
+            props.data.pc_number.trim() != "" &&
+            props.data.location.trim() != "" &&
+            props.data.side.trim() != "" &&
+            props.data.floor != undefined &&
+            props.data.island_number != undefined
+        ) {
+            props.onSubmit();
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,50 +71,62 @@ const DesktopForm = (props: {
     };
 
     return (
-        <form onSubmit={props.onSubmit}>
+        <form onSubmit={validation}>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number"
+                label="Full number*"
                 variant="outlined"
+                error={errors.full_number_identifier}
+                helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
             />
             <TextField
                 id={"pc_number"}
                 value={props.data.pc_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="PC Number"
+                label="PC Number*"
                 variant="outlined"
+                error={errors.pc_number}
+                helperText={errors.pc_number ? "This field is mandatory" : ""}
             />
             <FormControl sx={fieldStyle}>
-                <InputLabel id="location_label">Location</InputLabel>
+                <InputLabel id="location_label" error={errors.location}>
+                    Location*
+                </InputLabel>
                 <Select
                     labelId="location_label"
                     name="location"
-                    label="Location"
+                    label="Location*"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
+                    error={errors.location}
                 >
                     <MenuItem value="ghh">GHH</MenuItem>
                     <MenuItem value="waagstraat">Waagstraat</MenuItem>
                 </Select>
+                <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="side_label">Side</InputLabel>
+                <InputLabel id="side_label" error={errors.side}>
+                    Side*
+                </InputLabel>
                 <Select
                     labelId="side_label"
                     name="side"
-                    label="side"
+                    label="Side*"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
+                    error={errors.side}
                 >
                     <MenuItem value="north">North</MenuItem>
                     <MenuItem value="south">South</MenuItem>
                 </Select>
+                <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
             <FormControlLabel
                 control={
@@ -120,16 +162,20 @@ const DesktopForm = (props: {
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor"
+                label="Floor*"
                 variant="outlined"
+                error={errors.floor}
+                helperText={errors.floor ? "This field is mandatory" : ""}
             />
             <TextField
                 id={"island_number"}
                 value={props.data.island_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Island number"
+                label="Island number*"
                 variant="outlined"
+                error={errors.island_number}
+                helperText={errors.island_number ? "This field is mandatory" : ""}
             />
             <FormControl sx={fieldStyle}>
                 <InputLabel id="workspace_type_label">Workspace type</InputLabel>
