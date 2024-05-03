@@ -12,11 +12,15 @@ class MeetingRoomLaptop extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        'full_number_identifier',
+        'laptop_number',
+        'location',
+        'side',
         'serial_number',
         'floor',
         'room_number',
         'updated_in_q1',
+        'remarks',
     ];
 
     use LogsActivity;

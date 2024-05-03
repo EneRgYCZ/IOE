@@ -11,10 +11,14 @@ const EditMeetingRoomLaptop = (props: {
     meetingRoomLaptop: MeetingRoomLaptop | null;
 }) => {
     const { data, setData, patch } = useForm<MeetingRoomLaptop>({
-        serial_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.serial_number : "",
+        full_number_identifier: props.meetingRoomLaptop ? props.meetingRoomLaptop.full_number_identifier : "",
+        laptop_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.laptop_number : "",
+        location: props.meetingRoomLaptop ? props.meetingRoomLaptop.location : "",
+        side: props.meetingRoomLaptop ? props.meetingRoomLaptop.side : "",
         floor: props.meetingRoomLaptop ? props.meetingRoomLaptop.floor : undefined,
         room_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.room_number : undefined,
-        updated_in_q1: props.meetingRoomLaptop ? props.meetingRoomLaptop.updated_in_q1 : false
+        updated_in_q1: props.meetingRoomLaptop ? props.meetingRoomLaptop.updated_in_q1 : false,
+        remarks: props.meetingRoomLaptop ? props.meetingRoomLaptop.remarks : ""
     });
 
     React.useEffect(() => {
@@ -36,6 +40,8 @@ const EditMeetingRoomLaptop = (props: {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };

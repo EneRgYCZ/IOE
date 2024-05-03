@@ -7,10 +7,14 @@ import { MeetingRoomLaptop } from "@/types";
 
 const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues: MeetingRoomLaptop = {
-        serial_number: "",
+        full_number_identifier: "",
+        laptop_number: "",
+        location: "",
+        side: "",
         floor: undefined,
         room_number: undefined,
-        updated_in_q1: false
+        updated_in_q1: false,
+        remarks: ""
     };
     const { data, setData, post } = useForm(initialValues);
 
@@ -25,6 +29,8 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };

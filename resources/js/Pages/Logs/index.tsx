@@ -48,7 +48,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 return (
                     <TableCell key={cellKey}>
                         {"Desktop: "}
-                        {desktop.serial_number}
+                        {desktop.full_number_identifier}
                     </TableCell>
                 );
             }
@@ -60,7 +60,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 return (
                     <TableCell key={cellKey}>
                         {"Laptop: "}
-                        {laptop.serial_number}
+                        {laptop.full_number_identifier}
                     </TableCell>
                 );
             }
@@ -71,7 +71,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const MeetingRoomLaptop = row.subject as MeetingRoomLaptop;
                 return (
                     <TableCell key={cellKey}>
-                        {"Meeting Room Laptop: "} {MeetingRoomLaptop.serial_number}
+                        {"Meeting Room Laptop: "} {MeetingRoomLaptop.full_number_identifier}
                     </TableCell>
                 );
             }

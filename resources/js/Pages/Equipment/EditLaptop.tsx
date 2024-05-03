@@ -7,12 +7,16 @@ import LaptopForm from "@/Components/Equipment/LaptopForm";
 
 const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: Laptop | null }) => {
     const { data, setData, patch } = useForm<Laptop>({
-        serial_number: props.laptop ? props.laptop.serial_number : "",
+        full_number_identifier: props.laptop ? props.laptop.full_number_identifier : "",
+        laptop_number: props.laptop ? props.laptop.laptop_number : "",
+        location: props.laptop ? props.laptop.location : "",
+        side: props.laptop ? props.laptop.side : "",
         status: props.laptop ? props.laptop.status : "",
         floor: props.laptop ? props.laptop.floor : undefined,
         island_number: props.laptop ? props.laptop.island_number : undefined,
         workspace_type: props.laptop ? props.laptop.workspace_type : "",
         updated_in_q1: props.laptop ? props.laptop.updated_in_q1 : false,
+        remarks: props.laptop ? props.laptop.remarks : "",
         employee_id: props.laptop ? props.laptop.employee_id : undefined
     });
 
@@ -35,6 +39,8 @@ const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: L
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };

@@ -77,15 +77,18 @@ export interface Team {
 
 export interface DesktopPC {
     id?: number;
-    serial_number: string;
+    full_number_identifier: string;
+    pc_number: string;
+    location: string;
+    side: string;
     double_pc: boolean;
     needs_dock: boolean;
-    location?: string;
     status: string;
     floor?: number;
     island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
+    remarks?: string;
     employee_id?: number;
     created_at?: string;
     updated_at?: string;
@@ -93,13 +96,16 @@ export interface DesktopPC {
 
 export interface Laptop {
     id?: number;
-    serial_number: string;
-    location?: string;
+    full_number_identifier: string;
+    laptop_number: string;
+    location: string;
+    side: string;
     status: string;
     floor?: number;
     island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
+    remarks?: string;
     employee_id?: number;
     created_at?: string;
     updated_at?: string;
@@ -107,10 +113,14 @@ export interface Laptop {
 
 export interface MeetingRoomLaptop {
     id?: number;
-    serial_number: string;
+    full_number_identifier: string;
+    laptop_number: string;
+    location: string;
+    side: string;
     floor?: number;
     room_number?: number;
     updated_in_q1: boolean;
+    remarks?: string;
     created_at?: string;
     updated_at?: string;
 }

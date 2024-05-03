@@ -43,13 +43,49 @@ const DesktopForm = (props: {
     return (
         <form onSubmit={props.onSubmit}>
             <TextField
-                id={"serial_number"}
-                value={props.data.serial_number}
+                id={"full_number_identifier"}
+                value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Serial number"
+                label="Full number"
                 variant="outlined"
             />
+            <TextField
+                id={"pc_number"}
+                value={props.data.pc_number}
+                onChange={handleChange}
+                sx={fieldStyle}
+                label="PC Number"
+                variant="outlined"
+            />
+            <FormControl sx={fieldStyle}>
+                <InputLabel id="location_label">Location</InputLabel>
+                <Select
+                    labelId="location_label"
+                    name="location"
+                    label="Location"
+                    value={props.data.location}
+                    variant="outlined"
+                    onChange={handleSelectChange}
+                >
+                    <MenuItem value="ghh">GHH</MenuItem>
+                    <MenuItem value="waagstraat">Waagstraat</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl sx={fieldStyle}>
+                <InputLabel id="side_label">Side</InputLabel>
+                <Select
+                    labelId="side_label"
+                    name="side"
+                    label="side"
+                    value={props.data.side}
+                    variant="outlined"
+                    onChange={handleSelectChange}
+                >
+                    <MenuItem value="north">North</MenuItem>
+                    <MenuItem value="south">South</MenuItem>
+                </Select>
+            </FormControl>
             <FormControlLabel
                 control={
                     <Switch defaultChecked checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />
@@ -120,6 +156,14 @@ const DesktopForm = (props: {
                 }
                 sx={fieldStyle}
                 label="Updated in Q1"
+            />
+            <TextField
+                id={"remarks"}
+                value={props.data.remarks}
+                onChange={handleChange}
+                sx={fieldStyle}
+                label="Remarks"
+                variant="outlined"
             />
             <TextField
                 id={"employee_id"}

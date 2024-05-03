@@ -12,6 +12,10 @@ class Desktop extends Model
     use HasFactory;
 
     protected $fillable = [
+        'full_number_identifier',
+        'pc_number',
+        'location',
+        'side',
         'serial_number',
         'double_pc',
         'needs_dock',
@@ -21,6 +25,7 @@ class Desktop extends Model
         'workspace_type',
         'updated_in_q1',
         'employee_id',
+        'remarks',
     ];
 
     use LogsActivity;

@@ -7,7 +7,10 @@ import { DesktopPC } from "@/types";
 
 const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues: DesktopPC = {
-        serial_number: "",
+        full_number_identifier: "",
+        pc_number: "",
+        location: "",
+        side: "",
         double_pc: false,
         needs_dock: false,
         status: "",
@@ -15,6 +18,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         island_number: undefined,
         workspace_type: "",
         updated_in_q1: false,
+        remarks: "",
         employee_id: undefined
     };
 
@@ -31,6 +35,8 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };

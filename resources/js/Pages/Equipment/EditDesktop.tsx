@@ -7,7 +7,10 @@ import DesktopForm from "@/Components/Equipment/DesktopForm";
 
 const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop: DesktopPC | null }) => {
     const { data, setData, patch } = useForm<DesktopPC>({
-        serial_number: props.desktop ? props.desktop.serial_number : "",
+        full_number_identifier: props.desktop ? props.desktop.full_number_identifier : "",
+        pc_number: props.desktop ? props.desktop.pc_number : "",
+        location: props.desktop ? props.desktop.location : "",
+        side: props.desktop ? props.desktop.side : "",
         double_pc: props.desktop ? props.desktop.double_pc : false,
         needs_dock: props.desktop ? props.desktop.needs_dock : false,
         status: props.desktop ? props.desktop.status : "",
@@ -15,6 +18,7 @@ const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop:
         island_number: props.desktop ? props.desktop.island_number : undefined,
         workspace_type: props.desktop ? props.desktop.workspace_type : "",
         updated_in_q1: props.desktop ? props.desktop.updated_in_q1 : false,
+        remarks: props.desktop ? props.desktop.remarks : "",
         employee_id: props.desktop ? props.desktop.employee_id : undefined
     });
 
@@ -37,6 +41,8 @@ const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop:
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };

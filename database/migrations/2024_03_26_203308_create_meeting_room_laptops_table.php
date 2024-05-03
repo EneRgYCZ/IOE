@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('meeting_room_laptops', function (Blueprint $table) {
             $table->id();
-            $table->integer('serial_number');
+            $table->string('full_number_identifier');
+            $table->string('laptop_number');
+            $table->enum('location', ['ghh', 'waagstraat']);
+            $table->enum('side', ['north', 'south']);
             $table->integer('floor');
             $table->string('room_number');
             $table->boolean('updated_in_q1');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

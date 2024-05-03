@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('laptops', function (Blueprint $table) {
             $table->id();
-            $table->integer('serial_number');
+            $table->string('full_number_identifier');
+            $table->string('laptop_number');
             $table->enum('status', ['flex', 'static']);
+            $table->enum('location', ['ghh', 'waagstraat']);
+            $table->enum('side', ['north', 'south']);
             $table->integer('floor');
             $table->integer('island_number');
             $table->enum('workspace_type', ['developer', 'non-developer']);
             $table->boolean('updated_in_q1');
+            $table->string('remarks')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained();
             $table->timestamps();
         });

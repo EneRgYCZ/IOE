@@ -7,12 +7,16 @@ import { Laptop } from "@/types";
 
 const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues: Laptop = {
-        serial_number: "",
+        full_number_identifier: "",
+        laptop_number: "",
+        location: "",
+        side: "",
         status: "",
         floor: undefined,
         island_number: undefined,
         workspace_type: "",
         updated_in_q1: false,
+        remarks: "",
         employee_id: undefined
     };
 
@@ -29,6 +33,8 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
     };
