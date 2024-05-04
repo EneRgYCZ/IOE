@@ -41,7 +41,7 @@ class EmployeeController extends Controller
     {
         Employee::create($request->validate([
             'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20']
+            'last_name' => ['required', 'max:20'],
         ]));
         return redirect(route('employees.index'));
 
@@ -51,7 +51,7 @@ class EmployeeController extends Controller
     {
         $employee->update($request->validate([
             'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20']
+            'last_name' => ['required', 'max:20'],
         ]));
 
         return redirect(route('employees.index'));
