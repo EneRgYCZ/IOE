@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import {
+    Autocomplete,
     Box,
     Button,
     FormControl,
@@ -14,16 +15,27 @@ import {
     Typography
 } from "@mui/material";
 import { useForm } from "@inertiajs/react";
+import { Employee } from "@/types";
 
-const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
-    const initialValues = {
+const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
+    const initialValues: {
+        serial_number: string;
+        status: string;
+        floor: string;
+        island_number: string;
+        workspace_type: string;
+        updated_in_q1: boolean;
+        employee_id: string;
+        employees: Employee[];
+    } = {
         serial_number: "",
         status: "",
         floor: "",
         island_number: "",
         workspace_type: "",
         updated_in_q1: false,
-        employee_id: ""
+        employee_id: "",
+        employees: []
     };
 
     const { data, setData, post } = useForm(initialValues);
@@ -138,13 +150,21 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={fieldStyle}
                         label="Updated in Q1"
                     />
-                    <TextField
-                        id={"employee_id"}
-                        value={data.employee_id}
-                        onChange={handleChange}
+                    <Autocomplete
+                        multiple
+                        id="employee_id"
+                        options={props.employees}
+                        getOptionLabel={(employee: Employee) =>
+                            employee.first_name + " " + employee.last_name + " (ID: " + employee.id + ")"
+                        }
+                        defaultValue={[]}
+                        value={data.employees}
+                        onChange={(_event: React.SyntheticEvent, value: Employee[]) => {
+                            setData({ ...data, employees: value });
+                        }}
+                        filterSelectedOptions
                         sx={fieldStyle}
-                        label="Employee ID"
-                        variant="outlined"
+                        renderInput={params => <TextField {...params} label="Employee" />}
                     />
                     <Button variant="contained" type={"submit"}>
                         Submit

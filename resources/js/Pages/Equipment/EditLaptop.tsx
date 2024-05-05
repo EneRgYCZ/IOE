@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import {
+    Autocomplete,
     Box,
     Button,
     FormControl,
@@ -14,9 +15,14 @@ import {
     Typography
 } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Laptop } from "@/types";
+import { Employee, Laptop } from "@/types";
 
-const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: Laptop | null }) => {
+const EditLaptop = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    laptop: Laptop | null;
+    employees: Employee[];
+}) => {
     const { data, setData, patch } = useForm({
         serial_number: "",
         status: "",
@@ -145,13 +151,17 @@ const EditLaptop = (props: { isOpen: boolean; handleClose: () => void; laptop: L
                         sx={fieldStyle}
                         label="Updated in Q1"
                     />
-                    <TextField
-                        id={"employee_id"}
-                        value={data.employee_id}
-                        onChange={handleChange}
+                    <Autocomplete
+                        multiple
+                        id="employee_id"
+                        options={props.employees}
+                        getOptionLabel={(employee: Employee) =>
+                            employee.first_name + " " + employee.last_name + " (ID: " + employee.id + ")"
+                        }
+                        defaultValue={[]}
+                        filterSelectedOptions
                         sx={fieldStyle}
-                        label="Employee ID"
-                        variant="outlined"
+                        renderInput={params => <TextField {...params} label="Employee" />}
                     />
                     <Button variant="contained" type={"submit"}>
                         Submit

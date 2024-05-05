@@ -87,6 +87,7 @@ export interface DesktopPC {
     workspace_type: string;
     updated_in_q1: boolean;
     employee_id: number;
+    employees?: Employee[];
     created_at: string;
     updated_at: string;
 }
@@ -101,6 +102,7 @@ export interface Laptop {
     workspace_type: string;
     updated_in_q1: boolean;
     employee_id: number;
+    employees?: Employee[];
     created_at: string;
     updated_at: string;
 }

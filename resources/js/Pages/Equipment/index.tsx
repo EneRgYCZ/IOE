@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { DesktopPC, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
+import { DesktopPC, Employee, Laptop, MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -14,11 +14,13 @@ import EditMeetingRoomLaptop from "@/Pages/Equipment/EditMeetingRoomLaptop";
 const Equipment = ({
     desktops,
     laptops,
-    meetingRoomLaptops
+    meetingRoomLaptops,
+    employees
 }: PageProps<{
     desktops: PaginatedResponse<DesktopPC>;
     laptops: PaginatedResponse<Laptop>;
     meetingRoomLaptops: PaginatedResponse<MeetingRoomLaptop>;
+    employees: PaginatedResponse<Employee>;
 }>) => {
     const tableButtonMargins = {
         margin: "0 10px"
@@ -163,10 +165,12 @@ const Equipment = ({
             <AddDesktop
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
+                employees={employees.data}
             ></AddDesktop>
             <AddLaptop
                 isOpen={formOpen.addLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
+                employees={employees.data}
             ></AddLaptop>
             <AddMeetingRoomLaptop
                 isOpen={formOpen.addMeetingRoomLaptop}
@@ -175,11 +179,13 @@ const Equipment = ({
             <EditDesktop
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
+                employees={employees.data}
                 desktop={currentDesktop}
             ></EditDesktop>
             <EditLaptop
                 isOpen={formOpen.editLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editLaptop: false })}
+                employees={employees.data}
                 laptop={currentLaptop}
             ></EditLaptop>
             <EditMeetingRoomLaptop
