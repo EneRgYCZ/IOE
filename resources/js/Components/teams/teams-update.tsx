@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormLabel, Modal, Typography } from "@mui/material";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { Team } from "@/types";
 
 const TeamEditForm = ({ team }: { team: Team }) => {
+    const { errors } = usePage().props;
     const [formOpen, setFormOpen] = React.useState(false);
     const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
@@ -37,6 +38,14 @@ const TeamEditForm = ({ team }: { team: Team }) => {
             setTeamNameError(true);
         }
     };
+
+    React.useEffect(() => {
+        if (errors.team_name) {
+            alert("The team could not be added. " + errors.team_name);
+        } else if (errors.description) {
+            alert("The team could not be added. " + errors.description);
+        }
+    }, [errors]);
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
