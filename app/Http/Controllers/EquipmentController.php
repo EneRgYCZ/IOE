@@ -144,7 +144,7 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        return Inertia::render('Equipment/index', [
+        return Inertia::render('Equipment/MeetingRoomLaptop/index', [
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
             $table->setName('meetingRoomLaptops')
