@@ -7,10 +7,11 @@ import { useForm } from "@inertiajs/react";
 
 const TeamCreateForm = () => {
     const [formOpen, setFormOpen] = React.useState(false);
+    const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, hasErrors, errors, clearErrors } = useForm({
         team_name: "",
         description: ""
     });
@@ -22,6 +23,25 @@ const TeamCreateForm = () => {
             ...data,
             [key]: value
         }));
+    };
+
+    React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData(data => ({
+            ...data,
+            [e.target.id]: e.target.value
+        }));
+        if (e.target.validity.valid) {
+            setTeamNameError(false);
+        } else {
+            setTeamNameError(true);
+        }
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,9 +90,15 @@ const TeamCreateForm = () => {
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
-                            onChange={handleChange}
+                            required
+                            onChange={handleTeamNameChange}
                             sx={fieldStyle}
                             variant="outlined"
+                            error={teamNameError}
+                            helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                            inputProps={{
+                                pattern: "[A-Za-z ]+"
+                            }}
                         />
                         <FormLabel>Team Description</FormLabel>
                         <TextField
