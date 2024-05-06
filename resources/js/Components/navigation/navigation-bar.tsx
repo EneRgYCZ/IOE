@@ -30,43 +30,44 @@ const NavigationBar = () => {
     }, [window.location.pathname]);
 
     return (
-        <Box sx={{ backgroundColor: "#009ddf" }}>
-            <Tabs
-                value={selectedUrl}
-                centered
-                aria-label="Navigation Tabs"
-                role="navigation"
-                selectionFollowsFocus
-                sx={{
-                    "& .MuiTab-root": {
-                        height: "20px",
-                        padding: "35px 40px",
-                        color: "#fff",
-                        backgroundColor: "#009ddf",
+        <div style={{ paddingBottom: "90px" }}>
+            <Box sx={{ backgroundColor: "#009ddf", position: "fixed", width: "100%", opacity: 1, zIndex: 100 }}>
+                <Tabs
+                    value={selectedUrl}
+                    centered
+                    aria-label="Navigation Tabs"
+                    role="navigation"
+                    selectionFollowsFocus
+                    sx={{
+                        "& .MuiTab-root": {
+                            height: "20px",
+                            padding: "35px 40px",
+                            color: "#fff",
+                            backgroundColor: "#009ddf",
                         "&:hover": {
                             backgroundColor: "#1976d2",
                             opacity: 0.9
                         }
-                    },
-                    "& .Mui-selected": {
-                        color: "#fff !important",
-                        backgroundColor: "#1976d2"
-                    }
-                }}
-            >
-                <Link href={route("employees.index")} value="/employees">
-                    <Tab
-                        className={selectedUrl === "/employees" ? "Mui-selected" : ""}
-                        label="Employees"
-                        value="/employees"
-                        aria-label="Employees Page"
-                    />
-                </Link>
-                <Link href="/equipment" onClick={e => e.preventDefault()} value={"/equipment"}>
-                    <Tab
-                        label="Equipment"
-                        aria-label="Equipment Page"
-                        component="button"
+                        },
+                        "& .Mui-selected": {
+                            color: "#fff !important",
+                            backgroundColor: "#1976d2"
+                        }
+                    }}
+                >
+                    <Link href={route("employees.index")} value="/employees">
+                        <Tab
+                            className={selectedUrl === "/employees" ? "Mui-selected" : ""}
+                            label="Employees"
+                            value="/employees"
+                            aria-label="Employees Page"
+                        />
+                    </Link>
+                    <Link href="/equipment" onClick={e => e.preventDefault()} value={"/equipment"}>
+                        <Tab
+                                label="Equipment"
+                                aria-label="Equipment Page"
+                            component="button"
                         value="/equipment"
                         className={selectedUrl.includes("/equipment") ? "Mui-selected" : ""}
                         onClick={e => {
@@ -74,24 +75,24 @@ const NavigationBar = () => {
                             handleClick(e);
                         }}
                     />
-                </Link>
-                <Link href={route("teams.index")} value="/teams">
-                    <Tab
-                        className={selectedUrl === "/teams" ? "Mui-selected" : ""}
-                        label="Teams"
-                        value="/teams"
-                        aria-label="Phone Page"
-                    />
-                </Link>
+                    </Link>
+                    <Link href={route("teams.index")} value="/teams">
+                        <Tab
+                            className={selectedUrl === "/teams" ? "Mui-selected" : ""}
+                            label="Teams"
+                            value="/teams"
+                            aria-label="Phone Page"
+                        />
+                    </Link>
 
-                <Link href={route("logs.index")} value="/logs">
-                    <Tab
-                        className={selectedUrl === "/logs" ? "Mui-selected" : ""}
-                        label="Logs"
-                        value="/logs"
-                        aria-label="Logs Page"
-                    />
-                </Link>
+                    <Link href={route("logs.index")} value="/logs">
+                        <Tab
+                            className={selectedUrl === "/logs" ? "Mui-selected" : ""}
+                            label="Logs"
+                            value="/logs"
+                            aria-label="Logs Page"
+                        />
+                    </Link>
 
                 <Menu
                     anchorEl={anchorEl}
@@ -164,8 +165,9 @@ const NavigationBar = () => {
                         </Link>
                     </MenuItem>
                 </Menu>
-            </Tabs>
-        </Box>
+                </Tabs>
+            </Box>
+        </div>
     );
 };
 

@@ -32,9 +32,14 @@ Route::group(['prefix' => 'teams', 'as' => 'teams.'], function () {
     Route::patch('/{team}', [\App\Http\Controllers\TeamController::class, 'update'])->name('update');
     Route::delete('/{team}', [\App\Http\Controllers\TeamController::class, 'destroy'])->name('destroy');
 });
+
 Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
     Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
+    Route::post('/', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('store');
+    Route::patch('/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('update');
+    Route::delete('/{employee}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('destroy');
 });
+
 Route::group(['prefix' => 'equipment', 'as' => 'equipment.'], function () {
     // Add view routes for each category
     Route::get('/desktops', [\App\Http\Controllers\EquipmentController::class, 'desktopsIndex'])->name('desktops');
