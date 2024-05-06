@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use App\Models\Desktop;
+use App\Models\Employee;
 use App\Models\Laptop;
 use App\Table\Column;
 use App\Table\SearchInput;
