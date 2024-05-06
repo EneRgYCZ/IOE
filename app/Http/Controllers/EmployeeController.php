@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Desktop;
+use App\Models\Laptop;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -25,8 +27,16 @@ class EmployeeController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
+        $desktops = QueryBuilder::for(Desktop::query())
+            ->paginate();
+
+        $laptops = QueryBuilder::for(Laptop::query())
+            ->paginate();
+
         return Inertia::render('Employees/index', [
             'employees' => $employees,
+            'desktops' => $desktops,
+            'laptops' => $laptops,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))

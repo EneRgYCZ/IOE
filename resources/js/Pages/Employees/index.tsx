@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { PageProps, PaginatedResponse, Employee } from "@/types";
+import { PageProps, PaginatedResponse, Employee, DesktopPC, Laptop } from "@/types";
 import React from "react";
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -8,7 +8,15 @@ import { Link } from "@inertiajs/react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
 
-const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Employee> }>) => {
+const Employees = ({
+    employees,
+    desktops,
+    laptops
+}: PageProps<{
+    employees: PaginatedResponse<Employee>;
+    desktops: PaginatedResponse<DesktopPC>;
+    laptops: PaginatedResponse<Laptop>;
+}>) => {
     const tableButtonMargins = {
         marginRight: "10px"
     };
@@ -21,6 +29,8 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
+
+    const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(desktops.data, laptops.data);
 
     return (
         <GuestLayout>
@@ -51,12 +61,13 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
-            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} />
+            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} equipment={equipment} />
 
             <EditEmployee
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
                 employee={empEdit}
+                equipment={equipment}
                 onSubmit={(e, form) => {
                     e.preventDefault();
                     if (empEdit) {

@@ -1,9 +1,10 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
+import { DesktopPC, Laptop } from "@/types";
 
-const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
+const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipment: (DesktopPC | Laptop)[] }) => {
     const defaultValues = {
         first_name: "",
         last_name: ""
@@ -105,6 +106,17 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id="equipment"
+                        options={props.equipment}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.serial_number}
+                        defaultValue={[]}
+                        filterSelectedOptions
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Equipment serial numbers" />}
                     />
 
                     <Button variant="contained" sx={submitButtonStyle} type={"submit"}>

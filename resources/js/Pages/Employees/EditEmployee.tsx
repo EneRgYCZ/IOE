@@ -1,8 +1,8 @@
 import React, { FormEvent } from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Employee } from "../../types/index";
+import { DesktopPC, Employee, Laptop } from "@/types";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -12,6 +12,7 @@ const EditEmployee = (props: {
     isOpen: boolean;
     handleClose: () => void;
     employee: Employee | null;
+    equipment: (DesktopPC | Laptop)[];
     onSubmit: (e: FormEvent, form: InertiaFormProps) => void;
 }) => {
     const modalStyle: React.CSSProperties = {
@@ -101,6 +102,17 @@ const EditEmployee = (props: {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id="equipment"
+                        options={props.equipment}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.serial_number}
+                        defaultValue={[]}
+                        filterSelectedOptions
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Equipment serial numbers" />}
                     />
 
                     <Button variant="contained" type={"submit"}>
