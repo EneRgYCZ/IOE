@@ -45,14 +45,6 @@ const Equipment = ({
                     <Typography variant="h4" sx={{ m: 2 }}>
                         Desktops
                     </Typography>
-                    <div style={{ display: "flex", gap: 8, marginRight: 15 }}>
-                        <Button onClick={() => {}} variant="outlined">
-                            Maybe the add button here
-                        </Button>
-                        <Button onClick={() => {}} variant="outlined">
-                            Maybe more idk if needed
-                        </Button>
-                    </div>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
