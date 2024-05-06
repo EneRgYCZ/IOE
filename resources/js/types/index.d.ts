@@ -115,7 +115,7 @@ export interface MeetingRoomLaptop {
     updated_at: string;
 }
 
-export type ActivityLog = BaseActivityLog | UpdateActivityLog;
+export type ActivityLog = BaseActivityLog | UpdateActivityLog | DeleteActivityLog;
 
 export type BaseActivityLog = {
     id: number;
@@ -130,6 +130,25 @@ export type BaseActivityLog = {
     causer: User | null;
     properties: {
         attributes: Record<string, unknown>;
+    };
+    batch_uuid: string;
+    created_at: string;
+    updated_at: string;
+};
+
+export type DeleteActivityLog = {
+    id: number;
+    log_name: string;
+    description: string;
+    subject_type: string;
+    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | null;
+    event: string;
+    subject_id: number;
+    causer_type: string;
+    causer_id: number;
+    causer: User | null;
+    properties: {
+        old: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop;
     };
     batch_uuid: string;
     created_at: string;
