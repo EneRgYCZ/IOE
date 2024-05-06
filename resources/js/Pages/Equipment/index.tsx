@@ -71,7 +71,15 @@ const Equipment = ({
                                 >
                                     EDIT
                                 </Button>
-                                <Link href={route("equipment.destroyDesktop", desktop.id)} method="delete">
+                                <Link
+                                    href={route("equipment.destroyDesktop", desktop.id)}
+                                    method="delete"
+                                    onBefore={() =>
+                                        window.confirm(
+                                            "Are you sure that you want to eliminate this piece of equipment?"
+                                        )
+                                    }
+                                >
                                     <Button variant="contained" color="error">
                                         DELETE
                                     </Button>
@@ -96,7 +104,15 @@ const Equipment = ({
                                 >
                                     EDIT
                                 </Button>
-                                <Link href={route("equipment.destroyLaptop", laptop.id)} method="delete">
+                                <Link
+                                    href={route("equipment.destroyLaptop", laptop.id)}
+                                    method="delete"
+                                    onBefore={() =>
+                                        window.confirm(
+                                            "Are you sure that you want to eliminate this piece of equipment?"
+                                        )
+                                    }
+                                >
                                     <Button variant="contained" color="error">
                                         DELETE
                                     </Button>
@@ -124,6 +140,11 @@ const Equipment = ({
                                 <Link
                                     href={route("equipment.destroyMeetingRoomLaptop", meetingRoomLaptop.id)}
                                     method="delete"
+                                    onBefore={() =>
+                                        window.confirm(
+                                            "Are you sure that you want to eliminate this piece of equipment?"
+                                        )
+                                    }
                                 >
                                     <Button variant="contained" color="error">
                                         DELETE
