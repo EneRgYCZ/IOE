@@ -43,8 +43,8 @@ class EmployeeController extends Controller
             'first_name' => ['required', 'max:20'],
             'last_name' => ['required', 'max:20'],
         ]));
-        return redirect(route('employees.index'));
 
+        return redirect(route('employees.index'));
     }
 
     public function update(Request $request, Employee $employee)

@@ -78,16 +78,11 @@ const EditEmployee = (props: {
             ...data,
             [key]: value
         }));
-        if(e.target.validity.valid)
-            setFirstNameError(false);
-        else
-            setFirstNameError(true);
+        if (e.target.validity.valid) setFirstNameError(false);
+        else setFirstNameError(true);
 
-        if(value=="")
-            setEmptyFirstNameError(true);
-        else
-            setEmptyFirstNameError(false);
-
+        if (value == "") setEmptyFirstNameError(true);
+        else setEmptyFirstNameError(false);
     };
     const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -96,16 +91,11 @@ const EditEmployee = (props: {
             ...data,
             [key]: value
         }));
-        if(e.target.validity.valid)
-            setLastNameError(false);
-        else
-            setLastNameError(true);
+        if (e.target.validity.valid) setLastNameError(false);
+        else setLastNameError(true);
 
-        if(value=="")
-            setEmptyLastNameError(true);
-        else
-            setEmptyLastNameError(false);
-
+        if (value == "") setEmptyLastNameError(true);
+        else setEmptyLastNameError(false);
     };
 
     return (
@@ -120,9 +110,16 @@ const EditEmployee = (props: {
                     <TextField
                         id={"first_name"}
                         value={data.first_name}
-                        required onChange={handleFirstNameChange}
-                        error={firstNameError||emptyFirstNameError}
-                        helperText = {emptyFirstNameError ? "Required Field" : firstNameError? "Employee's first name should only contain letters":""}
+                        required
+                        onChange={handleFirstNameChange}
+                        error={firstNameError || emptyFirstNameError}
+                        helperText={
+                            emptyFirstNameError
+                                ? "Required Field"
+                                : firstNameError
+                                  ? "Employee's first name should only contain letters"
+                                  : ""
+                        }
                         inputProps={{
                             pattern: "[A-Z a-z]+"
                         }}
@@ -134,9 +131,16 @@ const EditEmployee = (props: {
                     <TextField
                         id={"last_name"}
                         value={data.last_name}
-                        required onChange={handleLastNameChange}
+                        required
+                        onChange={handleLastNameChange}
                         error={lastNameError}
-                        helperText={emptyLastNameError ? "Required Field" : lastNameError? "Employee's last name should only contain letters":""}
+                        helperText={
+                            emptyLastNameError
+                                ? "Required Field"
+                                : lastNameError
+                                  ? "Employee's last name should only contain letters"
+                                  : ""
+                        }
                         inputProps={{
                             pattern: "[A-Z a-z]+"
                         }}

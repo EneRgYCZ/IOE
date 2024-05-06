@@ -67,7 +67,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
     const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
     const [emptyLastNameError, setEmptyLastNameError] = React.useState(false);
 
-    
     const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -75,16 +74,11 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
             ...data,
             [key]: value
         }));
-        if(e.target.validity.valid)
-            setFirstNameError(false);
-        else
-            setFirstNameError(true);
+        if (e.target.validity.valid) setFirstNameError(false);
+        else setFirstNameError(true);
 
-        if(value=="")
-            setEmptyFirstNameError(true);
-        else
-            setEmptyFirstNameError(false);
-
+        if (value == "") setEmptyFirstNameError(true);
+        else setEmptyFirstNameError(false);
     };
     const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -93,15 +87,11 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
             ...data,
             [key]: value
         }));
-        if(e.target.validity.valid)
-            setLastNameError(false);
-        else
-            setLastNameError(true);
+        if (e.target.validity.valid) setLastNameError(false);
+        else setLastNameError(true);
 
-        if(value=="")
-                setEmptyLastNameError(true);
-        else
-                setEmptyLastNameError(false);
+        if (value == "") setEmptyLastNameError(true);
+        else setEmptyLastNameError(false);
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -134,12 +124,19 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                     <TextField
                         id={"first_name"}
                         value={data.first_name}
-                        required onChange={handleFirstNameChange}
-                        error={firstNameError||emptyFirstNameError}
-                        helperText={emptyFirstNameError ? "Required Field" : firstNameError ? "Employee's first name should only contain letters" :""}
+                        required
+                        onChange={handleFirstNameChange}
+                        error={firstNameError || emptyFirstNameError}
+                        helperText={
+                            emptyFirstNameError
+                                ? "Required Field"
+                                : firstNameError
+                                  ? "Employee's first name should only contain letters"
+                                  : ""
+                        }
                         inputProps={{
-                                pattern: "[A-Z a-z]+"
-                            }}
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="First Name"
                         variant="outlined"
@@ -148,12 +145,19 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                     <TextField
                         id={"last_name"}
                         value={data.last_name}
-                        required onChange={handleLastNameChange}
+                        required
+                        onChange={handleLastNameChange}
                         error={lastNameError || emptyLastNameError}
-                        helperText={emptyLastNameError ? "Required Field" : lastNameError ? "Employee's last name should only contain letters" : ""}
+                        helperText={
+                            emptyLastNameError
+                                ? "Required Field"
+                                : lastNameError
+                                  ? "Employee's last name should only contain letters"
+                                  : ""
+                        }
                         inputProps={{
-                                pattern: "[A-Z a-z]+"
-                            }}
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
