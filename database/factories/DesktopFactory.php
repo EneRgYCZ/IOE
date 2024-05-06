@@ -17,7 +17,10 @@ class DesktopFactory extends Factory
     public function definition(): array
     {
         return [
-            'serial_number' => $this->faker->randomNumber(8),
+            'full_number_identifier' => $this->faker->randomNumber(8),
+            'pc_number' => $this->faker->randomNumber(4),
+            'location' => $this->faker->randomElement(['ghh', 'waagstraat']),
+            'side' => $this->faker->randomElement(['north', 'south']),
             'double_pc' => $this->faker->boolean(),
             'needs_dock' => $this->faker->boolean(),
             'status' => $this->faker->randomElement(['flex', 'static']),
@@ -25,6 +28,7 @@ class DesktopFactory extends Factory
             'island_number' => $this->faker->numberBetween(1, 10),
             'workspace_type' => $this->faker->randomElement(['developer', 'non-developer']),
             'updated_in_q1' => $this->faker->boolean(),
+            'remarks' => null,
             'employee_id' => null,
         ];
     }

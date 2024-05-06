@@ -1,20 +1,32 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, FormControlLabel, Switch, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { MeetingRoomLaptop } from "@/types";
+import MeetingRoomLaptopForm from "@/Components/Equipment/MeetingRoomLaptopForm";
 
 const EditMeetingRoomLaptop = (props: {
     isOpen: boolean;
     handleClose: () => void;
     meetingRoomLaptop: MeetingRoomLaptop | null;
 }) => {
-    const { data, setData, patch } = useForm({
-        serial_number: props.meetingRoomLaptop?.serial_number,
-        floor: props.meetingRoomLaptop?.floor,
-        room_number: props.meetingRoomLaptop?.room_number,
-        updated_in_q1: props.meetingRoomLaptop?.updated_in_q1
+    const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<MeetingRoomLaptop>({
+        full_number_identifier: props.meetingRoomLaptop ? props.meetingRoomLaptop.full_number_identifier : "",
+        laptop_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.laptop_number : "",
+        location: props.meetingRoomLaptop ? props.meetingRoomLaptop.location : "",
+        side: props.meetingRoomLaptop ? props.meetingRoomLaptop.side : "",
+        floor: props.meetingRoomLaptop ? props.meetingRoomLaptop.floor : undefined,
+        room_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.room_number : undefined,
+        updated_in_q1: props.meetingRoomLaptop ? props.meetingRoomLaptop.updated_in_q1 : false,
+        remarks: props.meetingRoomLaptop ? props.meetingRoomLaptop.remarks : ""
     });
+
+    React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
 
     React.useEffect(() => {
         if (props.meetingRoomLaptop !== null) {
@@ -22,17 +34,7 @@ const EditMeetingRoomLaptop = (props: {
         }
     }, [props.meetingRoomLaptop]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.id;
-        const value = e.target.type === "text" ? e.target.value : e.target.checked;
-        setData(data => ({
-            ...data,
-            [key]: value
-        }));
-    };
-
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const submit = () => {
         if (props.meetingRoomLaptop) {
             patch(route("equipment.updateMeetingRoomLaptop", props.meetingRoomLaptop.id));
             props.handleClose();
@@ -44,13 +46,10 @@ const EditMeetingRoomLaptop = (props: {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        overflowY: "auto",
+        maxHeight: "80%",
         backgroundColor: "white",
         padding: "20px"
-    };
-
-    const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
     };
 
     return (
@@ -59,47 +58,7 @@ const EditMeetingRoomLaptop = (props: {
                 <Typography variant="h5" gutterBottom>
                     Edit Meeting Room Laptop
                 </Typography>
-                <form onSubmit={submit}>
-                    <TextField
-                        id={"serial_number"}
-                        value={data.serial_number}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Serial number"
-                        variant="outlined"
-                    />
-                    <TextField
-                        id={"floor"}
-                        value={data.floor}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Floor"
-                        variant="outlined"
-                    />
-                    <TextField
-                        id={"room_number"}
-                        value={data.room_number}
-                        onChange={handleChange}
-                        sx={fieldStyle}
-                        label="Room number"
-                        variant="outlined"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                defaultChecked
-                                checked={data.updated_in_q1}
-                                id={"updated_in_q1"}
-                                onChange={handleChange}
-                            />
-                        }
-                        sx={fieldStyle}
-                        label="Updated in Q1"
-                    />
-                    <Button variant="contained" type={"submit"}>
-                        Submit
-                    </Button>
-                </form>
+                <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
             </Box>
         </Modal>
     );

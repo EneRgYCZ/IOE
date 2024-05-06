@@ -2,7 +2,7 @@ import React, { FormEvent } from "react";
 import Modal from "@mui/material/Modal";
 import { Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Employee } from "../../types/index";
+import { Employee } from "@/types";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
