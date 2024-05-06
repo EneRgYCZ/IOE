@@ -31,7 +31,7 @@ const MeetingRoomLaptopForm = (props: {
         floor: false
     });
 
-    const validation = (e: React.FormEvent<HTMLFormElement>) => {
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setErrors({
@@ -72,13 +72,14 @@ const MeetingRoomLaptopForm = (props: {
     };
 
     return (
-        <form onSubmit={validation}>
+        <form onSubmit={submit}>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number*"
+                label="Full number"
+                required
                 variant="outlined"
                 error={errors.full_number_identifier}
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
@@ -88,19 +89,20 @@ const MeetingRoomLaptopForm = (props: {
                 value={props.data.laptop_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Laptop Number*"
+                label="Laptop Number"
+                required
                 variant="outlined"
                 error={errors.laptop_number}
                 helperText={errors.laptop_number ? "This field is mandatory" : ""}
             />
-            <FormControl sx={fieldStyle}>
+            <FormControl sx={fieldStyle} required>
                 <InputLabel id="location_label" error={errors.location}>
-                    Location*
+                    Location
                 </InputLabel>
                 <Select
                     labelId="location_label"
                     name="location"
-                    label="Location*"
+                    label="Location"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -112,13 +114,13 @@ const MeetingRoomLaptopForm = (props: {
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="side_label" error={errors.side}>
-                    Side*
+                <InputLabel id="side_label" error={errors.side} required>
+                    Side
                 </InputLabel>
                 <Select
                     labelId="side_label"
                     name="side"
-                    label="Side*"
+                    label="Side"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -134,7 +136,8 @@ const MeetingRoomLaptopForm = (props: {
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor*"
+                label="Floor"
+                required
                 variant="outlined"
                 error={errors.floor}
                 helperText={errors.floor ? "This field is mandatory" : ""}
@@ -150,7 +153,6 @@ const MeetingRoomLaptopForm = (props: {
             <FormControlLabel
                 control={
                     <Switch
-                        defaultChecked
                         checked={props.data.updated_in_q1}
                         id={"updated_in_q1"}
                         onChange={handleChange}

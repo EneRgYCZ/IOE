@@ -29,7 +29,7 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
         island_number: false
     });
 
-    const validation = (e: React.FormEvent<HTMLFormElement>) => {
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setErrors({
@@ -60,6 +60,10 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
             ...props.data,
             [key]: value
         });
+        setErrors({
+            ...errors,
+            [key]: !e.target.validity.valid
+        })
     };
 
     const handleSelectChange = (e: SelectChangeEvent) => {
@@ -72,13 +76,14 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
     };
 
     return (
-        <form onSubmit={validation}>
+        <form onSubmit={submit}>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number*"
+                label="Full number"
+                required
                 variant="outlined"
                 error={errors.full_number_identifier}
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
@@ -88,19 +93,20 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 value={props.data.laptop_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Laptop Number*"
+                label="Laptop Number"
+                required
                 variant="outlined"
                 error={errors.laptop_number}
                 helperText={errors.laptop_number ? "This field is mandatory" : ""}
             />
-            <FormControl sx={fieldStyle}>
+            <FormControl sx={fieldStyle} required>
                 <InputLabel id="location_label" error={errors.location}>
-                    Location*
+                    Location
                 </InputLabel>
                 <Select
                     labelId="location_label"
                     name="location"
-                    label="Location*"
+                    label="Location"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -111,14 +117,14 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 </Select>
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
-            <FormControl sx={fieldStyle}>
+            <FormControl sx={fieldStyle} required>
                 <InputLabel id="side_label" error={errors.side}>
-                    Side*
+                    Side
                 </InputLabel>
                 <Select
                     labelId="side_label"
                     name="side"
-                    label="Side*"
+                    label="Side"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -149,7 +155,8 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor*"
+                label="Floor"
+                required
                 variant="outlined"
                 error={errors.floor}
                 helperText={errors.floor ? "This field is mandatory" : ""}
@@ -159,7 +166,8 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 value={props.data.island_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Island number*"
+                label="Island number"
+                required
                 variant="outlined"
                 error={errors.island_number}
                 helperText={errors.island_number ? "This field is mandatory" : ""}
@@ -181,7 +189,6 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
             <FormControlLabel
                 control={
                     <Switch
-                        defaultChecked
                         checked={props.data.updated_in_q1}
                         id={"updated_in_q1"}
                         onChange={handleChange}
@@ -204,7 +211,13 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 getOptionLabel={(employee: Employee) =>
                     employee.first_name + " " + employee.last_name
                 }
-                defaultValue={null}
+                value={ props.data.employee_id ? props.employees.find((emp) => emp.id == props.data.employee_id) : null }
+                onChange={(_event: React.SyntheticEvent, selectedEmployee: Employee | null) => {
+                    props.setData({
+                        ...props.data,
+                        ["employee_id"]: selectedEmployee ? selectedEmployee.id : undefined
+                    });
+                }}
                 filterSelectedOptions
                 sx={fieldStyle}
                 renderInput={params => <TextField {...params} label="Employee" />}
