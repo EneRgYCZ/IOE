@@ -1,7 +1,7 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell } from "@mui/material";
+import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { Link } from "@inertiajs/react";
 import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
@@ -32,11 +32,7 @@ const Equipment = ({
     };
 
     const [formOpen, setFormOpen] = React.useState({
-        addDesktop: false,
-        addLaptop: false,
         addMeetingRoomLaptop: false,
-        editDesktop: false,
-        editLaptop: false,
         editMeetingRoomLaptop: false
     });
 
@@ -44,36 +40,41 @@ const Equipment = ({
 
     return (
         <GuestLayout>
-            <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <Card variant="outlined" sx={{ width: "90%", alignItems: "center" }}>
-                    <Table<MeetingRoomLaptop>
-                        name="meetingRoomLaptops"
-                        data={meetingRoomLaptops}
-                        actionRenderer={meetingRoomLaptop => (
-                            <TableCell align="center">
-                                <Button
-                                    variant="contained"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setCurrentMeetingRoomLaptop(meetingRoomLaptop);
-                                        setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
-                                    }}
-                                >
-                                    EDIT
-                                </Button>
-                                <Link
-                                    href={route("equipment.destroyMeetingRoomLaptop", meetingRoomLaptop.id)}
-                                    method="delete"
-                                >
-                                    <Button variant="contained" color="error">
-                                        DELETE
+            <Card variant="outlined" sx={{ width: "70%" }}>
+                <Typography variant="h4" sx={{ m: 1 }}>
+                    Meeting Room Laptops
+                </Typography>
+                <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
+                        <Table<MeetingRoomLaptop>
+                            name="meetingRoomLaptops"
+                            data={meetingRoomLaptops}
+                            actionRenderer={meetingRoomLaptop => (
+                                <TableCell align="center">
+                                    <Button
+                                        variant="contained"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentMeetingRoomLaptop(meetingRoomLaptop);
+                                            setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
+                                        }}
+                                    >
+                                        EDIT
                                     </Button>
-                                </Link>
-                            </TableCell>
-                        )}
-                    />
-                </Card>
-            </Box>
+                                    <Link
+                                        href={route("equipment.destroyMeetingRoomLaptop", meetingRoomLaptop.id)}
+                                        method="delete"
+                                    >
+                                        <Button variant="contained" color="error">
+                                            DELETE
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            )}
+                        />
+                    </Box>
+                </Box>
+            </Card>
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"

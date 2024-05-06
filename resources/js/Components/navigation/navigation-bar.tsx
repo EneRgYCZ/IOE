@@ -18,7 +18,15 @@ const NavigationBar = () => {
     };
 
     useEffect(() => {
-        setSelectedUrl(window.location.pathname);
+        if (
+            window.location.pathname.includes("/desktops") ||
+            window.location.pathname.includes("/laptops") ||
+            window.location.pathname.includes("/meeting-room-laptops")
+        ) {
+            setSelectedUrl("/equipment");
+        } else {
+            setSelectedUrl(window.location.pathname);
+        }
     }, [window.location.pathname]);
 
     return (
@@ -54,14 +62,17 @@ const NavigationBar = () => {
                         aria-label="Employees Page"
                     />
                 </Link>
-                <Link href="#" onClick={e => e.preventDefault()}>
+                <Link href="/equipment" onClick={e => e.preventDefault()} value={"/equipment"}>
                     <Tab
                         label="Equipment"
                         aria-label="Equipment Page"
                         component="button"
                         value="/equipment"
-                        onMouseOverCapture={handleClick}
                         className={selectedUrl.includes("/equipment") ? "Mui-selected" : ""}
+                        onClick={e => {
+                            e.preventDefault();
+                            handleClick(e);
+                        }}
                     />
                 </Link>
                 <Link href={route("teams.index")} value="/teams">
@@ -92,20 +103,18 @@ const NavigationBar = () => {
                 >
                     <MenuItem
                         sx={{
-                            backgroundColor: "#009ddf",
+                            backgroundColor: "#fff",
                             "&:hover": {
-                                backgroundColor: "#1976d2",
-                                opacity: 0.9,
-                                "& .MuiTab-root": {
-                                    color: "#fff"
-                                }
+                                backgroundColor: "#ddd"
                             }
                         }}
                         onClick={handleClose}
                     >
                         <Link href={route("equipment.desktops")} value="/equipment/desktops">
                             <Tab
-                                className={selectedUrl === "/equipment/desktops" ? "Mui-selected" : ""}
+                                className={
+                                    window.location.pathname.includes("/equipment/desktops") ? "Mui-selected" : ""
+                                }
                                 label="Desktops"
                                 value="/equipment/desktops"
                                 aria-label="Desktops"
@@ -114,21 +123,18 @@ const NavigationBar = () => {
                     </MenuItem>
                     <MenuItem
                         sx={{
-                            backgroundColor: "#009ddf",
+                            backgroundColor: "#fff",
                             "&:hover": {
-                                backgroundColor: "#1976d2",
-                                opacity: 0.9,
-                                "& .MuiTab-root": {
-                                    // Targeting the Tab component directly
-                                    color: "#fff" // Ensuring text color changes on hover
-                                }
+                                backgroundColor: "#ddd"
                             }
                         }}
                         onClick={handleClose}
                     >
                         <Link href={route("equipment.laptops")} value="/equipment/laptops">
                             <Tab
-                                className={selectedUrl === "/equipment/laptops" ? "Mui-selected" : ""}
+                                className={
+                                    window.location.pathname.includes("/equipment/laptops") ? "Mui-selected" : ""
+                                }
                                 label="Laptops"
                                 value="/equipment/laptops"
                                 aria-label="Laptops"
@@ -137,21 +143,20 @@ const NavigationBar = () => {
                     </MenuItem>
                     <MenuItem
                         sx={{
-                            backgroundColor: "#009ddf",
+                            backgroundColor: "#fff",
                             "&:hover": {
-                                backgroundColor: "#1976d2",
-                                opacity: 0.9,
-                                "& .MuiTab-root": {
-                                    // Targeting the Tab component directly
-                                    color: "#fff" // Ensuring text color changes on hover
-                                }
+                                backgroundColor: "#ddd"
                             }
                         }}
                         onClick={handleClose}
                     >
                         <Link href={route("equipment.meeting-room-laptops")} value="/equipment/meeting-room-laptops">
                             <Tab
-                                className={selectedUrl === "/equipment/meeting-room-laptops" ? "Mui-selected" : ""}
+                                className={
+                                    window.location.pathname.includes("/equipment/meeting-room-laptops")
+                                        ? "Mui-selected"
+                                        : ""
+                                }
                                 label="Meeting Room Laptops"
                                 value="/equipment/meeting-room-laptops"
                                 aria-label="meeting-room-laptops"

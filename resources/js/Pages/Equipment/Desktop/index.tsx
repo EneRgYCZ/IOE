@@ -1,7 +1,7 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { DesktopPC, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell } from "@mui/material";
+import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { Link } from "@inertiajs/react";
 import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
@@ -40,33 +40,48 @@ const Equipment = ({
 
     return (
         <GuestLayout>
-            <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <Card variant="outlined" sx={{ width: "90%", alignItems: "center", marginBottom: "30px" }}>
-                    <Table<DesktopPC>
-                        name="desktops"
-                        data={desktops}
-                        actionRenderer={desktop => (
-                            <TableCell align="center">
-                                <Button
-                                    variant="contained"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setCurrentDesktop(desktop);
-                                        setFormOpen({ ...formOpen, editDesktop: true });
-                                    }}
-                                >
-                                    EDIT
-                                </Button>
-                                <Link href={route("equipment.destroyDesktop", desktop.id)} method="delete">
-                                    <Button variant="contained" color="error">
-                                        DELETE
+            <Card variant="outlined" sx={{ width: "70%" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Desktops
+                    </Typography>
+                    <div style={{ display: "flex", gap: 8, marginRight: 15 }}>
+                        <Button onClick={() => {}} variant="outlined">
+                            Maybe the add button here
+                        </Button>
+                        <Button onClick={() => {}} variant="outlined">
+                            Maybe more idk if needed
+                        </Button>
+                    </div>
+                </Box>
+                <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                        <Table<DesktopPC>
+                            name="desktops"
+                            data={desktops}
+                            actionRenderer={desktop => (
+                                <TableCell align="center">
+                                    <Button
+                                        variant="contained"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentDesktop(desktop);
+                                            setFormOpen({ ...formOpen, editDesktop: true });
+                                        }}
+                                    >
+                                        EDIT
                                     </Button>
-                                </Link>
-                            </TableCell>
-                        )}
-                    />
-                </Card>
-            </Box>
+                                    <Link href={route("equipment.destroyDesktop", desktop.id)} method="delete">
+                                        <Button variant="contained" color="error">
+                                            DELETE
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            )}
+                        />
+                    </Box>
+                </Box>
+            </Card>
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"

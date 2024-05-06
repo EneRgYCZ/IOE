@@ -1,7 +1,7 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell } from "@mui/material";
+import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { Link } from "@inertiajs/react";
 import AddLaptop from "@/Pages/Equipment/Laptop/AddLaptop";
@@ -44,33 +44,38 @@ const Equipment = ({
 
     return (
         <GuestLayout>
-            <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <Card variant="outlined" sx={{ width: "90%", alignItems: "center", marginBottom: "30px" }}>
-                    <Table<Laptop>
-                        name="laptops"
-                        data={laptops}
-                        actionRenderer={laptop => (
-                            <TableCell align="center">
-                                <Button
-                                    variant="contained"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setCurrentLaptop(laptop);
-                                        setFormOpen({ ...formOpen, editLaptop: true });
-                                    }}
-                                >
-                                    EDIT
-                                </Button>
-                                <Link href={route("equipment.destroyLaptop", laptop.id)} method="delete">
-                                    <Button variant="contained" color="error">
-                                        DELETE
+            <Card variant="outlined" sx={{ width: "70%" }}>
+                <Typography variant="h4" sx={{ m: 1 }}>
+                    Laptops
+                </Typography>
+                <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                        <Table<Laptop>
+                            name="laptops"
+                            data={laptops}
+                            actionRenderer={laptop => (
+                                <TableCell align="center">
+                                    <Button
+                                        variant="contained"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentLaptop(laptop);
+                                            setFormOpen({ ...formOpen, editLaptop: true });
+                                        }}
+                                    >
+                                        EDIT
                                     </Button>
-                                </Link>
-                            </TableCell>
-                        )}
-                    />
-                </Card>
-            </Box>
+                                    <Link href={route("equipment.destroyLaptop", laptop.id)} method="delete">
+                                        <Button variant="contained" color="error">
+                                            DELETE
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            )}
+                        />
+                    </Box>
+                </Box>
+            </Card>
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"
