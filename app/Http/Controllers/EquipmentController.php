@@ -18,7 +18,7 @@ class EquipmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function desktopsIndex()
     {
         $desktops = QueryBuilder::for(Desktop::query())
             ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'type', 'updated_in_q1', 'remarks', 'employee_id')
@@ -41,45 +41,8 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $laptops = QueryBuilder::for(Laptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
-            ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'updated_in_q1',
-                'remarks',
-                'employee_id',
-            )
-            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-            ->withQueryString();
-
-        $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
-            ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'floor',
-                'room_number',
-                'updated_in_q1',
-                'remarks',
-            )
-            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-            ->withQueryString();
-
-        return Inertia::render('Equipment/index', [
+        return Inertia::render('Equipment/Desktop/index', [
             'desktops' => $desktops,
-            'laptops' => $laptops,
-            'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
             $table->setName('desktops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
@@ -101,15 +64,41 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
                 ->addSearchInput(new SearchInput('side', 'Side', shown: true))
                 ->addSearchInput(new SearchInput('double_pc', 'Double PC', shown: false))
-                ->addSearchInput(new SearchInput('needs_dock', 'Needs Dock', shown: true))
+                ->addSearchInput(new SearchInput('needs_dock', 'Needs Dock', shown: false))
                 ->addSearchInput(new SearchInput('status', 'Status', shown: false))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
+                ->addSearchInput(new SearchInput('floor', 'Floor', shown: false))
+                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: false))
+                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: false))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: false))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
-        })->table(function (Table $table) {
+        });
+    }
+
+    public function laptopsIndex()
+    {
+        $laptops = QueryBuilder::for(Laptop::query())
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedFilters(
+                'id',
+                'full_number_identifier',
+                'laptop_number',
+                'location',
+                'side',
+                'status',
+                'floor',
+                'island_number',
+                'workspace_type',
+                'updated_in_q1',
+                'remarks',
+                'employee_id',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        return Inertia::render('Equipment/Laptop/index', [
+            'laptops' => $laptops,
+        ])->table(function (Table $table) {
             $table->setName('laptops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
@@ -128,13 +117,36 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
                 ->addSearchInput(new SearchInput('side', 'Side', shown: true))
                 ->addSearchInput(new SearchInput('status', 'Status', shown: false))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
+                ->addSearchInput(new SearchInput('floor', 'Floor', shown: false))
+                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: false))
+                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: false))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: false))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
-        })->table(function (Table $table) {
+        });
+    }
+
+    public function meetingRoomLaptopIndex()
+    {
+        $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
+            ->allowedFilters(
+                'id',
+                'full_number_identifier',
+                'laptop_number',
+                'location',
+                'side',
+                'floor',
+                'room_number',
+                'updated_in_q1',
+                'remarks',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        return Inertia::render('Equipment/index', [
+            'meetingRoomLaptops' => $meetingRoomLaptops,
+        ])->table(function (Table $table) {
             $table->setName('meetingRoomLaptops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
@@ -154,14 +166,6 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false));
         });
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -185,7 +189,7 @@ class EquipmentController extends Controller
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.desktops'));
     }
 
     public function storeLaptop(Request $request)
@@ -204,7 +208,7 @@ class EquipmentController extends Controller
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.laptops'));
     }
 
     public function storeMeetingRoomLaptop(Request $request)
@@ -220,23 +224,7 @@ class EquipmentController extends Controller
             'remarks' => [],
         ]));
 
-        return redirect(route('equipment.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit()
-    {
-        //
+        return redirect(route('equipment.meeting-room-laptops'));
     }
 
     /**
@@ -260,7 +248,7 @@ class EquipmentController extends Controller
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.desktops'));
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
@@ -279,7 +267,7 @@ class EquipmentController extends Controller
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.laptops'));
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
@@ -295,7 +283,7 @@ class EquipmentController extends Controller
             'remarks' => [],
         ]));
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.meeting-room-laptops'));
     }
 
     /**
@@ -305,20 +293,20 @@ class EquipmentController extends Controller
     {
         $desktop->delete();
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.desktops'));
     }
 
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.laptops'));
     }
 
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
 
-        return redirect(route('equipment.index'));
+        return redirect(route('equipment.meeting-room-laptops'));
     }
 }
