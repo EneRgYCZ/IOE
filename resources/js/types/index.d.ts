@@ -63,6 +63,7 @@ export interface Employee {
     id: number;
     first_name: string;
     last_name: string;
+    teams?: Team[];
     created_at: string;
     updated_at: string;
 }
@@ -71,6 +72,7 @@ export interface Team {
     id: number;
     team_name: string;
     description: string;
+    employees?: Employee[];
     created_at: string;
     updated_at: string;
 }

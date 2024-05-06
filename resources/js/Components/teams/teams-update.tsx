@@ -2,18 +2,22 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { FormLabel, Modal, Typography } from "@mui/material";
+import { Autocomplete, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Team } from "@/types";
+import { Employee, Team } from "@/types";
 
-const TeamEditForm = ({ team }: { team: Team }) => {
+const TeamEditForm = (props: { 
+        team: Team | null; 
+        employees: Employee[];
+    }) => {
     const [formOpen, setFormOpen] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
     const { data, setData, patch } = useForm({
-        team_name: team.team_name,
-        description: team.description
+        team_name: props.team?.team_name,
+        description: props.team?.description,
+        employees: props.team?.employees
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,10 +29,19 @@ const TeamEditForm = ({ team }: { team: Team }) => {
         }));
     };
 
+    const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
+        setData(data => ({ 
+            ...data, 
+            employees: value 
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        patch(route("teams.update", team.id));
-        handleFormClose();
+        if (props.team){
+            patch(route("teams.update", props.team.id));
+            handleFormClose();
+        }  
     };
 
     const formStyle = {
@@ -47,10 +60,14 @@ const TeamEditForm = ({ team }: { team: Team }) => {
     };
 
     React.useEffect(() => {
-        if (team !== null) {
-            setData(team);
+        if (props.team) {
+            setData({
+                team_name: props.team.team_name || "",
+                description: props.team.description || "",
+                employees: props.team.employees || []
+            });
         }
-    }, [team]);
+    }, [props.team]);
 
     return (
         <div>
@@ -63,7 +80,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                         Update Team
                     </Typography>
                     <form onSubmit={submit}>
-                        <FormLabel>Team Name</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
@@ -71,13 +88,27 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                             sx={fieldStyle}
                             variant="outlined"
                         />
-                        <FormLabel>Team Description</FormLabel>
+                        <FormLabel>Description</FormLabel>
                         <TextField
                             id={"description"}
                             value={data.description}
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
+                        />
+                        <FormLabel>Employees</FormLabel>
+                        <Autocomplete
+                            multiple
+                            id={"employees"}
+                            options={props.employees}
+                            getOptionLabel={(employee: Employee) =>
+                                employee.first_name + " " + employee.last_name
+                            }
+                            defaultValue={props.team ? props.team.employees : []}
+                            value={data.employees}
+                            onChange={handleEmployeeChange}
+                            sx={fieldStyle}
+                            renderInput={params => <TextField {...params}/>}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit

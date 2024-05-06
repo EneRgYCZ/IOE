@@ -2,18 +2,22 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Fab, FormLabel, Modal, Typography } from "@mui/material";
+import { Autocomplete, Fab, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
+import { Employee } from "@/types";
 
-const TeamCreateForm = () => {
+const TeamCreateForm = (props: { employees: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const { data, setData, post } = useForm({
+    const initialValues = {
         team_name: "",
-        description: ""
-    });
+        description: "",
+        employees: [] as Employee[],
+    };
+
+    const { data, setData, post } = useForm(initialValues);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -24,12 +28,20 @@ const TeamCreateForm = () => {
         }));
     };
 
+    const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
+        setData(data => ({ 
+            ...data, 
+            employees: value 
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("teams.store"));
         setData({
             team_name: "",
-            description: ""
+            description: "",
+            employees: [],
         });
         handleFormClose();
     };
@@ -66,7 +78,7 @@ const TeamCreateForm = () => {
                         Create Team
                     </Typography>
                     <form onSubmit={submit}>
-                        <FormLabel>Team Name</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
@@ -74,13 +86,27 @@ const TeamCreateForm = () => {
                             sx={fieldStyle}
                             variant="outlined"
                         />
-                        <FormLabel>Team Description</FormLabel>
+                        <FormLabel>Description</FormLabel>
                         <TextField
                             id={"description"}
                             value={data.description}
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
+                        />
+                        <FormLabel>Employees</FormLabel>
+                        <Autocomplete
+                            multiple
+                            id="employee_id"
+                            options={props.employees}
+                            getOptionLabel={(employee: Employee) =>
+                                employee.first_name + " " + employee.last_name
+                            }
+                            defaultValue={[]}
+                            value={data.employees}
+                            onChange={handleEmployeeChange}
+                            sx={fieldStyle}
+                            renderInput={params => <TextField {...params}/>}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit

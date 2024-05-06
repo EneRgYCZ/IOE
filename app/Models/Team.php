@@ -12,7 +12,7 @@ class Team extends Model
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable = ['team_name', 'description'];
+    protected $fillable = ['team_name', 'description', 'employees'];
 
     public function getActivitylogOptions(): LogOptions
     {

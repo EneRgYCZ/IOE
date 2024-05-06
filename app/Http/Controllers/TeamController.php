@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Employee;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -27,14 +28,20 @@ class TeamController extends Controller
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
+        
+        $employees = 
+            QueryBuilder::for(Employee::query())
+                -> get();
 
         return Inertia::render('Teams/index', [
             'teams' => $teams,
+            'employees' => $employees,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
+                ->addColumn(new Column('employees', 'Employees', sortable: false))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true));
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Team;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -15,18 +16,23 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees =
-        QueryBuilder::for(Employee::query())
-            ->allowedSorts('id', 'first_name', 'last_name')
-            ->allowedFilters(
-                'id',
-                'first_name',
-                'last_name',
-            )
-            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-            ->withQueryString();
+            QueryBuilder::for(Employee::query())
+                ->allowedSorts('id', 'first_name', 'last_name')
+                ->allowedFilters(
+                    'id',
+                    'first_name',
+                    'last_name',
+                )
+                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+                ->withQueryString();
+        
+        $teams = 
+            QueryBuilder::for(Team::query())
+                ->get();
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
+            'teams' => $teams,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
