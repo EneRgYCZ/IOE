@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { DesktopPC, Laptop } from "@/types";
 
 const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipment: (DesktopPC | Laptop)[] }) => {
@@ -62,13 +62,37 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
     };
 
     const { data, setData, post } = useForm(defaultValues);
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { errors } = usePage().props;
+    const [firstNameError, setFirstNameError] = React.useState(false);
+    const [lastNameError, setLastNameError] = React.useState(false);
+    const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
+    const [emptyLastNameError, setEmptyLastNameError] = React.useState(false);
+
+    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
         setData(data => ({
             ...data,
             [key]: value
         }));
+        if (e.target.validity.valid) setFirstNameError(false);
+        else setFirstNameError(true);
+
+        if (value == "") setEmptyFirstNameError(true);
+        else setEmptyFirstNameError(false);
+    };
+    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.id;
+        const value = e.target.value;
+        setData(data => ({
+            ...data,
+            [key]: value
+        }));
+        if (e.target.validity.valid) setLastNameError(false);
+        else setLastNameError(true);
+
+        if (value == "") setEmptyLastNameError(true);
+        else setEmptyLastNameError(false);
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,6 +104,14 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
         });
         props.handleClose();
     };
+
+    React.useEffect(() => {
+        if (errors.first_name) {
+            alert("The first name could not be added. " + errors.first_name);
+        } else if (errors.last_name) {
+            alert("The last name could not be added. " + errors.last_name);
+        }
+    }, [errors]);
 
     return (
         <Modal open={props.isOpen} onClose={props.handleClose}>
@@ -93,7 +125,19 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                     <TextField
                         id={"first_name"}
                         value={data.first_name}
-                        onChange={handleChange}
+                        required
+                        onChange={handleFirstNameChange}
+                        error={firstNameError || emptyFirstNameError}
+                        helperText={
+                            emptyFirstNameError
+                                ? "Required Field"
+                                : firstNameError
+                                  ? "Employee's first name should only contain letters"
+                                  : ""
+                        }
+                        inputProps={{
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="First Name"
                         variant="outlined"
@@ -102,7 +146,19 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                     <TextField
                         id={"last_name"}
                         value={data.last_name}
-                        onChange={handleChange}
+                        required
+                        onChange={handleLastNameChange}
+                        error={lastNameError || emptyLastNameError}
+                        helperText={
+                            emptyLastNameError
+                                ? "Required Field"
+                                : lastNameError
+                                  ? "Employee's last name should only contain letters"
+                                  : ""
+                        }
+                        inputProps={{
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
@@ -112,7 +168,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                         multiple
                         id="equipment"
                         options={props.equipment}
-                        getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.serial_number}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.full_number_identifier}
                         defaultValue={[]}
                         filterSelectedOptions
                         sx={inputFieldStyle}

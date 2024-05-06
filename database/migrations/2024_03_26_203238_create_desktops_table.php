@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('desktops', function (Blueprint $table) {
             $table->id();
-            $table->integer('serial_number');
-            $table->boolean('double_pc');
-            $table->boolean('needs_dock');
-            $table->enum('status', ['flex', 'static']);
+            $table->string('full_number_identifier');
+            $table->string('pc_number');
+            $table->boolean('double_pc')->nullable();
+            $table->boolean('needs_dock')->nullable();
+            $table->enum('status', ['flex', 'static'])->nullable();
+            $table->enum('location', ['ghh', 'waagstraat']);
+            $table->enum('side', ['north', 'south']);
             $table->integer('floor');
             $table->integer('island_number');
-            $table->enum('workspace_type', ['developer', 'non-developer']);
-            $table->boolean('updated_in_q1');
+            $table->enum('workspace_type', ['developer', 'non-developer'])->nullable();
+            $table->boolean('updated_in_q1')->nullable();
+            $table->string('remarks')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained();
             $table->timestamps();
         });

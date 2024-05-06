@@ -76,48 +76,56 @@ export interface Team {
 }
 
 export interface DesktopPC {
-    id: number;
-    serial_number: string;
+    id?: number;
+    full_number_identifier: string;
+    pc_number: string;
+    location: string;
+    side: string;
     double_pc: boolean;
     needs_dock: boolean;
-    location: string;
     status: string;
-    floor: number;
-    island_number: number;
+    floor?: number;
+    island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
-    employee_id: number;
-    employees?: Employee[];
-    created_at: string;
-    updated_at: string;
+    remarks?: string;
+    employee_id?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Laptop {
-    id: number;
-    serial_number: string;
+    id?: number;
+    full_number_identifier: string;
+    laptop_number: string;
     location: string;
+    side: string;
     status: string;
-    floor: number;
-    island_number: number;
+    floor?: number;
+    island_number?: number;
     workspace_type: string;
     updated_in_q1: boolean;
-    employee_id: number;
-    employees?: Employee[];
-    created_at: string;
-    updated_at: string;
+    remarks?: string;
+    employee_id?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface MeetingRoomLaptop {
-    id: number;
-    serial_number: string;
-    floor: number;
-    room_number: number;
+    id?: number;
+    full_number_identifier: string;
+    laptop_number: string;
+    location: string;
+    side: string;
+    floor?: number;
+    room_number?: number;
     updated_in_q1: boolean;
-    created_at: string;
-    updated_at: string;
+    remarks?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
-export type ActivityLog = BaseActivityLog | UpdateActivityLog;
+export type ActivityLog = BaseActivityLog | UpdateActivityLog | DeleteActivityLog;
 
 export type BaseActivityLog = {
     id: number;
@@ -132,6 +140,25 @@ export type BaseActivityLog = {
     causer: User | null;
     properties: {
         attributes: Record<string, unknown>;
+    };
+    batch_uuid: string;
+    created_at: string;
+    updated_at: string;
+};
+
+export type DeleteActivityLog = {
+    id: number;
+    log_name: string;
+    description: string;
+    subject_type: string;
+    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | null;
+    event: string;
+    subject_id: number;
+    causer_type: string;
+    causer_id: number;
+    causer: User | null;
+    properties: {
+        old: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop;
     };
     batch_uuid: string;
     created_at: string;
