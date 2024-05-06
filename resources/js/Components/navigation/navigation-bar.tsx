@@ -44,10 +44,10 @@ const NavigationBar = () => {
                             padding: "35px 40px",
                             color: "#fff",
                             backgroundColor: "#009ddf",
-                        "&:hover": {
-                            backgroundColor: "#1976d2",
-                            opacity: 0.9
-                        }
+                            "&:hover": {
+                                backgroundColor: "#1976d2",
+                                opacity: 0.9
+                            }
                         },
                         "& .Mui-selected": {
                             color: "#fff !important",
@@ -65,16 +65,16 @@ const NavigationBar = () => {
                     </Link>
                     <Link href="/equipment" onClick={e => e.preventDefault()} value={"/equipment"}>
                         <Tab
-                                label="Equipment"
-                                aria-label="Equipment Page"
+                            label="Equipment"
+                            aria-label="Equipment Page"
                             component="button"
-                        value="/equipment"
-                        className={selectedUrl.includes("/equipment") ? "Mui-selected" : ""}
-                        onClick={e => {
-                            e.preventDefault();
-                            handleClick(e);
-                        }}
-                    />
+                            value="/equipment"
+                            className={selectedUrl.includes("/equipment") ? "Mui-selected" : ""}
+                            onClick={e => {
+                                e.preventDefault();
+                                handleClick(e);
+                            }}
+                        />
                     </Link>
                     <Link href={route("teams.index")} value="/teams">
                         <Tab
@@ -94,77 +94,80 @@ const NavigationBar = () => {
                         />
                     </Link>
 
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button"
-                    }}
-                >
-                    <MenuItem
-                        sx={{
-                            backgroundColor: "#fff",
-                            "&:hover": {
-                                backgroundColor: "#ddd"
-                            }
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button"
                         }}
-                        onClick={handleClose}
                     >
-                        <Link href={route("equipment.desktops")} value="/equipment/desktops">
-                            <Tab
-                                className={
-                                    window.location.pathname.includes("/equipment/desktops") ? "Mui-selected" : ""
+                        <MenuItem
+                            sx={{
+                                backgroundColor: "#fff",
+                                "&:hover": {
+                                    backgroundColor: "#ddd"
                                 }
-                                label="Desktops"
-                                value="/equipment/desktops"
-                                aria-label="Desktops"
-                            />
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        sx={{
-                            backgroundColor: "#fff",
-                            "&:hover": {
-                                backgroundColor: "#ddd"
-                            }
-                        }}
-                        onClick={handleClose}
-                    >
-                        <Link href={route("equipment.laptops")} value="/equipment/laptops">
-                            <Tab
-                                className={
-                                    window.location.pathname.includes("/equipment/laptops") ? "Mui-selected" : ""
+                            }}
+                            onClick={handleClose}
+                        >
+                            <Link href={route("equipment.desktops")} value="/equipment/desktops">
+                                <Tab
+                                    className={
+                                        window.location.pathname.includes("/equipment/desktops") ? "Mui-selected" : ""
+                                    }
+                                    label="Desktops"
+                                    value="/equipment/desktops"
+                                    aria-label="Desktops"
+                                />
+                            </Link>
+                        </MenuItem>
+                        <MenuItem
+                            sx={{
+                                backgroundColor: "#fff",
+                                "&:hover": {
+                                    backgroundColor: "#ddd"
                                 }
-                                label="Laptops"
-                                value="/equipment/laptops"
-                                aria-label="Laptops"
-                            />
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        sx={{
-                            backgroundColor: "#fff",
-                            "&:hover": {
-                                backgroundColor: "#ddd"
-                            }
-                        }}
-                        onClick={handleClose}
-                    >
-                        <Link href={route("equipment.meeting-room-laptops")} value="/equipment/meeting-room-laptops">
-                            <Tab
-                                className={
-                                    window.location.pathname.includes("/equipment/meeting-room-laptops")
-                                        ? "Mui-selected"
-                                        : ""
+                            }}
+                            onClick={handleClose}
+                        >
+                            <Link href={route("equipment.laptops")} value="/equipment/laptops">
+                                <Tab
+                                    className={
+                                        window.location.pathname.includes("/equipment/laptops") ? "Mui-selected" : ""
+                                    }
+                                    label="Laptops"
+                                    value="/equipment/laptops"
+                                    aria-label="Laptops"
+                                />
+                            </Link>
+                        </MenuItem>
+                        <MenuItem
+                            sx={{
+                                backgroundColor: "#fff",
+                                "&:hover": {
+                                    backgroundColor: "#ddd"
                                 }
-                                label="Meeting Room Laptops"
+                            }}
+                            onClick={handleClose}
+                        >
+                            <Link
+                                href={route("equipment.meeting-room-laptops")}
                                 value="/equipment/meeting-room-laptops"
-                                aria-label="meeting-room-laptops"
-                            />
-                        </Link>
-                    </MenuItem>
-                </Menu>
+                            >
+                                <Tab
+                                    className={
+                                        window.location.pathname.includes("/equipment/meeting-room-laptops")
+                                            ? "Mui-selected"
+                                            : ""
+                                    }
+                                    label="Meeting Room Laptops"
+                                    value="/equipment/meeting-room-laptops"
+                                    aria-label="meeting-room-laptops"
+                                />
+                            </Link>
+                        </MenuItem>
+                    </Menu>
                 </Tabs>
             </Box>
         </div>
