@@ -1,7 +1,7 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Team } from "@/types";
 import React from "react";
-import { Button, Card, TableCell } from "@mui/material";
+import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { Link } from "@inertiajs/react";
 import TeamEditForm from "@/Components/teams/teams-update";
@@ -10,21 +10,28 @@ import TeamCreateForm from "@/Components/teams/teams-create";
 const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
     return (
         <GuestLayout>
-            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
-                <Table<Team>
-                    data={teams}
-                    actionRenderer={team => (
-                        <TableCell align="center">
-                            <Button variant="contained">VIEW</Button>
-                            <TeamEditForm team={team} />
-                            <Link href={route("teams.destroy", team.id)} method="delete">
-                                <Button variant="contained" color="error">
-                                    DELETE
-                                </Button>
-                            </Link>
-                        </TableCell>
-                    )}
-                />
+            <Card variant="outlined" sx={{ width: "70%" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Teams
+                    </Typography>
+                </Box>
+                <Box sx={{ width: "100%", alignItems: "center" }}>
+                    <Table<Team>
+                        data={teams}
+                        actionRenderer={team => (
+                            <TableCell align="center">
+                                <Button variant="contained">VIEW</Button>
+                                <TeamEditForm team={team} />
+                                <Link href={route("teams.destroy", team.id)} method="delete">
+                                    <Button variant="contained" color="error">
+                                        DELETE
+                                    </Button>
+                                </Link>
+                            </TableCell>
+                        )}
+                    />
+                </Box>
             </Card>
             <TeamCreateForm />
         </GuestLayout>
