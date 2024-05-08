@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
-import { useForm, usePage } from "@inertiajs/react";
+import { Box, Button } from "@mui/material";
 import { Link } from "@inertiajs/react";
 import { Employee } from "../../types/index";
 
-const DeleteEmployee = (props: { isOpen: boolean; handleClose: () => void; employee: Employee}) => {
-
+const DeleteEmployee = (props: { isOpen: boolean; handleClose: () => void; employee: Employee }) => {
     const modalStyle: React.CSSProperties = {
         position: "absolute",
         top: "50%",
@@ -39,17 +37,17 @@ const DeleteEmployee = (props: { isOpen: boolean; handleClose: () => void; emplo
     return (
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
-                    <Button sx={closeButtonStyle} onClick={props.handleClose}>
-                        X
-                    </Button>
+                <Button sx={closeButtonStyle} onClick={props.handleClose}>
+                    X
+                </Button>
 
-                    <h2 style={{ margin: "0px" , padding:"35px"}}>Are you sure you would like to delete this entry?</h2>
-                
-                    <Button variant="contained" color="error" onClick={()=>props.handleClose()}>
-                        <Link href={route("employees.destroy",props.employee.id)} method="delete">
-                           DELETE
-                        </Link>
-                    </Button>
+                <h2 style={{ margin: "0px", padding: "35px" }}>Are you sure you would like to delete this entry?</h2>
+
+                <Button variant="contained" color="error" onClick={() => props.handleClose()}>
+                    <Link href={route("employees.destroy", props.employee.id)} method="delete">
+                        DELETE
+                    </Link>
+                </Button>
             </Box>
         </Modal>
     );

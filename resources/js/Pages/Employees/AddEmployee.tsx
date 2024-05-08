@@ -152,7 +152,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                         variant="outlined"
                     />
 
-                    <Button variant="contained" sx={{ margin: "10px"}} type={"submit"}>
+                    <Button variant="contained" sx={{ margin: "10px" }} type={"submit"}>
                         Submit
                     </Button>
                 </form>

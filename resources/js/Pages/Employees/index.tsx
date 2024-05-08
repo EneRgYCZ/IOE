@@ -4,7 +4,6 @@ import React from "react";
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
 import DeleteEmployee from "./DeleteEmployee";
@@ -42,8 +41,15 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
                             >
                                 EDIT
                             </Button>
-                            <Button variant="contained" color="error" onClick={() => {setDel(true);setEmpDel(employee)}}>
-                                    DELETE
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() => {
+                                    setDel(true);
+                                    setEmpDel(employee);
+                                }}
+                            >
+                                DELETE
                             </Button>
                         </TableCell>
                     )}
@@ -66,13 +72,7 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
                     setEdit(false);
                 }}
             />
-            {empDel && (
-                <DeleteEmployee 
-                isOpen={del}
-                handleClose={()=>setDel(false)}
-                employee={empDel}
-                />
-            )}
+            {empDel && <DeleteEmployee isOpen={del} handleClose={() => setDel(false)} employee={empDel} />}
         </GuestLayout>
     );
 };

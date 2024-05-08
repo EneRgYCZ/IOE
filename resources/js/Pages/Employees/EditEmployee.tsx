@@ -149,7 +149,7 @@ const EditEmployee = (props: {
                         variant="outlined"
                     />
 
-                    <Button variant="contained" type={"submit"} sx={{ margin: "10px"}}>
+                    <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>
                         Submit
                     </Button>
                 </form>
