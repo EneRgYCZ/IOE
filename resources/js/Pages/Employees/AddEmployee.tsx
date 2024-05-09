@@ -5,9 +5,10 @@ import { useForm, usePage } from "@inertiajs/react";
 import { DesktopPC, Laptop } from "@/types";
 
 const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipment: (DesktopPC | Laptop)[] }) => {
-    const defaultValues = {
+    const defaultValues: { first_name: string; last_name: string; equipment_identifiers: string[] } = {
         first_name: "",
-        last_name: ""
+        last_name: "",
+        equipment_identifiers: []
     };
 
     const modalStyle: React.CSSProperties = {
@@ -98,10 +99,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("employees.store"));
-        setData({
-            first_name: "",
-            last_name: ""
-        });
+        setData(defaultValues);
         props.handleClose();
     };
 
@@ -166,13 +164,20 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
 
                     <Autocomplete
                         multiple
-                        id="equipment"
+                        id="equipment_identifiers"
                         options={props.equipment}
                         getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.full_number_identifier}
-                        defaultValue={[]}
+                        onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[] | null) => {
+                            setData({
+                                ...data,
+                                equipment_identifiers: selectedEquipment
+                                    ? selectedEquipment.map(e => e.full_number_identifier)
+                                    : []
+                            });
+                        }}
                         filterSelectedOptions
                         sx={inputFieldStyle}
-                        renderInput={params => <TextField {...params} label="Equipment serial numbers" />}
+                        renderInput={params => <TextField {...params} label="Equipment identifiers" />}
                     />
 
                     <Button variant="contained" sx={submitButtonStyle} type={"submit"}>

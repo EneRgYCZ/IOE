@@ -19,7 +19,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
         workspace_type: "",
         updated_in_q1: false,
         remarks: "",
-        employee_id: undefined
+        employee_id: null
     };
 
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);

@@ -14,7 +14,12 @@ import {
 import React from "react";
 import { DesktopPC, Employee } from "@/types";
 
-const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => void; onSubmit: () => void; employees: Employee[] }) => {
+const DesktopForm = (props: {
+    data: DesktopPC;
+    setData: (data: DesktopPC) => void;
+    onSubmit: () => void;
+    employees: Employee[];
+}) => {
     const fieldStyle = {
         margin: "5px 0",
         width: "100%"
@@ -63,7 +68,7 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
         setErrors({
             ...errors,
             [key]: !e.target.validity.valid
-        })
+        });
     };
 
     const handleSelectChange = (e: SelectChangeEvent) => {
@@ -136,16 +141,12 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
             <FormControlLabel
-                control={
-                    <Switch checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />
-                }
+                control={<Switch checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Double PC"
             />
             <FormControlLabel
-                control={
-                    <Switch checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />
-                }
+                control={<Switch checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Needs dock"
             />
@@ -201,13 +202,7 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 </Select>
             </FormControl>
             <FormControlLabel
-                control={
-                    <Switch
-                        checked={props.data.updated_in_q1}
-                        id={"updated_in_q1"}
-                        onChange={handleChange}
-                    />
-                }
+                control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />
@@ -222,14 +217,12 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
             <Autocomplete
                 id="employee_id"
                 options={props.employees}
-                getOptionLabel={(employee: Employee) =>
-                    employee.first_name + " " + employee.last_name
-                }
-                value={ props.data.employee_id ? props.employees.find((emp) => emp.id == props.data.employee_id) : null }
+                getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                value={props.data.employee_id ? props.employees.find(emp => emp.id == props.data.employee_id) : null}
                 onChange={(_event: React.SyntheticEvent, selectedEmployee: Employee | null) => {
                     props.setData({
                         ...props.data,
-                        ["employee_id"]: selectedEmployee ? selectedEmployee.id : undefined
+                        employee_id: selectedEmployee ? selectedEmployee.id : null
                     });
                 }}
                 filterSelectedOptions

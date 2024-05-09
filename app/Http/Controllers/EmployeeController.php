@@ -27,11 +27,8 @@ class EmployeeController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $desktops = QueryBuilder::for(Desktop::query())
-            ->paginate();
-
-        $laptops = QueryBuilder::for(Laptop::query())
-            ->paginate();
+        $desktops = Desktop::query()->get();
+        $laptops = Laptop::query()->get();
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
@@ -49,10 +46,18 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        Employee::create($request->validate([
+        $employee = Employee::create($request->validate([
             'first_name' => ['required', 'max:20'],
             'last_name' => ['required', 'max:20'],
+            'equipment_identifiers' => ['array'],
         ]));
+
+        $equipment_identifiers = $request->input('equipment_identifiers', []);
+
+        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => $employee->id]);
+        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => $employee->id]);
 
         return redirect(route('employees.index'));
     }
@@ -62,7 +67,23 @@ class EmployeeController extends Controller
         $employee->update($request->validate([
             'first_name' => ['required', 'max:20'],
             'last_name' => ['required', 'max:20'],
+            'equipment_identifiers' => ['array'],
         ]));
+
+        $equipment_identifiers = $request->input('equipment_identifiers', []);
+
+        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => $employee->id]);
+        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => $employee->id]);
+
+        Desktop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => null]);
+
+        Laptop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)
+            ->update(['employee_id' => null]);
 
         return redirect(route('employees.index'));
     }

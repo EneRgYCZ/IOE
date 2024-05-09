@@ -14,8 +14,8 @@ const Employees = ({
     laptops
 }: PageProps<{
     employees: PaginatedResponse<Employee>;
-    desktops: PaginatedResponse<DesktopPC>;
-    laptops: PaginatedResponse<Laptop>;
+    desktops: DesktopPC[];
+    laptops: Laptop[];
 }>) => {
     const tableButtonMargins = {
         marginRight: "10px"
@@ -30,7 +30,9 @@ const Employees = ({
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
 
-    const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(desktops.data, laptops.data);
+    const equipment: (DesktopPC | Laptop)[] = Array.prototype
+        .concat(desktops, laptops)
+        .sort((a, b) => a.full_number_identifier - b.full_number_identifier);
 
     return (
         <GuestLayout>
@@ -61,7 +63,11 @@ const Employees = ({
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
-            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} equipment={equipment} />
+            <AddEmployee
+                isOpen={add}
+                handleClose={() => setAdd(false)}
+                equipment={equipment.filter(e => e.employee_id == null)}
+            />
 
             <EditEmployee
                 isOpen={edit}

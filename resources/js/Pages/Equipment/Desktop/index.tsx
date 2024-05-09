@@ -12,7 +12,7 @@ const Equipment = ({
     employees
 }: PageProps<{
     desktops: PaginatedResponse<DesktopPC>;
-    employees: PaginatedResponse<Employee>;
+    employees: Employee[];
 }>) => {
     const tableButtonMargins = {
         margin: "0 10px"
@@ -97,14 +97,14 @@ const Equipment = ({
             <AddDesktop
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
-                employees={employees.data}
+                employees={employees}
             ></AddDesktop>
 
             <EditDesktop
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
                 desktop={currentDesktop}
-                employees={employees.data}
+                employees={employees}
             ></EditDesktop>
         </GuestLayout>
     );

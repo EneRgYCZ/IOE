@@ -42,8 +42,7 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $employees = QueryBuilder::for(Employee::query())
-            ->paginate();
+        $employees = Employee::query()->get();
 
         return Inertia::render('Equipment/Desktop/index', [
             'desktops' => $desktops,
@@ -101,8 +100,7 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $employees = QueryBuilder::for(Employee::query())
-            ->paginate();
+        $employees = Employee::query()->get();
 
         return Inertia::render('Equipment/Laptop/index', [
             'laptops' => $laptops,

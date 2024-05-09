@@ -57,7 +57,10 @@ const EditEmployee = (props: {
 
     const form = useForm({
         first_name: props.employee?.first_name,
-        last_name: props.employee?.last_name
+        last_name: props.employee?.last_name,
+        equipment_identifiers: props.equipment
+            .filter(equipment => equipment.employee_id == props.employee?.id)
+            .map(equipment => equipment.full_number_identifier)
     });
 
     const { data, setData } = form;
@@ -68,9 +71,14 @@ const EditEmployee = (props: {
 
     React.useEffect(() => {
         if (props.employee !== null) {
-            setData(props.employee);
+            setData({
+                ...props.employee,
+                equipment_identifiers: props.equipment
+                    .filter(equipment => equipment.employee_id == props.employee?.id)
+                    .map(equipment => equipment.full_number_identifier)
+            });
         }
-    }, [props.employee]);
+    }, [props.employee, props.equipment]);
 
     const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -152,13 +160,21 @@ const EditEmployee = (props: {
 
                     <Autocomplete
                         multiple
-                        id="equipment"
+                        id="equipment_identifiers"
                         options={props.equipment}
                         getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.full_number_identifier}
-                        defaultValue={[]}
+                        value={props.equipment.filter(equipment =>
+                            data.equipment_identifiers.includes(equipment.full_number_identifier)
+                        )}
+                        onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[]) => {
+                            setData({
+                                ...data,
+                                equipment_identifiers: selectedEquipment.map(e => e.full_number_identifier)
+                            });
+                        }}
                         filterSelectedOptions
                         sx={inputFieldStyle}
-                        renderInput={params => <TextField {...params} label="Equipment serial numbers" />}
+                        renderInput={params => <TextField {...params} label="Equipment identifiers" />}
                     />
 
                     <Button variant="contained" type={"submit"}>

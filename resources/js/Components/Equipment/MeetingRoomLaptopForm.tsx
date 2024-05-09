@@ -151,13 +151,7 @@ const MeetingRoomLaptopForm = (props: {
                 variant="outlined"
             />
             <FormControlLabel
-                control={
-                    <Switch
-                        checked={props.data.updated_in_q1}
-                        id={"updated_in_q1"}
-                        onChange={handleChange}
-                    />
-                }
+                control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />

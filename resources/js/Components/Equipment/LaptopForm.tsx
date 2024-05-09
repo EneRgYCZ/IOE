@@ -14,7 +14,12 @@ import {
 import React from "react";
 import { Employee, Laptop } from "@/types";
 
-const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSubmit: () => void; employees: Employee[] }) => {
+const LaptopForm = (props: {
+    data: Laptop;
+    setData: (data: Laptop) => void;
+    onSubmit: () => void;
+    employees: Employee[];
+}) => {
     const fieldStyle = {
         margin: "5px 0",
         width: "100%"
@@ -63,7 +68,7 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
         setErrors({
             ...errors,
             [key]: !e.target.validity.valid
-        })
+        });
     };
 
     const handleSelectChange = (e: SelectChangeEvent) => {
@@ -187,13 +192,7 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
                 </Select>
             </FormControl>
             <FormControlLabel
-                control={
-                    <Switch
-                        checked={props.data.updated_in_q1}
-                        id={"updated_in_q1"}
-                        onChange={handleChange}
-                    />
-                }
+                control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />
@@ -208,14 +207,12 @@ const LaptopForm = (props: { data: Laptop; setData: (data: Laptop) => void; onSu
             <Autocomplete
                 id="employee_id"
                 options={props.employees}
-                getOptionLabel={(employee: Employee) =>
-                    employee.first_name + " " + employee.last_name
-                }
-                value={ props.data.employee_id ? props.employees.find((emp) => emp.id == props.data.employee_id) : null }
+                getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                value={props.data.employee_id ? props.employees.find(emp => emp.id == props.data.employee_id) : null}
                 onChange={(_event: React.SyntheticEvent, selectedEmployee: Employee | null) => {
                     props.setData({
                         ...props.data,
-                        ["employee_id"]: selectedEmployee ? selectedEmployee.id : undefined
+                        employee_id: selectedEmployee ? selectedEmployee.id : null
                     });
                 }}
                 filterSelectedOptions
