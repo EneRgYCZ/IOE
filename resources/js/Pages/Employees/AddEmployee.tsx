@@ -166,7 +166,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                         multiple
                         id="equipment_identifiers"
                         options={props.equipment}
-                        getOptionLabel={(equipment: DesktopPC | Laptop) => equipment.full_number_identifier}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) => ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier}
                         onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[] | null) => {
                             setData({
                                 ...data,
