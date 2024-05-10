@@ -72,7 +72,15 @@ export interface Team {
     id: number;
     team_name: string;
     description: string;
-    employees?: Employee[];
+    team_member?: Employee[];
+    created_at: string;
+    updated_at: string;
+}
+
+export interface TeamMember {
+    id: number;
+    team_id: number;
+    employee_id: number;
     created_at: string;
     updated_at: string;
 }

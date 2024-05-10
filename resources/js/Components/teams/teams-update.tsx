@@ -6,18 +6,15 @@ import { Autocomplete, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
 
-const TeamEditForm = (props: { 
-        team: Team | null; 
-        employees: Employee[];
-    }) => {
+const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
     const { data, setData, patch } = useForm({
-        team_name: props.team?.team_name,
-        description: props.team?.description,
-        employees: props.team?.employees
+        team_name: props.team.team_name,
+        description: props.team.description,
+        team_members: props.teamMembers
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,18 +27,18 @@ const TeamEditForm = (props: {
     };
 
     const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
-        setData(data => ({ 
-            ...data, 
-            employees: value 
+        setData(data => ({
+            ...data,
+            team_members: value
         }));
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (props.team){
+        if (props.team) {
             patch(route("teams.update", props.team.id));
             handleFormClose();
-        }  
+        }
     };
 
     const formStyle = {
@@ -62,9 +59,9 @@ const TeamEditForm = (props: {
     React.useEffect(() => {
         if (props.team) {
             setData({
-                team_name: props.team.team_name || "",
-                description: props.team.description || "",
-                employees: props.team.employees || []
+                team_name: props.team.team_name,
+                description: props.team.description,
+                team_members: props.teamMembers
             });
         }
     }, [props.team]);
@@ -101,14 +98,11 @@ const TeamEditForm = (props: {
                             multiple
                             id={"employees"}
                             options={props.employees}
-                            getOptionLabel={(employee: Employee) =>
-                                employee.first_name + " " + employee.last_name
-                            }
-                            defaultValue={props.team ? props.team.employees : []}
-                            value={data.employees}
+                            getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                            value={data.team_members}
                             onChange={handleEmployeeChange}
                             sx={fieldStyle}
-                            renderInput={params => <TextField {...params}/>}
+                            renderInput={params => <TextField {...params} />}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit

@@ -11,10 +11,14 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const initialValues = {
+    const initialValues: {
+        team_name: string;
+        description: string;
+        team_members: Employee[];
+    } = {
         team_name: "",
         description: "",
-        employees: [] as Employee[],
+        team_members: []
     };
 
     const { data, setData, post } = useForm(initialValues);
@@ -29,20 +33,16 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
     };
 
     const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
-        setData(data => ({ 
-            ...data, 
-            employees: value 
+        setData(data => ({
+            ...data,
+            team_members: value
         }));
     };
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("teams.store"));
-        setData({
-            team_name: "",
-            description: "",
-            employees: [],
-        });
+        setData(initialValues);
         handleFormClose();
     };
 
@@ -97,16 +97,13 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
                         <FormLabel>Employees</FormLabel>
                         <Autocomplete
                             multiple
-                            id="employee_id"
+                            id={"employees"}
                             options={props.employees}
-                            getOptionLabel={(employee: Employee) =>
-                                employee.first_name + " " + employee.last_name
-                            }
-                            defaultValue={[]}
-                            value={data.employees}
+                            getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                            value={data.team_members}
                             onChange={handleEmployeeChange}
                             sx={fieldStyle}
-                            renderInput={params => <TextField {...params}/>}
+                            renderInput={params => <TextField {...params} />}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit

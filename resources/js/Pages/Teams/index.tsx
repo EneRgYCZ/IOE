@@ -1,16 +1,20 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Employee, PageProps, PaginatedResponse, Team } from "@/types";
+import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
 import { Button, Card, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
 import TeamEditForm from "@/Components/teams/teams-update";
 import TeamCreateForm from "@/Components/teams/teams-create";
 import TeamDeleteConfirmation from "@/Components/teams/teams-delete";
 
-const Teams = ({ teams, employees }: PageProps<{ 
+const Teams = ({
+    teams,
+    employees,
+    team_members
+}: PageProps<{
     teams: PaginatedResponse<Team>;
     employees: Employee[];
+    team_members: TeamMember[];
 }>) => {
     return (
         <GuestLayout>
@@ -18,15 +22,28 @@ const Teams = ({ teams, employees }: PageProps<{
                 <Table<Team>
                     data={teams}
                     actionRenderer={team => (
-                        <TableCell style={{ display: 'flex', justifyContent: 'center' }}>
+                        <TableCell style={{ display: "flex", justifyContent: "center" }}>
                             <Button variant="contained">VIEW</Button>
-                            <TeamEditForm team={team} employees={employees}/>
-                            <TeamDeleteConfirmation team={team}/>
+                            <TeamEditForm
+                                team={team}
+                                employees={employees}
+                                teamMembers={
+                                    team_members
+                                        ? employees.filter(employee =>
+                                              team_members
+                                                  .filter(relation => relation.team_id == team.id)
+                                                  .map(relation => relation.employee_id)
+                                                  .includes(employee.id)
+                                          )
+                                        : []
+                                }
+                            />
+                            <TeamDeleteConfirmation team={team} />
                         </TableCell>
                     )}
                 />
             </Card>
-            <TeamCreateForm employees={employees}/>
+            <TeamCreateForm employees={employees} />
         </GuestLayout>
     );
 };

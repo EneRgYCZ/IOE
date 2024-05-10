@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Team;
 use App\Models\Employee;
+use App\Models\Team;
+use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -28,20 +29,20 @@ class TeamController extends Controller
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
-        
-        $employees = 
-            QueryBuilder::for(Employee::query())
-                -> get();
+
+        $employees = Employee::query()->get();
+
+        $teamMembers = TeamMember::query()->get();
 
         return Inertia::render('Teams/index', [
             'teams' => $teams,
             'employees' => $employees,
+            'team_members' => $teamMembers,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
-                ->addColumn(new Column('employees', 'Employees', sortable: false))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true));
         });
@@ -60,7 +61,18 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        Team::create($request->all());
+        $team = Team::create([
+            'team_name' => $request->input('team_name'),
+            'description' => $request->input('description'),
+        ]);
+
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            TeamMember::create([
+                'team_id' => $team->id,
+                'employee_id' => $teamMember['id'],
+            ]);
+        }
 
         return redirect(route('teams.index'));
     }
@@ -86,7 +98,23 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $team->update($request->all());
+        $team->update([
+            'team_name' => $request->input('team_name'),
+            'description' => $request->input('description'),
+        ]);
+
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            TeamMember::create([
+                'team_id' => $team->id,
+                'employee_id' => $teamMember['id'],
+            ]);
+        }
+
+        $teamMembersIDs = array_column($teamMembers, 'id');
+        TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)
+            ->delete();
 
         return redirect(route('teams.index'));
     }
@@ -96,6 +124,9 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
+        TeamMember::where('team_id', $team->id)
+            ->delete();
+
         $team->delete();
 
         return redirect(route('teams.index'));

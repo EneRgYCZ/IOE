@@ -17,7 +17,7 @@ const TeamDeleteConfirmation = (props: { team: Team }) => {
         transform: "translate(-50%, -50%)",
         backgroundColor: "#fff",
         padding: "20px",
-        border: "2px solid #009ddf",
+        border: "2px solid #009ddf"
     };
 
     return (
@@ -30,7 +30,7 @@ const TeamDeleteConfirmation = (props: { team: Team }) => {
                     <Typography variant="h4" gutterBottom>
                         Are you sure you want to delete this team?
                     </Typography>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <Button variant="contained" onClick={handleModalClose}>
                             CANCEL
                         </Button>

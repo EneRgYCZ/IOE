@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Team;
+use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -25,8 +26,8 @@ class EmployeeController extends Controller
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
-        
-        $teams = 
+
+        $teams =
             QueryBuilder::for(Team::query())
                 ->get();
 
@@ -60,6 +61,9 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
+        TeamMember::where('employee_id', $employee->id)
+            ->delete();
+
         $employee->delete();
 
         return redirect(route('employees.index'));
