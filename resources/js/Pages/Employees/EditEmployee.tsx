@@ -13,8 +13,8 @@ const EditEmployee = (props: {
     handleClose: () => void;
     employee: Employee | null;
     onSubmit: (e: FormEvent, form: InertiaFormProps) => void;
-    teams: Team[]
-    teamMembers: Team[]
+    teams: Team[];
+    teamMembers: Team[];
 }) => {
     const modalStyle: React.CSSProperties = {
         position: "absolute",

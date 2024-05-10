@@ -74,10 +74,10 @@ class EmployeeController extends Controller
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('team_id', $teamMember['id'])
-                                    ->where('employee_id', $employee->id)
-                                    ->first();
-            
-            if (!$alreadyExists){
+                ->where('employee_id', $employee->id)
+                ->first();
+
+            if (! $alreadyExists) {
                 TeamMember::create([
                     'team_id' => $teamMember['id'],
                     'employee_id' => $employee->id,

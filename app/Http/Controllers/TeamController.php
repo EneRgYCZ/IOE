@@ -106,10 +106,10 @@ class TeamController extends Controller
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('team_id', $team->id)
-            ->where('employee_id', $teamMember['id'])
-            ->first();
+                ->where('employee_id', $teamMember['id'])
+                ->first();
 
-            if (!$alreadyExists){
+            if (! $alreadyExists) {
                 TeamMember::create([
                     'team_id' => $team->id,
                     'employee_id' => $teamMember['id'],

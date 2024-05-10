@@ -8,14 +8,14 @@ import { Link } from "@inertiajs/react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
 
-const Employees = ({ 
-    employees, 
+const Employees = ({
+    employees,
     teams,
-    team_members, 
-}: PageProps<{ 
-    employees: PaginatedResponse<Employee>; 
+    team_members
+}: PageProps<{
+    employees: PaginatedResponse<Employee>;
     teams: Team[];
-    team_members: TeamMember[]; 
+    team_members: TeamMember[];
 }>) => {
     const tableButtonMargins = {
         marginRight: "10px"
@@ -59,7 +59,7 @@ const Employees = ({
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
-            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} teams={teams}/>
+            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} teams={teams} />
 
             <EditEmployee
                 isOpen={edit}
