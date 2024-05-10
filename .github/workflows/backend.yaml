@@ -64,3 +64,66 @@ jobs:
 
       - name: Backend Static Analysis
         run: ./vendor/bin/phpstan --error-format=github
+
+  backend-testing:
+    if: '! github.event.pull_request.draft'
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: "mysql:8.0"
+        env:
+          MYSQL_DATABASE: gomibo_ioe
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    needs:
+      - backend-style
+      - backend-static
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, intl, gd, exif
+          coverage: none
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.8.1
+        with:
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Backend Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Install Frontend Dependencies
+        run: yarn
+
+      - name: Prepare Application
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+
+      - name: Build frontend
+        run: yarn build
+
+      - name: Execute tests
+        run: php artisan test -p
