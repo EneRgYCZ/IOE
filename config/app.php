@@ -168,7 +168,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TableServiceProvider::class,
-        App\Providers\FakerServiceProvider::class,
     ])->toArray(),
 
     /*

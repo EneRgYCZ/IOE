@@ -16,11 +16,9 @@ class TeamFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = Factory::create();
-
         return [
-            'team_name' => $faker->name(),
-            'description' => $faker->sentence(),
+            'team_name' => $this->faker->company(),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

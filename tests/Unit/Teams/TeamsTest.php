@@ -4,14 +4,14 @@ use App\Models\Team;
 
 test('can create a team', function () {
     $teamData = [
-        'name' => 'Test Team',
+        'team_name' => 'Test Team',
         'description' => 'This is a test team',
     ];
 
     $team = Team::create($teamData);
 
     expect($team)->toBeInstanceOf(Team::class);
-    expect($team->name)->toBe('Test Team');
+    expect($team->team_name)->toBe('Test Team');
     expect($team->description)->toBe('This is a test team');
 });
 
@@ -29,17 +29,17 @@ test('can update a team', function () {
     $team = Team::factory()->create();
 
     $updatedData = [
-        'name' => 'Updated Team',
+        'team_name' => 'Updated Team',
         'description' => 'This is an updated team',
     ];
 
     $team->update($updatedData);
 
-    expect($team->name)->toBe('Updated Team');
+    expect($team->team_name)->toBe('Updated Team');
     expect($team->description)->toBe('This is an updated team');
 });
 
-test('that can delete a team', function () {
+test('can delete a team', function () {
     $team = Team::factory()->create();
 
     $team->delete();
