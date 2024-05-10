@@ -162,7 +162,9 @@ const EditEmployee = (props: {
                         multiple
                         id="equipment_identifiers"
                         options={props.equipment}
-                        getOptionLabel={(equipment: DesktopPC | Laptop) => ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) =>
+                            ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier
+                        }
                         value={props.equipment.filter(equipment =>
                             data.equipment_identifiers.includes(equipment.full_number_identifier)
                         )}

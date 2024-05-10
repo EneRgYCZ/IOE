@@ -30,11 +30,10 @@ const Employees = ({
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
 
-    const equipment: (DesktopPC | Laptop)[] = Array.prototype
-        .concat(
-            desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
-            laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
-        )
+    const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
+        desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
+        laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
+    );
 
     return (
         <GuestLayout>
