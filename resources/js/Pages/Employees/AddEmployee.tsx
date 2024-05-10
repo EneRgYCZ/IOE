@@ -1,12 +1,18 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
+import { Team } from "@/types";
 
-const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
-    const defaultValues = {
+const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: Team[] }) => {
+    const defaultValues: {
+        first_name: string;
+        last_name: string;
+        team_members: Team[];
+    } = {
         first_name: "",
-        last_name: ""
+        last_name: "",
+        team_members: []
     };
 
     const modalStyle: React.CSSProperties = {
@@ -70,12 +76,20 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
         }));
     };
 
+    const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("employees.store"));
         setData({
             first_name: "",
-            last_name: ""
+            last_name: "",
+            team_members: []
         });
         props.handleClose();
     };
@@ -105,6 +119,17 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id={"team_members"}
+                        options={props.teams}
+                        getOptionLabel={(team: Team) => team.team_name}
+                        value={data.team_members}
+                        onChange={handleTeamChange}
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} />}
                     />
 
                     <Button variant="contained" sx={submitButtonStyle} type={"submit"}>

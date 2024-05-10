@@ -1,8 +1,8 @@
 import React, { FormEvent } from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Employee } from "../../types/index";
+import { Employee, Team } from "../../types/index";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -13,6 +13,8 @@ const EditEmployee = (props: {
     handleClose: () => void;
     employee: Employee | null;
     onSubmit: (e: FormEvent, form: InertiaFormProps) => void;
+    teams: Team[]
+    teamMembers: Team[]
 }) => {
     const modalStyle: React.CSSProperties = {
         position: "absolute",
@@ -56,14 +58,19 @@ const EditEmployee = (props: {
 
     const form = useForm({
         first_name: props.employee?.first_name,
-        last_name: props.employee?.last_name
+        last_name: props.employee?.last_name,
+        team_members: props.teamMembers
     });
 
     const { data, setData } = form;
 
     React.useEffect(() => {
         if (props.employee !== null) {
-            setData(props.employee);
+            setData({
+                first_name: props.employee.first_name,
+                last_name: props.employee.last_name,
+                team_members: props.teamMembers
+            });
         }
     }, [props.employee]);
 
@@ -73,6 +80,13 @@ const EditEmployee = (props: {
         setData(data => ({
             ...data,
             [key]: value
+        }));
+    };
+
+    const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
         }));
     };
 
@@ -101,6 +115,17 @@ const EditEmployee = (props: {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id={"teams"}
+                        options={props.teams}
+                        getOptionLabel={(team: Team) => team.team_name}
+                        value={data.team_members}
+                        onChange={handleTeamChange}
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} />}
                     />
 
                     <Button variant="contained" type={"submit"}>

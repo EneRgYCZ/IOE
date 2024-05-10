@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { PageProps, PaginatedResponse, Employee } from "@/types";
+import { PageProps, PaginatedResponse, Employee, TeamMember, Team } from "@/types";
 import React from "react";
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -8,7 +8,15 @@ import { Link } from "@inertiajs/react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
 
-const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Employee> }>) => {
+const Employees = ({ 
+    employees, 
+    teams,
+    team_members, 
+}: PageProps<{ 
+    employees: PaginatedResponse<Employee>; 
+    teams: Team[];
+    team_members: TeamMember[]; 
+}>) => {
     const tableButtonMargins = {
         marginRight: "10px"
     };
@@ -51,7 +59,7 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
-            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} />
+            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} teams={teams}/>
 
             <EditEmployee
                 isOpen={edit}
@@ -64,6 +72,17 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
                     }
                     setEdit(false);
                 }}
+                teams={teams}
+                teamMembers={
+                    team_members && empEdit
+                        ? teams.filter(team =>
+                              team_members
+                                  .filter(relation => relation.employee_id == empEdit.id)
+                                  .map(relation => relation.team_id)
+                                  .includes(team.id)
+                          )
+                        : []
+                }
             />
         </GuestLayout>
     );

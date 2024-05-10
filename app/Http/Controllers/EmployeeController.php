@@ -27,13 +27,14 @@ class EmployeeController extends Controller
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
 
-        $teams =
-            QueryBuilder::for(Team::query())
-                ->get();
+        $teams = Team::query()->get();
+
+        $teamMembers = TeamMember::query()->get();
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
             'teams' => $teams,
+            'team_members' => $teamMembers,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
@@ -46,7 +47,18 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        Employee::create($request->all());
+        $employee = Employee::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+        ]);
+
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            TeamMember::create([
+                'team_id' => $teamMember['id'],
+                'employee_id' => $employee->id,
+            ]);
+        }
 
         return redirect(route('employees.index'));
 
@@ -54,7 +66,29 @@ class EmployeeController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
-        $employee->update($request->all());
+        $employee->update([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+        ]);
+
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            $alreadyExists = TeamMember::where('team_id', $teamMember['id'])
+                                    ->where('employee_id', $employee->id)
+                                    ->first();
+            
+            if (!$alreadyExists){
+                TeamMember::create([
+                    'team_id' => $teamMember['id'],
+                    'employee_id' => $employee->id,
+                ]);
+            }
+        }
+
+        $teamMembersIDs = array_column($teamMembers, 'id');
+        TeamMember::where('employee_id', $employee->id)
+            ->whereNotIn('team_id', $teamMembersIDs)
+            ->delete();
 
         return redirect(route('employees.index'));
     }
