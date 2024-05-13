@@ -98,6 +98,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                         <TextField
                             id={"description"}
                             value={data.description}
+                            required
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"

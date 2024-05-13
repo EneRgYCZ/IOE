@@ -55,7 +55,7 @@ class TeamController extends Controller
     {
         Team::create($request->validate([
             'team_name' => ['required', 'max:50'],
-            'description' => ['max:50'],
+            'description' => ['nullable', 'max:50'],
         ]));
 
         return redirect(route('teams.index'));
@@ -84,7 +84,7 @@ class TeamController extends Controller
     {
         $team->update($request->validate([
             'team_name' => ['required', 'max:20'],
-            'description' => ['max:50'],
+            'description' => ['required', 'max:50'],
         ]));
 
         return redirect(route('teams.index'));

@@ -104,6 +104,7 @@ const TeamCreateForm = () => {
                         <TextField
                             id={"description"}
                             value={data.description}
+                            required
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
