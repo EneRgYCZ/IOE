@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Autocomplete, Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Team } from "@/types";
 
@@ -121,6 +121,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
                         variant="outlined"
                     />
 
+                    <FormLabel>Teams</FormLabel>
                     <Autocomplete
                         multiple
                         id={"team_members"}
