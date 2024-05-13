@@ -49,15 +49,15 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
                                 </Button>
                                 <Button
                                     variant="contained"
-                                color="error"
-                                onClick={() => {
-                                    setDel(true);
-                                    setEmpDel(employee);
-                                }}
-                            >
+                                    color="error"
+                                    onClick={() => {
+                                        setDel(true);
+                                        setEmpDel(employee);
+                                    }}
+                                >
                                     DELETE
                                 </Button>
-                                </TableCell>
+                            </TableCell>
                         )}
                     />
                 </Box>
