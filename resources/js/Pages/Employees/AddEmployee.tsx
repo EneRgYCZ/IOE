@@ -19,7 +19,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
         backgroundColor: "white",
         padding: "20px",
         width: "400px",
-        height: "450px",
         border: "1px solid #ccc",
         borderRadius: "8px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -35,17 +34,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
         marginTop: "20px",
         backgroundColor: "#f8f8f8",
         boxSizing: "border-box"
-    };
-
-    const submitButtonStyle: React.CSSProperties = {
-        width: "100%",
-        padding: "8px",
-        marginTop: "20px",
-        backgroundColor: "#007bff",
-        color: "white",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer"
     };
 
     const closeButtonStyle: React.CSSProperties = {
@@ -182,7 +170,7 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                         renderInput={params => <TextField {...params} label="Equipment identifiers" />}
                     />
 
-                    <Button variant="contained" sx={submitButtonStyle} type={"submit"}>
+                    <Button variant="contained" sx={{ margin: "10px" }} type={"submit"}>
                         Submit
                     </Button>
                 </form>

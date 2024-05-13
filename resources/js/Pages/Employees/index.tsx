@@ -4,9 +4,9 @@ import React from "react";
 import { Button, Card, Fab, TableCell } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
+import DeleteEmployee from "./DeleteEmployee";
 
 const Employees = ({
     employees,
@@ -29,6 +29,8 @@ const Employees = ({
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
+    const [del, setDel] = useState(false);
+    const [empDel, setEmpDel] = useState<Employee | null>(null);
 
     const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
         desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
@@ -52,11 +54,16 @@ const Employees = ({
                             >
                                 EDIT
                             </Button>
-                            <Link href={route("employees.destroy", employee.id)} method="delete">
-                                <Button variant="contained" color="error">
-                                    DELETE
-                                </Button>
-                            </Link>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() => {
+                                    setDel(true);
+                                    setEmpDel(employee);
+                                }}
+                            >
+                                DELETE
+                            </Button>
                         </TableCell>
                     )}
                 />
@@ -83,6 +90,7 @@ const Employees = ({
                     setEdit(false);
                 }}
             />
+            {empDel && <DeleteEmployee isOpen={del} handleClose={() => setDel(false)} employee={empDel} />}
         </GuestLayout>
     );
 };

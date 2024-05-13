@@ -47,8 +47,8 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $employee = Employee::create($request->validate([
-            'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20'],
+            'first_name' => ['required', 'max:40'],
+            'last_name' => ['required', 'max:40'],
             'equipment_identifiers' => ['array'],
         ]));
 
@@ -65,8 +65,8 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $employee->update($request->validate([
-            'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20'],
+            'first_name' => ['required', 'max:40'],
+            'last_name' => ['required', 'max:40'],
             'equipment_identifiers' => ['array'],
         ]));
 
