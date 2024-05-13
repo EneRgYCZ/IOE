@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Link } from "@inertiajs/react";
 import { Menu, MenuItem } from "@mui/material";
-import logo from "../../../../public/img/gomibo.svg";
+import logo from "../../../../public/img/gomibo.png";
 
 const NavigationBar = () => {
     const [selectedUrl, setSelectedUrl] = useState<string>(window.location.pathname);
