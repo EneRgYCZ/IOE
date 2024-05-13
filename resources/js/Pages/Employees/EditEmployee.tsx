@@ -22,7 +22,7 @@ const EditEmployee = (props: {
         backgroundColor: "white",
         padding: "20px",
         width: "400px",
-        height: "450px",
+        height: "300px",
         border: "1px solid #ccc",
         borderRadius: "8px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -101,7 +101,7 @@ const EditEmployee = (props: {
     return (
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
-                <h2 style={{ margin: "0px" }}>Add Employee</h2>
+                <h2 style={{ margin: "0px" }}>Edit Employee</h2>
                 <form onSubmit={e => props.onSubmit(e, form)}>
                     <Button sx={closeButtonStyle} onClick={props.handleClose}>
                         X
@@ -149,7 +149,7 @@ const EditEmployee = (props: {
                         variant="outlined"
                     />
 
-                    <Button variant="contained" type={"submit"}>
+                    <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>
                         Submit
                     </Button>
                 </form>
