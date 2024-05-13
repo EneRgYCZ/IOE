@@ -40,8 +40,8 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         Employee::create($request->validate([
-            'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20'],
+            'first_name' => ['required', 'max:40'],
+            'last_name' => ['required', 'max:40'],
         ]));
 
         return redirect(route('employees.index'));
@@ -50,8 +50,8 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $employee->update($request->validate([
-            'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20'],
+            'first_name' => ['required', 'max:40'],
+            'last_name' => ['required', 'max:40'],
         ]));
 
         return redirect(route('employees.index'));
