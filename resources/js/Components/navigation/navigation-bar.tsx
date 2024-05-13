@@ -47,7 +47,7 @@ const NavigationBar = () => {
                 <img
                     src={logo}
                     alt="Gomibo logo"
-                    width={200}
+                    width={150}
                     style={{ position: "absolute", left: "20px", top: "50%", transform: "translateY(-50%)" }}
                 />
                 <Tabs
