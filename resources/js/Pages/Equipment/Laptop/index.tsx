@@ -45,7 +45,7 @@ const Equipment = ({
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
-                <Typography variant="h4" sx={{ m: 1 }}>
+                <Typography variant="h4" sx={{ m: 2 }}>
                     Laptops
                 </Typography>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
