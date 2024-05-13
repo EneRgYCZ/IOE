@@ -101,12 +101,16 @@ class Table
         });
     }
 
-    public function addSearchInput(SearchInput $searchInput): self
+    public function addSearchInput($searchInput): self
     {
-        $this->searchInputs = $this->searchInputs->push($searchInput)->values();
-
+        if ($searchInput instanceof SearchInput || $searchInput instanceof GlobalSearchInput) {
+            $this->searchInputs = $this->searchInputs->push($searchInput)->values();
+        } else {
+            throw new \InvalidArgumentException('Invalid input type');
+        }
         return $this;
     }
+
 
     private function transformSearchInputs(): Collection
     {
@@ -116,14 +120,18 @@ class Table
             return $this->searchInputs;
         }
 
-        return $this->searchInputs->map(function (SearchInput $searchInput) use ($filters) {
-            if (array_key_exists($searchInput->key, $filters)) {
+        return $this->searchInputs->map(function ($searchInput) use ($filters) {
+            if ($searchInput instanceof GlobalSearchInput) {
+                // Handle global search logic here if necessary
+                // For example, you might not modify anything if global search parameters are processed differently
+            } elseif ($searchInput instanceof SearchInput && array_key_exists($searchInput->key, $filters)) {
                 $searchInput->value = $filters[$searchInput->key];
             }
 
             return $searchInput;
         });
     }
+
 
     public function getQueryBuilder(): array
     {
