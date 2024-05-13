@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\Team;
+use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -28,8 +30,14 @@ class TeamController extends Controller
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
 
+        $employees = Employee::query()->get();
+
+        $teamMembers = TeamMember::query()->get();
+
         return Inertia::render('Teams/index', [
             'teams' => $teams,
+            'employees' => $employees,
+            'team_members' => $teamMembers,
         ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
@@ -53,10 +61,18 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        Team::create($request->validate([
+        $team = Team::create($request->validate([
             'team_name' => ['required', 'max:50'],
             'description' => ['required', 'max:50'],
         ]));
+
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            TeamMember::create([
+                'team_id' => $team->id,
+                'employee_id' => $teamMember['id'],
+            ]);
+        }
 
         return redirect(route('teams.index'));
     }
@@ -87,6 +103,25 @@ class TeamController extends Controller
             'description' => ['required', 'max:50'],
         ]));
 
+        $teamMembers = $request->input('team_members');
+        foreach ($teamMembers as $teamMember) {
+            $alreadyExists = TeamMember::where('team_id', $team->id)
+                ->where('employee_id', $teamMember['id'])
+                ->first();
+
+            if (! $alreadyExists) {
+                TeamMember::create([
+                    'team_id' => $team->id,
+                    'employee_id' => $teamMember['id'],
+                ]);
+            }
+        }
+
+        $teamMembersIDs = array_column($teamMembers, 'id');
+        TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)
+            ->delete();
+
         return redirect(route('teams.index'));
     }
 
@@ -95,6 +130,9 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
+        TeamMember::where('team_id', $team->id)
+            ->delete();
+
         $team->delete();
 
         return redirect(route('teams.index'));

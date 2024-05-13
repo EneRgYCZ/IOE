@@ -1,13 +1,21 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { PageProps, PaginatedResponse, Team } from "@/types";
+import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
 import TeamEditForm from "@/Components/teams/teams-update";
 import TeamCreateForm from "@/Components/teams/teams-create";
+import TeamDeleteConfirmation from "@/Components/teams/teams-delete";
 
-const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
+const Teams = ({
+    teams,
+    employees,
+    team_members
+}: PageProps<{
+    teams: PaginatedResponse<Team>;
+    employees: Employee[];
+    team_members: TeamMember[];
+}>) => {
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
@@ -20,20 +28,29 @@ const Teams = ({ teams }: PageProps<{ teams: PaginatedResponse<Team> }>) => {
                     <Table<Team>
                         data={teams}
                         actionRenderer={team => (
-                            <TableCell align="center">
+                            <TableCell style={{ display: "flex", justifyContent: "center" }}>
                                 <Button variant="contained">VIEW</Button>
-                                <TeamEditForm team={team} />
-                                <Link href={route("teams.destroy", team.id)} method="delete">
-                                    <Button variant="contained" color="error">
-                                        DELETE
-                                    </Button>
-                                </Link>
+                                <TeamEditForm
+                                    team={team}
+                                    employees={employees}
+                                    teamMembers={
+                                        team_members
+                                            ? employees.filter(employee =>
+                                                  team_members
+                                                      .filter(relation => relation.team_id == team.id)
+                                                      .map(relation => relation.employee_id)
+                                                      .includes(employee.id)
+                                              )
+                                            : []
+                                    }
+                                />
+                                <TeamDeleteConfirmation team={team} />
                             </TableCell>
                         )}
                     />
                 </Box>
             </Card>
-            <TeamCreateForm />
+            <TeamCreateForm employees={employees} />
         </GuestLayout>
     );
 };

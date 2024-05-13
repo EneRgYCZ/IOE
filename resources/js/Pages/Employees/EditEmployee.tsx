@@ -2,7 +2,7 @@ import React, { FormEvent } from "react";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { DesktopPC, Employee, Laptop } from "@/types";
+import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -14,6 +14,8 @@ const EditEmployee = (props: {
     employee: Employee | null;
     equipment: (DesktopPC | Laptop)[];
     onSubmit: (e: FormEvent, form: InertiaFormProps) => void;
+    teams: Team[];
+    teamMembers: Team[];
 }) => {
     const modalStyle: React.CSSProperties = {
         position: "absolute",
@@ -57,6 +59,7 @@ const EditEmployee = (props: {
     const form = useForm({
         first_name: props.employee?.first_name,
         last_name: props.employee?.last_name,
+        team_members: props.teamMembers,
         equipment_identifiers: props.equipment
             .filter(equipment => equipment.employee_id == props.employee?.id)
             .map(equipment => equipment.full_number_identifier)
@@ -72,6 +75,7 @@ const EditEmployee = (props: {
         if (props.employee !== null) {
             setData({
                 ...props.employee,
+                team_members: props.teamMembers,
                 equipment_identifiers: props.equipment
                     .filter(equipment => equipment.employee_id == props.employee?.id)
                     .map(equipment => equipment.full_number_identifier)
@@ -99,11 +103,19 @@ const EditEmployee = (props: {
             ...data,
             [key]: value
         }));
+
         if (e.target.validity.valid) setLastNameError(false);
         else setLastNameError(true);
 
         if (value == "") setEmptyLastNameError(true);
         else setEmptyLastNameError(false);
+    };
+
+    const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
     };
 
     return (
@@ -155,6 +167,17 @@ const EditEmployee = (props: {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id={"teams"}
+                        options={props.teams}
+                        getOptionLabel={(team: Team) => team.team_name}
+                        value={data.team_members}
+                        onChange={handleTeamChange}
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Teams" />}
                     />
 
                     <Autocomplete

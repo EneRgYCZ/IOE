@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { PageProps, PaginatedResponse, Employee, DesktopPC, Laptop } from "@/types";
+import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -10,10 +10,14 @@ import DeleteEmployee from "./DeleteEmployee";
 
 const Employees = ({
     employees,
+    teams,
+    team_members,
     desktops,
     laptops
 }: PageProps<{
     employees: PaginatedResponse<Employee>;
+    teams: Team[];
+    team_members: TeamMember[];
     desktops: DesktopPC[];
     laptops: Laptop[];
 }>) => {
@@ -81,6 +85,7 @@ const Employees = ({
             <AddEmployee
                 isOpen={add}
                 handleClose={() => setAdd(false)}
+                teams={teams}
                 equipment={equipment.filter(e => e.employee_id == null)}
             />
 
@@ -96,6 +101,17 @@ const Employees = ({
                     }
                     setEdit(false);
                 }}
+                teams={teams}
+                teamMembers={
+                    team_members && empEdit
+                        ? teams.filter(team =>
+                              team_members
+                                  .filter(relation => relation.employee_id == empEdit.id)
+                                  .map(relation => relation.team_id)
+                                  .includes(team.id)
+                          )
+                        : []
+                }
             />
             {empDel && <DeleteEmployee isOpen={del} handleClose={() => setDel(false)} employee={empDel} />}
         </GuestLayout>

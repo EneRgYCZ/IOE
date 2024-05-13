@@ -2,12 +2,23 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
-import { DesktopPC, Laptop } from "@/types";
+import { Team, DesktopPC, Laptop } from "@/types";
 
-const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipment: (DesktopPC | Laptop)[] }) => {
-    const defaultValues: { first_name: string; last_name: string; equipment_identifiers: string[] } = {
+const AddEmployee = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    teams: Team[];
+    equipment: (DesktopPC | Laptop)[];
+}) => {
+    const defaultValues: {
+        first_name: string;
+        last_name: string;
+        team_members: Team[];
+        equipment_identifiers: string[];
+    } = {
         first_name: "",
         last_name: "",
+        team_members: [],
         equipment_identifiers: []
     };
 
@@ -84,6 +95,13 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
         else setEmptyLastNameError(false);
     };
 
+    const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("employees.store"));
@@ -148,6 +166,17 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; equipmen
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id={"team_members"}
+                        options={props.teams}
+                        getOptionLabel={(team: Team) => team.team_name}
+                        value={data.team_members}
+                        onChange={handleTeamChange}
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Teams" />}
                     />
 
                     <Autocomplete

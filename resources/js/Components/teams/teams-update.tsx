@@ -2,30 +2,35 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { FormLabel, Modal, Typography } from "@mui/material";
+import { Autocomplete, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { Team } from "@/types";
+import { Employee, Team } from "@/types";
 
-const TeamEditForm = ({ team }: { team: Team }) => {
+const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
     const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
     const { data, setData, patch, hasErrors, errors, clearErrors } = useForm({
-        team_name: team.team_name,
-        description: team.description
+        team_name: props.team.team_name,
+        description: props.team.description,
+        team_members: props.teamMembers
     });
 
     React.useEffect(() => {
-        if (team !== null) {
-            setData(team);
+        if (props.team) {
+            setData({
+                team_name: props.team.team_name,
+                description: props.team.description,
+                team_members: props.teamMembers
+            });
         }
         if (hasErrors) {
             alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
             clearErrors();
         }
-    }, [team, errors]);
+    }, [props.team, errors]);
 
     const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setData(data => ({
@@ -48,10 +53,19 @@ const TeamEditForm = ({ team }: { team: Team }) => {
         }));
     };
 
+    const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        patch(route("teams.update", team.id));
-        handleFormClose();
+        if (props.team) {
+            patch(route("teams.update", props.team.id));
+            handleFormClose();
+        }
     };
 
     const formStyle = {
@@ -69,6 +83,16 @@ const TeamEditForm = ({ team }: { team: Team }) => {
         width: "100%"
     };
 
+    React.useEffect(() => {
+        if (props.team) {
+            setData({
+                team_name: props.team.team_name,
+                description: props.team.description,
+                team_members: props.teamMembers
+            });
+        }
+    }, [props.team]);
+
     return (
         <div>
             <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleFormOpen}>
@@ -80,7 +104,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                         Update Team
                     </Typography>
                     <form onSubmit={submit}>
-                        <FormLabel>Team Name</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
@@ -94,7 +118,7 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                                 pattern: "[A-Za-z ]+"
                             }}
                         />
-                        <FormLabel>Team Description</FormLabel>
+                        <FormLabel>Description</FormLabel>
                         <TextField
                             id={"description"}
                             value={data.description}
@@ -102,6 +126,17 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
+                        />
+                        <FormLabel>Employees</FormLabel>
+                        <Autocomplete
+                            multiple
+                            id={"employees"}
+                            options={props.employees}
+                            getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                            value={data.team_members}
+                            onChange={handleEmployeeChange}
+                            sx={fieldStyle}
+                            renderInput={params => <TextField {...params} />}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit
