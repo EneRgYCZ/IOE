@@ -127,7 +127,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
-                        Logs
+                        Employees
                     </Typography>
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
