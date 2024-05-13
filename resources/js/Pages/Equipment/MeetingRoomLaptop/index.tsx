@@ -41,9 +41,11 @@ const Equipment = ({
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
-                <Typography variant="h4" sx={{ m: 1 }}>
-                    Meeting Room Laptops
-                </Typography>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Employees
+                    </Typography>
+                </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<MeetingRoomLaptop>

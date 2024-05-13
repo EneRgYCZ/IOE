@@ -1,7 +1,7 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee } from "@/types";
 import React from "react";
-import { Button, Card, Fab, TableCell } from "@mui/material";
+import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
 import EditEmployee from "./EditEmployee";
@@ -26,34 +26,41 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
 
     return (
         <GuestLayout>
-            <Card variant="outlined" sx={{ width: "70%", alignItems: "center" }}>
-                <Table<Employee>
-                    data={employees}
-                    actionRenderer={employee => (
-                        <TableCell align="center">
-                            <Button
-                                variant="contained"
-                                sx={tableButtonMargins}
-                                onClick={() => {
-                                    setEdit(true);
-                                    setEmpEdit(employee);
-                                }}
-                            >
-                                EDIT
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={() => {
-                                    setDel(true);
-                                    setEmpDel(employee);
-                                }}
-                            >
-                                DELETE
-                            </Button>
-                        </TableCell>
-                    )}
-                />
+            <Card variant="outlined" sx={{ width: "70%" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Employees
+                    </Typography>
+                </Box>
+                <Box sx={{ width: "100%", alignItems: "center" }}>
+                    <Table<Employee>
+                        data={employees}
+                        actionRenderer={employee => (
+                            <TableCell align="center">
+                                <Button
+                                    variant="contained"
+                                    sx={tableButtonMargins}
+                                    onClick={() => {
+                                        setEdit(true);
+                                        setEmpEdit(employee);
+                                    }}
+                                >
+                                    EDIT
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="error"
+                                    onClick={() => {
+                                        setDel(true);
+                                        setEmpDel(employee);
+                                    }}
+                                >
+                                    DELETE
+                                </Button>
+                            </TableCell>
+                        )}
+                    />
+                </Box>
             </Card>
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
