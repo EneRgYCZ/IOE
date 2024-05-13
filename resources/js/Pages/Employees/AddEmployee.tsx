@@ -1,18 +1,25 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Box, Button, FormLabel, TextField } from "@mui/material";
-import { useForm } from "@inertiajs/react";
-import { Team } from "@/types";
+import { useForm, usePage } from "@inertiajs/react";
+import { Team, DesktopPC, Laptop } from "@/types";
 
-const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: Team[] }) => {
+const AddEmployee = (props: { 
+    isOpen: boolean; 
+    handleClose: () => void; 
+    teams: Team[]; 
+    equipment: (DesktopPC | Laptop)[] 
+}) => {
     const defaultValues: {
         first_name: string;
         last_name: string;
         team_members: Team[];
+        equipment_identifiers: string[];
     } = {
         first_name: "",
         last_name: "",
-        team_members: []
+        team_members: [],
+        equipment_identifiers: []
     };
 
     const modalStyle: React.CSSProperties = {
@@ -23,7 +30,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
         backgroundColor: "white",
         padding: "20px",
         width: "400px",
-        height: "450px",
         border: "1px solid #ccc",
         borderRadius: "8px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -41,17 +47,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
         boxSizing: "border-box"
     };
 
-    const submitButtonStyle: React.CSSProperties = {
-        width: "100%",
-        padding: "8px",
-        marginTop: "20px",
-        backgroundColor: "#007bff",
-        color: "white",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer"
-    };
-
     const closeButtonStyle: React.CSSProperties = {
         position: "absolute",
         top: "5px",
@@ -67,13 +62,37 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
     };
 
     const { data, setData, post } = useForm(defaultValues);
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { errors } = usePage().props;
+    const [firstNameError, setFirstNameError] = React.useState(false);
+    const [lastNameError, setLastNameError] = React.useState(false);
+    const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
+    const [emptyLastNameError, setEmptyLastNameError] = React.useState(false);
+
+    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
         setData(data => ({
             ...data,
             [key]: value
         }));
+        if (e.target.validity.valid) setFirstNameError(false);
+        else setFirstNameError(true);
+
+        if (value == "") setEmptyFirstNameError(true);
+        else setEmptyFirstNameError(false);
+    };
+    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.id;
+        const value = e.target.value;
+        setData(data => ({
+            ...data,
+            [key]: value
+        }));
+        if (e.target.validity.valid) setLastNameError(false);
+        else setLastNameError(true);
+
+        if (value == "") setEmptyLastNameError(true);
+        else setEmptyLastNameError(false);
     };
 
     const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
@@ -86,13 +105,17 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("employees.store"));
-        setData({
-            first_name: "",
-            last_name: "",
-            team_members: []
-        });
+        setData(defaultValues);
         props.handleClose();
     };
+
+    React.useEffect(() => {
+        if (errors.first_name) {
+            alert("The first name could not be added. " + errors.first_name);
+        } else if (errors.last_name) {
+            alert("The last name could not be added. " + errors.last_name);
+        }
+    }, [errors]);
 
     return (
         <Modal open={props.isOpen} onClose={props.handleClose}>
@@ -106,7 +129,19 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
                     <TextField
                         id={"first_name"}
                         value={data.first_name}
-                        onChange={handleChange}
+                        required
+                        onChange={handleFirstNameChange}
+                        error={firstNameError || emptyFirstNameError}
+                        helperText={
+                            emptyFirstNameError
+                                ? "Required Field"
+                                : firstNameError
+                                  ? "Employee's first name should only contain letters"
+                                  : ""
+                        }
+                        inputProps={{
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="First Name"
                         variant="outlined"
@@ -115,13 +150,24 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
                     <TextField
                         id={"last_name"}
                         value={data.last_name}
-                        onChange={handleChange}
+                        required
+                        onChange={handleLastNameChange}
+                        error={lastNameError || emptyLastNameError}
+                        helperText={
+                            emptyLastNameError
+                                ? "Required Field"
+                                : lastNameError
+                                  ? "Employee's last name should only contain letters"
+                                  : ""
+                        }
+                        inputProps={{
+                            pattern: "[A-Z a-z]+"
+                        }}
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
                     />
 
-                    <FormLabel>Teams</FormLabel>
                     <Autocomplete
                         multiple
                         id={"team_members"}
@@ -130,10 +176,30 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void; teams: T
                         value={data.team_members}
                         onChange={handleTeamChange}
                         sx={inputFieldStyle}
-                        renderInput={params => <TextField {...params} />}
+                        renderInput={params => <TextField {...params} label="Teams"/>}
                     />
 
-                    <Button variant="contained" sx={submitButtonStyle} type={"submit"}>
+                    <Autocomplete
+                        multiple
+                        id="equipment_identifiers"
+                        options={props.equipment}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) =>
+                            ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier
+                        }
+                        onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[] | null) => {
+                            setData({
+                                ...data,
+                                equipment_identifiers: selectedEquipment
+                                    ? selectedEquipment.map(e => e.full_number_identifier)
+                                    : []
+                            });
+                        }}
+                        filterSelectedOptions
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Equipment identifiers" />}
+                    />
+
+                    <Button variant="contained" sx={{ margin: "10px"}} type={"submit"}>
                         Submit
                     </Button>
                 </form>

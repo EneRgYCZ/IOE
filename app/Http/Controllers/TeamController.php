@@ -61,10 +61,10 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $team = Team::create([
-            'team_name' => $request->input('team_name'),
-            'description' => $request->input('description'),
-        ]);
+        $team = Team::create($request->validate([
+            'team_name' => ['required', 'max:50'],
+            'description' => ['required', 'max:50'],
+        ]));
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -98,10 +98,10 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $team->update([
-            'team_name' => $request->input('team_name'),
-            'description' => $request->input('description'),
-        ]);
+        $team->update($request->validate([
+            'team_name' => ['required', 'max:20'],
+            'description' => ['required', 'max:50'],
+        ]));
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -121,7 +121,6 @@ class TeamController extends Controller
         TeamMember::where('team_id', $team->id)
             ->whereNotIn('employee_id', $teamMembersIDs)
             ->delete();
-
         return redirect(route('teams.index'));
     }
 

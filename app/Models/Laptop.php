@@ -12,7 +12,10 @@ class Laptop extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        'full_number_identifier',
+        'laptop_number',
+        'location',
+        'side',
         'serial_number',
         'status',
         'floor',
@@ -20,6 +23,7 @@ class Laptop extends Model
         'workspace_type',
         'updated_in_q1',
         'employee_id',
+        'remarks',
     ];
 
     use LogsActivity;

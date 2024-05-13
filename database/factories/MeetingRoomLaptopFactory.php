@@ -17,10 +17,14 @@ class MeetingRoomLaptopFactory extends Factory
     public function definition(): array
     {
         return [
-            'serial_number' => $this->faker->randomNumber(8),
+            'full_number_identifier' => $this->faker->randomNumber(8),
+            'laptop_number' => $this->faker->randomNumber(4),
+            'location' => $this->faker->randomElement(['ghh', 'waagstraat']),
+            'side' => $this->faker->randomElement(['north', 'south']),
             'floor' => $this->faker->numberBetween(1, 5),
-            'room_number' => $this->faker->randomElement(['A', 'B', 'C', 'D', 'E']),
+            'room_number' => $this->faker->numberBetween(1, 50),
             'updated_in_q1' => $this->faker->boolean(),
+            'remarks' => null,
         ];
     }
 }
