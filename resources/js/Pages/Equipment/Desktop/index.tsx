@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { DesktopPC, PageProps, PaginatedResponse } from "@/types";
+import { DesktopPC, Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -8,9 +8,11 @@ import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
 import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
 
 const Equipment = ({
-    desktops
+    desktops,
+    employees
 }: PageProps<{
     desktops: PaginatedResponse<DesktopPC>;
+    employees: Employee[];
 }>) => {
     const tableButtonMargins = {
         margin: "0 10px"
@@ -95,12 +97,14 @@ const Equipment = ({
             <AddDesktop
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
+                employees={employees}
             ></AddDesktop>
 
             <EditDesktop
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
                 desktop={currentDesktop}
+                employees={employees}
             ></EditDesktop>
         </GuestLayout>
     );

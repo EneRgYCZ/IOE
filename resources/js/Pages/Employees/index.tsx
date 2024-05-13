@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { PageProps, PaginatedResponse, Employee } from "@/types";
+import { PageProps, PaginatedResponse, Employee, DesktopPC, Laptop } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -8,7 +8,15 @@ import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
 import DeleteEmployee from "./DeleteEmployee";
 
-const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Employee> }>) => {
+const Employees = ({
+    employees,
+    desktops,
+    laptops
+}: PageProps<{
+    employees: PaginatedResponse<Employee>;
+    desktops: DesktopPC[];
+    laptops: Laptop[];
+}>) => {
     const tableButtonMargins = {
         marginRight: "10px"
     };
@@ -23,6 +31,11 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
     const [del, setDel] = useState(false);
     const [empDel, setEmpDel] = useState<Employee | null>(null);
+
+    const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
+        desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
+        laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
+    );
 
     return (
         <GuestLayout>
@@ -65,12 +78,17 @@ const Employees = ({ employees }: PageProps<{ employees: PaginatedResponse<Emplo
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
-            <AddEmployee isOpen={add} handleClose={() => setAdd(false)} />
+            <AddEmployee
+                isOpen={add}
+                handleClose={() => setAdd(false)}
+                equipment={equipment.filter(e => e.employee_id == null)}
+            />
 
             <EditEmployee
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
                 employee={empEdit}
+                equipment={equipment}
                 onSubmit={(e, form) => {
                     e.preventDefault();
                     if (empEdit) {

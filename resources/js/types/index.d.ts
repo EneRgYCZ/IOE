@@ -89,7 +89,7 @@ export interface DesktopPC {
     workspace_type: string;
     updated_in_q1: boolean;
     remarks?: string;
-    employee_id?: number;
+    employee_id: number | null;
     created_at?: string;
     updated_at?: string;
 }
@@ -106,7 +106,7 @@ export interface Laptop {
     workspace_type: string;
     updated_in_q1: boolean;
     remarks?: string;
-    employee_id?: number;
+    employee_id: number | null;
     created_at?: string;
     updated_at?: string;
 }

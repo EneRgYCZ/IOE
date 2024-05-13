@@ -3,9 +3,9 @@ import Modal from "@mui/material/Modal";
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
-import { DesktopPC } from "@/types";
+import { DesktopPC, Employee } from "@/types";
 
-const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
+const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: DesktopPC = {
         full_number_identifier: "",
         pc_number: "",
@@ -19,7 +19,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
         workspace_type: "",
         updated_in_q1: false,
         remarks: "",
-        employee_id: undefined
+        employee_id: null
     };
 
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
@@ -54,7 +54,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void }) => {
                 <Typography variant="h5" gutterBottom>
                     Add Desktop
                 </Typography>
-                <DesktopForm data={data} setData={setData} onSubmit={submit} />
+                <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>
     );
