@@ -53,7 +53,10 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        Team::create($request->all());
+        Team::create($request->validate([
+            'team_name' => ['required', 'max:50'],
+            'description' => ['required', 'max:50'],
+        ]));
 
         return redirect(route('teams.index'));
     }
@@ -79,7 +82,10 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        $team->update($request->all());
+        $team->update($request->validate([
+            'team_name' => ['required', 'max:20'],
+            'description' => ['required', 'max:50'],
+        ]));
 
         return redirect(route('teams.index'));
     }

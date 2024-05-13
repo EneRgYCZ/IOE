@@ -8,13 +8,36 @@ import { Team } from "@/types";
 
 const TeamEditForm = ({ team }: { team: Team }) => {
     const [formOpen, setFormOpen] = React.useState(false);
+    const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const { data, setData, patch } = useForm({
+    const { data, setData, patch, hasErrors, errors, clearErrors } = useForm({
         team_name: team.team_name,
         description: team.description
     });
+
+    React.useEffect(() => {
+        if (team !== null) {
+            setData(team);
+        }
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [team, errors]);
+
+    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData(data => ({
+            ...data,
+            [e.target.id]: e.target.value
+        }));
+        if (e.target.validity.valid) {
+            setTeamNameError(false);
+        } else {
+            setTeamNameError(true);
+        }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -46,12 +69,6 @@ const TeamEditForm = ({ team }: { team: Team }) => {
         width: "100%"
     };
 
-    React.useEffect(() => {
-        if (team !== null) {
-            setData(team);
-        }
-    }, [team]);
-
     return (
         <div>
             <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleFormOpen}>
@@ -67,14 +84,21 @@ const TeamEditForm = ({ team }: { team: Team }) => {
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
-                            onChange={handleChange}
+                            required
+                            onChange={handleTeamNameChange}
                             sx={fieldStyle}
                             variant="outlined"
+                            error={teamNameError}
+                            helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                            inputProps={{
+                                pattern: "[A-Za-z ]+"
+                            }}
                         />
                         <FormLabel>Team Description</FormLabel>
                         <TextField
                             id={"description"}
                             value={data.description}
+                            required
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
