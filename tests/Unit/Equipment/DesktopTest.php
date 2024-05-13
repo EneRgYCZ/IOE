@@ -178,7 +178,7 @@ it('can update the double PC flag of a desktop', function () {
         'pc_number' => $desktop->pc_number,
         'location' => $desktop->location,
         'side' => $desktop->side,
-        'double_pc' => !$desktop->double_pc,
+        'double_pc' => ! $desktop->double_pc,
         'needs_dock' => $desktop->needs_dock,
         'status' => $desktop->status,
         'floor' => $desktop->floor,
@@ -199,7 +199,7 @@ it('can update the needs dock flag of a desktop', function () {
         'location' => $desktop->location,
         'side' => $desktop->side,
         'double_pc' => $desktop->double_pc,
-        'needs_dock' => !$desktop->needs_dock,
+        'needs_dock' => ! $desktop->needs_dock,
         'status' => $desktop->status,
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
@@ -244,7 +244,7 @@ it('can update the updated in Q1 flag of a desktop', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => !$desktop->updated_in_q1,
+        'updated_in_q1' => ! $desktop->updated_in_q1,
     ];
     $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $response->assertRedirect(route('equipment.desktops'));

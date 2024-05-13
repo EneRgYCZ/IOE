@@ -41,7 +41,6 @@ it('can display meeting room laptops', function () {
         );
 });
 
-
 it('can update the full number identifier of a meeting room laptop', function () {
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();
     $updatedData = [
@@ -143,7 +142,6 @@ it('can update the room number of a meeting room laptop', function () {
     $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
-
 
 it('can delete a meeting room laptop', function () {
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();

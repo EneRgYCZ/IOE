@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +53,4 @@ Route::group(['prefix' => 'equipment', 'as' => 'equipment.'], function () {
     Route::delete('/meetingRoomLaptop/{meetingRoomLaptop}', [\App\Http\Controllers\EquipmentController::class, 'destroyMeetingRoomLaptop'])->name('destroyMeetingRoomLaptop');
 });
 
-Route::group(['prefix' => 'logs', 'as' => 'logs.'], function () {
-    Route::get('/', [\App\Http\Controllers\LogsController::class, 'index'])->name('index');
-});
+Route::resource('logs', \App\Http\Controllers\LogsController::class)->except(['update', 'destroy', 'store']);
