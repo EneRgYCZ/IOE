@@ -84,7 +84,7 @@ const Employees = ({
             </Fab>
             <AddEmployee
                 isOpen={add}
-                handleClose={() => setAdd(false)} 
+                handleClose={() => setAdd(false)}
                 teams={teams}
                 equipment={equipment.filter(e => e.employee_id == null)}
             />

@@ -121,6 +121,7 @@ class TeamController extends Controller
         TeamMember::where('team_id', $team->id)
             ->whereNotIn('employee_id', $teamMembersIDs)
             ->delete();
+
         return redirect(route('teams.index'));
     }
 

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Desktop;
 use App\Models\Employee;
-use App\Models\TeamMember;
 use App\Models\Laptop;
 use App\Models\Team;
+use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
@@ -91,7 +91,6 @@ class EmployeeController extends Controller
             ]);
         }
 
-
         $equipment_identifiers = $request->input('equipment_identifiers', []);
 
         Desktop::whereIn('full_number_identifier', $equipment_identifiers)
@@ -105,7 +104,6 @@ class EmployeeController extends Controller
         Laptop::where('employee_id', $employee->id)
             ->whereNotIn('full_number_identifier', $equipment_identifiers)
             ->update(['employee_id' => null]);
-
 
         return redirect(route('employees.index'));
     }

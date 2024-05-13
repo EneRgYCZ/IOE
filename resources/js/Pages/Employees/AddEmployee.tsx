@@ -1,14 +1,14 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Autocomplete, Box, Button, FormLabel, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
 import { Team, DesktopPC, Laptop } from "@/types";
 
-const AddEmployee = (props: { 
-    isOpen: boolean; 
-    handleClose: () => void; 
-    teams: Team[]; 
-    equipment: (DesktopPC | Laptop)[] 
+const AddEmployee = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    teams: Team[];
+    equipment: (DesktopPC | Laptop)[];
 }) => {
     const defaultValues: {
         first_name: string;
@@ -176,7 +176,7 @@ const AddEmployee = (props: {
                         value={data.team_members}
                         onChange={handleTeamChange}
                         sx={inputFieldStyle}
-                        renderInput={params => <TextField {...params} label="Teams"/>}
+                        renderInput={params => <TextField {...params} label="Teams" />}
                     />
 
                     <Autocomplete
@@ -199,7 +199,7 @@ const AddEmployee = (props: {
                         renderInput={params => <TextField {...params} label="Equipment identifiers" />}
                     />
 
-                    <Button variant="contained" sx={{ margin: "10px"}} type={"submit"}>
+                    <Button variant="contained" sx={{ margin: "10px" }} type={"submit"}>
                         Submit
                     </Button>
                 </form>

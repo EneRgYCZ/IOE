@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react";
 import Modal from "@mui/material/Modal";
-import { Autocomplete, Box, Button, FormLabel, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
@@ -177,7 +177,7 @@ const EditEmployee = (props: {
                         value={data.team_members}
                         onChange={handleTeamChange}
                         sx={inputFieldStyle}
-                        renderInput={params => <TextField {...params} label="Teams"/>}
+                        renderInput={params => <TextField {...params} label="Teams" />}
                     />
 
                     <Autocomplete
