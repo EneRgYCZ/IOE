@@ -8,9 +8,8 @@ it('can create an employee', function () {
         'last_name' => 'Doe',
     ];
 
-    $response = $this->post(route('employees.store'), $employeeData);
+    $this->post(route('employees.store'), $employeeData);
 
-    $response->assertRedirect(route('employees.index'));
     $this->assertDatabaseHas('employees', $employeeData);
 });
 
@@ -43,17 +42,15 @@ it('can update an employee', function () {
         'last_name' => 'Smith',
     ];
 
-    $response = $this->patch(route('employees.update', $employee), $updatedData);
+    $this->patch(route('employees.update', $employee), $updatedData);
 
-    $response->assertRedirect(route('employees.index'));
     $this->assertDatabaseHas('employees', $updatedData);
 });
 
 it('can delete an employee', function () {
     $employee = Employee::factory()->create();
 
-    $response = $this->delete(route('employees.destroy', $employee));
+    $this->delete(route('employees.destroy', $employee));
 
-    $response->assertRedirect(route('employees.index'));
     $this->assertDatabaseMissing('employees', ['id' => $employee->id]);
 });

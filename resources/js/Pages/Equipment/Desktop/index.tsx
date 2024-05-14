@@ -45,7 +45,7 @@ const Equipment = ({
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
-                        Employees
+                        Desktops
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
