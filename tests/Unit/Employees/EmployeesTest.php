@@ -132,7 +132,7 @@ it('can sort employees by last name in ascending order', function () {
 });
 
 it('can sort employees by last name in descending order', function () {
-    $employeeData = [
+    $employeeData1 = [
         'first_name' => 'Abby',
         'last_name' => 'Abigail',
     ];
@@ -145,7 +145,7 @@ it('can sort employees by last name in descending order', function () {
         'last_name' => 'Katherine',
     ];
 
-    Employee::create($employeeData);
+    Employee::create($employeeData1);
     Employee::create($employeeData2);
     Employee::create($employeeData3);
 
