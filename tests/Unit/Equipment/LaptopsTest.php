@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Equipment;
 
-use App\Models\Laptop;
 use App\Models\Employee;
+use App\Models\Laptop;
 
 it('can create a laptop', function () {
     $laptopData = [
@@ -23,7 +23,6 @@ it('can create a laptop', function () {
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
-
 it('can search a laptop', function () {
     $laptopData = [
         'full_number_identifier' => 'L12345',
@@ -42,8 +41,8 @@ it('can search a laptop', function () {
     $this->assertDatabaseHas('laptops', $laptopData);
 
     $response = $this->get('/equipment/laptops?search=L12345');
-    $response -> assertStatus(200);
-    $response -> assertSee('L12345');
+    $response->assertStatus(200);
+    $response->assertSee('L12345');
 });
 
 it('can display laptops', function () {

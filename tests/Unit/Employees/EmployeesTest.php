@@ -47,16 +47,16 @@ it('can update an employee', function () {
     $this->assertDatabaseHas('employees', $updatedData);
 });
 
-it('can search for an employee', function(){
+it('can search for an employee', function () {
     $employeeData = [
         'first_name' => 'testFirstName',
-        'last_name' => 'testLastName'
+        'last_name' => 'testLastName',
     ];
     Employee::create($employeeData);
 
     $response = $this->get('/employees?search=testFirstName');
-    $response -> assertStatus(200);
-    $response -> assertSee("testFirstName");
+    $response->assertStatus(200);
+    $response->assertSee('testFirstName');
 });
 
 it('can sort employees by first name in ascending order', function () {
@@ -154,7 +154,6 @@ it('can sort employees by last name in descending order', function () {
     $response = $this->get('/employees?sort=l-ast_name');
     $response->assertSeeInOrder(['Katherine', 'Basher', 'Abigail']);
 });
-
 
 it('can delete an employee', function () {
     $employee = Employee::factory()->create();

@@ -1,13 +1,13 @@
 <?php
 
-use App\Models\Team;
 use App\Models\Employee;
+use App\Models\Team;
 
 test('can display the teams', function () {
     $team = Team::factory()->create();
 
     $response = $this->get(route('teams.index'));
-    
+
     $response->assertStatus(200);
     $response->assertInertia(
         fn ($page) => $page
@@ -60,39 +60,37 @@ test('can update a team', function () {
     expect($team->description)->toBe('This is an updated team');
 });
 
-
 test('can assign an employee to a team', function () {
     $employee = Employee::factory()->create();
-    
+
     $teamData = [
         'team_name' => 'Test Team',
         'description' => 'This is a test team',
         'team_members' => [
-            ['id' => $employee->id], 
+            ['id' => $employee->id],
         ],
     ];
     $team = Team::create($teamData);
-    
+
     $this->post(route('teams.store'), $teamData);
     $this->assertDatabaseHas('team_members', [
         'employee_id' => $employee->id,
     ]);
 
-
 });
 
 test('can unassign an employee from a team', function () {
     $employee = Employee::factory()->create();
-    
+
     $teamData = [
         'team_name' => 'Test Team',
         'description' => 'This is a test team',
         'team_members' => [
-            ['id' => $employee->id], 
+            ['id' => $employee->id],
         ],
     ];
     $team = Team::create($teamData);
-    
+
     $this->post(route('teams.store'), $teamData);
     $this->assertDatabaseHas('team_members', [
         'employee_id' => $employee->id,
@@ -105,37 +103,37 @@ test('can unassign an employee from a team', function () {
 
     $team->update($updatedData);
 
-    !$this->assertDatabaseHas('team_members', [
+    ! $this->assertDatabaseHas('team_members', [
         'employee_id' => $employee->id,
     ]);
 
 });
 
-test('can search for a team', function(){
+test('can search for a team', function () {
     $teamData = [
         'team_name' => 'Test Team A',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
     Team::create($teamData);
 
     $response = $this->get('/teams?search=Test Team A');
-    $response -> assertStatus(200);
-    $response -> assertSee("Test Team A");
+    $response->assertStatus(200);
+    $response->assertSee('Test Team A');
 
 });
 
-test('can sort teams by name in ascending order',function(){
+test('can sort teams by name in ascending order', function () {
     $teamData1 = [
         'team_name' => 'Team A',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
     $teamData2 = [
         'team_name' => 'Team B',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
     $teamData3 = [
         'team_name' => 'Team C',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
 
     Team::create($teamData1);
@@ -148,18 +146,18 @@ test('can sort teams by name in ascending order',function(){
 
 });
 
-test('can sort teams by name in descending order',function(){
+test('can sort teams by name in descending order', function () {
     $teamData1 = [
         'team_name' => 'Team A',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
     $teamData2 = [
         'team_name' => 'Team B',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
     $teamData3 = [
         'team_name' => 'Team C',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ];
 
     Team::create($teamData1);
@@ -171,18 +169,18 @@ test('can sort teams by name in descending order',function(){
     $response->assertSeeInOrder(['Team C', 'Team B', 'Team A']);
 
 });
-test('can sort teams by description in ascending order',function(){
+test('can sort teams by description in ascending order', function () {
     $teamData1 = [
         'team_name' => 'Team A',
-        'description' => 'Test DescriptionA'
+        'description' => 'Test DescriptionA',
     ];
     $teamData2 = [
         'team_name' => 'Team B',
-        'description' => 'Test DescriptionB'
+        'description' => 'Test DescriptionB',
     ];
     $teamData3 = [
         'team_name' => 'Team C',
-        'description' => 'Test DescriptionC'
+        'description' => 'Test DescriptionC',
     ];
 
     Team::create($teamData1);
@@ -195,18 +193,18 @@ test('can sort teams by description in ascending order',function(){
 
 });
 
-test('can sort teams by description in descending order',function(){
+test('can sort teams by description in descending order', function () {
     $teamData1 = [
         'team_name' => 'Team A',
-        'description' => 'Test DescriptionA'
+        'description' => 'Test DescriptionA',
     ];
     $teamData2 = [
         'team_name' => 'Team B',
-        'description' => 'Test DescriptionB'
+        'description' => 'Test DescriptionB',
     ];
     $teamData3 = [
         'team_name' => 'Team C',
-        'description' => 'Test DescriptionC'
+        'description' => 'Test DescriptionC',
     ];
 
     Team::create($teamData1);

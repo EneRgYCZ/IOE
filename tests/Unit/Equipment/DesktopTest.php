@@ -39,14 +39,14 @@ it('can search a desktop', function () {
         'workspace_type' => 'developer',
         'updated_in_q1' => false,
     ];
-    
+
     $response = $this->post(route('equipment.storeDesktop'), $desktopData);
     $response->assertRedirect(route('equipment.desktops'));
     $this->assertDatabaseHas('desktops', $desktopData);
 
     $response = $this->get('/equipment/desktops?search=PC001');
-    $response -> assertStatus(200);
-    $response -> assertSee('PC001');
+    $response->assertStatus(200);
+    $response->assertSee('PC001');
 });
 
 it('can display desktops', function () {
@@ -301,7 +301,7 @@ it('can assign a desktop to an employee', function () {
     $response = $this->post(route('equipment.storeDesktop'), $desktopData);
     $response->assertRedirect(route('equipment.desktops'));
     $this->assertDatabaseHas('desktops', $desktopData);
-     
+
     $desktop->update(['employee_id' => $employee->id]);
     $this->assertEquals($employee->id, $desktop->employee_id);
 
@@ -331,7 +331,7 @@ it('can unassign a desktop from an employee', function () {
     $response = $this->post(route('equipment.storeDesktop'), $desktopData);
     $response->assertRedirect(route('equipment.desktops'));
     $this->assertDatabaseHas('desktops', $desktopData);
-     
+
     $desktop->update(['employee_id' => $employee->id]);
     $this->assertEquals($employee->id, $desktop->employee_id);
 
@@ -346,4 +346,3 @@ it('can delete a desktop', function () {
     $response->assertRedirect(route('equipment.desktops'));
     $this->assertDatabaseMissing('desktops', ['id' => $desktop->id]);
 });
-

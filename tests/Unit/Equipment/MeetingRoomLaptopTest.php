@@ -34,8 +34,8 @@ it('can search a meeting room laptop', function () {
     $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
     $response = $this->get('/equipment/meeting-room-laptops?search=MR123');
-    $response -> assertStatus(200);
-    $response -> assertSee('MR123');
+    $response->assertStatus(200);
+    $response->assertSee('MR123');
 });
 
 it('can display meeting room laptops', function () {
