@@ -19,6 +19,24 @@ it('can create a meeting room laptop', function () {
     $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
 });
+it('can search a meeting room laptop', function () {
+    $meetingRoomLaptopData = [
+        'full_number_identifier' => 'MR123',
+        'laptop_number' => 'MR001',
+        'location' => 'waagstraat',
+        'side' => 'south',
+        'floor' => 3,
+        'room_number' => '300A',
+        'updated_in_q1' => false,
+    ];
+
+    $response = $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
+    $response->assertRedirect(route('equipment.meeting-room-laptops'));
+    $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
+    $response = $this->get('/equipment/meeting-room-laptops?search=MR123');
+    $response -> assertStatus(200);
+    $response -> assertSee('MR123');
+});
 
 it('can display meeting room laptops', function () {
     MeetingRoomLaptop::factory()->count(3)->create();

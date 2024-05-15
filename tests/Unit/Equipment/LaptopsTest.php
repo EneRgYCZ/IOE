@@ -3,6 +3,7 @@
 namespace Tests\Unit\Equipment;
 
 use App\Models\Laptop;
+use App\Models\Employee;
 
 it('can create a laptop', function () {
     $laptopData = [
@@ -20,6 +21,29 @@ it('can create a laptop', function () {
     $response = $this->post(route('equipment.storeLaptop'), $laptopData);
     $response->assertRedirect(route('equipment.laptops'));
     $this->assertDatabaseHas('laptops', $laptopData);
+});
+
+
+it('can search a laptop', function () {
+    $laptopData = [
+        'full_number_identifier' => 'L12345',
+        'laptop_number' => 'L001',
+        'location' => 'ghh',
+        'side' => 'north',
+        'status' => 'static',
+        'floor' => 2,
+        'island_number' => 102,
+        'workspace_type' => 'non-developer',
+        'updated_in_q1' => true,
+    ];
+
+    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $response->assertRedirect(route('equipment.laptops'));
+    $this->assertDatabaseHas('laptops', $laptopData);
+
+    $response = $this->get('/equipment/laptops?search=L12345');
+    $response -> assertStatus(200);
+    $response -> assertSee('L12345');
 });
 
 it('can display laptops', function () {
@@ -160,6 +184,66 @@ it('can update the status of a laptop', function () {
     $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $response->assertRedirect(route('equipment.laptops'));
     $this->assertDatabaseHas('laptops', $updatedData);
+});
+
+it('can assign a laptop to an employee', function () {
+    $employeeData = [
+        'first_name' => 'Test',
+        'last_name' => 'Employee',
+    ];
+    $employee = Employee::create($employeeData);
+    $laptopData = [
+        'full_number_identifier' => 'L12345',
+        'laptop_number' => 'L001',
+        'location' => 'ghh',
+        'side' => 'north',
+        'status' => 'static',
+        'floor' => 2,
+        'island_number' => 102,
+        'workspace_type' => 'non-developer',
+        'updated_in_q1' => true,
+    ];
+
+    $laptop = Laptop::create($laptopData);
+
+    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $response->assertRedirect(route('equipment.laptops'));
+    $this->assertDatabaseHas('laptops', $laptopData);
+
+    $laptop->update(['employee_id' => $employee->id]);
+    $this->assertEquals($employee->id, $laptop->employee_id);
+
+});
+
+it('can unassign a laptop from an employee', function () {
+    $employeeData = [
+        'first_name' => 'Test',
+        'last_name' => 'Employee',
+    ];
+    $employee = Employee::create($employeeData);
+    $laptopData = [
+        'full_number_identifier' => 'L12345',
+        'laptop_number' => 'L001',
+        'location' => 'ghh',
+        'side' => 'north',
+        'status' => 'static',
+        'floor' => 2,
+        'island_number' => 102,
+        'workspace_type' => 'non-developer',
+        'updated_in_q1' => true,
+    ];
+
+    $laptop = Laptop::create($laptopData);
+
+    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $response->assertRedirect(route('equipment.laptops'));
+    $this->assertDatabaseHas('laptops', $laptopData);
+
+    $laptop->update(['employee_id' => $employee->id]);
+    $this->assertEquals($employee->id, $laptop->employee_id);
+    $laptop->update(['employee_id' => null]);
+    $this->assertNull($laptop->employee_id);
+
 });
 
 it('can delete a laptop', function () {
