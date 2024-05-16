@@ -9,6 +9,7 @@ import ColumnHeader from "./column-header";
 import Paginator from "./paginator";
 import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow, Button } from "@mui/material";
 import FilterDrawer from "@/Components/table/filter-drawer";
+import SearchInput from "./search-input";
 
 export type CellRenderer<T> = (
     data: T,
@@ -184,7 +185,35 @@ export const Table = <T,>({
                         gap: 2
                     }}
                 >
-                    [ Insert general SearchBar here ]
+                    {tableData.searchInputs.map(search => {
+                        console.log(search);
+                        if (search.label !== "Global Search") {
+                            return null;
+                        }
+
+                        return (
+                            <SearchInput
+                                key={`table-${name}-search-global_search`}
+                                input={search}
+                                searchUpdatedHandler={(input, newValue) => {
+                                    const newInputs = tableData.searchInputs.map(s => {
+                                        if (s.key === input.key) {
+                                            s.value = newValue;
+                                        }
+
+                                        return s;
+                                    });
+
+                                    setTableData(prev => {
+                                        return {
+                                            ...prev,
+                                            searchInputs: newInputs
+                                        };
+                                    });
+                                }}
+                            />
+                        );
+                    })}
                     <Box
                         sx={{
                             display: "flex",

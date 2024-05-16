@@ -8,7 +8,6 @@ use App\Models\Laptop;
 use App\Models\Team;
 use App\Models\TeamMember;
 use App\Table\Column;
-use App\Table\GlobalSearchInput;
 use App\Table\SearchInput;
 use App\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +20,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $globalSearchColumns = ['id', 'first_name', 'last_name'];
+        $globalSearchColumns = ['first_name', 'last_name'];
 
         $employees = QueryBuilder::for(Employee::query())
             ->allowedSorts('id', 'first_name', 'last_name')
@@ -51,14 +50,14 @@ class EmployeeController extends Controller
             'team_members' => $teamMembers,
             'desktops' => $desktops,
             'laptops' => $laptops,
-        ])->table(function (Table $table) use ($globalSearchColumns) {
+        ])->table(function (Table $table) {
             $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
                 ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
-                ->addSearchInput(new GlobalSearchInput($globalSearchColumns, 'Global Search'));
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
