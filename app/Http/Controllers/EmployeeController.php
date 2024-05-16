@@ -11,11 +11,11 @@ use App\Table\Column;
 use App\Table\GlobalSearchInput;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
 
 class EmployeeController extends Controller
 {
@@ -40,10 +40,10 @@ class EmployeeController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $teams = Team::query()->get();
-        $teamMembers = TeamMember::query()->get();
-        $desktops = Desktop::query()->get();
-        $laptops = Laptop::query()->get();
+        $teams = Team::all();
+        $teamMembers = TeamMember::all();
+        $desktops = Desktop::all();
+        $laptops = Laptop::all();
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
@@ -61,7 +61,6 @@ class EmployeeController extends Controller
                 ->addSearchInput(new GlobalSearchInput($globalSearchColumns, 'Global Search'));
         });
     }
-
 
     public function store(Request $request)
     {

@@ -108,9 +108,9 @@ class Table
         } else {
             throw new \InvalidArgumentException('Invalid input type');
         }
+
         return $this;
     }
-
 
     private function transformSearchInputs(): Collection
     {
@@ -131,7 +131,6 @@ class Table
             return $searchInput;
         });
     }
-
 
     public function getQueryBuilder(): array
     {
