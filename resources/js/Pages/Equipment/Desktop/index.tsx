@@ -49,24 +49,23 @@ const Equipment = ({
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<DesktopPC>
-                            name="desktops"
                             data={desktops}
-                            actionRenderer={desktop => (
+                            actionRenderer={desktops => (
                                 <TableCell align="center">
                                     <Button
                                         variant="contained"
                                         sx={tableButtonMargins}
                                         onClick={() => {
-                                            setCurrentDesktop(desktop);
+                                            setCurrentDesktop(desktops);
                                             setFormOpen({ ...formOpen, editDesktop: true });
                                         }}
                                     >
                                         EDIT
                                     </Button>
                                     <Link
-                                        href={route("equipment.destroyDesktop", desktop.id)}
+                                        href={route("equipment.destroyDesktop", desktops.id)}
                                         method="delete"
                                         onBefore={() =>
                                             window.confirm(

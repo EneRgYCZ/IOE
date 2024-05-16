@@ -53,24 +53,23 @@ const Equipment = ({
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
-                            name="laptops"
                             data={laptops}
-                            actionRenderer={laptop => (
+                            actionRenderer={laptops => (
                                 <TableCell align="center">
                                     <Button
                                         variant="contained"
                                         sx={tableButtonMargins}
                                         onClick={() => {
-                                            setCurrentLaptop(laptop);
+                                            setCurrentLaptop(laptops);
                                             setFormOpen({ ...formOpen, editLaptop: true });
                                         }}
                                     >
                                         EDIT
                                     </Button>
                                     <Link
-                                        href={route("equipment.destroyLaptop", laptop.id)}
+                                        href={route("equipment.destroyLaptop", laptops.id)}
                                         method="delete"
                                         onBefore={() =>
                                             window.confirm(

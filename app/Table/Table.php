@@ -120,8 +120,10 @@ class Table
             return $this->searchInputs;
         }
 
-        return $this->searchInputs->map(function ($searchInput) use ($filters) {
-            $searchInput->value = $filters[$searchInput->key];
+        return $this->searchInputs->map(function (SearchInput $searchInput) use ($filters) {
+            if (array_key_exists($searchInput->key, $filters)) {
+                $searchInput->value = $filters[$searchInput->key];
+            }
 
             return $searchInput;
         });

@@ -34,14 +34,14 @@ class EquipmentController extends Controller
             'status',
             'floor',
             'island_number',
-            'type',
+            'workspace_type',
             'updated_in_q1',
             'remarks',
             'employee_id',
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -53,7 +53,7 @@ class EquipmentController extends Controller
                 'status',
                 'floor',
                 'island_number',
-                'type',
+                'workspace_type',
                 'updated_in_q1',
                 'remarks',
                 'employee_id',
@@ -74,7 +74,7 @@ class EquipmentController extends Controller
             'desktops' => $desktops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table->setName('desktops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('pc_number', 'PC Number', sortable: true))
@@ -155,7 +155,7 @@ class EquipmentController extends Controller
             'laptops' => $laptops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table->setName('laptops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
@@ -223,7 +223,7 @@ class EquipmentController extends Controller
         return Inertia::render('Equipment/MeetingRoomLaptop/index', [
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
-            $table->setName('meetingRoomLaptops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
