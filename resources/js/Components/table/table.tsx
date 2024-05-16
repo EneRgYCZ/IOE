@@ -136,7 +136,6 @@ export const Table = <T,>({
 
         // add new data
         const newData = dataForNewString();
-        console.log("Query Data before QS:", newData); // Debug output
         Object.entries(newData).forEach(([key, value]) => {
             if (key === "page") {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -186,7 +185,6 @@ export const Table = <T,>({
                     }}
                 >
                     {tableData.searchInputs.map(search => {
-                        console.log(search);
                         if (search.label !== "Global Search") {
                             return null;
                         }

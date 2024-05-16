@@ -101,7 +101,7 @@ class Table
         });
     }
 
-    public function addSearchInput($searchInput): self
+    public function addSearchInput(SearchInput $searchInput): self
     {
         if ($searchInput instanceof SearchInput) {
             $this->searchInputs = $this->searchInputs->push($searchInput)->values();

@@ -56,20 +56,20 @@ const Equipment = ({
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
                             data={laptops}
-                            actionRenderer={laptops => (
+                            actionRenderer={laptop => (
                                 <TableCell align="center">
                                     <Button
                                         variant="contained"
                                         sx={tableButtonMargins}
                                         onClick={() => {
-                                            setCurrentLaptop(laptops);
+                                            setCurrentLaptop(laptop);
                                             setFormOpen({ ...formOpen, editLaptop: true });
                                         }}
                                     >
                                         EDIT
                                     </Button>
                                     <Link
-                                        href={route("equipment.destroyLaptop", laptops.id)}
+                                        href={route("equipment.destroyLaptop", laptop.id)}
                                         method="delete"
                                         onBefore={() =>
                                             window.confirm(
