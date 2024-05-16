@@ -103,7 +103,7 @@ class Table
 
     public function addSearchInput($searchInput): self
     {
-        if ($searchInput instanceof SearchInput || $searchInput instanceof GlobalSearchInput) {
+        if ($searchInput instanceof SearchInput) {
             $this->searchInputs = $this->searchInputs->push($searchInput)->values();
         } else {
             throw new \InvalidArgumentException('Invalid input type');
@@ -121,12 +121,7 @@ class Table
         }
 
         return $this->searchInputs->map(function ($searchInput) use ($filters) {
-            if ($searchInput instanceof GlobalSearchInput) {
-                // Handle global search logic here if necessary
-                // For example, you might not modify anything if global search parameters are processed differently
-            } elseif ($searchInput instanceof SearchInput && array_key_exists($searchInput->key, $filters)) {
-                $searchInput->value = $filters[$searchInput->key];
-            }
+            $searchInput->value = $filters[$searchInput->key];
 
             return $searchInput;
         });
