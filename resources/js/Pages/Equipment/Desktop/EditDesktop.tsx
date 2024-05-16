@@ -2,10 +2,15 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import { DesktopPC } from "@/types";
+import { DesktopPC, Employee } from "@/types";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
 
-const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop: DesktopPC | null }) => {
+const EditDesktop = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    desktop: DesktopPC | null;
+    employees: Employee[];
+}) => {
     const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<DesktopPC>({
         full_number_identifier: props.desktop ? props.desktop.full_number_identifier : "",
         pc_number: props.desktop ? props.desktop.pc_number : "",
@@ -19,7 +24,7 @@ const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop:
         workspace_type: props.desktop ? props.desktop.workspace_type : "",
         updated_in_q1: props.desktop ? props.desktop.updated_in_q1 : false,
         remarks: props.desktop ? props.desktop.remarks : "",
-        employee_id: props.desktop ? props.desktop.employee_id : undefined
+        employee_id: props.desktop ? props.desktop.employee_id : null
     });
 
     React.useEffect(() => {
@@ -59,7 +64,7 @@ const EditDesktop = (props: { isOpen: boolean; handleClose: () => void; desktop:
                 <Typography variant="h5" gutterBottom>
                     Edit Desktop
                 </Typography>
-                <DesktopForm data={data} setData={setData} onSubmit={submit} />
+                <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>
     );

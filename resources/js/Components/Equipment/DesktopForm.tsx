@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     FormControl,
     FormControlLabel,
@@ -11,9 +12,14 @@ import {
     TextField
 } from "@mui/material";
 import React from "react";
-import { DesktopPC } from "@/types";
+import { DesktopPC, Employee } from "@/types";
 
-const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => void; onSubmit: () => void }) => {
+const DesktopForm = (props: {
+    data: DesktopPC;
+    setData: (data: DesktopPC) => void;
+    onSubmit: () => void;
+    employees: Employee[];
+}) => {
     const fieldStyle = {
         margin: "5px 0",
         width: "100%"
@@ -28,7 +34,7 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
         island_number: false
     });
 
-    const validation = (e: React.FormEvent<HTMLFormElement>) => {
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setErrors({
@@ -59,6 +65,10 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
             ...props.data,
             [key]: value
         });
+        setErrors({
+            ...errors,
+            [key]: !e.target.validity.valid
+        });
     };
 
     const handleSelectChange = (e: SelectChangeEvent) => {
@@ -71,13 +81,14 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
     };
 
     return (
-        <form onSubmit={validation}>
+        <form onSubmit={submit}>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number*"
+                label="Full number"
+                required
                 variant="outlined"
                 error={errors.full_number_identifier}
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
@@ -87,19 +98,20 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 value={props.data.pc_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="PC Number*"
+                label="PC Number"
+                required
                 variant="outlined"
                 error={errors.pc_number}
                 helperText={errors.pc_number ? "This field is mandatory" : ""}
             />
-            <FormControl sx={fieldStyle}>
+            <FormControl sx={fieldStyle} required>
                 <InputLabel id="location_label" error={errors.location}>
-                    Location*
+                    Location
                 </InputLabel>
                 <Select
                     labelId="location_label"
                     name="location"
-                    label="Location*"
+                    label="Location"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -110,14 +122,14 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 </Select>
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
-            <FormControl sx={fieldStyle}>
+            <FormControl sx={fieldStyle} required>
                 <InputLabel id="side_label" error={errors.side}>
-                    Side*
+                    Side
                 </InputLabel>
                 <Select
                     labelId="side_label"
                     name="side"
-                    label="Side*"
+                    label="Side"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -129,16 +141,12 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
             <FormControlLabel
-                control={
-                    <Switch defaultChecked checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />
-                }
+                control={<Switch checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Double PC"
             />
             <FormControlLabel
-                control={
-                    <Switch defaultChecked checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />
-                }
+                control={<Switch checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Needs dock"
             />
@@ -162,7 +170,8 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor*"
+                label="Floor"
+                required
                 variant="outlined"
                 error={errors.floor}
                 helperText={errors.floor ? "This field is mandatory" : ""}
@@ -172,7 +181,8 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 value={props.data.island_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Island number*"
+                label="Island number"
+                required
                 variant="outlined"
                 error={errors.island_number}
                 helperText={errors.island_number ? "This field is mandatory" : ""}
@@ -192,14 +202,7 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 </Select>
             </FormControl>
             <FormControlLabel
-                control={
-                    <Switch
-                        defaultChecked
-                        checked={props.data.updated_in_q1}
-                        id={"updated_in_q1"}
-                        onChange={handleChange}
-                    />
-                }
+                control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />
@@ -211,13 +214,20 @@ const DesktopForm = (props: { data: DesktopPC; setData: (data: DesktopPC) => voi
                 label="Remarks"
                 variant="outlined"
             />
-            <TextField
-                id={"employee_id"}
-                value={props.data.employee_id}
-                onChange={handleChange}
+            <Autocomplete
+                id="employee_id"
+                options={props.employees}
+                getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                value={props.data.employee_id ? props.employees.find(emp => emp.id == props.data.employee_id) : null}
+                onChange={(_event: React.SyntheticEvent, selectedEmployee: Employee | null) => {
+                    props.setData({
+                        ...props.data,
+                        employee_id: selectedEmployee ? selectedEmployee.id : null
+                    });
+                }}
+                filterSelectedOptions
                 sx={fieldStyle}
-                label="Employee ID"
-                variant="outlined"
+                renderInput={params => <TextField {...params} label="Employee" />}
             />
             <Button variant="contained" type={"submit"}>
                 Submit

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Desktop;
+use App\Models\Employee;
 use App\Models\Laptop;
 use App\Models\MeetingRoomLaptop;
 use App\Table\Column;
@@ -41,8 +42,11 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
+        $employees = Employee::query()->get();
+
         return Inertia::render('Equipment/Desktop/index', [
             'desktops' => $desktops,
+            'employees' => $employees,
         ])->table(function (Table $table) {
             $table->setName('desktops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
@@ -96,8 +100,11 @@ class EquipmentController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
+        $employees = Employee::query()->get();
+
         return Inertia::render('Equipment/Laptop/index', [
             'laptops' => $laptops,
+            'employees' => $employees,
         ])->table(function (Table $table) {
             $table->setName('laptops')
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))

@@ -3,9 +3,9 @@ import Modal from "@mui/material/Modal";
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import LaptopForm from "@/Components/Equipment/LaptopForm";
-import { Laptop } from "@/types";
+import { Employee, Laptop } from "@/types";
 
-const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
+const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: Laptop = {
         full_number_identifier: "",
         laptop_number: "",
@@ -17,7 +17,7 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
         workspace_type: "",
         updated_in_q1: false,
         remarks: "",
-        employee_id: undefined
+        employee_id: null
     };
 
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
@@ -52,7 +52,7 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
                 <Typography variant="h5" gutterBottom>
                     Add Laptop
                 </Typography>
-                <LaptopForm data={data} setData={setData} onSubmit={submit} />
+                <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>
     );

@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Laptop, PageProps, PaginatedResponse } from "@/types";
+import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
@@ -8,9 +8,11 @@ import AddLaptop from "@/Pages/Equipment/Laptop/AddLaptop";
 import EditLaptop from "@/Pages/Equipment/Laptop/EditLaptop";
 
 const Equipment = ({
-    laptops
+    laptops,
+    employees
 }: PageProps<{
     laptops: PaginatedResponse<Laptop>;
+    employees: Employee[];
 }>) => {
     const tableButtonMargins = {
         margin: "0 10px"
@@ -45,9 +47,11 @@ const Equipment = ({
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
-                <Typography variant="h4" sx={{ m: 1 }}>
-                    Laptops
-                </Typography>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Laptops
+                    </Typography>
+                </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
                         <Table<Laptop>
@@ -97,11 +101,13 @@ const Equipment = ({
             <AddLaptop
                 isOpen={formOpen.addLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
+                employees={employees}
             ></AddLaptop>
             <EditLaptop
                 isOpen={formOpen.editLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editLaptop: false })}
                 laptop={currentLaptop}
+                employees={employees}
             ></EditLaptop>
         </GuestLayout>
     );

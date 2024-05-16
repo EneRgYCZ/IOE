@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import { Box, Button } from "@mui/material";
 import { Link } from "@inertiajs/react";
-import { Employee } from "../../types/index";
+import { Employee } from "@/types";
 
 const DeleteEmployee = (props: { isOpen: boolean; handleClose: () => void; employee: Employee }) => {
     const modalStyle: React.CSSProperties = {

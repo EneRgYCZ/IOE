@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Link } from "@inertiajs/react";
 import { Menu, MenuItem } from "@mui/material";
+import logo from "../../../../public/img/gomibo.png";
 
 const NavigationBar = () => {
     const [selectedUrl, setSelectedUrl] = useState<string>(window.location.pathname);
@@ -30,8 +31,25 @@ const NavigationBar = () => {
     }, [window.location.pathname]);
 
     return (
-        <div style={{ paddingBottom: "90px" }}>
-            <Box sx={{ backgroundColor: "#009ddf", position: "fixed", width: "100%", opacity: 1, zIndex: 100 }}>
+        <div style={{ paddingBottom: "90px", position: "relative" }}>
+            <Box
+                sx={{
+                    backgroundColor: "#4a98de",
+                    position: "fixed",
+                    width: "100%",
+                    opacity: 1,
+                    zIndex: 100,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}
+            >
+                <img
+                    src={logo}
+                    alt="Gomibo logo"
+                    width={150}
+                    style={{ position: "absolute", left: "20px", top: "50%", transform: "translateY(-50%)" }}
+                />
                 <Tabs
                     value={selectedUrl}
                     centered
@@ -43,7 +61,7 @@ const NavigationBar = () => {
                             height: "20px",
                             padding: "35px 40px",
                             color: "#fff",
-                            backgroundColor: "#009ddf",
+                            backgroundColor: "#4a98de",
                             "&:hover": {
                                 backgroundColor: "#1976d2",
                                 opacity: 0.9

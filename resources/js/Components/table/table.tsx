@@ -6,11 +6,9 @@ import qs from "qs";
 import React, { useEffect, useState } from "react";
 
 import ColumnHeader from "./column-header";
-import ColumnToggler from "./column-toggler";
 import Paginator from "./paginator";
-import SearchInput from "./search-input";
-import SearchToggler from "./search-toggler";
-import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow } from "@mui/material";
+import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow, Button } from "@mui/material";
+import FilterDrawer from "@/Components/table/filter-drawer";
 
 export type CellRenderer<T> = (
     data: T,
@@ -45,6 +43,7 @@ export const Table = <T,>({
     actionRenderer?: (data: T) => React.ReactElement;
 }) => {
     const { queryBuilder } = usePage<PageProps>().props;
+    const [isFilterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
     if (!(name in queryBuilder)) {
         return (
@@ -154,7 +153,7 @@ export const Table = <T,>({
         }
 
         return qs.stringify(existingData, {
-            filter(prefix, value) {
+            filter(_prefix, value) {
                 if (typeof value === "object" && value !== null) {
                     return pickBy(value);
                 }
@@ -185,94 +184,15 @@ export const Table = <T,>({
                         gap: 2
                     }}
                 >
+                    [ Insert general SearchBar here ]
                     <Box
                         sx={{
                             display: "flex",
-                            alignItems: "center",
-                            justifyContent: "end",
+                            justifyContent: "start",
                             width: "100%"
                         }}
                     >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 1
-                            }}
-                        >
-                            <Box sx={{ pt: 1 }}>
-                                <SearchToggler
-                                    searches={tableData.searchInputs}
-                                    searchToggledHandler={(search, state) => {
-                                        const newSearchInputs = tableData.searchInputs.map(value => {
-                                            if (value.key === search.key) {
-                                                value.shown = state;
-                                            }
-
-                                            return value;
-                                        });
-
-                                        setTableData(prev => {
-                                            return {
-                                                ...prev,
-                                                searchInputs: newSearchInputs
-                                            };
-                                        });
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ pt: 1 }}>
-                                <ColumnToggler
-                                    columns={tableData.columns}
-                                    columnToggledHandler={(column, state) => {
-                                        const newCols = tableData.columns.map(value => {
-                                            if (value.key === column.key) {
-                                                value.hidden = state;
-                                            }
-
-                                            return value;
-                                        });
-
-                                        setTableData(prev => {
-                                            return {
-                                                ...prev,
-                                                columns: newCols
-                                            };
-                                        });
-                                    }}
-                                />
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1, pb: 1 }}>
-                        {tableData.searchInputs.map(searchInput => {
-                            if (!searchInput.shown) {
-                                return null;
-                            }
-
-                            return (
-                                <SearchInput
-                                    key={`table-${name}-search-${searchInput.key}`}
-                                    input={searchInput}
-                                    searchUpdatedHandler={(input, newValue) => {
-                                        const newInputs = tableData.searchInputs.map(search => {
-                                            if (search.key === input.key) {
-                                                search.value = newValue;
-                                            }
-
-                                            return search;
-                                        });
-
-                                        setTableData(prev => {
-                                            return {
-                                                ...prev,
-                                                searchInputs: newInputs
-                                            };
-                                        });
-                                    }}
-                                />
-                            );
-                        })}
+                        <Button onClick={() => setFilterDrawerOpen(true)}>Advanced Search</Button>
                     </Box>
                 </Box>
                 <Card variant="outlined">
@@ -394,6 +314,13 @@ export const Table = <T,>({
                     links={data.links}
                 />
             </Card>
+            <FilterDrawer
+                isOpen={isFilterDrawerOpen}
+                handleClose={() => setFilterDrawerOpen(false)}
+                tableData={tableData}
+                setTableData={setTableData}
+                tableName={name}
+            />
         </Stack>
     );
 };

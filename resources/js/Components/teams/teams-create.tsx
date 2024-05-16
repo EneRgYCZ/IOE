@@ -2,18 +2,27 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Fab, FormLabel, Modal, Typography } from "@mui/material";
+import { Autocomplete, Fab, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
+import { Employee } from "@/types";
 
-const TeamCreateForm = () => {
+const TeamCreateForm = (props: { employees: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
+    const [teamNameError, setTeamNameError] = React.useState(false);
     const handleFormOpen = () => setFormOpen(true);
     const handleFormClose = () => setFormOpen(false);
 
-    const { data, setData, post } = useForm({
+    const initialValues: {
+        team_name: string;
+        description: string;
+        team_members: Employee[];
+    } = {
         team_name: "",
-        description: ""
-    });
+        description: "",
+        team_members: []
+    };
+
+    const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -24,13 +33,36 @@ const TeamCreateForm = () => {
         }));
     };
 
+    const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
+    React.useEffect(() => {
+        if (hasErrors) {
+            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
+            clearErrors();
+        }
+    }, [errors]);
+
+    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData(data => ({
+            ...data,
+            [e.target.id]: e.target.value
+        }));
+        if (e.target.validity.valid) {
+            setTeamNameError(false);
+        } else {
+            setTeamNameError(true);
+        }
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("teams.store"));
-        setData({
-            team_name: "",
-            description: ""
-        });
+        setData(initialValues);
         handleFormClose();
     };
 
@@ -66,21 +98,39 @@ const TeamCreateForm = () => {
                         Create Team
                     </Typography>
                     <form onSubmit={submit}>
-                        <FormLabel>Team Name</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <TextField
                             id={"team_name"}
                             value={data.team_name}
+                            required
+                            onChange={handleTeamNameChange}
+                            sx={fieldStyle}
+                            variant="outlined"
+                            error={teamNameError}
+                            helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                            inputProps={{
+                                pattern: "[A-Za-z ]+"
+                            }}
+                        />
+                        <FormLabel>Description</FormLabel>
+                        <TextField
+                            id={"description"}
+                            value={data.description}
+                            required
                             onChange={handleChange}
                             sx={fieldStyle}
                             variant="outlined"
                         />
-                        <FormLabel>Team Description</FormLabel>
-                        <TextField
-                            id={"description"}
-                            value={data.description}
-                            onChange={handleChange}
+                        <FormLabel>Employees</FormLabel>
+                        <Autocomplete
+                            multiple
+                            id={"employees"}
+                            options={props.employees}
+                            getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                            value={data.team_members}
+                            onChange={handleEmployeeChange}
                             sx={fieldStyle}
-                            variant="outlined"
+                            renderInput={params => <TextField {...params} />}
                         />
                         <Button variant="contained" type={"submit"}>
                             Submit

@@ -1,12 +1,25 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
+import { Team, DesktopPC, Laptop } from "@/types";
 
-const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
-    const defaultValues = {
+const AddEmployee = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    teams: Team[];
+    equipment: (DesktopPC | Laptop)[];
+}) => {
+    const defaultValues: {
+        first_name: string;
+        last_name: string;
+        team_members: Team[];
+        equipment_identifiers: string[];
+    } = {
         first_name: "",
-        last_name: ""
+        last_name: "",
+        team_members: [],
+        equipment_identifiers: []
     };
 
     const modalStyle: React.CSSProperties = {
@@ -17,7 +30,6 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
         backgroundColor: "white",
         padding: "20px",
         width: "400px",
-        height: "300px",
         border: "1px solid #ccc",
         borderRadius: "8px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -83,13 +95,17 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
         else setEmptyLastNameError(false);
     };
 
+    const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post(route("employees.store"));
-        setData({
-            first_name: "",
-            last_name: ""
-        });
+        setData(defaultValues);
         props.handleClose();
     };
 
@@ -150,6 +166,37 @@ const AddEmployee = (props: { isOpen: boolean; handleClose: () => void }) => {
                         sx={inputFieldStyle}
                         label="Last Name"
                         variant="outlined"
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id={"team_members"}
+                        options={props.teams}
+                        getOptionLabel={(team: Team) => team.team_name}
+                        value={data.team_members}
+                        onChange={handleTeamChange}
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Teams" />}
+                    />
+
+                    <Autocomplete
+                        multiple
+                        id="equipment_identifiers"
+                        options={props.equipment}
+                        getOptionLabel={(equipment: DesktopPC | Laptop) =>
+                            ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier
+                        }
+                        onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[] | null) => {
+                            setData({
+                                ...data,
+                                equipment_identifiers: selectedEquipment
+                                    ? selectedEquipment.map(e => e.full_number_identifier)
+                                    : []
+                            });
+                        }}
+                        filterSelectedOptions
+                        sx={inputFieldStyle}
+                        renderInput={params => <TextField {...params} label="Equipment identifiers" />}
                     />
 
                     <Button variant="contained" sx={{ margin: "10px" }} type={"submit"}>
