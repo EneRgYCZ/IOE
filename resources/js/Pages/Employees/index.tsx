@@ -6,7 +6,7 @@ import { Table } from "@/Components/table/table";
 import { useState } from "react";
 import EditEmployee from "./EditEmployee";
 import AddEmployee from "./AddEmployee";
-import DeleteEmployee from "./DeleteEmployee";
+import DeletionConfirmation from "@/Components/deletion-confirmation";
 
 const Employees = ({
     employees,
@@ -43,6 +43,7 @@ const Employees = ({
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -54,6 +55,7 @@ const Employees = ({
                         data={employees}
                         actionRenderer={employee => (
                             <TableCell align="center">
+                                {/* Button for Edit */}
                                 <Button
                                     variant="contained"
                                     sx={tableButtonMargins}
@@ -64,6 +66,8 @@ const Employees = ({
                                 >
                                     EDIT
                                 </Button>
+
+                                {/* Button for Delete */}
                                 <Button
                                     variant="contained"
                                     color="error"
@@ -79,16 +83,19 @@ const Employees = ({
                     />
                 </Box>
             </Card>
+
+            {/* Button for Add */}
             <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
                 Add employee
             </Fab>
+
+            {/* Forms for Adding, Editing and Deleting */}
             <AddEmployee
                 isOpen={add}
                 handleClose={() => setAdd(false)}
                 teams={teams}
                 equipment={equipment.filter(e => e.employee_id == null)}
             />
-
             <EditEmployee
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
@@ -113,7 +120,14 @@ const Employees = ({
                         : []
                 }
             />
-            {empDel && <DeleteEmployee isOpen={del} handleClose={() => setDel(false)} employee={empDel} />}
+            {empDel && (
+                <DeletionConfirmation
+                    isOpen={del}
+                    handleClose={() => setDel(false)}
+                    deleteObject={empDel}
+                    type="Employee"
+                />
+            )}
         </GuestLayout>
     );
 };

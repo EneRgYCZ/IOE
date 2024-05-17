@@ -3,9 +3,9 @@ import { MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
 import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
 import EditMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/EditMeetingRoomLaptop";
+import DeletionConfirmation from "@/Components/deletion-confirmation";
 
 const Equipment = ({
     meetingRoomLaptops
@@ -33,13 +33,15 @@ const Equipment = ({
 
     const [formOpen, setFormOpen] = React.useState({
         addMeetingRoomLaptop: false,
-        editMeetingRoomLaptop: false
+        editMeetingRoomLaptop: false,
+        deleteMeetingRoomLaptop: false
     });
 
     const [currentMeetingRoomLaptop, setCurrentMeetingRoomLaptop] = React.useState<MeetingRoomLaptop | null>(null);
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -53,6 +55,7 @@ const Equipment = ({
                             data={meetingRoomLaptops}
                             actionRenderer={meetingRoomLaptop => (
                                 <TableCell align="center">
+                                    {/* Button for Edit */}
                                     <Button
                                         variant="contained"
                                         sx={tableButtonMargins}
@@ -63,25 +66,26 @@ const Equipment = ({
                                     >
                                         EDIT
                                     </Button>
-                                    <Link
-                                        href={route("equipment.destroyMeetingRoomLaptop", meetingRoomLaptop.id)}
-                                        method="delete"
-                                        onBefore={() =>
-                                            window.confirm(
-                                                "Are you sure that you want to eliminate this piece of equipment?"
-                                            )
-                                        }
+
+                                    {/* Button for Delete */}
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        onClick={() => {
+                                            setCurrentMeetingRoomLaptop(meetingRoomLaptop);
+                                            setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
+                                        }}
                                     >
-                                        <Button variant="contained" color="error">
-                                            DELETE
-                                        </Button>
-                                    </Link>
+                                        DELETE
+                                    </Button>
                                 </TableCell>
                             )}
                         />
                     </Box>
                 </Box>
             </Card>
+
+            {/* Button for Add */}
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"
@@ -93,6 +97,7 @@ const Equipment = ({
                 </Fab>
             </Box>
 
+            {/* Forms for Adding, Editing and Deleting */}
             <AddMeetingRoomLaptop
                 isOpen={formOpen.addMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: false })}
@@ -102,6 +107,14 @@ const Equipment = ({
                 handleClose={() => setFormOpen({ ...formOpen, editMeetingRoomLaptop: false })}
                 meetingRoomLaptop={currentMeetingRoomLaptop}
             ></EditMeetingRoomLaptop>
+            {currentMeetingRoomLaptop && (
+                <DeletionConfirmation
+                    isOpen={formOpen.deleteMeetingRoomLaptop}
+                    handleClose={() => setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: false })}
+                    deleteObject={currentMeetingRoomLaptop}
+                    type="MeetingRoomLaptop"
+                />
+            )}
         </GuestLayout>
     );
 };
