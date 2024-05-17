@@ -1,8 +1,9 @@
 import React from "react";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
 import { Team, DesktopPC, Laptop } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
+import "../../../css/forms.css";
 
 const AddEmployee = (props: {
     isOpen: boolean;
@@ -10,6 +11,16 @@ const AddEmployee = (props: {
     teams: Team[];
     equipment: (DesktopPC | Laptop)[];
 }) => {
+    const fieldStyle = {
+        width: "100%",
+        padding: "5px",
+        marginBottom: "20px",
+        border: "1px solid #ccc",
+        borderRadius: "2px",
+        backgroundColor: "#f8f8f8",
+        boxSizing: "border-box"
+    };
+
     const defaultValues: {
         first_name: string;
         last_name: string;
@@ -20,17 +31,6 @@ const AddEmployee = (props: {
         last_name: "",
         team_members: [],
         equipment_identifiers: []
-    };
-
-    const inputFieldStyle: React.CSSProperties = {
-        width: "100%",
-        padding: "5px",
-        marginBottom: "5px",
-        border: "1px solid #ccc",
-        borderRadius: "2px",
-        marginTop: "20px",
-        backgroundColor: "#f8f8f8",
-        boxSizing: "border-box"
     };
 
     const { data, setData, post } = useForm(defaultValues);
@@ -91,9 +91,11 @@ const AddEmployee = (props: {
 
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Employee">
-            <form onSubmit={submit}>
+            <form onSubmit={submit} style={{ marginTop: "10px" }}>
+                <FormLabel>First Name</FormLabel>
                 <TextField
                     id={"first_name"}
+                    sx={fieldStyle}
                     value={data.first_name}
                     required
                     onChange={handleFirstNameChange}
@@ -108,13 +110,13 @@ const AddEmployee = (props: {
                     inputProps={{
                         pattern: "[A-Z a-z]+"
                     }}
-                    sx={inputFieldStyle}
-                    label="First Name"
                     variant="outlined"
                 />
 
+                <FormLabel>Last Name</FormLabel>
                 <TextField
                     id={"last_name"}
+                    sx={fieldStyle}
                     value={data.last_name}
                     required
                     onChange={handleLastNameChange}
@@ -129,29 +131,32 @@ const AddEmployee = (props: {
                     inputProps={{
                         pattern: "[A-Z a-z]+"
                     }}
-                    sx={inputFieldStyle}
-                    label="Last Name"
                     variant="outlined"
                 />
 
+                <FormLabel>Teams</FormLabel>
                 <Autocomplete
-                    multiple
                     id={"team_members"}
+                    sx={fieldStyle}
+                    filterSelectedOptions
                     options={props.teams}
                     getOptionLabel={(team: Team) => team.team_name}
+                    multiple
                     value={data.team_members}
                     onChange={handleTeamChange}
-                    sx={inputFieldStyle}
-                    renderInput={params => <TextField {...params} label="Teams" />}
+                    renderInput={params => <TextField {...params} />}
                 />
 
+                <FormLabel>Equipment</FormLabel>
                 <Autocomplete
-                    multiple
                     id="equipment_identifiers"
+                    sx={fieldStyle}
+                    filterSelectedOptions
                     options={props.equipment}
                     getOptionLabel={(equipment: DesktopPC | Laptop) =>
                         ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier
                     }
+                    multiple
                     onChange={(_event: React.SyntheticEvent, selectedEquipment: (DesktopPC | Laptop)[] | null) => {
                         setData({
                             ...data,
@@ -160,9 +165,7 @@ const AddEmployee = (props: {
                                 : []
                         });
                     }}
-                    filterSelectedOptions
-                    sx={inputFieldStyle}
-                    renderInput={params => <TextField {...params} label="Equipment identifiers" />}
+                    renderInput={params => <TextField {...params} />}
                 />
 
                 <Button variant="contained" sx={{ margin: "10px" }} type={"submit"}>

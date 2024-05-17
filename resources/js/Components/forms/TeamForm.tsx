@@ -14,6 +14,16 @@ const TeamForm = (props: {
     teamMembers: Employee[];
     title: string;
 }) => {
+    const fieldStyle = {
+        width: "100%",
+        padding: "5px",
+        marginBottom: "20px",
+        border: "1px solid #ccc",
+        borderRadius: "2px",
+        backgroundColor: "#f8f8f8",
+        boxSizing: "border-box"
+    };
+
     const [teamNameError, setTeamNameError] = React.useState(false);
 
     const initialValues: {
@@ -77,11 +87,6 @@ const TeamForm = (props: {
         props.handleClose();
     };
 
-    const fieldStyle = {
-        marginBottom: "10px",
-        width: "100%"
-    };
-
     React.useEffect(() => {
         if (props.team) {
             setData({
@@ -94,7 +99,7 @@ const TeamForm = (props: {
 
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
-            <form onSubmit={submit}>
+            <form onSubmit={submit} style={{ marginTop: "10px" }}>
                 <FormLabel>Name</FormLabel>
                 <TextField
                     id={"team_name"}
@@ -122,6 +127,7 @@ const TeamForm = (props: {
                 <Autocomplete
                     multiple
                     id={"employees"}
+                    filterSelectedOptions
                     options={props.employees}
                     getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
                     value={data.team_members}

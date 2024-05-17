@@ -1,5 +1,5 @@
 import React, { FormEvent } from "react";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
@@ -17,13 +17,12 @@ const EditEmployee = (props: {
     teams: Team[];
     teamMembers: Team[];
 }) => {
-    const inputFieldStyle: React.CSSProperties = {
+    const fieldStyle = {
         width: "100%",
         padding: "5px",
-        marginBottom: "5px",
+        marginBottom: "20px",
         border: "1px solid #ccc",
         borderRadius: "2px",
-        marginTop: "20px",
         backgroundColor: "#f8f8f8",
         boxSizing: "border-box"
     };
@@ -68,6 +67,7 @@ const EditEmployee = (props: {
         if (value == "") setEmptyFirstNameError(true);
         else setEmptyFirstNameError(false);
     };
+
     const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -92,9 +92,11 @@ const EditEmployee = (props: {
 
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Employee">
-            <form onSubmit={e => props.onSubmit(e, form)}>
+            <form onSubmit={e => props.onSubmit(e, form)} style={{ marginTop: "10px" }}>
+                <FormLabel>First Name</FormLabel>
                 <TextField
                     id={"first_name"}
+                    sx={fieldStyle}
                     value={data.first_name}
                     required
                     onChange={handleFirstNameChange}
@@ -109,13 +111,13 @@ const EditEmployee = (props: {
                     inputProps={{
                         pattern: "[A-Z a-z]+"
                     }}
-                    sx={inputFieldStyle}
-                    label="First Name"
                     variant="outlined"
                 />
 
+                <FormLabel>Last Name</FormLabel>
                 <TextField
                     id={"last_name"}
+                    sx={fieldStyle}
                     value={data.last_name}
                     required
                     onChange={handleLastNameChange}
@@ -130,29 +132,32 @@ const EditEmployee = (props: {
                     inputProps={{
                         pattern: "[A-Z a-z]+"
                     }}
-                    sx={inputFieldStyle}
-                    label="Last Name"
                     variant="outlined"
                 />
 
+                <FormLabel>Teams</FormLabel>
                 <Autocomplete
-                    multiple
-                    id={"teams"}
+                    id={"team_members"}
+                    sx={fieldStyle}
+                    filterSelectedOptions
                     options={props.teams}
                     getOptionLabel={(team: Team) => team.team_name}
+                    multiple
                     value={data.team_members}
                     onChange={handleTeamChange}
-                    sx={inputFieldStyle}
-                    renderInput={params => <TextField {...params} label="Teams" />}
+                    renderInput={params => <TextField {...params} />}
                 />
 
+                <FormLabel>Equipment Identifiers</FormLabel>
                 <Autocomplete
-                    multiple
                     id="equipment_identifiers"
+                    sx={fieldStyle}
+                    filterSelectedOptions
                     options={props.equipment}
                     getOptionLabel={(equipment: DesktopPC | Laptop) =>
                         ("pc_number" in equipment ? "Desktop " : "Laptop ") + equipment.full_number_identifier
                     }
+                    multiple
                     value={props.equipment.filter(equipment =>
                         data.equipment_identifiers.includes(equipment.full_number_identifier)
                     )}
@@ -162,9 +167,7 @@ const EditEmployee = (props: {
                             equipment_identifiers: selectedEquipment.map(e => e.full_number_identifier)
                         });
                     }}
-                    filterSelectedOptions
-                    sx={inputFieldStyle}
-                    renderInput={params => <TextField {...params} label="Equipment identifiers" />}
+                    renderInput={params => <TextField {...params} />}
                 />
 
                 <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>

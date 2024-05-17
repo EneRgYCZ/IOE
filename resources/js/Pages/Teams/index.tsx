@@ -98,7 +98,7 @@ const Teams = ({
                               )
                             : []
                     }
-                    title="Update Team"
+                    title="Edit Team"
                 />
             )}
             {currentTeam && (

@@ -3,6 +3,7 @@ import {
     FormControl,
     FormControlLabel,
     FormHelperText,
+    FormLabel,
     InputLabel,
     MenuItem,
     Select,
@@ -19,8 +20,13 @@ const MeetingRoomLaptopForm = (props: {
     onSubmit: () => void;
 }) => {
     const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
+        width: "100%",
+        padding: "5px",
+        marginBottom: "20px",
+        border: "1px solid #ccc",
+        borderRadius: "2px",
+        backgroundColor: "#f8f8f8",
+        boxSizing: "border-box"
     };
 
     const [errors, setErrors] = React.useState({
@@ -72,37 +78,37 @@ const MeetingRoomLaptopForm = (props: {
     };
 
     return (
-        <form onSubmit={submit}>
+        <form onSubmit={submit} style={{ marginTop: "10px" }}>
+            <FormLabel>Full number</FormLabel>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number"
                 required
                 variant="outlined"
                 error={errors.full_number_identifier}
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Laptop number</FormLabel>
             <TextField
                 id={"laptop_number"}
                 value={props.data.laptop_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Laptop Number"
                 required
                 variant="outlined"
                 error={errors.laptop_number}
                 helperText={errors.laptop_number ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Location</FormLabel>
             <FormControl sx={fieldStyle} required>
-                <InputLabel id="location_label" error={errors.location}>
-                    Location
-                </InputLabel>
+                <InputLabel id="location_label" error={errors.location} />
                 <Select
                     labelId="location_label"
                     name="location"
-                    label="Location"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -113,14 +119,13 @@ const MeetingRoomLaptopForm = (props: {
                 </Select>
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
+
+            <FormLabel>Side</FormLabel>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="side_label" error={errors.side} required>
-                    Side
-                </InputLabel>
+                <InputLabel id="side_label" error={errors.side} required />
                 <Select
                     labelId="side_label"
                     name="side"
-                    label="Side"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -131,38 +136,43 @@ const MeetingRoomLaptopForm = (props: {
                 </Select>
                 <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
+
+            <FormLabel>Floor</FormLabel>
             <TextField
                 id={"floor"}
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor"
                 required
                 variant="outlined"
                 error={errors.floor}
                 helperText={errors.floor ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Room number</FormLabel>
             <TextField
                 id={"room_number"}
                 value={props.data.room_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Room number"
                 variant="outlined"
             />
+
             <FormControlLabel
                 control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />
+
+            <FormLabel>Remarks</FormLabel>
             <TextField
                 id={"remarks"}
                 value={props.data.remarks}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Remarks"
                 variant="outlined"
             />
+
             <Button variant="contained" type={"submit"}>
                 Submit
             </Button>
