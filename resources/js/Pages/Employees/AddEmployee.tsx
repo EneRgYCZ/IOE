@@ -2,7 +2,7 @@ import React from "react";
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
 import { Team, DesktopPC, Laptop } from "@/types";
-import FormModal from "@/Components/form/form-modal";
+import FormModal from "@/Components/forms/form-modal";
 
 const AddEmployee = (props: {
     isOpen: boolean;

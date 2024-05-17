@@ -6,7 +6,7 @@ import { DesktopPC, Employee, Team, Laptop } from "@/types";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { InertiaFormProps } from "@inertiajs/react/types/useForm";
-import FormModal from "@/Components/form/form-modal";
+import FormModal from "@/Components/forms/form-modal";
 
 const EditEmployee = (props: {
     isOpen: boolean;

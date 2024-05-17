@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
-import LaptopForm from "@/Components/Equipment/LaptopForm";
-import FormModal from "@/Components/form/form-modal";
+import LaptopForm from "@/Components/forms/LaptopForm";
+import FormModal from "@/Components/forms/form-modal";
 
 const EditLaptop = (props: {
     isOpen: boolean;

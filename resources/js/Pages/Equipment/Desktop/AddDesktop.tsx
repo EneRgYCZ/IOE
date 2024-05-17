@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import DesktopForm from "@/Components/Equipment/DesktopForm";
+import DesktopForm from "@/Components/forms/DesktopForm";
 import { DesktopPC, Employee } from "@/types";
-import FormModal from "@/Components/form/form-modal";
+import FormModal from "@/Components/forms/form-modal";
 
 const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: DesktopPC = {

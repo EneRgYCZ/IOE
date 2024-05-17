@@ -2,7 +2,7 @@ import { DesktopPC, Employee, Laptop, MeetingRoomLaptop, Team } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "@mui/material";
 import React from "react";
-import FormModal from "./form/form-modal";
+import FormModal from "./forms/form-modal";
 
 const DeletionConfirmation = (props: {
     isOpen: boolean;
