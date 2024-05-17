@@ -73,6 +73,7 @@ const Equipment = ({
                                     <Button
                                         variant="contained"
                                         color="error"
+                                        sx={tableButtonMargins}
                                         onClick={() => {
                                             setCurrentDesktop(desktop);
                                             setFormOpen({ ...formOpen, deleteDesktop: true });

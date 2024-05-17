@@ -3,7 +3,6 @@ import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm, usePage } from "@inertiajs/react";
 import { Team, DesktopPC, Laptop } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
-import "../../../css/forms.css";
 
 const AddEmployee = (props: {
     isOpen: boolean;

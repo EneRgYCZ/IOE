@@ -15,6 +15,25 @@ const Teams = ({
     employees: Employee[];
     team_members: TeamMember[];
 }>) => {
+    const tableButtonMargins = {
+        margin: "0 10px"
+    };
+
+    const addButtonBox = {
+        position: "fixed",
+        width: "250px",
+        pointerEvents: "none",
+        bottom: 16,
+        right: 16
+    };
+
+    const addButtonStyle = {
+        display: "block",
+        pointerEvents: "initial",
+        marginTop: "16px",
+        marginLeft: "auto"
+    };
+
     const [formOpen, setFormOpen] = React.useState({
         addTeam: false,
         editTeam: false,
@@ -41,7 +60,7 @@ const Teams = ({
                                 {/* Button for Edit */}
                                 <Button
                                     variant="contained"
-                                    sx={{ marginRight: "10px" }}
+                                    sx={tableButtonMargins}
                                     onClick={() => {
                                         setCurrentTeam(team);
                                         setFormOpen({ ...formOpen, editTeam: true });
@@ -54,6 +73,7 @@ const Teams = ({
                                 <Button
                                     variant="contained"
                                     color="error"
+                                    sx={tableButtonMargins}
                                     onClick={() => {
                                         setCurrentTeam(team);
                                         setFormOpen({ ...formOpen, deleteTeam: true });
@@ -68,9 +88,16 @@ const Teams = ({
             </Card>
 
             {/* Button for Add */}
-            <Fab variant="extended" color="primary" onClick={() => setFormOpen({ ...formOpen, addTeam: true })}>
-                Add Team
-            </Fab>
+            <Box sx={addButtonBox}>
+                <Fab
+                    variant="extended"
+                    color="primary"
+                    sx={addButtonStyle}
+                    onClick={() => setFormOpen({ ...formOpen, addTeam: true })}
+                >
+                    Add team
+                </Fab>
+            </Box>
 
             {/* Forms for Adding, Editing and Deleting */}
 

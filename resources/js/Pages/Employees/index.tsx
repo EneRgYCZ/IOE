@@ -22,14 +22,24 @@ const Employees = ({
     laptops: Laptop[];
 }>) => {
     const tableButtonMargins = {
-        marginRight: "10px"
+        margin: "0 10px"
     };
 
-    const addButtonStyle = {
+    const addButtonBox = {
         position: "fixed",
+        width: "250px",
+        pointerEvents: "none",
         bottom: 16,
         right: 16
     };
+
+    const addButtonStyle = {
+        display: "block",
+        pointerEvents: "initial",
+        marginTop: "16px",
+        marginLeft: "auto"
+    };
+
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
@@ -70,6 +80,7 @@ const Employees = ({
                                 {/* Button for Delete */}
                                 <Button
                                     variant="contained"
+                                    sx={tableButtonMargins}
                                     color="error"
                                     onClick={() => {
                                         setDel(true);
@@ -85,9 +96,11 @@ const Employees = ({
             </Card>
 
             {/* Button for Add */}
-            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
-                Add employee
-            </Fab>
+            <Box sx={addButtonBox}>
+                <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
+                    Add employee
+                </Fab>
+            </Box>
 
             {/* Forms for Adding, Editing and Deleting */}
             <AddEmployee
