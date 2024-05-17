@@ -1,9 +1,8 @@
 import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
 import { DesktopPC, Employee } from "@/types";
+import FormModal from "@/Components/form/form-modal";
 
 const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: DesktopPC = {
@@ -37,26 +36,10 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
         props.handleClose();
     };
 
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        overflowY: "auto",
-        maxHeight: "80%",
-        backgroundColor: "white",
-        padding: "20px"
-    };
-
     return (
-        <Modal open={props.isOpen} onClose={props.handleClose}>
-            <Box sx={modalStyle}>
-                <Typography variant="h5" gutterBottom>
-                    Add Desktop
-                </Typography>
-                <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
-            </Box>
-        </Modal>
+        <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Desktop">
+            <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+        </FormModal>
     );
 };
 export default AddDesktop;

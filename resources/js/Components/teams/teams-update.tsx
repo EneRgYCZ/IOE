@@ -1,10 +1,10 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Autocomplete, FormLabel, Modal, Typography } from "@mui/material";
+import { Autocomplete, FormLabel } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
+import FormModal from "@/Components/form/form-modal";
 
 const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
@@ -68,16 +68,6 @@ const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: E
         }
     };
 
-    const formStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: "#fff",
-        padding: "20px",
-        border: "2px solid #009ddf"
-    };
-
     const fieldStyle = {
         marginBottom: "10px",
         width: "100%"
@@ -98,52 +88,47 @@ const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: E
             <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleFormOpen}>
                 EDIT
             </Button>
-            <Modal open={formOpen} onClose={handleFormClose}>
-                <Box sx={formStyle}>
-                    <Typography variant="h5" gutterBottom>
-                        Update Team
-                    </Typography>
-                    <form onSubmit={submit}>
-                        <FormLabel>Name</FormLabel>
-                        <TextField
-                            id={"team_name"}
-                            value={data.team_name}
-                            required
-                            onChange={handleTeamNameChange}
-                            sx={fieldStyle}
-                            variant="outlined"
-                            error={teamNameError}
-                            helperText={teamNameError ? "Your team name may only contain letters" : ""}
-                            inputProps={{
-                                pattern: "[A-Za-z ]+"
-                            }}
-                        />
-                        <FormLabel>Description</FormLabel>
-                        <TextField
-                            id={"description"}
-                            value={data.description}
-                            required
-                            onChange={handleChange}
-                            sx={fieldStyle}
-                            variant="outlined"
-                        />
-                        <FormLabel>Employees</FormLabel>
-                        <Autocomplete
-                            multiple
-                            id={"employees"}
-                            options={props.employees}
-                            getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
-                            value={data.team_members}
-                            onChange={handleEmployeeChange}
-                            sx={fieldStyle}
-                            renderInput={params => <TextField {...params} />}
-                        />
-                        <Button variant="contained" type={"submit"}>
-                            Submit
-                        </Button>
-                    </form>
-                </Box>
-            </Modal>
+            <FormModal open={formOpen} onClose={handleFormClose} title="Update Team">
+                <form onSubmit={submit}>
+                    <FormLabel>Name</FormLabel>
+                    <TextField
+                        id={"team_name"}
+                        value={data.team_name}
+                        required
+                        onChange={handleTeamNameChange}
+                        sx={fieldStyle}
+                        variant="outlined"
+                        error={teamNameError}
+                        helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                        inputProps={{
+                            pattern: "[A-Za-z ]+"
+                        }}
+                    />
+                    <FormLabel>Description</FormLabel>
+                    <TextField
+                        id={"description"}
+                        value={data.description}
+                        required
+                        onChange={handleChange}
+                        sx={fieldStyle}
+                        variant="outlined"
+                    />
+                    <FormLabel>Employees</FormLabel>
+                    <Autocomplete
+                        multiple
+                        id={"employees"}
+                        options={props.employees}
+                        getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                        value={data.team_members}
+                        onChange={handleEmployeeChange}
+                        sx={fieldStyle}
+                        renderInput={params => <TextField {...params} />}
+                    />
+                    <Button variant="contained" type={"submit"}>
+                        Submit
+                    </Button>
+                </form>
+            </FormModal>
         </div>
     );
 };

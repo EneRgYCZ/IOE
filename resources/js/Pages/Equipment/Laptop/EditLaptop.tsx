@@ -1,9 +1,8 @@
 import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
 import LaptopForm from "@/Components/Equipment/LaptopForm";
+import FormModal from "@/Components/form/form-modal";
 
 const EditLaptop = (props: {
     isOpen: boolean;
@@ -45,26 +44,10 @@ const EditLaptop = (props: {
         }
     };
 
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        overflowY: "auto",
-        maxHeight: "80%",
-        backgroundColor: "white",
-        padding: "20px"
-    };
-
     return (
-        <Modal open={props.isOpen} onClose={props.handleClose}>
-            <Box sx={modalStyle}>
-                <Typography variant="h5" gutterBottom>
-                    Edit Laptop
-                </Typography>
-                <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
-            </Box>
-        </Modal>
+        <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Laptop">
+            <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+        </FormModal>
     );
 };
 export default EditLaptop;
