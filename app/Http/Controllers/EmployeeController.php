@@ -78,10 +78,17 @@ class EmployeeController extends Controller
         }
 
         $equipment_identifiers = $request->input('equipment_identifiers', []);
-        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
-        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
+        $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($desktop) {
+            $desktop->update(['employee_id' => $employee->id]);
+        }
+
+        $laptop = Laptop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => $employee->id]);
+        }
 
         return redirect(route('employees.index'));
     }
@@ -104,17 +111,31 @@ class EmployeeController extends Controller
 
         $equipment_identifiers = $request->input('equipment_identifiers', []);
 
-        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
-        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
+        $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
 
-        Desktop::where('employee_id', $employee->id)
-            ->whereNotIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => null]);
-        Laptop::where('employee_id', $employee->id)
-            ->whereNotIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => null]);
+        if ($desktop) {
+            $desktop->update(['employee_id' => $employee->id]);
+        }
+
+        $laptop = Laptop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => $employee->id]);
+        }
+
+        $desktop = Desktop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($desktop) {
+            $desktop->update(['employee_id' => null]);
+        }
+
+        $laptop = Laptop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => null]);
+        }
 
         return redirect(route('employees.index'));
     }

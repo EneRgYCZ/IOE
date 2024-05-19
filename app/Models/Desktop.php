@@ -34,8 +34,7 @@ class Desktop extends Model
     {
         return
             LogOptions::defaults()
-                ->logAll()
-                ->logOnlyDirty()
+                ->logFillable()
                 ->dontSubmitEmptyLogs();
     }
 }
