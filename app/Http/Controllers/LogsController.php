@@ -35,6 +35,7 @@ class LogsController extends Controller
                 ->addColumn(new Column('subject_type', 'Entity', sortable: true))
                 ->addColumn(new Column('event', 'Event', sortable: true))
                 ->addColumn(new Column('updated_at', 'Date', sortable: true))
+                ->addColumn(new Column('properties', 'Properties', hidden: false))
                 ->addSearchInput(new SearchInput('subject_type', 'Entity', shown: true))
                 ->addSearchInput(new SearchInput('event', 'Event', shown: true));
         });

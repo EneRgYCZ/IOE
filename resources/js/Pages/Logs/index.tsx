@@ -8,10 +8,11 @@ import {
     DesktopPC,
     Laptop,
     MeetingRoomLaptop,
-    DeleteActivityLog
+    DeleteActivityLog,
+    UpdateActivityLog
 } from "@/types";
-import React from "react";
-import { Box, Card, TableCell, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Card, Modal, Stack, TableCell, Typography } from "@mui/material";
 import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import dayjs from "dayjs";
 
@@ -20,13 +21,96 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
         return t.event === "deleted";
     };
 
+    const updateTypeGuard = (t: ActivityLog): t is UpdateActivityLog => {
+        return t.event === "updated";
+    };
+
+    const [openModal, setOpenModal] = useState(false);
+    const [diffData, setDiffData] = useState<Array<{ attribute: string; oldValue: unknown; newValue: unknown }>>([]);
+
+    function flattenObject(obj: Record<string, unknown>, prefix = "") {
+        return Object.keys(obj).reduce(
+            (acc, k) => {
+                const pre = prefix.length ? prefix + "." : "";
+                if (obj[k] !== null && typeof obj[k] === "object")
+                    Object.assign(acc, flattenObject(obj[k] as Record<string, unknown>, pre + k));
+                else acc[pre + k] = obj[k];
+                return acc;
+            },
+            {} as Record<string, unknown>
+        );
+    }
+
     const customCellRenderer: CellRenderer<ActivityLog> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "properties" && row.event === "updated") {
+            if (updateTypeGuard(row)) {
+                const newAttributes = flattenObject(row.properties.attributes);
+                const oldAttributes = flattenObject(row.properties.old);
+
+                const handleOpenModal = () => {
+                    const data = Object.entries(newAttributes)
+                        .map(([attribute, newValue]) => {
+                            const oldValue = oldAttributes[attribute] || "Empty";
+                            if (oldValue === newValue) {
+                                return null;
+                            }
+                            return {
+                                attribute,
+                                oldValue,
+                                newValue
+                            };
+                        })
+                        .filter(Boolean) as { attribute: string; oldValue: unknown; newValue: unknown }[];
+                    setDiffData(data);
+                    setOpenModal(true);
+                };
+
+                return (
+                    <TableCell key={cellKey} align="center">
+                        <Button onClick={handleOpenModal}>Show Changes</Button>
+                        <Modal
+                            open={openModal}
+                            onClose={() => setOpenModal(false)}
+                            aria-labelledby="modal-title"
+                            aria-describedby="modal-desc"
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
+                            }}
+                        >
+                            <Card
+                                sx={{
+                                    p: 2,
+                                    width: "60%",
+                                    display: "flex",
+                                    boxShadow: "lg",
+                                    maxHeight: "50%",
+                                    borderRadius: "md",
+                                    flexDirection: "column"
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        overflowY: "auto",
+                                        p: 2,
+                                        pt: 6
+                                    }}
+                                >
+                                    <TransposedTable data={diffData} />
+                                </Box>
+                            </Card>
+                        </Modal>
+                    </TableCell>
+                );
+            }
+        }
         if (col.key === "updated_at") {
             return <TableCell key={cellKey}>{dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}</TableCell>;
         }
         if (col.key === "subject_type") {
             if (row.subject_type === "App\\Models\\Employee") {
-                if (deleteTypeGuard(row)) {
+                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
                     const employee = row.properties.old as Employee;
                     return (
                         <TableCell key={cellKey}>
@@ -45,7 +129,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\Team") {
-                if (deleteTypeGuard(row)) {
+                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
                     const team = row.properties.old as Team;
                     return (
                         <TableCell key={cellKey}>
@@ -63,7 +147,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\Desktop") {
-                if (deleteTypeGuard(row)) {
+                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
                     const desktop = row.properties.old as DesktopPC;
                     return (
                         <TableCell key={cellKey}>
@@ -81,7 +165,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\Laptop") {
-                if (deleteTypeGuard(row)) {
+                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
                     const laptop = row.properties.old as Laptop;
                     return (
                         <TableCell key={cellKey}>
@@ -99,7 +183,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 );
             }
             if (row.subject_type === "App\\Models\\MeetingRoomLaptop") {
-                if (deleteTypeGuard(row)) {
+                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
                     const meetingRoomLaptop = row.properties.old as MeetingRoomLaptop;
                     return (
                         <TableCell key={cellKey}>
@@ -135,6 +219,57 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 </Box>
             </Card>
         </GuestLayout>
+    );
+};
+
+type TransposedTableProps = {
+    data: { attribute: string; oldValue: unknown; newValue: unknown }[];
+};
+
+const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
+    const getLabel = (key: string) => {
+        switch (key) {
+            case "attribute":
+                return "Attribute";
+            case "oldValue":
+                return "Old Value";
+            case "newValue":
+                return "New Value";
+            default:
+                return key;
+        }
+    };
+
+    const getValueStyle = (key: string) => {
+        return {
+            width: "70%",
+            textAlign: "right",
+            color: key === "oldValue" ? "red" : key === "newValue" ? "green" : "inherit"
+        };
+    };
+
+    return (
+        <>
+            {data.map((item, index) => (
+                <Card key={index} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
+                    <Stack gap={2}>
+                        {Object.entries(item).map(([key, value], valueIndex) => (
+                            <Stack
+                                key={valueIndex}
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="flex-end"
+                            >
+                                <Typography sx={{ width: "30%", fontWeight: "lg" }}>{getLabel(key)}</Typography>
+                                <Typography sx={getValueStyle(key)}>
+                                    {typeof value === "object" ? JSON.stringify(value) : String(value)}
+                                </Typography>
+                            </Stack>
+                        ))}
+                    </Stack>
+                </Card>
+            ))}
+        </>
     );
 };
 
