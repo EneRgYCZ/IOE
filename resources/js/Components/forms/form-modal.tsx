@@ -15,7 +15,7 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
         maxHeight: "80%",
         width: "500px",
         border: "1px solid #ccc",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
     };
 
     const closeButtonStyle: React.CSSProperties = {

@@ -156,12 +156,7 @@ const DesktopForm = (props: {
 
             <FormLabel>Status</FormLabel>
             <FormControl sx={fieldStyle}>
-                <Select
-                    name="status"
-                    value={props.data.status}
-                    variant="outlined"
-                    onChange={handleSelectChange}
-                >
+                <Select name="status" value={props.data.status} variant="outlined" onChange={handleSelectChange}>
                     <MenuItem value="static">Static</MenuItem>
                     <MenuItem value="flex">Flex</MenuItem>
                     <MenuItem value="">Not set</MenuItem>
