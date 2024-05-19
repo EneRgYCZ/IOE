@@ -16,7 +16,6 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
         width: "500px",
         border: "1px solid #ccc",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        textAlign: "center"
     };
 
     const closeButtonStyle: React.CSSProperties = {
@@ -34,7 +33,7 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
                 <Button sx={closeButtonStyle} onClick={props.onClose} variant="contained" color="error">
                     <HiMiniXMark />
                 </Button>
-                {props.title ? <h2 style={{ margin: "0px" }}>{props.title}</h2> : ""}
+                {props.title ? <h2 style={{ margin: "0px", textAlign: "center" }}>{props.title}</h2> : ""}
                 {props.children}
             </Box>
         </Modal>

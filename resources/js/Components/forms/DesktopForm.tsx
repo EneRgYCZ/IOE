@@ -5,7 +5,6 @@ import {
     FormControlLabel,
     FormHelperText,
     FormLabel,
-    InputLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
@@ -25,6 +24,7 @@ const DesktopForm = (props: {
         width: "100%",
         padding: "5px",
         marginBottom: "20px",
+        marginLeft: 0,
         border: "1px solid #ccc",
         borderRadius: "2px",
         backgroundColor: "#f8f8f8",
@@ -88,7 +88,7 @@ const DesktopForm = (props: {
 
     return (
         <form onSubmit={submit} style={{ marginTop: "10px" }}>
-            <FormLabel>Full number</FormLabel>
+            <FormLabel>Full number*</FormLabel>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
@@ -100,7 +100,7 @@ const DesktopForm = (props: {
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
             />
 
-            <FormLabel>PC Number</FormLabel>
+            <FormLabel>PC Number*</FormLabel>
             <TextField
                 id={"pc_number"}
                 value={props.data.pc_number}
@@ -112,11 +112,9 @@ const DesktopForm = (props: {
                 helperText={errors.pc_number ? "This field is mandatory" : ""}
             />
 
-            <FormLabel>Location</FormLabel>
+            <FormLabel>Location*</FormLabel>
             <FormControl sx={fieldStyle} required>
-                <InputLabel id="location_label" error={errors.location} />
                 <Select
-                    labelId="location_label"
                     name="location"
                     value={props.data.location}
                     variant="outlined"
@@ -129,11 +127,9 @@ const DesktopForm = (props: {
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
 
-            <FormLabel>Side</FormLabel>
+            <FormLabel>Side*</FormLabel>
             <FormControl sx={fieldStyle} required>
-                <InputLabel id="side_label" error={errors.side} />
                 <Select
-                    labelId="side_label"
                     name="side"
                     value={props.data.side}
                     variant="outlined"
@@ -160,9 +156,7 @@ const DesktopForm = (props: {
 
             <FormLabel>Status</FormLabel>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="status_label" />
                 <Select
-                    labelId="status_label"
                     name="status"
                     value={props.data.status}
                     variant="outlined"
@@ -174,7 +168,7 @@ const DesktopForm = (props: {
                 </Select>
             </FormControl>
 
-            <FormLabel>Floor</FormLabel>
+            <FormLabel>Floor*</FormLabel>
             <TextField
                 id={"floor"}
                 value={props.data.floor}
@@ -186,7 +180,7 @@ const DesktopForm = (props: {
                 helperText={errors.floor ? "This field is mandatory" : ""}
             />
 
-            <FormLabel>Island number</FormLabel>
+            <FormLabel>Island number*</FormLabel>
             <TextField
                 id={"island_number"}
                 value={props.data.island_number}
@@ -200,9 +194,7 @@ const DesktopForm = (props: {
 
             <FormLabel>Workspace Type</FormLabel>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="workspace_type_label" />
                 <Select
-                    labelId="workspace_type_label"
                     name="workspace_type"
                     value={props.data.workspace_type}
                     variant="outlined"
