@@ -1,8 +1,9 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
-import { Box, Button, Card, TableCell, Typography } from "@mui/material";
+import { Box, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
+import TeamView from "@/Components/teams/teams-view";
 import TeamEditForm from "@/Components/teams/teams-update";
 import TeamCreateForm from "@/Components/teams/teams-create";
 import TeamDeleteConfirmation from "@/Components/teams/teams-delete";
@@ -29,7 +30,19 @@ const Teams = ({
                         data={teams}
                         actionRenderer={team => (
                             <TableCell style={{ display: "flex", justifyContent: "center" }}>
-                                <Button variant="contained">VIEW</Button>
+                                <TeamView
+                                    team={team}
+                                    teamMembers={
+                                        team_members
+                                            ? employees.filter(employee =>
+                                                  team_members
+                                                      .filter(relation => relation.team_id == team.id)
+                                                      .map(relation => relation.employee_id)
+                                                      .includes(employee.id)
+                                              )
+                                            : []
+                                    }
+                                />
                                 <TeamEditForm
                                     team={team}
                                     employees={employees}
