@@ -137,7 +137,7 @@ class EmployeeController extends Controller
     {
         $teamMember = TeamMember::where('employee_id', $employee->id)->first();
 
-        if ($teamMember){
+        if ($teamMember) {
             $teamMember->delete();
         }
 

@@ -46,18 +46,10 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
         if (col.key === "event") {
             if (row.subject_type === "App\\Models\\TeamMember") {
                 if (row.event === "created") {
-                    return (
-                        <TableCell>
-                            added
-                        </TableCell>
-                    )
+                    return <TableCell>added</TableCell>;
                 }
                 if (row.event === "deleted") {
-                    return (
-                        <TableCell>
-                            removed
-                        </TableCell>
-                    )
+                    return <TableCell>removed</TableCell>;
                 }
             }
         }
@@ -320,7 +312,5 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
         </>
     );
 };
-
-
 
 export default Log;
