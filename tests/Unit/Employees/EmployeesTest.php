@@ -151,7 +151,7 @@ it('can sort employees by last name in descending order', function () {
 
     $response = $this->get('/employees');
 
-    $response = $this->get('/employees?sort=l-ast_name');
+    $response = $this->get('/employees?sort=-last_name');
     $response->assertSeeInOrder(['Katherine', 'Basher', 'Abigail']);
 });
 
