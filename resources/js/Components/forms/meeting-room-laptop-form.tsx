@@ -169,9 +169,11 @@ const MeetingRoomLaptopForm = (props: {
                 variant="outlined"
             />
 
-            <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>
-                Submit
-            </Button>
+            <div style={{ textAlign: "center" }}>
+                <Button variant="contained" type={"submit"}>
+                    Submit
+                </Button>
+            </div>
         </form>
     );
 };
