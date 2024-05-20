@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
-import LaptopForm from "@/Components/forms/LaptopForm";
+import LaptopForm from "@/Components/forms/laptop-form";
 import FormModal from "@/Components/forms/form-modal";
 
 const EditLaptop = (props: {

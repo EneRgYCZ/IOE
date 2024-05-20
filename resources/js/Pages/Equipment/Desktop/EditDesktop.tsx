@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
-import DesktopForm from "@/Components/forms/DesktopForm";
+import DesktopForm from "@/Components/forms/desktop-form";
 import FormModal from "@/Components/forms/form-modal";
 
 const EditDesktop = (props: {

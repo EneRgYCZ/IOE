@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import DesktopForm from "@/Components/forms/DesktopForm";
+import DesktopForm from "@/Components/forms/desktop-form";
 import { DesktopPC, Employee } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
 

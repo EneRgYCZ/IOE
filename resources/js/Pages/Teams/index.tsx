@@ -3,7 +3,7 @@ import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/type
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import TeamForm from "@/Components/forms/TeamForm";
+import TeamForm from "@/Components/forms/team-form";
 import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
 
 const Teams = ({
