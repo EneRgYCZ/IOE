@@ -5,6 +5,7 @@ import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import TeamForm from "@/Components/forms/team-form";
 import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Teams = ({
     teams,
@@ -56,22 +57,22 @@ const Teams = ({
                         data={teams}
                         actionRenderer={team => (
                             <TableCell style={{ display: "flex", justifyContent: "center" }}>
-                                <Button variant="contained">VIEW</Button>
                                 {/* Button for Edit */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     sx={tableButtonMargins}
                                     onClick={() => {
                                         setCurrentTeam(team);
                                         setFormOpen({ ...formOpen, editTeam: true });
                                     }}
                                 >
-                                    EDIT
+                                    VIEW & EDIT
+                                    <EditRounded />
                                 </Button>
 
                                 {/* Button for Delete */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     color="error"
                                     sx={tableButtonMargins}
                                     onClick={() => {
@@ -79,7 +80,7 @@ const Teams = ({
                                         setFormOpen({ ...formOpen, deleteTeam: true });
                                     }}
                                 >
-                                    DELETE
+                                    <DeleteRounded />
                                 </Button>
                             </TableCell>
                         )}

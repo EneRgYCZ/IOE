@@ -6,6 +6,7 @@ import { Table } from "@/Components/table/table";
 import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
 import EditMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/EditMeetingRoomLaptop";
 import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Equipment = ({
     meetingRoomLaptops
@@ -57,7 +58,7 @@ const Equipment = ({
                                 <TableCell align="center">
                                     {/* Button for Edit */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         sx={tableButtonMargins}
                                         onClick={() => {
                                             setCurrentMeetingRoomLaptop(meetingRoomLaptop);
@@ -65,11 +66,12 @@ const Equipment = ({
                                         }}
                                     >
                                         EDIT
+                                        <EditRounded sx={{ marginLeft: "10px" }} />
                                     </Button>
 
                                     {/* Button for Delete */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         color="error"
                                         sx={tableButtonMargins}
                                         onClick={() => {
@@ -77,7 +79,7 @@ const Equipment = ({
                                             setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
                                         }}
                                     >
-                                        DELETE
+                                        <DeleteRounded />
                                     </Button>
                                 </TableCell>
                             )}

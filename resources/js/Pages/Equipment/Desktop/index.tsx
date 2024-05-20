@@ -6,6 +6,7 @@ import { Table } from "@/Components/table/table";
 import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
 import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
 import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Equipment = ({
     desktops,
@@ -59,7 +60,7 @@ const Equipment = ({
                                 <TableCell align="center">
                                     {/* Button for Edit */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         sx={tableButtonMargins}
                                         onClick={() => {
                                             setCurrentDesktop(desktop);
@@ -67,11 +68,12 @@ const Equipment = ({
                                         }}
                                     >
                                         EDIT
+                                        <EditRounded sx={{ marginLeft: "10px" }} />
                                     </Button>
 
                                     {/* Button for Delete */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         color="error"
                                         sx={tableButtonMargins}
                                         onClick={() => {
@@ -79,7 +81,7 @@ const Equipment = ({
                                             setFormOpen({ ...formOpen, deleteDesktop: true });
                                         }}
                                     >
-                                        DELETE
+                                        <DeleteRounded />
                                     </Button>
                                 </TableCell>
                             )}

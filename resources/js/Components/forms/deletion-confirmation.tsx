@@ -33,7 +33,7 @@ const DeletionConfirmation = (props: {
                 Are you sure you want to delete this {props.type} entity?
             </h2>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button variant="contained" color="error" onClick={() => props.handleClose()}>
+                <Button variant="outlined" color="error" onClick={() => props.handleClose()}>
                     <Link href={route(determineRoute(), props.deleteObject.id)} method="delete">
                         DELETE
                     </Link>

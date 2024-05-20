@@ -6,6 +6,7 @@ import { Table } from "@/Components/table/table";
 import { useState } from "react";
 import EmployeeForm from "../../Components/forms/employee-form";
 import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Employees = ({
     employees,
@@ -66,7 +67,7 @@ const Employees = ({
                             <TableCell align="center">
                                 {/* Button for Edit */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     sx={tableButtonMargins}
                                     onClick={() => {
                                         setEdit(true);
@@ -74,11 +75,12 @@ const Employees = ({
                                     }}
                                 >
                                     EDIT
+                                    <EditRounded sx={{ marginLeft: "10px" }} />
                                 </Button>
 
                                 {/* Button for Delete */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     sx={tableButtonMargins}
                                     color="error"
                                     onClick={() => {
@@ -86,7 +88,7 @@ const Employees = ({
                                         setEmpDel(employee);
                                     }}
                                 >
-                                    DELETE
+                                    <DeleteRounded />
                                 </Button>
                             </TableCell>
                         )}
