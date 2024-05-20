@@ -93,7 +93,7 @@ const EditEmployee = (props: {
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Employee">
             <form onSubmit={e => props.onSubmit(e, form)} style={{ marginTop: "10px" }}>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel>First Name*</FormLabel>
                 <TextField
                     id={"first_name"}
                     sx={fieldStyle}
@@ -114,7 +114,7 @@ const EditEmployee = (props: {
                     variant="outlined"
                 />
 
-                <FormLabel>Last Name</FormLabel>
+                <FormLabel>Last Name*</FormLabel>
                 <TextField
                     id={"last_name"}
                     sx={fieldStyle}

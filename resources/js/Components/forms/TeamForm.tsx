@@ -100,7 +100,7 @@ const TeamForm = (props: {
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Name*</FormLabel>
                 <TextField
                     id={"team_name"}
                     value={data.team_name}
@@ -114,7 +114,7 @@ const TeamForm = (props: {
                         pattern: "[A-Za-z ]+"
                     }}
                 />
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Description*</FormLabel>
                 <TextField
                     id={"description"}
                     value={data.description}
