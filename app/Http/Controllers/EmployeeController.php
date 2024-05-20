@@ -90,10 +90,16 @@ class EmployeeController extends Controller
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
-            TeamMember::create([
-                'team_id' => $teamMember['id'],
-                'employee_id' => $employee->id,
-            ]);
+            $alreadyExists = TeamMember::where('employee_id', $employee->id)
+                ->where('team_id', $teamMember['id'])
+                ->first();
+
+            if (!$alreadyExists) {
+                TeamMember::create([
+                    'team_id' => $teamMember['id'],
+                    'employee_id' => $employee->id,
+                ]);
+            }
         }
 
         $teamMembersIDs = array_column($teamMembers, 'id');
@@ -103,22 +109,6 @@ class EmployeeController extends Controller
         if ($teamMember) {
             $teamMember->delete();
         }
-            $alreadyExists = TeamMember::where('employee_id', $employee->id)
-                ->where('team_id', $teamMember['id'])
-                ->first();
-
-            if (! $alreadyExists) {
-                TeamMember::create([
-                    'team_id' => $teamMember['id'],
-                    'employee_id' => $employee->id,
-                ]);
-            }
-        }
-
-        $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('employee_id', $employee->id)
-            ->whereNotIn('team_id', $teamMembersIDs)
-            ->delete();
 
         $equipment_identifiers = $request->input('equipment_identifiers', []);
 
@@ -153,7 +143,7 @@ class EmployeeController extends Controller
     {
         $teamMember = TeamMember::where('employee_id', $employee->id)->first();
 
-        if ($teamMember) {
+        if ($teamMember){
             $teamMember->delete();
         }
 
