@@ -52,7 +52,7 @@ it('can update the full number identifier of a meeting room laptop', function ()
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-   $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 

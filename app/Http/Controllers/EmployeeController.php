@@ -94,7 +94,7 @@ class EmployeeController extends Controller
                 ->where('team_id', $teamMember['id'])
                 ->first();
 
-            if (!$alreadyExists) {
+            if (! $alreadyExists) {
                 TeamMember::create([
                     'team_id' => $teamMember['id'],
                     'employee_id' => $employee->id,
@@ -143,7 +143,7 @@ class EmployeeController extends Controller
     {
         $teamMember = TeamMember::where('employee_id', $employee->id)->first();
 
-        if ($teamMember){
+        if ($teamMember) {
             $teamMember->delete();
         }
 
