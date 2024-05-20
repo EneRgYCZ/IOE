@@ -17,6 +17,32 @@ const Teams = ({
     employees: Employee[];
     team_members: TeamMember[];
 }>) => {
+
+    const sortPreferences: {
+        id: string | boolean;
+        team_name: string | boolean;
+        description: string | boolean;
+    } = {
+        id: false,
+        team_name: false,
+        description: false,
+    };
+
+    const hiddenPreferences: {
+        id: boolean;
+        team_name: boolean;
+        description: boolean;
+    } = {
+        id: false,
+        team_name: false,
+        description: false,
+    };
+
+    {/* Add results per page */}
+
+    sessionStorage.setItem('team_sort_preferences', JSON.stringify(sortPreferences));
+    sessionStorage.setItem('team_hidden_preferences', JSON.stringify(hiddenPreferences));
+
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
