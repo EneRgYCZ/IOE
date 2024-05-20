@@ -9,7 +9,8 @@ import {
     Laptop,
     MeetingRoomLaptop,
     DeleteActivityLog,
-    UpdateActivityLog
+    UpdateActivityLog,
+    TeamMember
 } from "@/types";
 import React, { useState } from "react";
 import { Box, Button, Card, Modal, Stack, TableCell, Typography } from "@mui/material";
@@ -42,6 +43,24 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
     }
 
     const customCellRenderer: CellRenderer<ActivityLog> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "event") {
+            if (row.subject_type === "App\\Models\\TeamMember") {
+                if (row.event === "created") {
+                    return (
+                        <TableCell>
+                            added
+                        </TableCell>
+                    )
+                }
+                if (row.event === "deleted") {
+                    return (
+                        <TableCell>
+                            removed
+                        </TableCell>
+                    )
+                }
+            }
+        }
         if (col.key === "properties" && row.event === "updated") {
             if (updateTypeGuard(row)) {
                 const newAttributes = flattenObject(row.properties.attributes);
@@ -67,7 +86,9 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
 
                 return (
                     <TableCell key={cellKey} align="center">
-                        <Button onClick={handleOpenModal}>Show Changes</Button>
+                        <Button size="small" onClick={handleOpenModal}>
+                            Show Changes
+                        </Button>
                         <Modal
                             open={openModal}
                             onClose={() => setOpenModal(false)}
@@ -85,7 +106,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                                     width: "60%",
                                     display: "flex",
                                     boxShadow: "lg",
-                                    maxHeight: "50%",
+                                    maxHeight: "70%",
                                     borderRadius: "md",
                                     flexDirection: "column"
                                 }}
@@ -120,7 +141,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                     );
                 }
 
-                const employee = row.subject as Employee;
+                const employee = row.properties.attributes as Employee;
                 return (
                     <TableCell key={cellKey}>
                         {"Employee: "}
@@ -138,7 +159,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const team = row.subject as Team;
+                const team = row.properties.attributes as Team;
                 return (
                     <TableCell key={cellKey}>
                         {"Team: "}
@@ -156,7 +177,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const desktop = row.subject as DesktopPC;
+                const desktop = row.properties.attributes as DesktopPC;
                 return (
                     <TableCell key={cellKey}>
                         {"Desktop: "}
@@ -174,7 +195,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const laptop = row.subject as Laptop;
+                const laptop = row.properties.attributes as Laptop;
                 return (
                     <TableCell key={cellKey}>
                         {"Laptop: "}
@@ -192,10 +213,32 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const MeetingRoomLaptop = row.subject as MeetingRoomLaptop;
+                const MeetingRoomLaptop = row.properties.attributes as MeetingRoomLaptop;
                 return (
                     <TableCell key={cellKey}>
                         {"Meeting Room Laptop: "} {MeetingRoomLaptop.full_number_identifier}
+                    </TableCell>
+                );
+            }
+            if (row.subject_type === "App\\Models\\TeamMember") {
+                if (deleteTypeGuard(row)) {
+                    const teamMember = row.properties.old as TeamMember;
+                    return (
+                        <TableCell key={cellKey}>
+                            {"Employee: "}
+                            {teamMember.employee?.first_name}
+                            {" was removed from the team: "}
+                            {teamMember.team?.team_name}
+                        </TableCell>
+                    );
+                }
+                const teamMember = row.properties.attributes as TeamMember;
+                return (
+                    <TableCell key={cellKey}>
+                        {"Employee: "}
+                        {teamMember.employee?.first_name}
+                        {" was added to the team: "}
+                        {teamMember.team?.team_name}
                     </TableCell>
                 );
             }
@@ -242,17 +285,22 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
 
     const getValueStyle = (key: string) => {
         return {
-            width: "70%",
+            width: "60%",
             textAlign: "right",
             color: key === "oldValue" ? "red" : key === "newValue" ? "green" : "inherit"
         };
     };
 
+    const filteredData = data.filter(item => item.oldValue !== "Empty" && item.attribute !== "updated_at");
+
     return (
         <>
-            {data.map((item, index) => (
+            <Typography variant="h4" sx={{ mb: 2 }}>
+                Changes
+            </Typography>
+            {filteredData.map((item, index) => (
                 <Card key={index} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
-                    <Stack gap={2}>
+                    <Stack gap={2} sx={{ m: 3 }}>
                         {Object.entries(item).map(([key, value], valueIndex) => (
                             <Stack
                                 key={valueIndex}
@@ -272,5 +320,7 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
         </>
     );
 };
+
+
 
 export default Log;

@@ -21,14 +21,14 @@ class TeamController extends Controller
     {
         $teams =
             QueryBuilder::for(Team::query())
-                ->allowedSorts('id', 'team_name', 'description')
-                ->allowedFilters(
-                    'id',
-                    'team_name',
-                    'description',
-                )
-                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-                ->withQueryString();
+            ->allowedSorts('id', 'team_name', 'description')
+            ->allowedFilters(
+                'id',
+                'team_name',
+                'description',
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
 
         $employees = Employee::query()->get();
 
@@ -53,7 +53,6 @@ class TeamController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -73,8 +72,6 @@ class TeamController extends Controller
                 'employee_id' => $teamMember['id'],
             ]);
         }
-
-        return redirect(route('teams.index'));
     }
 
     /**
@@ -109,7 +106,7 @@ class TeamController extends Controller
                 ->where('employee_id', $teamMember['id'])
                 ->first();
 
-            if (! $alreadyExists) {
+            if (!$alreadyExists) {
                 TeamMember::create([
                     'team_id' => $team->id,
                     'employee_id' => $teamMember['id'],
@@ -118,11 +115,12 @@ class TeamController extends Controller
         }
 
         $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('team_id', $team->id)
-            ->whereNotIn('employee_id', $teamMembersIDs)
-            ->delete();
+        $teamMember = TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)->first();
 
-        return redirect(route('teams.index'));
+        if ($teamMember) {
+            $teamMember->delete();
+        }
     }
 
     /**
@@ -130,11 +128,12 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        TeamMember::where('team_id', $team->id)
-            ->delete();
+        $teamMember = TeamMember::where('team_id', $team->id)->first();
+
+        if ($teamMember) {
+            $teamMember->delete();
+        }
 
         $team->delete();
-
-        return redirect(route('teams.index'));
     }
 }
