@@ -4,7 +4,7 @@ import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
 import FormModal from "@/Components/forms/form-modal";
-import ErrorBox from "@/Components/ErrorBox";
+import ErrorBox from "@/Components/error-box";
 
 const EmployeeForm = (props: {
     isOpen: boolean;

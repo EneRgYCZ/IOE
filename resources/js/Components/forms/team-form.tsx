@@ -5,7 +5,7 @@ import { Autocomplete, FormLabel } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
-import ErrorBox from "@/Components/ErrorBox";
+import ErrorBox from "@/Components/error-box";
 
 const TeamForm = (props: {
     isOpen: boolean;

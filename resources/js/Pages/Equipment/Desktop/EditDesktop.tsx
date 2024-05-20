@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
 import DesktopForm from "@/Components/forms/desktop-form";
 import FormModal from "@/Components/forms/form-modal";
-import ErrorBox from "@/Components/ErrorBox";
+import ErrorBox from "@/Components/error-box";
 
 const EditDesktop = (props: {
     isOpen: boolean;
@@ -11,6 +11,8 @@ const EditDesktop = (props: {
     desktop: DesktopPC | null;
     employees: Employee[];
 }) => {
+    const modalRef = React.useRef<HTMLDivElement>(null);
+
     const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<DesktopPC>({
         full_number_identifier: props.desktop ? props.desktop.full_number_identifier : "",
         pc_number: props.desktop ? props.desktop.pc_number : "",
@@ -38,6 +40,14 @@ const EditDesktop = (props: {
             patch(route("equipment.updateDesktop", props.desktop.id), {
                 onSuccess: () => {
                     props.handleClose();
+                },
+                onError: () => {
+                    if (modalRef.current != null) {
+                        modalRef.current.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
                 }
             });
         }
@@ -52,6 +62,7 @@ const EditDesktop = (props: {
             }}
             title="Edit Desktop"
         >
+            <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
         </FormModal>

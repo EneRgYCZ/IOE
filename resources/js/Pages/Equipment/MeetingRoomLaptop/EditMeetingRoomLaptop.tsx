@@ -3,13 +3,15 @@ import { useForm } from "@inertiajs/react";
 import { MeetingRoomLaptop } from "@/types";
 import MeetingRoomLaptopForm from "@/Components/forms/meeting-room-laptop-form";
 import FormModal from "@/Components/forms/form-modal";
-import ErrorBox from "@/Components/ErrorBox";
+import ErrorBox from "@/Components/error-box";
 
 const EditMeetingRoomLaptop = (props: {
     isOpen: boolean;
     handleClose: () => void;
     meetingRoomLaptop: MeetingRoomLaptop | null;
 }) => {
+    const modalRef = React.useRef<HTMLDivElement>(null);
+
     const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<MeetingRoomLaptop>({
         full_number_identifier: props.meetingRoomLaptop ? props.meetingRoomLaptop.full_number_identifier : "",
         laptop_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.laptop_number : "",
@@ -32,6 +34,14 @@ const EditMeetingRoomLaptop = (props: {
             patch(route("equipment.updateMeetingRoomLaptop", props.meetingRoomLaptop.id), {
                 onSuccess: () => {
                     props.handleClose();
+                },
+                onError: () => {
+                    if (modalRef.current != null) {
+                        modalRef.current.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
                 }
             });
         }
@@ -46,6 +56,7 @@ const EditMeetingRoomLaptop = (props: {
             }}
             title="Edit Meeting Room Laptop"
         >
+            <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
         </FormModal>

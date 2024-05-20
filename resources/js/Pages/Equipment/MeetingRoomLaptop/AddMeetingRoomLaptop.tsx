@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/react";
 import MeetingRoomLaptopForm from "@/Components/forms/meeting-room-laptop-form";
 import { MeetingRoomLaptop } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
-import ErrorBox from "@/Components/ErrorBox";
+import ErrorBox from "@/Components/error-box";
 
 const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues: MeetingRoomLaptop = {
@@ -17,12 +17,21 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
         remarks: ""
     };
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
+    const modalRef = React.useRef<HTMLDivElement>(null);
 
     const submit = () => {
         post(route("equipment.storeMeetingRoomLaptop"), {
             onSuccess: () => {
                 setData(initialValues);
                 props.handleClose();
+            },
+            onError: () => {
+                if (modalRef.current != null) {
+                    modalRef.current.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
             }
         });
     };
@@ -36,6 +45,7 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
             }}
             title="Add Meeting Room Laptop"
         >
+            <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
         </FormModal>
