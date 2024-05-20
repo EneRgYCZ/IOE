@@ -28,7 +28,14 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Meeting Room Laptop">
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title="Add Meeting Room Laptop"
+        >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
         </FormModal>

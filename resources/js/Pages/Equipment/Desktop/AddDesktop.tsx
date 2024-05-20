@@ -34,7 +34,14 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Desktop">
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title="Add Desktop"
+        >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
         </FormModal>

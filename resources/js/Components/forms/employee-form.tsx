@@ -109,7 +109,14 @@ const EmployeeForm = (props: {
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title={props.title}
+        >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
                 <FormLabel>First Name*</FormLabel>

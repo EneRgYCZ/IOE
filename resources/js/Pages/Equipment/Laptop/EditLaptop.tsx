@@ -42,7 +42,14 @@ const EditLaptop = (props: {
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Laptop">
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title="Edit Laptop"
+        >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
         </FormModal>

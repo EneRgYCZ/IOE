@@ -32,7 +32,14 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees:
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Laptop">
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title="Add Laptop"
+        >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
         </FormModal>
