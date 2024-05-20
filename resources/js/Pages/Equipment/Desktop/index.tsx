@@ -5,7 +5,7 @@ import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
 import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
-import DeletionConfirmation from "@/Components/deletion-confirmation";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
 
 const Equipment = ({
     desktops,

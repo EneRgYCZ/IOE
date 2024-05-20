@@ -24,8 +24,6 @@ const TeamForm = (props: {
         boxSizing: "border-box"
     };
 
-    const [teamNameError, setTeamNameError] = React.useState(false);
-
     const initialValues: {
         team_name: string;
         description: string;
@@ -37,6 +35,7 @@ const TeamForm = (props: {
     };
 
     const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm(initialValues);
+    const [teamNameError, setTeamNameError] = React.useState(false);
 
     React.useEffect(() => {
         if (props.team) {
@@ -87,16 +86,6 @@ const TeamForm = (props: {
         props.handleClose();
     };
 
-    React.useEffect(() => {
-        if (props.team) {
-            setData({
-                team_name: props.team.team_name,
-                description: props.team.description,
-                team_members: props.teamMembers
-            });
-        }
-    }, [props.team]);
-
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
@@ -135,7 +124,7 @@ const TeamForm = (props: {
                     sx={fieldStyle}
                     renderInput={params => <TextField {...params} />}
                 />
-                <Button variant="contained" type={"submit"}>
+                <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>
                     Submit
                 </Button>
             </form>

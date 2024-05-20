@@ -4,9 +4,8 @@ import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
-import EditEmployee from "./EditEmployee";
-import AddEmployee from "./AddEmployee";
-import DeletionConfirmation from "@/Components/deletion-confirmation";
+import EmployeeForm from "../../Components/forms/EmployeeForm";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
 
 const Employees = ({
     employees,
@@ -103,24 +102,19 @@ const Employees = ({
             </Box>
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddEmployee
+            <EmployeeForm
                 isOpen={add}
                 handleClose={() => setAdd(false)}
+                employee={null}
                 teams={teams}
+                teamMembers={[]}
                 equipment={equipment.filter(e => e.employee_id == null)}
+                title="Add Employee"
             />
-            <EditEmployee
+            <EmployeeForm
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
                 employee={empEdit}
-                equipment={equipment}
-                onSubmit={(e, form) => {
-                    e.preventDefault();
-                    if (empEdit) {
-                        form.patch(route("employees.update", empEdit.id));
-                    }
-                    setEdit(false);
-                }}
                 teams={teams}
                 teamMembers={
                     team_members && empEdit
@@ -132,6 +126,8 @@ const Employees = ({
                           )
                         : []
                 }
+                equipment={equipment}
+                title="Edit Employee"
             />
             {empDel && (
                 <DeletionConfirmation

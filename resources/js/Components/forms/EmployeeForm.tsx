@@ -1,21 +1,18 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { InertiaFormProps } from "@inertiajs/react/types/useForm";
 import FormModal from "@/Components/forms/form-modal";
 
-const EditEmployee = (props: {
+const EmployeeForm = (props: {
     isOpen: boolean;
     handleClose: () => void;
     employee: Employee | null;
-    equipment: (DesktopPC | Laptop)[];
-    onSubmit: (e: FormEvent, form: InertiaFormProps) => void;
     teams: Team[];
     teamMembers: Team[];
+    equipment: (DesktopPC | Laptop)[];
+    title: string;
 }) => {
     const fieldStyle = {
         width: "100%",
@@ -27,30 +24,31 @@ const EditEmployee = (props: {
         boxSizing: "border-box"
     };
 
-    const form = useForm({
-        first_name: props.employee?.first_name,
-        last_name: props.employee?.last_name,
-        team_members: props.teamMembers,
-        equipment_identifiers: props.equipment
-            .filter(equipment => equipment.employee_id == props.employee?.id)
-            .map(equipment => equipment.full_number_identifier)
-    });
+    const initialValues: {
+        first_name: string;
+        last_name: string;
+        team_members: Team[];
+        equipment_identifiers: string[];
+    } = {
+        first_name: props.employee ? props.employee.first_name : "",
+        last_name: props.employee ? props.employee.last_name : "",
+        team_members: props.employee ? props.teamMembers : [],
+        equipment_identifiers: props.employee
+            ? props.equipment
+                  .filter(equipment => equipment.employee_id == props.employee?.id)
+                  .map(equipment => equipment.full_number_identifier)
+            : []
+    };
 
-    const { data, setData } = form;
+    const { data, setData, patch, post } = useForm(initialValues);
     const [firstNameError, setFirstNameError] = React.useState(false);
     const [lastNameError, setLastNameError] = React.useState(false);
     const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
     const [emptyLastNameError, setEmptyLastNameError] = React.useState(false);
 
     React.useEffect(() => {
-        if (props.employee !== null) {
-            setData({
-                ...props.employee,
-                team_members: props.teamMembers,
-                equipment_identifiers: props.equipment
-                    .filter(equipment => equipment.employee_id == props.employee?.id)
-                    .map(equipment => equipment.full_number_identifier)
-            });
+        if (props.employee) {
+            setData(initialValues);
         }
     }, [props.employee, props.equipment]);
 
@@ -90,9 +88,20 @@ const EditEmployee = (props: {
         }));
     };
 
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (props.employee) {
+            patch(route("employees.update", props.employee.id));
+        } else {
+            post(route("employees.store"));
+        }
+        setData(initialValues);
+        props.handleClose();
+    };
+
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Employee">
-            <form onSubmit={e => props.onSubmit(e, form)} style={{ marginTop: "10px" }}>
+        <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
+            <form onSubmit={submit} style={{ marginTop: "10px" }}>
                 <FormLabel>First Name*</FormLabel>
                 <TextField
                     id={"first_name"}
@@ -178,4 +187,4 @@ const EditEmployee = (props: {
     );
 };
 
-export default EditEmployee;
+export default EmployeeForm;

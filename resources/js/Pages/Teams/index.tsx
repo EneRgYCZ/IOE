@@ -4,7 +4,7 @@ import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import TeamForm from "@/Components/forms/TeamForm";
-import DeletionConfirmation from "@/Components/deletion-confirmation";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
 
 const Teams = ({
     teams,

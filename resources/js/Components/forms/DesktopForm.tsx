@@ -231,7 +231,7 @@ const DesktopForm = (props: {
                 sx={fieldStyle}
                 renderInput={params => <TextField {...params} />}
             />
-            <Button variant="contained" type={"submit"}>
+            <Button variant="contained" type={"submit"} sx={{ margin: "10px" }}>
                 Submit
             </Button>
         </form>
