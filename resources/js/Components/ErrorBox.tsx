@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 const ErrorBox = (props: {
     hasErrors: boolean;
@@ -8,16 +8,13 @@ const ErrorBox = (props: {
     clearErrors: () => void;
 }) => {
     return props.hasErrors ? (
-        <Box sx={{ backgroundColor: "#ff8c8c", padding: "6px 6px" }}>
-            <Typography sx={{ margin: "10px", display: "flex" }} variant="h5">
+        <Box sx={{ color: "#c62828", padding: "6px 0" }}>
+            <Typography sx={{ margin: "10px 0", display: "flex" }} variant="h6">
                 Errors
-                <Button onClick={() => props.clearErrors()} variant={"outlined"} sx={{ marginLeft: "auto" }}>
-                    Clear
-                </Button>
             </Typography>
 
             {Object.values(props.errors).map((error, index) => (
-                <p key={"error_" + index} style={{ margin: "10px" }}>
+                <p key={"error_" + index} style={{ margin: "10px 0" }}>
                     {error}
                 </p>
             ))}
