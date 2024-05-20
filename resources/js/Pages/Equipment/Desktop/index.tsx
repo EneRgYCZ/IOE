@@ -3,9 +3,10 @@ import { DesktopPC, Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
 import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
 import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Equipment = ({
     desktops,
@@ -35,13 +36,15 @@ const Equipment = ({
 
     const [formOpen, setFormOpen] = React.useState({
         addDesktop: false,
-        editDesktop: false
+        editDesktop: false,
+        deleteDesktop: false
     });
 
     const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -55,8 +58,9 @@ const Equipment = ({
                             data={desktops}
                             actionRenderer={desktop => (
                                 <TableCell align="center">
+                                    {/* Button for Edit */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         sx={tableButtonMargins}
                                         onClick={() => {
                                             setCurrentDesktop(desktop);
@@ -64,26 +68,29 @@ const Equipment = ({
                                         }}
                                     >
                                         EDIT
+                                        <EditRounded sx={{ marginLeft: "10px" }} />
                                     </Button>
-                                    <Link
-                                        href={route("equipment.destroyDesktop", desktop.id)}
-                                        method="delete"
-                                        onBefore={() =>
-                                            window.confirm(
-                                                "Are you sure that you want to eliminate this piece of equipment?"
-                                            )
-                                        }
+
+                                    {/* Button for Delete */}
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentDesktop(desktop);
+                                            setFormOpen({ ...formOpen, deleteDesktop: true });
+                                        }}
                                     >
-                                        <Button variant="contained" color="error">
-                                            DELETE
-                                        </Button>
-                                    </Link>
+                                        <DeleteRounded />
+                                    </Button>
                                 </TableCell>
                             )}
                         />
                     </Box>
                 </Box>
             </Card>
+
+            {/* Button for Add */}
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"
@@ -94,18 +101,27 @@ const Equipment = ({
                     Add desktop
                 </Fab>
             </Box>
+
+            {/* Forms for Adding, Editing and Deleting */}
             <AddDesktop
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
                 employees={employees}
             ></AddDesktop>
-
             <EditDesktop
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
                 desktop={currentDesktop}
                 employees={employees}
             ></EditDesktop>
+            {currentDesktop && (
+                <DeletionConfirmation
+                    isOpen={formOpen.deleteDesktop}
+                    handleClose={() => setFormOpen({ ...formOpen, deleteDesktop: false })}
+                    deleteObject={currentDesktop}
+                    type="DesktopPC"
+                />
+            )}
         </GuestLayout>
     );
 };

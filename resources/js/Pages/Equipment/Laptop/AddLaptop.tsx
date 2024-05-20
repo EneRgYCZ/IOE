@@ -1,10 +1,9 @@
 import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
-import LaptopForm from "@/Components/Equipment/LaptopForm";
+import LaptopForm from "@/Components/forms/laptop-form";
 import { Employee, Laptop } from "@/types";
 import ErrorBox from "@/Components/ErrorBox";
+import FormModal from "@/Components/forms/form-modal";
 
 const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: Laptop = {
@@ -32,27 +31,11 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees:
         });
     };
 
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        overflowY: "auto",
-        maxHeight: "80%",
-        backgroundColor: "white",
-        padding: "20px"
-    };
-
     return (
-        <Modal open={props.isOpen} onClose={props.handleClose}>
-            <Box sx={modalStyle}>
-                <Typography variant="h5" gutterBottom>
-                    Add Laptop
-                </Typography>
-                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-                <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
-            </Box>
-        </Modal>
+        <FormModal open={props.isOpen} onClose={props.handleClose} title="Add Laptop">
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+        </FormModal>
     );
 };
 export default AddLaptop;

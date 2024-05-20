@@ -1,9 +1,8 @@
 import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
-import DesktopForm from "@/Components/Equipment/DesktopForm";
+import DesktopForm from "@/Components/forms/desktop-form";
+import FormModal from "@/Components/forms/form-modal";
 import ErrorBox from "@/Components/ErrorBox";
 
 const EditDesktop = (props: {
@@ -44,27 +43,11 @@ const EditDesktop = (props: {
         }
     };
 
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        overflowY: "auto",
-        maxHeight: "80%",
-        backgroundColor: "white",
-        padding: "20px"
-    };
-
     return (
-        <Modal open={props.isOpen} onClose={props.handleClose}>
-            <Box sx={modalStyle}>
-                <Typography variant="h5" gutterBottom>
-                    Edit Desktop
-                </Typography>
-                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-                <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
-            </Box>
-        </Modal>
+        <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Desktop">
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+        </FormModal>
     );
 };
 export default EditDesktop;

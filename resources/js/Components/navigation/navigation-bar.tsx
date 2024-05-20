@@ -5,12 +5,26 @@ import Tab from "@mui/material/Tab";
 import { Link } from "@inertiajs/react";
 import { Menu, MenuItem } from "@mui/material";
 import logo from "../../../../public/img/gomibo.png";
+import "../../../css/navigation-bar.css";
 
 const NavigationBar = () => {
-    const [selectedUrl, setSelectedUrl] = useState<string>(window.location.pathname);
+    const currentPage = () => {
+        if (
+            window.location.pathname.includes("/desktops") ||
+            window.location.pathname.includes("/laptops") ||
+            window.location.pathname.includes("/meeting-room-laptops")
+        ) {
+            return "/equipment";
+        } else {
+            return window.location.pathname;
+        }
+    };
+
+    const [selectedUrl, setSelectedUrl] = useState<string>(currentPage);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -19,15 +33,7 @@ const NavigationBar = () => {
     };
 
     useEffect(() => {
-        if (
-            window.location.pathname.includes("/desktops") ||
-            window.location.pathname.includes("/laptops") ||
-            window.location.pathname.includes("/meeting-room-laptops")
-        ) {
-            setSelectedUrl("/equipment");
-        } else {
-            setSelectedUrl(window.location.pathname);
-        }
+        setSelectedUrl(currentPage);
     }, [window.location.pathname]);
 
     return (
@@ -47,8 +53,14 @@ const NavigationBar = () => {
                 <img
                     src={logo}
                     alt="Gomibo logo"
+                    className="logo"
                     width={150}
-                    style={{ position: "absolute", left: "20px", top: "50%", transform: "translateY(-50%)" }}
+                    style={{
+                        position: "absolute",
+                        left: "20px",
+                        top: "50%",
+                        transform: "translateY(-50%)"
+                    }}
                 />
                 <Tabs
                     value={selectedUrl}
@@ -77,29 +89,29 @@ const NavigationBar = () => {
                         <Tab
                             className={selectedUrl === "/employees" ? "Mui-selected" : ""}
                             label="Employees"
-                            value="/employees"
                             aria-label="Employees Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
-                    <Link href="/equipment" onClick={e => e.preventDefault()} value={"/equipment"}>
+                    <Link href="" onClick={e => e.preventDefault()} value={"/equipment"}>
                         <Tab
                             label="Equipment"
                             aria-label="Equipment Page"
                             component="button"
-                            value="/equipment"
                             className={selectedUrl.includes("/equipment") ? "Mui-selected" : ""}
                             onClick={e => {
                                 e.preventDefault();
                                 handleClick(e);
                             }}
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
                     <Link href={route("teams.index")} value="/teams">
                         <Tab
                             className={selectedUrl === "/teams" ? "Mui-selected" : ""}
                             label="Teams"
-                            value="/teams"
                             aria-label="Phone Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
 
@@ -109,6 +121,7 @@ const NavigationBar = () => {
                             label="Logs"
                             value="/logs"
                             aria-label="Logs Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
 
@@ -120,58 +133,63 @@ const NavigationBar = () => {
                             "aria-labelledby": "basic-button"
                         }}
                     >
-                        <MenuItem
-                            sx={{
-                                backgroundColor: "#fff",
-                                "&:hover": {
-                                    backgroundColor: "#ddd"
-                                }
-                            }}
-                            onClick={handleClose}
-                        >
-                            <Link href={route("equipment.desktops")} value="/equipment/desktops">
+                        <Link href={route("equipment.desktops")}>
+                            <MenuItem
+                                sx={{
+                                    padding: 0,
+                                    "&:hover": {
+                                        backgroundColor: "#ddd"
+                                    }
+                                }}
+                                onClick={handleClose}
+                            >
                                 <Tab
                                     className={
                                         window.location.pathname.includes("/equipment/desktops") ? "Mui-selected" : ""
                                     }
+                                    sx={{
+                                        width: "100%",
+                                        padding: "20px 32px",
+                                        alignItems: "flex-start"
+                                    }}
                                     label="Desktops"
-                                    value="/equipment/desktops"
                                     aria-label="Desktops"
                                 />
-                            </Link>
-                        </MenuItem>
-                        <MenuItem
-                            sx={{
-                                backgroundColor: "#fff",
-                                "&:hover": {
-                                    backgroundColor: "#ddd"
-                                }
-                            }}
-                            onClick={handleClose}
-                        >
-                            <Link href={route("equipment.laptops")} value="/equipment/laptops">
+                            </MenuItem>
+                        </Link>
+                        <Link href={route("equipment.laptops")}>
+                            <MenuItem
+                                sx={{
+                                    padding: 0,
+                                    "&:hover": {
+                                        backgroundColor: "#ddd"
+                                    }
+                                }}
+                                onClick={handleClose}
+                            >
                                 <Tab
                                     className={
                                         window.location.pathname.includes("/equipment/laptops") ? "Mui-selected" : ""
                                     }
+                                    sx={{
+                                        width: "100%",
+                                        padding: "20px 32px",
+                                        alignItems: "flex-start"
+                                    }}
                                     label="Laptops"
-                                    value="/equipment/laptops"
                                     aria-label="Laptops"
                                 />
-                            </Link>
-                        </MenuItem>
-                        <MenuItem
-                            sx={{
-                                backgroundColor: "#fff",
-                                "&:hover": {
-                                    backgroundColor: "#ddd"
-                                }
-                            }}
-                            onClick={handleClose}
-                        >
-                            <Link
-                                href={route("equipment.meeting-room-laptops")}
-                                value="/equipment/meeting-room-laptops"
+                            </MenuItem>
+                        </Link>
+                        <Link href={route("equipment.meeting-room-laptops")}>
+                            <MenuItem
+                                sx={{
+                                    padding: 0,
+                                    "&:hover": {
+                                        backgroundColor: "#ddd"
+                                    }
+                                }}
+                                onClick={handleClose}
                             >
                                 <Tab
                                     className={
@@ -179,12 +197,16 @@ const NavigationBar = () => {
                                             ? "Mui-selected"
                                             : ""
                                     }
+                                    sx={{
+                                        width: "100%",
+                                        padding: "20px 32px",
+                                        alignItems: "flex-start"
+                                    }}
                                     label="Meeting Room Laptops"
-                                    value="/equipment/meeting-room-laptops"
                                     aria-label="meeting-room-laptops"
                                 />
-                            </Link>
-                        </MenuItem>
+                            </MenuItem>
+                        </Link>
                     </Menu>
                 </Tabs>
             </Box>
