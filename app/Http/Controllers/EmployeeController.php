@@ -85,14 +85,24 @@ class EmployeeController extends Controller
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
-            TeamMember::create([
-                'team_id' => $teamMember['id'],
-                'employee_id' => $employee->id,
-            ]);
+            $alreadyExists = TeamMember::where('employee_id', $employee->id)
+                ->where('team_id', $teamMember['id'])
+                ->first();
+
+            if (! $alreadyExists) {
+                TeamMember::create([
+                    'team_id' => $teamMember['id'],
+                    'employee_id' => $employee->id,
+                ]);
+            }
         }
 
-        $equipment_identifiers = $request->input('equipment_identifiers', []);
+        $teamMembersIDs = array_column($teamMembers, 'id');
+        TeamMember::where('employee_id', $employee->id)
+            ->whereNotIn('team_id', $teamMembersIDs)
+            ->delete();
 
+        $equipment_identifiers = $request->input('equipment_identifiers', []);
         Desktop::whereIn('full_number_identifier', $equipment_identifiers)
             ->update(['employee_id' => $employee->id]);
         Laptop::whereIn('full_number_identifier', $equipment_identifiers)

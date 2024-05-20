@@ -4,9 +4,9 @@ import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
-import EditEmployee from "./EditEmployee";
-import AddEmployee from "./AddEmployee";
-import DeleteEmployee from "./DeleteEmployee";
+import EmployeeForm from "../../Components/forms/employee-form";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Employees = ({
     employees,
@@ -22,14 +22,24 @@ const Employees = ({
     laptops: Laptop[];
 }>) => {
     const tableButtonMargins = {
-        marginRight: "10px"
+        margin: "0 10px"
     };
 
-    const addButtonStyle = {
+    const addButtonBox = {
         position: "fixed",
+        width: "250px",
+        pointerEvents: "none",
         bottom: 16,
         right: 16
     };
+
+    const addButtonStyle = {
+        display: "block",
+        pointerEvents: "initial",
+        marginTop: "16px",
+        marginLeft: "auto"
+    };
+
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
     const [empEdit, setEmpEdit] = useState<Employee | null>(null);
@@ -43,6 +53,7 @@ const Employees = ({
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -54,8 +65,9 @@ const Employees = ({
                         data={employees}
                         actionRenderer={employee => (
                             <TableCell align="center">
+                                {/* Button for Edit */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     sx={tableButtonMargins}
                                     onClick={() => {
                                         setEdit(true);
@@ -63,44 +75,48 @@ const Employees = ({
                                     }}
                                 >
                                     EDIT
+                                    <EditRounded sx={{ marginLeft: "10px" }} />
                                 </Button>
+
+                                {/* Button for Delete */}
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
+                                    sx={tableButtonMargins}
                                     color="error"
                                     onClick={() => {
                                         setDel(true);
                                         setEmpDel(employee);
                                     }}
                                 >
-                                    DELETE
+                                    <DeleteRounded />
                                 </Button>
                             </TableCell>
                         )}
                     />
                 </Box>
             </Card>
-            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
-                Add employee
-            </Fab>
-            <AddEmployee
+
+            {/* Button for Add */}
+            <Box sx={addButtonBox}>
+                <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
+                    Add employee
+                </Fab>
+            </Box>
+
+            {/* Forms for Adding, Editing and Deleting */}
+            <EmployeeForm
                 isOpen={add}
                 handleClose={() => setAdd(false)}
+                employee={null}
                 teams={teams}
+                teamMembers={[]}
                 equipment={equipment.filter(e => e.employee_id == null)}
+                title="Add Employee"
             />
-
-            <EditEmployee
+            <EmployeeForm
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
                 employee={empEdit}
-                equipment={equipment}
-                onSubmit={(e, form) => {
-                    e.preventDefault();
-                    if (empEdit) {
-                        form.patch(route("employees.update", empEdit.id));
-                    }
-                    setEdit(false);
-                }}
                 teams={teams}
                 teamMembers={
                     team_members && empEdit
@@ -112,8 +128,17 @@ const Employees = ({
                           )
                         : []
                 }
+                equipment={equipment}
+                title="Edit Employee"
             />
-            {empDel && <DeleteEmployee isOpen={del} handleClose={() => setDel(false)} employee={empDel} />}
+            {empDel && (
+                <DeletionConfirmation
+                    isOpen={del}
+                    handleClose={() => setDel(false)}
+                    deleteObject={empDel}
+                    type="Employee"
+                />
+            )}
         </GuestLayout>
     );
 };
