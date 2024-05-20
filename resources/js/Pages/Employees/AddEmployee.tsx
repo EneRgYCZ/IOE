@@ -1,8 +1,9 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { Team, DesktopPC, Laptop } from "@/types";
+import ErrorBox from "@/Components/ErrorBox";
 
 const AddEmployee = (props: {
     isOpen: boolean;
@@ -61,8 +62,7 @@ const AddEmployee = (props: {
         cursor: "pointer"
     };
 
-    const { data, setData, post } = useForm(defaultValues);
-    const { errors } = usePage().props;
+    const { data, setData, post, errors, hasErrors, clearErrors } = useForm(defaultValues);
     const [firstNameError, setFirstNameError] = React.useState(false);
     const [lastNameError, setLastNameError] = React.useState(false);
     const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
@@ -104,23 +104,19 @@ const AddEmployee = (props: {
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("employees.store"));
-        setData(defaultValues);
-        props.handleClose();
+        post(route("employees.store"), {
+            onSuccess: () => {
+                setData(defaultValues);
+                props.handleClose();
+            }
+        });
     };
-
-    React.useEffect(() => {
-        if (errors.first_name) {
-            alert("The first name could not be added. " + errors.first_name);
-        } else if (errors.last_name) {
-            alert("The last name could not be added. " + errors.last_name);
-        }
-    }, [errors]);
 
     return (
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <h2 style={{ margin: "0px" }}>Add Employee</h2>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <form onSubmit={submit}>
                     <Button sx={closeButtonStyle} onClick={props.handleClose}>
                         X

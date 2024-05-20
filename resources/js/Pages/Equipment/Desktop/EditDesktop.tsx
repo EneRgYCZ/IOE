@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
+import ErrorBox from "@/Components/ErrorBox";
 
 const EditDesktop = (props: {
     isOpen: boolean;
@@ -28,13 +29,6 @@ const EditDesktop = (props: {
     });
 
     React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
-    React.useEffect(() => {
         if (props.desktop !== null) {
             setData(props.desktop);
         }
@@ -42,8 +36,11 @@ const EditDesktop = (props: {
 
     const submit = () => {
         if (props.desktop) {
-            patch(route("equipment.updateDesktop", props.desktop.id));
-            props.handleClose();
+            patch(route("equipment.updateDesktop", props.desktop.id), {
+                onSuccess: () => {
+                    props.handleClose();
+                }
+            });
         }
     };
 
@@ -64,6 +61,7 @@ const EditDesktop = (props: {
                 <Typography variant="h5" gutterBottom>
                     Edit Desktop
                 </Typography>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>

@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import DesktopForm from "@/Components/Equipment/DesktopForm";
 import { DesktopPC, Employee } from "@/types";
+import ErrorBox from "@/Components/ErrorBox";
 
 const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: DesktopPC = {
@@ -24,17 +25,13 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
 
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
 
-    React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
     const submit = () => {
-        post(route("equipment.storeDesktop"));
-        setData(initialValues);
-        props.handleClose();
+        post(route("equipment.storeDesktop"), {
+            onSuccess: () => {
+                setData(initialValues);
+                props.handleClose();
+            }
+        });
     };
 
     const modalStyle = {
@@ -54,6 +51,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
                 <Typography variant="h5" gutterBottom>
                     Add Desktop
                 </Typography>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>

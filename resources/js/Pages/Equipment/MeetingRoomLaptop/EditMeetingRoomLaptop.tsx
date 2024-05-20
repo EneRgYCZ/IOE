@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { MeetingRoomLaptop } from "@/types";
 import MeetingRoomLaptopForm from "@/Components/Equipment/MeetingRoomLaptopForm";
+import ErrorBox from "@/Components/ErrorBox";
 
 const EditMeetingRoomLaptop = (props: {
     isOpen: boolean;
@@ -22,13 +23,6 @@ const EditMeetingRoomLaptop = (props: {
     });
 
     React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
-    React.useEffect(() => {
         if (props.meetingRoomLaptop !== null) {
             setData(props.meetingRoomLaptop);
         }
@@ -36,8 +30,11 @@ const EditMeetingRoomLaptop = (props: {
 
     const submit = () => {
         if (props.meetingRoomLaptop) {
-            patch(route("equipment.updateMeetingRoomLaptop", props.meetingRoomLaptop.id));
-            props.handleClose();
+            patch(route("equipment.updateMeetingRoomLaptop", props.meetingRoomLaptop.id), {
+                onSuccess: () => {
+                    props.handleClose();
+                }
+            });
         }
     };
 
@@ -58,6 +55,7 @@ const EditMeetingRoomLaptop = (props: {
                 <Typography variant="h5" gutterBottom>
                     Edit Meeting Room Laptop
                 </Typography>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
             </Box>
         </Modal>

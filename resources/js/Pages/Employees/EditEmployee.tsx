@@ -7,6 +7,7 @@ import { DesktopPC, Employee, Team, Laptop } from "@/types";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { InertiaFormProps } from "@inertiajs/react/types/useForm";
+import ErrorBox from "@/Components/ErrorBox";
 
 const EditEmployee = (props: {
     isOpen: boolean;
@@ -65,7 +66,7 @@ const EditEmployee = (props: {
             .map(equipment => equipment.full_number_identifier)
     });
 
-    const { data, setData } = form;
+    const { data, setData, errors, hasErrors, clearErrors } = form;
     const [firstNameError, setFirstNameError] = React.useState(false);
     const [lastNameError, setLastNameError] = React.useState(false);
     const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
@@ -122,6 +123,7 @@ const EditEmployee = (props: {
         <Modal open={props.isOpen} onClose={props.handleClose}>
             <Box sx={modalStyle}>
                 <h2 style={{ margin: "0px" }}>Edit Employee</h2>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <form onSubmit={e => props.onSubmit(e, form)}>
                     <Button sx={closeButtonStyle} onClick={props.handleClose}>
                         X

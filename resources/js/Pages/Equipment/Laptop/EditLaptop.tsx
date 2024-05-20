@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
 import LaptopForm from "@/Components/Equipment/LaptopForm";
+import ErrorBox from "@/Components/ErrorBox";
 
 const EditLaptop = (props: {
     isOpen: boolean;
@@ -26,13 +27,6 @@ const EditLaptop = (props: {
     });
 
     React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
-    React.useEffect(() => {
         if (props.laptop !== null) {
             setData(props.laptop);
         }
@@ -40,8 +34,11 @@ const EditLaptop = (props: {
 
     const submit = () => {
         if (props.laptop) {
-            patch(route("equipment.updateLaptop", props.laptop.id));
-            props.handleClose();
+            patch(route("equipment.updateLaptop", props.laptop.id), {
+                onSuccess: () => {
+                    props.handleClose();
+                }
+            });
         }
     };
 
@@ -62,6 +59,7 @@ const EditLaptop = (props: {
                 <Typography variant="h5" gutterBottom>
                     Edit Laptop
                 </Typography>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
             </Box>
         </Modal>

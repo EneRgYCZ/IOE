@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import MeetingRoomLaptopForm from "@/Components/Equipment/MeetingRoomLaptopForm";
 import { MeetingRoomLaptop } from "@/types";
+import ErrorBox from "@/Components/ErrorBox";
 
 const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {
     const initialValues: MeetingRoomLaptop = {
@@ -18,17 +19,13 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
     };
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);
 
-    React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
     const submit = () => {
-        post(route("equipment.storeMeetingRoomLaptop"));
-        setData(initialValues);
-        props.handleClose();
+        post(route("equipment.storeMeetingRoomLaptop"), {
+            onSuccess: () => {
+                setData(initialValues);
+                props.handleClose();
+            }
+        });
     };
 
     const modalStyle = {
@@ -48,6 +45,7 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
                 <Typography variant="h5" gutterBottom>
                     Add Meeting Room Laptop
                 </Typography>
+                <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                 <MeetingRoomLaptopForm data={data} setData={setData} onSubmit={submit} />
             </Box>
         </Modal>

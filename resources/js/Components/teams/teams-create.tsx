@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { Autocomplete, Fab, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee } from "@/types";
+import ErrorBox from "@/Components/ErrorBox";
 
 const TeamCreateForm = (props: { employees: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
@@ -40,13 +41,6 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
         }));
     };
 
-    React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
     const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setData(data => ({
             ...data,
@@ -61,9 +55,12 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("teams.store"));
-        setData(initialValues);
-        handleFormClose();
+        post(route("teams.store"), {
+            onSuccess: () => {
+                setData(initialValues);
+                handleFormClose();
+            }
+        });
     };
 
     const formStyle = {
@@ -97,6 +94,7 @@ const TeamCreateForm = (props: { employees: Employee[] }) => {
                     <Typography variant="h5" gutterBottom>
                         Create Team
                     </Typography>
+                    <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                     <form onSubmit={submit}>
                         <FormLabel>Name</FormLabel>
                         <TextField

@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { Autocomplete, FormLabel, Modal, Typography } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
+import ErrorBox from "@/Components/ErrorBox";
 
 const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: Employee[] }) => {
     const [formOpen, setFormOpen] = React.useState(false);
@@ -26,11 +27,7 @@ const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: E
                 team_members: props.teamMembers
             });
         }
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [props.team, errors]);
+    }, [props.team]);
 
     const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setData(data => ({
@@ -63,8 +60,11 @@ const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: E
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.team) {
-            patch(route("teams.update", props.team.id));
-            handleFormClose();
+            patch(route("teams.update", props.team.id), {
+                onSuccess: () => {
+                    handleFormClose();
+                }
+            });
         }
     };
 
@@ -103,6 +103,7 @@ const TeamEditForm = (props: { team: Team; employees: Employee[]; teamMembers: E
                     <Typography variant="h5" gutterBottom>
                         Update Team
                     </Typography>
+                    <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
                     <form onSubmit={submit}>
                         <FormLabel>Name</FormLabel>
                         <TextField

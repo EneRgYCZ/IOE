@@ -97,9 +97,12 @@ const Employees = ({
                 onSubmit={(e, form) => {
                     e.preventDefault();
                     if (empEdit) {
-                        form.patch(route("employees.update", empEdit.id));
+                        form.patch(route("employees.update", empEdit.id), {
+                            onSuccess: () => {
+                                setEdit(false);
+                            }
+                        });
                     }
-                    setEdit(false);
                 }}
                 teams={teams}
                 teamMembers={
