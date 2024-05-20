@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { DesktopPC, Employee, Laptop, MeetingRoomLaptop, Team } from "@/types";
 
 const ErrorBox = (props: {
     hasErrors: boolean;
-    errors: Partial<Record<keyof (Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop), string>>;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    errors: Partial<Record<keyof any, string>>;
     clearErrors: () => void;
 }) => {
     return props.hasErrors ? (
