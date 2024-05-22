@@ -173,14 +173,6 @@ export const Table = <T,>({
         router.visit(newUrl, { preserveScroll: true, preserveState: true });
     }, [tableData]);
 
-    const sortPreferencesItem = sessionStorage.getItem('team_sort_preferences');
-    let sortPreferences: { [key: string]: string | boolean } = {};
-    if (sortPreferencesItem){
-        sortPreferences = JSON.parse(sortPreferencesItem);
-    } else {
-        sortPreferences = {};
-    }
-
     return (
         <Stack gap={1}>
             <Card sx={{ width: "100%", paddingX: 2 }}>
@@ -235,14 +227,13 @@ export const Table = <T,>({
                                                                     sort.startsWith("-") &&
                                                                     sort.substring(1) === col.key
                                                                 ) {
-                                                                    sortPreferences[col.key] = "asc";
                                                                     return col.key;
                                                                 }
 
                                                                 if (sort === col.key) {
-                                                                    sortPreferences[col.key] = "desc";
                                                                     return `-${col.key}`;
                                                                 }
+
                                                                 return sort;
                                                             })
                                                             .join(","),
@@ -265,7 +256,6 @@ export const Table = <T,>({
                                                                 .join(",") ?? null
                                                     };
                                                 });
-                                                sortPreferences[col.key] = false;
                                             }}
                                         />
                                     );
