@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import { Link } from "@inertiajs/react";
 import { Menu, MenuItem } from "@mui/material";
 import logo from "../../../../public/img/gomibo.png";
+import "../../../css/navigation-bar.css";
 
 const NavigationBar = () => {
     const currentPage = () => {
@@ -52,8 +53,14 @@ const NavigationBar = () => {
                 <img
                     src={logo}
                     alt="Gomibo logo"
+                    className="logo"
                     width={150}
-                    style={{ position: "absolute", left: "20px", top: "50%", transform: "translateY(-50%)" }}
+                    style={{
+                        position: "absolute",
+                        left: "20px",
+                        top: "50%",
+                        transform: "translateY(-50%)"
+                    }}
                 />
                 <Tabs
                     value={selectedUrl}
@@ -83,6 +90,7 @@ const NavigationBar = () => {
                             className={selectedUrl === "/employees" ? "Mui-selected" : ""}
                             label="Employees"
                             aria-label="Employees Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
                     <Link href="" onClick={e => e.preventDefault()} value={"/equipment"}>
@@ -95,6 +103,7 @@ const NavigationBar = () => {
                                 e.preventDefault();
                                 handleClick(e);
                             }}
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
                     <Link href={route("teams.index")} value="/teams">
@@ -102,6 +111,7 @@ const NavigationBar = () => {
                             className={selectedUrl === "/teams" ? "Mui-selected" : ""}
                             label="Teams"
                             aria-label="Phone Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
 
@@ -111,6 +121,7 @@ const NavigationBar = () => {
                             label="Logs"
                             value="/logs"
                             aria-label="Logs Page"
+                            sx={{ width: "20vw", maxWidth: "200px" }}
                         />
                     </Link>
 
