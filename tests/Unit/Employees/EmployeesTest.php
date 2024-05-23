@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Desktop;
 use App\Models\Employee;
+use App\Models\Laptop;
 use App\Models\Team;
 use App\Models\TeamMember;
-use App\Models\Desktop;
-use App\Models\Laptop;
 
 it('can create an employee', function () {
     $employeeData = [
@@ -117,7 +117,6 @@ it('can unassign an employee from a team', function () {
     $this->assertNull(TeamMember::where('team_id', $team->id)->where('employee_id', $employee->id)->first());
 
 });
-
 
 it('can assign desktop to an employee', function () {
     $employeeData = [
