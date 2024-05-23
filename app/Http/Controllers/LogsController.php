@@ -22,7 +22,6 @@ class LogsController extends Controller
             'event',
             'subject_type',
             'updated_at',
-            'properties',
         ];
 
         $logs = QueryBuilder::for(Logs::query()->with('causer', 'subject'))
