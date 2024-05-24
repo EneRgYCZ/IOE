@@ -61,7 +61,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                 const handleOpenModal = () => {
                     const data = Object.entries(newAttributes)
                         .map(([attribute, newValue]) => {
-                            const oldValue = oldAttributes[attribute] || "Empty";
+                            const oldValue = oldAttributes[attribute];
                             if (oldValue === newValue) {
                                 return null;
                             }
@@ -284,7 +284,7 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
     };
 
     const filteredData = data.filter(
-        item => item.newValue !== null && item.newValue !== 0 && item.attribute !== "updated_at"
+        item => item.newValue !== null && item.attribute !== "updated_at"
     );
 
     return (
