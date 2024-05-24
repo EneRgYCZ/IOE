@@ -16,7 +16,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
 {
-    // Function to load the main page for the employees. 
+    // Function to load the main page for the employees.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the employees table of the page
     public function index()
@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
-        // If a team is added to an employee, the team-employee relation is stored separately as team member relations 
+        // If a team is added to an employee, the team-employee relation is stored separately as team member relations
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -92,7 +92,7 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
-         // Using the new team members list, if the employee-team relation did not exist before, it is created.
+        // Using the new team members list, if the employee-team relation did not exist before, it is created.
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('employee_id', $employee->id)

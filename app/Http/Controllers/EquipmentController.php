@@ -16,7 +16,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EquipmentController extends Controller
 {
-    // Function to load the main page for the desktops. 
+    // Function to load the main page for the desktops.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the desktops table of the page
     public function desktopsIndex()
@@ -79,7 +79,7 @@ class EquipmentController extends Controller
         });
     }
 
-    // Function to load the main page for the laptops. 
+    // Function to load the main page for the laptops.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the laptops table of the page
     public function laptopsIndex()
@@ -136,7 +136,7 @@ class EquipmentController extends Controller
         });
     }
 
-    // Function to load the main page for the meeting room laptops. 
+    // Function to load the main page for the meeting room laptops.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the meeting room laptops table of the page
     public function meetingRoomLaptopIndex()
@@ -269,7 +269,7 @@ class EquipmentController extends Controller
     // Function to modify the updated laptop in the database
     public function updateLaptop(Request $request, Laptop $laptop)
     {
-         // Updates if backend user validation is passed
+        // Updates if backend user validation is passed
         $laptop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -290,7 +290,7 @@ class EquipmentController extends Controller
     // Function to modify the updated meeting room laptop in the database
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
-         // Updates if backend user validation is passed
+        // Updates if backend user validation is passed
         $meetingRoomLaptop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -305,7 +305,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.meeting-room-laptops'));
     }
 
-     // Function used upon deleting a desktop in order to remove the entity from the database
+    // Function used upon deleting a desktop in order to remove the entity from the database
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
@@ -313,7 +313,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.desktops'));
     }
 
-     // Function used upon deleting a laptop in order to remove the entity from the database
+    // Function used upon deleting a laptop in order to remove the entity from the database
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
@@ -321,7 +321,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.laptops'));
     }
 
-     // Function used upon deleting a meeting room laptop in order to remove the entity from the database
+    // Function used upon deleting a meeting room laptop in order to remove the entity from the database
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();

@@ -11,7 +11,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class LogsController extends Controller
 {
-    // Function to load the main page for the logs. 
+    // Function to load the main page for the logs.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the logs table of the page
     public function index()

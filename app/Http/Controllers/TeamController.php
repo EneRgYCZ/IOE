@@ -14,7 +14,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
 {
-    // Function to load the main page for the teams. 
+    // Function to load the main page for the teams.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the teams table of the page
     public function index()
@@ -92,7 +92,7 @@ class TeamController extends Controller
             }
         }
 
-        // The team-employee relations are removed if the passed list of employees 
+        // The team-employee relations are removed if the passed list of employees
         // does not tie a specific employee to a team anymore
         $teamMembersIDs = array_column($teamMembers, 'id');
         TeamMember::where('team_id', $team->id)
@@ -102,7 +102,7 @@ class TeamController extends Controller
         return redirect(route('teams.index'));
     }
 
-     // Function used upon deleting a team in order to remove the entity from the database
+    // Function used upon deleting a team in order to remove the entity from the database
     public function destroy(Team $team)
     {
         // First all team-employee relations involving this team are removed
