@@ -11,9 +11,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class LogsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Function to load the main page for the logs. 
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the logs table of the page
     public function index()
     {
         $logs = QueryBuilder::for(Logs::query()->with('causer', 'subject'))

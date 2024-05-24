@@ -16,9 +16,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EquipmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Function to load the main page for the desktops. 
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the desktops table of the page
     public function desktopsIndex()
     {
         $desktops = QueryBuilder::for(Desktop::query())
@@ -79,6 +79,9 @@ class EquipmentController extends Controller
         });
     }
 
+    // Function to load the main page for the laptops. 
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the laptops table of the page
     public function laptopsIndex()
     {
         $laptops = QueryBuilder::for(Laptop::query())
@@ -133,6 +136,9 @@ class EquipmentController extends Controller
         });
     }
 
+    // Function to load the main page for the meeting room laptops. 
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the meeting room laptops table of the page
     public function meetingRoomLaptopIndex()
     {
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
@@ -175,11 +181,10 @@ class EquipmentController extends Controller
         });
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Function to store created desktop in the database
     public function storeDesktop(Request $request)
     {
+        // Creates if backend user validation is passed
         Desktop::create($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'pc_number' => ['required', 'max:50'],
@@ -199,8 +204,10 @@ class EquipmentController extends Controller
         return redirect(route('equipment.desktops'));
     }
 
+    // Function to store created laptop in the database
     public function storeLaptop(Request $request)
     {
+        // Creates if backend user validation is passed
         Laptop::create($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -218,8 +225,10 @@ class EquipmentController extends Controller
         return redirect(route('equipment.laptops'));
     }
 
+    // Function to store created meeting room laptop in the database
     public function storeMeetingRoomLaptop(Request $request)
     {
+        // Creates if backend user validation is passed
         MeetingRoomLaptop::create($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -234,11 +243,10 @@ class EquipmentController extends Controller
         return redirect(route('equipment.meeting-room-laptops'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Function to modify the updated desktop in the database
     public function updateDesktop(Request $request, Desktop $desktop)
     {
+        // Updates if backend user validation is passed
         $desktop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'pc_number' => ['required', 'max:50'],
@@ -258,8 +266,10 @@ class EquipmentController extends Controller
         return redirect(route('equipment.desktops'));
     }
 
+    // Function to modify the updated laptop in the database
     public function updateLaptop(Request $request, Laptop $laptop)
     {
+         // Updates if backend user validation is passed
         $laptop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -277,8 +287,10 @@ class EquipmentController extends Controller
         return redirect(route('equipment.laptops'));
     }
 
+    // Function to modify the updated meeting room laptop in the database
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
+         // Updates if backend user validation is passed
         $meetingRoomLaptop->update($request->validate([
             'full_number_identifier' => ['required', 'max:50'],
             'laptop_number' => ['required', 'max:50'],
@@ -293,9 +305,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.meeting-room-laptops'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+     // Function used upon deleting a desktop in order to remove the entity from the database
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
@@ -303,6 +313,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.desktops'));
     }
 
+     // Function used upon deleting a laptop in order to remove the entity from the database
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
@@ -310,6 +321,7 @@ class EquipmentController extends Controller
         return redirect(route('equipment.laptops'));
     }
 
+     // Function used upon deleting a meeting room laptop in order to remove the entity from the database
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
