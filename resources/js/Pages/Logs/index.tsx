@@ -283,9 +283,7 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
         };
     };
 
-    const filteredData = data.filter(
-        item => item.newValue !== null && item.attribute !== "updated_at"
-    );
+    const filteredData = data.filter(item => item.newValue !== null && item.attribute !== "updated_at");
 
     return (
         <>
