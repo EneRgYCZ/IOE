@@ -104,7 +104,7 @@ class EmployeeController extends Controller
 
         $teamMembersIDs = array_column($teamMembers, 'id');
         $teamMember = TeamMember::where('employee_id', $employee->id)
-            ->whereNotIn('employee_id', $teamMembersIDs)->first();
+            ->whereNotIn('team_id', $teamMembersIDs)->first();
 
         if ($teamMember) {
             $teamMember->delete();
