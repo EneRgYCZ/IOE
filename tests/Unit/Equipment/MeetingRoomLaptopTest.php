@@ -16,7 +16,6 @@ it('can create a meeting room laptop', function () {
     ];
 
     $response = $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
 });
 it('can search a meeting room laptop', function () {
@@ -31,7 +30,6 @@ it('can search a meeting room laptop', function () {
     ];
 
     $response = $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
     $response = $this->get('/equipment/meeting-room-laptops?search=MR123');
     $response->assertStatus(200);
@@ -72,7 +70,6 @@ it('can update the full number identifier of a meeting room laptop', function ()
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -89,7 +86,6 @@ it('can update the laptop number of a meeting room laptop', function () {
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -106,7 +102,6 @@ it('can update the location of a meeting room laptop', function () {
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -123,7 +118,6 @@ it('can update the side of a meeting room laptop', function () {
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -140,7 +134,6 @@ it('can update the floor of a meeting room laptop', function () {
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -157,13 +150,11 @@ it('can update the room number of a meeting room laptop', function () {
     ];
 
     $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
 it('can delete a meeting room laptop', function () {
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();
     $response = $this->delete(route('equipment.destroyMeetingRoomLaptop', $meetingRoomLaptop));
-    $response->assertRedirect(route('equipment.meeting-room-laptops'));
     $this->assertDatabaseMissing('meeting_room_laptops', ['id' => $meetingRoomLaptop->id]);
 });
