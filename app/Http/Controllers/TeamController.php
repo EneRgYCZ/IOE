@@ -147,9 +147,9 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        $teamMember = TeamMember::where('team_id', $team->id)->first();
+        $teamMembers = TeamMember::where('team_id', $team->id)->get();
 
-        if ($teamMember) {
+        foreach ($teamMembers as $teamMember) {
             $teamMember->delete();
         }
 

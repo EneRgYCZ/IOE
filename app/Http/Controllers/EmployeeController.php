@@ -155,9 +155,9 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
-        $teamMember = TeamMember::where('employee_id', $employee->id)->first();
+        $teamMembers = TeamMember::where('employee_id', $employee->id)->get();
 
-        if ($teamMember) {
+        foreach ($teamMembers as $teamMember) {
             $teamMember->delete();
         }
 
