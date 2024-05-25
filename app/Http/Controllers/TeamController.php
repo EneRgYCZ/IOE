@@ -29,21 +29,24 @@ class TeamController extends Controller
 
         $teams =
             QueryBuilder::for(Team::query())
-                ->allowedSorts('id', 'team_name', 'description')
-                ->allowedFilters(
-                    'id',
-                    'team_name',
-                    'description',
-                    AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                        $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                            foreach ($globalSearchColumns as $column) {
-                                $subQuery->orWhere($column, 'like', "%{$value}%");
+            ->allowedSorts('id', 'team_name', 'description')
+            ->allowedFilters(
+                'id',
+                'team_name',
+                'description',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode("", $value);
                             }
-                        });
-                    })
-                )
-                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-                ->withQueryString();
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
 
         $employees = Employee::query()->get();
 
@@ -122,7 +125,7 @@ class TeamController extends Controller
                 ->where('employee_id', $teamMember['id'])
                 ->first();
 
-            if (! $alreadyExists) {
+            if (!$alreadyExists) {
                 TeamMember::create([
                     'team_id' => $team->id,
                     'employee_id' => $teamMember['id'],

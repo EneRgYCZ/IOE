@@ -33,6 +33,9 @@ class LogsController extends Controller
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode("", $value);
+                            }
                             $subQuery->orWhere($column, 'like', "%{$value}%");
                         }
                     });
