@@ -3,9 +3,10 @@ import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
 import AddLaptop from "@/Pages/Equipment/Laptop/AddLaptop";
 import EditLaptop from "@/Pages/Equipment/Laptop/EditLaptop";
+import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Equipment = ({
     laptops,
@@ -34,18 +35,16 @@ const Equipment = ({
     };
 
     const [formOpen, setFormOpen] = React.useState({
-        addDesktop: false,
         addLaptop: false,
-        addMeetingRoomLaptop: false,
-        editDesktop: false,
         editLaptop: false,
-        editMeetingRoomLaptop: false
+        deleteLaptop: false
     });
 
     const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -58,8 +57,9 @@ const Equipment = ({
                             data={laptops}
                             actionRenderer={laptop => (
                                 <TableCell align="center">
+                                    {/* Button for Edit */}
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         sx={tableButtonMargins}
                                         onClick={() => {
                                             setCurrentLaptop(laptop);
@@ -67,26 +67,29 @@ const Equipment = ({
                                         }}
                                     >
                                         EDIT
+                                        <EditRounded sx={{ marginLeft: "10px" }} />
                                     </Button>
-                                    <Link
-                                        href={route("equipment.destroyLaptop", laptop.id)}
-                                        method="delete"
-                                        onBefore={() =>
-                                            window.confirm(
-                                                "Are you sure that you want to eliminate this piece of equipment?"
-                                            )
-                                        }
+
+                                    {/* Button for Delete */}
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentLaptop(laptop);
+                                            setFormOpen({ ...formOpen, deleteLaptop: true });
+                                        }}
                                     >
-                                        <Button variant="contained" color="error">
-                                            DELETE
-                                        </Button>
-                                    </Link>
+                                        <DeleteRounded />
+                                    </Button>
                                 </TableCell>
                             )}
                         />
                     </Box>
                 </Box>
             </Card>
+
+            {/* Button for Add */}
             <Box sx={addButtonBox}>
                 <Fab
                     variant="extended"
@@ -97,6 +100,8 @@ const Equipment = ({
                     Add laptop
                 </Fab>
             </Box>
+
+            {/* Forms for Adding, Editing and Deleting */}
             <AddLaptop
                 isOpen={formOpen.addLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
@@ -108,6 +113,14 @@ const Equipment = ({
                 laptop={currentLaptop}
                 employees={employees}
             ></EditLaptop>
+            {currentLaptop && (
+                <DeletionConfirmation
+                    isOpen={formOpen.deleteLaptop}
+                    handleClose={() => setFormOpen({ ...formOpen, deleteLaptop: false })}
+                    deleteObject={currentLaptop}
+                    type="Laptop"
+                />
+            )}
         </GuestLayout>
     );
 };

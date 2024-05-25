@@ -10,6 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Laptop extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'full_number_identifier',
@@ -26,7 +27,9 @@ class Laptop extends Model
         'remarks',
     ];
 
-    use LogsActivity;
+    protected $cast = [
+        'updated_in_q1' => 'boolean',
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

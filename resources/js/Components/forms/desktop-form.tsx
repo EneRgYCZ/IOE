@@ -4,7 +4,7 @@ import {
     FormControl,
     FormControlLabel,
     FormHelperText,
-    InputLabel,
+    FormLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
@@ -12,22 +12,28 @@ import {
     TextField
 } from "@mui/material";
 import React from "react";
-import { Employee, Laptop } from "@/types";
+import { DesktopPC, Employee } from "@/types";
 
-const LaptopForm = (props: {
-    data: Laptop;
-    setData: (data: Laptop) => void;
+const DesktopForm = (props: {
+    data: DesktopPC;
+    setData: (data: DesktopPC) => void;
     onSubmit: () => void;
     employees: Employee[];
 }) => {
     const fieldStyle = {
-        margin: "5px 0",
-        width: "100%"
+        width: "100%",
+        padding: "5px",
+        marginBottom: "20px",
+        marginLeft: 0,
+        border: "1px solid #ccc",
+        borderRadius: "2px",
+        backgroundColor: "#f8f8f8",
+        boxSizing: "border-box"
     };
 
     const [errors, setErrors] = React.useState({
         full_number_identifier: false,
-        laptop_number: false,
+        pc_number: false,
         location: false,
         side: false,
         floor: false,
@@ -39,7 +45,7 @@ const LaptopForm = (props: {
 
         setErrors({
             full_number_identifier: props.data.full_number_identifier.trim() == "",
-            laptop_number: props.data.laptop_number.trim() == "",
+            pc_number: props.data.pc_number.trim() == "",
             location: props.data.location.trim() == "",
             side: props.data.side.trim() == "",
             floor: props.data.floor == undefined,
@@ -48,7 +54,7 @@ const LaptopForm = (props: {
 
         if (
             props.data.full_number_identifier.trim() != "" &&
-            props.data.laptop_number.trim() != "" &&
+            props.data.pc_number.trim() != "" &&
             props.data.location.trim() != "" &&
             props.data.side.trim() != "" &&
             props.data.floor != undefined &&
@@ -81,37 +87,35 @@ const LaptopForm = (props: {
     };
 
     return (
-        <form onSubmit={submit}>
+        <form onSubmit={submit} style={{ marginTop: "10px" }}>
+            <FormLabel>Full number*</FormLabel>
             <TextField
                 id={"full_number_identifier"}
                 value={props.data.full_number_identifier}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Full number"
                 required
                 variant="outlined"
                 error={errors.full_number_identifier}
                 helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>PC Number*</FormLabel>
             <TextField
-                id={"laptop_number"}
-                value={props.data.laptop_number}
+                id={"pc_number"}
+                value={props.data.pc_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Laptop Number"
                 required
                 variant="outlined"
-                error={errors.laptop_number}
-                helperText={errors.laptop_number ? "This field is mandatory" : ""}
+                error={errors.pc_number}
+                helperText={errors.pc_number ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Location*</FormLabel>
             <FormControl sx={fieldStyle} required>
-                <InputLabel id="location_label" error={errors.location}>
-                    Location
-                </InputLabel>
                 <Select
-                    labelId="location_label"
                     name="location"
-                    label="Location"
                     value={props.data.location}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -122,14 +126,11 @@ const LaptopForm = (props: {
                 </Select>
                 <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
+
+            <FormLabel>Side*</FormLabel>
             <FormControl sx={fieldStyle} required>
-                <InputLabel id="side_label" error={errors.side}>
-                    Side
-                </InputLabel>
                 <Select
-                    labelId="side_label"
                     name="side"
-                    label="Side"
                     value={props.data.side}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -140,49 +141,56 @@ const LaptopForm = (props: {
                 </Select>
                 <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
             </FormControl>
+
+            <FormControlLabel
+                control={<Switch checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />}
+                sx={fieldStyle}
+                label="Double PC"
+            />
+
+            <FormControlLabel
+                control={<Switch checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />}
+                sx={fieldStyle}
+                label="Needs dock"
+            />
+
+            <FormLabel>Status</FormLabel>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="status_label">Status</InputLabel>
-                <Select
-                    labelId="status_label"
-                    name="status"
-                    label="Status"
-                    value={props.data.status}
-                    variant="outlined"
-                    onChange={handleSelectChange}
-                >
+                <Select name="status" value={props.data.status} variant="outlined" onChange={handleSelectChange}>
                     <MenuItem value="static">Static</MenuItem>
                     <MenuItem value="flex">Flex</MenuItem>
                     <MenuItem value="">Not set</MenuItem>
                 </Select>
             </FormControl>
+
+            <FormLabel>Floor*</FormLabel>
             <TextField
                 id={"floor"}
                 value={props.data.floor}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Floor"
                 required
                 variant="outlined"
                 error={errors.floor}
                 helperText={errors.floor ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Island number*</FormLabel>
             <TextField
                 id={"island_number"}
                 value={props.data.island_number}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Island number"
                 required
                 variant="outlined"
                 error={errors.island_number}
                 helperText={errors.island_number ? "This field is mandatory" : ""}
             />
+
+            <FormLabel>Workspace Type</FormLabel>
             <FormControl sx={fieldStyle}>
-                <InputLabel id="workspace_type_label">Workspace type</InputLabel>
                 <Select
-                    labelId="workspace_type_label"
                     name="workspace_type"
-                    label="Workspace type"
                     value={props.data.workspace_type}
                     variant="outlined"
                     onChange={handleSelectChange}
@@ -191,19 +199,23 @@ const LaptopForm = (props: {
                     <MenuItem value="non-developer">Non-developer</MenuItem>
                 </Select>
             </FormControl>
+
             <FormControlLabel
                 control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
                 sx={fieldStyle}
                 label="Updated in Q1"
             />
+
+            <FormLabel>Remarks</FormLabel>
             <TextField
                 id={"remarks"}
                 value={props.data.remarks}
                 onChange={handleChange}
                 sx={fieldStyle}
-                label="Remarks"
                 variant="outlined"
             />
+
+            <FormLabel>Employee</FormLabel>
             <Autocomplete
                 id="employee_id"
                 options={props.employees}
@@ -217,13 +229,15 @@ const LaptopForm = (props: {
                 }}
                 filterSelectedOptions
                 sx={fieldStyle}
-                renderInput={params => <TextField {...params} label="Employee" />}
+                renderInput={params => <TextField {...params} />}
             />
-            <Button variant="contained" type={"submit"}>
-                Submit
-            </Button>
+            <div style={{ textAlign: "center" }}>
+                <Button variant="contained" type={"submit"}>
+                    Submit
+                </Button>
+            </div>
         </form>
     );
 };
 
-export default LaptopForm;
+export default DesktopForm;

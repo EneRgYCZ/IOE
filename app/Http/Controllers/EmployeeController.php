@@ -89,8 +89,6 @@ class EmployeeController extends Controller
         if ($laptop) {
             $laptop->update(['employee_id' => $employee->id]);
         }
-
-        return redirect(route('employees.index'));
     }
 
     public function update(Request $request, Employee $employee)
@@ -103,10 +101,24 @@ class EmployeeController extends Controller
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
-            TeamMember::create([
-                'team_id' => $teamMember['id'],
-                'employee_id' => $employee->id,
-            ]);
+            $alreadyExists = TeamMember::where('employee_id', $employee->id)
+                ->where('team_id', $teamMember['id'])
+                ->first();
+
+            if (! $alreadyExists) {
+                TeamMember::create([
+                    'team_id' => $teamMember['id'],
+                    'employee_id' => $employee->id,
+                ]);
+            }
+        }
+
+        $teamMembersIDs = array_column($teamMembers, 'id');
+        $teamMembersToDelete = TeamMember::where('employee_id', $employee->id)
+            ->whereNotIn('team_id', $teamMembersIDs)->get();
+
+        foreach ($teamMembersToDelete as $teamMember) {
+            $teamMember->delete();
         }
 
         $equipment_identifiers = $request->input('equipment_identifiers', []);
@@ -136,17 +148,16 @@ class EmployeeController extends Controller
         if ($laptop) {
             $laptop->update(['employee_id' => null]);
         }
-
-        return redirect(route('employees.index'));
     }
 
     public function destroy(Employee $employee)
     {
-        TeamMember::where('employee_id', $employee->id)
-            ->delete();
+        $teamMember = TeamMember::where('employee_id', $employee->id)->first();
+
+        if ($teamMember) {
+            $teamMember->delete();
+        }
 
         $employee->delete();
-
-        return redirect(route('employees.index'));
     }
 }

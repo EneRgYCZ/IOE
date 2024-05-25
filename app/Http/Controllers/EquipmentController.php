@@ -284,8 +284,6 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
-
-        return redirect(route('equipment.laptops'));
     }
 
     public function storeMeetingRoomLaptop(Request $request)
@@ -300,8 +298,6 @@ class EquipmentController extends Controller
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));
-
-        return redirect(route('equipment.meeting-room-laptops'));
     }
 
     /**
@@ -324,8 +320,6 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
-
-        return redirect(route('equipment.desktops'));
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
@@ -343,8 +337,6 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
-
-        return redirect(route('equipment.laptops'));
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
@@ -359,8 +351,6 @@ class EquipmentController extends Controller
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));
-
-        return redirect(route('equipment.meeting-room-laptops'));
     }
 
     /**
@@ -369,21 +359,15 @@ class EquipmentController extends Controller
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
-
-        return redirect(route('equipment.desktops'));
     }
 
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
-
-        return redirect(route('equipment.laptops'));
     }
 
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
-
-        return redirect(route('equipment.meeting-room-laptops'));
     }
 }

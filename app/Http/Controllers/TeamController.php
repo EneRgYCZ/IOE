@@ -88,8 +88,6 @@ class TeamController extends Controller
                 'employee_id' => $teamMember['id'],
             ]);
         }
-
-        return redirect(route('teams.index'));
     }
 
     /**
@@ -133,11 +131,12 @@ class TeamController extends Controller
         }
 
         $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('team_id', $team->id)
-            ->whereNotIn('employee_id', $teamMembersIDs)
-            ->delete();
+        $teamMember = TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)->first();
 
-        return redirect(route('teams.index'));
+        if ($teamMember) {
+            $teamMember->delete();
+        }
     }
 
     /**
@@ -145,11 +144,12 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        TeamMember::where('team_id', $team->id)
-            ->delete();
+        $teamMember = TeamMember::where('team_id', $team->id)->first();
+
+        if ($teamMember) {
+            $teamMember->delete();
+        }
 
         $team->delete();
-
-        return redirect(route('teams.index'));
     }
 }
