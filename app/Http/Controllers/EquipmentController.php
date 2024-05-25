@@ -9,9 +9,11 @@ use App\Models\MeetingRoomLaptop;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class EquipmentController extends Controller
@@ -21,8 +23,25 @@ class EquipmentController extends Controller
      */
     public function desktopsIndex()
     {
+        $globalSearchColumns = [
+            'id',
+            'full_number_identifier',
+            'pc_number',
+            'location',
+            'side',
+            'double_pc',
+            'needs_dock',
+            'status',
+            'floor',
+            'island_number',
+            'workspace_type',
+            'updated_in_q1',
+            'remarks',
+            'employee_id',
+        ];
+
         $desktops = QueryBuilder::for(Desktop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -34,10 +53,20 @@ class EquipmentController extends Controller
                 'status',
                 'floor',
                 'island_number',
-                'type',
+                'workspace_type',
                 'updated_in_q1',
                 'remarks',
                 'employee_id',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode('', $value);
+                            }
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -48,7 +77,7 @@ class EquipmentController extends Controller
             'desktops' => $desktops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table->setName('desktops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('pc_number', 'PC Number', sortable: true))
@@ -75,12 +104,28 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: false))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: false))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
+                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
     public function laptopsIndex()
     {
+        $globalSearchColumns = [
+            'id',
+            'full_number_identifier',
+            'laptop_number',
+            'location',
+            'side',
+            'status',
+            'floor',
+            'island_number',
+            'workspace_type',
+            'updated_in_q1',
+            'remarks',
+            'employee_id',
+        ];
+
         $laptops = QueryBuilder::for(Laptop::query())
             ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
             ->allowedFilters(
@@ -96,6 +141,16 @@ class EquipmentController extends Controller
                 'updated_in_q1',
                 'remarks',
                 'employee_id',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode('', $value);
+                            }
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -106,7 +161,7 @@ class EquipmentController extends Controller
             'laptops' => $laptops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table->setName('laptops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
@@ -129,12 +184,25 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: false))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: false))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true));
+                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
     public function meetingRoomLaptopIndex()
     {
+        $globalSearchColumns = [
+            'id',
+            'full_number_identifier',
+            'laptop_number',
+            'location',
+            'side',
+            'floor',
+            'room_number',
+            'updated_in_q1',
+            'remarks',
+        ];
+
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
             ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
             ->allowedFilters(
@@ -147,6 +215,16 @@ class EquipmentController extends Controller
                 'room_number',
                 'updated_in_q1',
                 'remarks',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode('', $value);
+                            }
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -154,7 +232,7 @@ class EquipmentController extends Controller
         return Inertia::render('Equipment/MeetingRoomLaptop/index', [
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
-            $table->setName('meetingRoomLaptops')
+            $table
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
                 ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
@@ -171,7 +249,8 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false));
+                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: false))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 

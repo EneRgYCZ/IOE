@@ -52,9 +52,8 @@ const Equipment = ({
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
-                            name="laptops"
                             data={laptops}
                             actionRenderer={laptop => (
                                 <TableCell align="center">

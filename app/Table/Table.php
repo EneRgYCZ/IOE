@@ -103,7 +103,11 @@ class Table
 
     public function addSearchInput(SearchInput $searchInput): self
     {
-        $this->searchInputs = $this->searchInputs->push($searchInput)->values();
+        if ($searchInput instanceof SearchInput) {
+            $this->searchInputs = $this->searchInputs->push($searchInput)->values();
+        } else {
+            throw new \InvalidArgumentException('Invalid input type');
+        }
 
         return $this;
     }

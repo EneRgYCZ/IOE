@@ -24,7 +24,7 @@ class Team extends Model
     {
         return
             LogOptions::defaults()
-                ->logAll()
+                ->logFillable()
                 ->dontSubmitEmptyLogs();
     }
 }

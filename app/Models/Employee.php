@@ -27,7 +27,7 @@ class Employee extends Model
     {
         return
             LogOptions::defaults()
-                ->logAll()
+                ->logFillable()
                 ->dontSubmitEmptyLogs();
     }
 }

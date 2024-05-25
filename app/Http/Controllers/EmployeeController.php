@@ -10,29 +10,42 @@ use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees =
-            QueryBuilder::for(Employee::query())
-                ->allowedSorts('id', 'first_name', 'last_name')
-                ->allowedFilters(
-                    'id',
-                    'first_name',
-                    'last_name',
-                )
-                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-                ->withQueryString();
+        $globalSearchColumns = ['first_name', 'last_name'];
 
-        $teams = Team::query()->get();
-        $teamMembers = TeamMember::query()->get();
-        $desktops = Desktop::query()->get();
-        $laptops = Laptop::query()->get();
+        $employees = QueryBuilder::for(Employee::query())
+            ->allowedSorts('id', 'first_name', 'last_name')
+            ->allowedFilters(
+                'id',
+                'first_name',
+                'last_name',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode('', $value);
+                            }
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        $teams = Team::all();
+        $teamMembers = TeamMember::all();
+        $desktops = Desktop::all();
+        $laptops = Laptop::all();
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
@@ -46,7 +59,8 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
-                ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true));
+                ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
@@ -141,9 +155,9 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
-        $teamMember = TeamMember::where('employee_id', $employee->id)->first();
+        $teamMembers = TeamMember::where('employee_id', $employee->id)->get();
 
-        if ($teamMember) {
+        foreach ($teamMembers as $teamMember) {
             $teamMember->delete();
         }
 

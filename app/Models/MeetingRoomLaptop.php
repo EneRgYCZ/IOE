@@ -32,7 +32,7 @@ class MeetingRoomLaptop extends Model
     {
         return
             LogOptions::defaults()
-                ->logAll()
+                ->logFillable()
                 ->dontSubmitEmptyLogs();
     }
 }
