@@ -103,10 +103,10 @@ class EmployeeController extends Controller
         }
 
         $teamMembersIDs = array_column($teamMembers, 'id');
-        $teamMember = TeamMember::where('employee_id', $employee->id)
-            ->whereNotIn('team_id', $teamMembersIDs)->first();
+        $teamMembersToDelete = TeamMember::where('employee_id', $employee->id)
+            ->whereNotIn('team_id', $teamMembersIDs)->get();
 
-        if ($teamMember) {
+        foreach ($teamMembersToDelete as $teamMember) {
             $teamMember->delete();
         }
 
