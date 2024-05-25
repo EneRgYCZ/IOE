@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import { Box, Button } from "@mui/material";
 import { HiMiniXMark } from "react-icons/hi2";
 
+{/* Component to be used as basis modal for all forms or pop-up displays */}
 const FormModal = (props: { children: React.ReactNode; title?: string; open: boolean; onClose: () => void }) => {
     const modalStyle: React.CSSProperties = {
         position: "absolute",
@@ -34,7 +35,7 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
                     <HiMiniXMark />
                 </Button>
                 {props.title ? <h2 style={{ margin: "0px", textAlign: "center" }}>{props.title}</h2> : ""}
-                {props.children}
+                {props.children} 
             </Box>
         </Modal>
     );
