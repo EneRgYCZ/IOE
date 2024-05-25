@@ -32,7 +32,7 @@ class EmployeeController extends Controller
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
                             if (is_array($value)) {
-                                $value = implode("", $value);
+                                $value = implode('', $value);
                             }
                             $subQuery->orWhere($column, 'like', "%{$value}%");
                         }
@@ -108,7 +108,7 @@ class EmployeeController extends Controller
                 ->where('team_id', $teamMember['id'])
                 ->first();
 
-            if (!$alreadyExists) {
+            if (! $alreadyExists) {
                 TeamMember::create([
                     'team_id' => $teamMember['id'],
                     'employee_id' => $employee->id,
