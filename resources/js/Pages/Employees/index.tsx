@@ -62,6 +62,7 @@ const Employees = ({
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
                     <Table<Employee>
+                        minWidth={200}
                         data={employees}
                         actionRenderer={employee => (
                             <TableCell align="center">

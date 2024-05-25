@@ -250,7 +250,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                     </Typography>
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
-                    <Table<ActivityLog> data={logs} cellRenderer={customCellRenderer} />
+                    <Table<ActivityLog> minWidth={100} data={logs} cellRenderer={customCellRenderer} />
                 </Box>
             </Card>
         </GuestLayout>
