@@ -6,12 +6,13 @@ import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
 
+{/* Component to be used for creating or editing teams */}
 const TeamForm = (props: {
     isOpen: boolean;
     handleClose: () => void;
-    team: Team | null;
-    employees: Employee[];
-    teamMembers: Employee[];
+    team: Team | null; // We can either pass a team to edit or nothing and a team is created
+    employees: Employee[]; // Passed employees to be able to pick one or multiple of them to add to a team
+    teamMembers: Employee[]; // Passed team members to know which ones are already in the team
     title: string;
 }) => {
     const fieldStyle = {
@@ -75,6 +76,7 @@ const TeamForm = (props: {
         }));
     };
 
+    // Function for form submission which either uses post or patch depending on if we are editing or creating a team
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.team) {
