@@ -5,6 +5,7 @@ import { Autocomplete, FormLabel } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
 import FormModal from "@/Components/forms/form-modal";
+import ErrorBox from "@/Components/error-box";
 
 const TeamForm = (props: {
     isOpen: boolean;
@@ -41,11 +42,7 @@ const TeamForm = (props: {
         if (props.team) {
             setData(initialValues);
         }
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [props.team, errors]);
+    }, [props.team]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -78,16 +75,32 @@ const TeamForm = (props: {
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.team) {
-            patch(route("teams.update", props.team.id));
+            patch(route("teams.update", props.team.id), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
         } else {
-            post(route("teams.store"));
+            post(route("teams.store"), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
         }
-        setData(initialValues);
-        props.handleClose();
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title={props.title}
+        >
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
                 <FormLabel>Name*</FormLabel>
                 <TextField

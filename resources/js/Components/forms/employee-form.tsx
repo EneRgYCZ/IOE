@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
 import FormModal from "@/Components/forms/form-modal";
+import ErrorBox from "@/Components/error-box";
 
 const EmployeeForm = (props: {
     isOpen: boolean;
@@ -40,7 +41,7 @@ const EmployeeForm = (props: {
             : []
     };
 
-    const { data, setData, patch, post } = useForm(initialValues);
+    const { data, setData, patch, post, errors, hasErrors, clearErrors } = useForm(initialValues);
     const [firstNameError, setFirstNameError] = React.useState(false);
     const [lastNameError, setLastNameError] = React.useState(false);
     const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
@@ -91,16 +92,32 @@ const EmployeeForm = (props: {
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.employee) {
-            patch(route("employees.update", props.employee.id));
+            patch(route("employees.update", props.employee.id), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
         } else {
-            post(route("employees.store"));
+            post(route("employees.store"), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
         }
-        setData(initialValues);
-        props.handleClose();
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title={props.title}>
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title={props.title}
+        >
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
                 <FormLabel>First Name*</FormLabel>
                 <TextField
