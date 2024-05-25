@@ -16,7 +16,7 @@ class LogsController extends Controller
      */
     public function index()
     {
-        $logs = QueryBuilder::for(Logs::query()->with('causer', 'subject'))
+        $logs = QueryBuilder::for(Logs::query()->with('subject'))
             ->allowedSorts('id', 'event', 'subject_type', 'updated_at')
             ->allowedFilters(
                 'event',
@@ -35,6 +35,7 @@ class LogsController extends Controller
                 ->addColumn(new Column('subject_type', 'Entity', sortable: true))
                 ->addColumn(new Column('event', 'Event', sortable: true))
                 ->addColumn(new Column('updated_at', 'Date', sortable: true))
+                ->addColumn(new Column('properties', 'Changes', hidden: false))
                 ->addSearchInput(new SearchInput('subject_type', 'Entity', shown: true))
                 ->addSearchInput(new SearchInput('event', 'Event', shown: true));
         });

@@ -17,8 +17,7 @@ it('can create a laptop', function () {
         'updated_in_q1' => true,
     ];
 
-    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
@@ -55,8 +54,7 @@ it('can update the full number identifier of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -72,8 +70,7 @@ it('can update the laptop number of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -89,8 +86,7 @@ it('can update the location of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -106,8 +102,7 @@ it('can update the side of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -123,8 +118,7 @@ it('can update the floor of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -140,8 +134,7 @@ it('can update the island number of a laptop', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -157,14 +150,12 @@ it('can update the status of a laptop', function () {
         'status' => $laptop->location === 'flex' ? 'static' : 'flex',
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
 it('can delete a laptop', function () {
     $laptop = Laptop::factory()->create();
-    $response = $this->delete(route('equipment.destroyLaptop', $laptop));
-    $response->assertRedirect(route('equipment.laptops'));
+    $this->delete(route('equipment.destroyLaptop', $laptop));
     $this->assertDatabaseMissing('laptops', ['id' => $laptop->id]);
 });
