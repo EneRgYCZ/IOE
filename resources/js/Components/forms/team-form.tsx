@@ -20,7 +20,19 @@ const TeamForm = (props: {
         padding: "5px",
         marginBottom: "20px",
         border: "1px solid #ccc",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        borderRadius: "2px",
+        backgroundColor: "#f8f8f8",
+        boxSizing: "border-box"
+    };
+
+    const initialValues: {
+        team_name: string;
+        description: string;
+        team_members: Employee[];
+    } = {
+        team_name: props.team ? props.team.team_name : "",
+        description: props.team ? props.team.description : "",
+        team_members: props.team ? props.teamMembers : []
     };
 
     const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm(initialValues);
@@ -135,4 +147,4 @@ const TeamForm = (props: {
     );
 };
 
-export default FormModal;
+export default TeamForm;

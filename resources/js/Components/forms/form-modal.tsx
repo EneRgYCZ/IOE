@@ -37,7 +37,7 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
                     <HiMiniXMark />
                 </Button>
                 {props.title ? <h2 style={{ margin: "0px", textAlign: "center" }}>{props.title}</h2> : ""}
-                {props.children} 
+                {props.children}
             </Box>
         </Modal>
     );
