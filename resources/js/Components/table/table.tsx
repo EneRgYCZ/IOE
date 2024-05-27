@@ -64,7 +64,40 @@ export const Table = <T,>({
         return search;
     });
 
+    // Get saved filters
+    originalData.columns.forEach(column => {
+        if (localStorage.getItem(`filters_${data.path}_${column.key}`) != null) {
+            // If the column can not be hidden anymore, remove saved filter
+            if (!column.can_be_hidden) {
+                localStorage.removeItem(`filters_${data.path}_${column.key}`);
+            } else {
+                column.hidden = localStorage.getItem(`filters_${data.path}_${column.key}`) == "true";
+            }
+        }
+    });
+
+    // Get saved sort preferences
+    if (localStorage.getItem(`sorting_${data.path}`) != null) {
+        originalData.sort = localStorage.getItem(`sorting_${data.path}`);
+    }
+
     const [tableData, setTableData] = useState(originalData);
+
+    // Update saved filters
+    React.useEffect(() => {
+        tableData.columns.forEach(column => {
+            localStorage.setItem(`filters_${data.path}_${column.key}`, column.hidden.toString());
+        });
+    }, [tableData.columns]);
+
+    // Update saved sort preferences
+    React.useEffect(() => {
+        if (tableData.sort != null) {
+            localStorage.setItem(`sorting_${data.path}`, tableData.sort);
+        } else {
+            localStorage.removeItem(`sorting_${data.path}`);
+        }
+    }, [tableData.sort]);
 
     const dataForNewString = () => {
         const getColumnsForQuery = () => {
