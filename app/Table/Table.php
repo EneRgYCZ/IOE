@@ -12,10 +12,15 @@ class Table
 {
     // Properties with default values
     private string $name = 'default';
+
     private string $pageName = 'page';
+
     private string $defaultSort = '';
+
     private array $perPageOptions = [15, 30, 50, 100];
+
     private Collection $columns;
+
     private Collection $searchInputs;
 
     // Static configuration array
@@ -89,8 +94,8 @@ class Table
         return $this->columns->map(function (Column $column) use ($columns, $sort) {
             $key = $column->key;
 
-            if (!empty($columns)) {
-                $column->hidden = !in_array($key, $columns, true);
+            if (! empty($columns)) {
+                $column->hidden = ! in_array($key, $columns, true);
             }
 
             foreach (explode(',', $sort) as $no => $value) {
