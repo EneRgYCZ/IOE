@@ -15,6 +15,7 @@ const Equipment = ({
     desktops: PaginatedResponse<DesktopPC>;
     employees: Employee[];
 }>) => {
+
     const tableButtonMargins = {
         margin: "0 10px"
     };
@@ -56,32 +57,37 @@ const Equipment = ({
                         <Table<DesktopPC>
                             data={desktops}
                             actionRenderer={desktop => (
-                                <TableCell align="center">
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentDesktop(desktop);
-                                            setFormOpen({ ...formOpen, editDesktop: true });
-                                        }}
-                                    >
-                                        EDIT
-                                        <EditRounded sx={{ marginLeft: "10px" }} />
-                                    </Button>
+                                <TableCell
+                                    align="center"
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
+                                >
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {/* Button for Edit */}
+                                        <Button
+                                            variant="outlined"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentDesktop(desktop);
+                                                setFormOpen({ ...formOpen, editDesktop: true });
+                                            }}
+                                        >
+                                            EDIT
+                                            <EditRounded sx={{ marginLeft: "10px" }} />
+                                        </Button>
 
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentDesktop(desktop);
-                                            setFormOpen({ ...formOpen, deleteDesktop: true });
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
+                                        {/* Button for Delete */}
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentDesktop(desktop);
+                                                setFormOpen({ ...formOpen, deleteDesktop: true });
+                                            }}
+                                        >
+                                            <DeleteRounded />
+                                        </Button>
+                                    </Box>
                                 </TableCell>
                             )}
                         />
