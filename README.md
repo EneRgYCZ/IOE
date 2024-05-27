@@ -56,3 +56,9 @@ Frontend-Type:
 ```
 yarn run type:test
 ```
+
+## Development
+[Development File](Development.md)
+
+## Link to Features 
+[Features File](Features.md)
