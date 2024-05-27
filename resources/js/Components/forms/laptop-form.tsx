@@ -14,7 +14,9 @@ import {
 import React from "react";
 import { Employee, Laptop } from "@/types";
 
-{/* Component to be used for creating or editing laptops */}
+{
+    /* Component to be used for creating or editing laptops */
+}
 const LaptopForm = (props: {
     data: Laptop;
     setData: (data: Laptop) => void;

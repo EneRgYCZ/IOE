@@ -13,7 +13,9 @@ import {
 import React from "react";
 import { MeetingRoomLaptop } from "@/types";
 
-{/* Component to be used for creating or editing meeting room laptops */}
+{
+    /* Component to be used for creating or editing meeting room laptops */
+}
 const MeetingRoomLaptopForm = (props: {
     data: MeetingRoomLaptop;
     setData: (data: MeetingRoomLaptop) => void;

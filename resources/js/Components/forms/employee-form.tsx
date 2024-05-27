@@ -5,7 +5,9 @@ import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
 import FormModal from "@/Components/forms/form-modal";
 
-{/* Component to be used for creating or editing employees */}
+{
+    /* Component to be used for creating or editing employees */
+}
 const EmployeeForm = (props: {
     isOpen: boolean;
     handleClose: () => void;

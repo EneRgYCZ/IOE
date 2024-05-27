@@ -14,7 +14,9 @@ import {
 import React from "react";
 import { DesktopPC, Employee } from "@/types";
 
-{/* Component to be used for creating or editing desktops */}
+{
+    /* Component to be used for creating or editing desktops */
+}
 const DesktopForm = (props: {
     data: DesktopPC;
     setData: (data: DesktopPC) => void;
