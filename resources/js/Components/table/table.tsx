@@ -7,7 +7,18 @@ import React, { useEffect, useState } from "react";
 
 import ColumnHeader from "./column-header";
 import Paginator from "./paginator";
-import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow, Button } from "@mui/material";
+import {
+    Box,
+    Card,
+    Stack,
+    TableCell,
+    Typography,
+    Table as MultiTable,
+    TableRow,
+    Button,
+    TableHead,
+    TableBody
+} from "@mui/material";
 import FilterDrawer from "@/Components/table/filter-drawer";
 import SearchInput from "./search-input";
 
@@ -23,7 +34,7 @@ export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
     const val = get(row, col.key);
     if (typeof val === "number" || typeof val === "string") {
         return (
-            <TableCell key={cellKey} sx={{ pl: 2 }}>
+            <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {val}
             </TableCell>
         );
@@ -255,10 +266,10 @@ export const Table = <T,>({
                         <Button onClick={() => setFilterDrawerOpen(true)}>Advanced Search</Button>
                     </Box>
                 </Box>
-                <Card variant="outlined">
+                <Card variant="outlined" sx={{ width: "100%", overflowX: "auto" }}>
                     <MultiTable>
-                        <thead style={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                            <tr>
+                        <TableHead style={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
+                            <TableRow>
                                 {originalData.columns.map(col => {
                                     if (col.hidden) {
                                         return null;
@@ -323,13 +334,20 @@ export const Table = <T,>({
                                 })}
 
                                 {actionRenderer && (
-                                    <th style={{ textAlign: "center" }}>
+                                    <th
+                                        style={{
+                                            textAlign: "center",
+                                            position: "sticky",
+                                            right: 0,
+                                            backgroundColor: "#fff"
+                                        }}
+                                    >
                                         <Typography>Actions</Typography>
                                     </th>
                                 )}
-                            </tr>
-                        </thead>
-                        <tbody>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
                             {data.data.map((row, idx) => {
                                 return (
                                     <TableRow key={idx}>
@@ -350,7 +368,7 @@ export const Table = <T,>({
                                     </TableRow>
                                 );
                             })}
-                        </tbody>
+                        </TableBody>
                     </MultiTable>
                 </Card>
                 <Paginator
