@@ -52,37 +52,41 @@ const Equipment = ({
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
-                            name="laptops"
                             data={laptops}
                             actionRenderer={laptop => (
-                                <TableCell align="center">
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentLaptop(laptop);
-                                            setFormOpen({ ...formOpen, editLaptop: true });
-                                        }}
-                                    >
-                                        EDIT
-                                        <EditRounded sx={{ marginLeft: "10px" }} />
-                                    </Button>
+                                <TableCell
+                                    align="center"
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
+                                >
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {/* Button for Edit */}
+                                        <Button
+                                            variant="outlined"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentLaptop(laptop);
+                                                setFormOpen({ ...formOpen, editLaptop: true });
+                                            }}
+                                        >
+                                            EDIT
+                                            <EditRounded sx={{ marginLeft: "10px" }} />
+                                        </Button>
 
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentLaptop(laptop);
-                                            setFormOpen({ ...formOpen, deleteLaptop: true });
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
+                                        {/* Button for Delete */}
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentLaptop(laptop);
+                                                setFormOpen({ ...formOpen, deleteLaptop: true });
+                                            }}
+                                        >
+                                            <DeleteRounded />
+                                        </Button>
+                                    </Box>
                                 </TableCell>
                             )}
                         />

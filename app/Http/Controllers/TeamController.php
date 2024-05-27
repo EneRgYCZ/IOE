@@ -8,8 +8,10 @@ use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
@@ -19,6 +21,12 @@ class TeamController extends Controller
     // It is also in charge of setting up the teams table of the page
     public function index()
     {
+        $globalSearchColumns = [
+            'id',
+            'team_name',
+            'description',
+        ];
+
         $teams =
             QueryBuilder::for(Team::query())
                 ->allowedSorts('id', 'team_name', 'description')
@@ -26,6 +34,16 @@ class TeamController extends Controller
                     'id',
                     'team_name',
                     'description',
+                    AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                        $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                            foreach ($globalSearchColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
+                            }
+                        });
+                    })
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
@@ -43,7 +61,8 @@ class TeamController extends Controller
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
-                ->addSearchInput(new SearchInput('description', 'Description', shown: true));
+                ->addSearchInput(new SearchInput('description', 'Description', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
@@ -64,8 +83,6 @@ class TeamController extends Controller
                 'employee_id' => $teamMember['id'],
             ]);
         }
-
-        return redirect(route('teams.index'));
     }
 
     // Function to edit a team and update it in the database
@@ -95,23 +112,25 @@ class TeamController extends Controller
         // The team-employee relations are removed if the passed list of employees
         // does not tie a specific employee to a team anymore
         $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('team_id', $team->id)
-            ->whereNotIn('employee_id', $teamMembersIDs)
-            ->delete();
+        $teamMembersToDelete = TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)->get();
 
-        return redirect(route('teams.index'));
+        foreach ($teamMembersToDelete as $teamMember) {
+            $teamMember->delete();
+        }
     }
 
     // Function used upon deleting a team in order to remove the entity from the database
     public function destroy(Team $team)
     {
         // First all team-employee relations involving this team are removed
-        TeamMember::where('team_id', $team->id)
-            ->delete();
+        $teamMembers = TeamMember::where('team_id', $team->id)->get();
+
+        foreach ($teamMembers as $teamMember) {
+            $teamMember->delete();
+        }
 
         // Then the team is deleted
         $team->delete();
-
-        return redirect(route('teams.index'));
     }
 }

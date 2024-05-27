@@ -56,32 +56,42 @@ const Teams = ({
                     <Table<Team>
                         data={teams}
                         actionRenderer={team => (
-                            <TableCell style={{ display: "flex", justifyContent: "center" }}>
-                                {/* Button for Edit */}
-                                <Button
-                                    variant="outlined"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setCurrentTeam(team);
-                                        setFormOpen({ ...formOpen, editTeam: true });
-                                    }}
-                                >
-                                    VIEW & EDIT
-                                    <EditRounded />
-                                </Button>
+                            <TableCell
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    position: "sticky",
+                                    right: 0,
+                                    backgroundColor: "#fff"
+                                }}
+                            >
+                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    {/* Button for Edit */}
+                                    <Button
+                                        variant="outlined"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentTeam(team);
+                                            setFormOpen({ ...formOpen, editTeam: true });
+                                        }}
+                                    >
+                                        VIEW & EDIT
+                                        <EditRounded />
+                                    </Button>
 
-                                {/* Button for Delete */}
-                                <Button
-                                    variant="outlined"
-                                    color="error"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setCurrentTeam(team);
-                                        setFormOpen({ ...formOpen, deleteTeam: true });
-                                    }}
-                                >
-                                    <DeleteRounded />
-                                </Button>
+                                    {/* Button for Delete */}
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setCurrentTeam(team);
+                                            setFormOpen({ ...formOpen, deleteTeam: true });
+                                        }}
+                                    >
+                                        <DeleteRounded />
+                                    </Button>
+                                </Box>
                             </TableCell>
                         )}
                     />

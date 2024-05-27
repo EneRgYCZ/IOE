@@ -1,45 +1,137 @@
 import React from "react";
-import Modal from "@mui/material/Modal";
-import { Box, Button } from "@mui/material";
-import { HiMiniXMark } from "react-icons/hi2";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Autocomplete, FormLabel } from "@mui/material";
+import { useForm } from "@inertiajs/react";
+import { Employee, Team } from "@/types";
+import FormModal from "@/Components/forms/form-modal";
+import ErrorBox from "@/Components/error-box";
 
-{
-    /* Component to be used as basis modal for all forms or pop-up displays */
-}
-const FormModal = (props: { children: React.ReactNode; title?: string; open: boolean; onClose: () => void }) => {
-    const modalStyle: React.CSSProperties = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: "white",
-        padding: "20px",
-        overflowY: "auto",
-        maxHeight: "80%",
-        width: "500px",
+const TeamForm = (props: {
+    isOpen: boolean;
+    handleClose: () => void;
+    team: Team | null;
+    employees: Employee[];
+    teamMembers: Employee[];
+    title: string;
+}) => {
+    const fieldStyle = {
+        width: "100%",
+        padding: "5px",
+        marginBottom: "20px",
         border: "1px solid #ccc",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
     };
 
-    const closeButtonStyle: React.CSSProperties = {
-        position: "absolute",
-        top: "5px",
-        right: "4px",
-        border: "none",
-        fontSize: "20px",
-        cursor: "pointer"
+    const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm(initialValues);
+    const [teamNameError, setTeamNameError] = React.useState(false);
+
+    React.useEffect(() => {
+        if (props.team) {
+            setData(initialValues);
+        }
+    }, [props.team]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.id;
+        const value = e.target.value;
+        setData(data => ({
+            ...data,
+            [key]: value
+        }));
+    };
+
+    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setData(data => ({
+            ...data,
+            [e.target.id]: e.target.value
+        }));
+        if (e.target.validity.valid) {
+            setTeamNameError(false);
+        } else {
+            setTeamNameError(true);
+        }
+    };
+
+    const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
+        setData(data => ({
+            ...data,
+            team_members: value
+        }));
+    };
+
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (props.team) {
+            patch(route("teams.update", props.team.id), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
+        } else {
+            post(route("teams.store"), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
+        }
     };
 
     return (
-        <Modal open={props.open} onClose={props.onClose}>
-            <Box sx={modalStyle}>
-                <Button sx={closeButtonStyle} onClick={props.onClose} variant="contained" color="error">
-                    <HiMiniXMark />
-                </Button>
-                {props.title ? <h2 style={{ margin: "0px", textAlign: "center" }}>{props.title}</h2> : ""}
-                {props.children}
-            </Box>
-        </Modal>
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title={props.title}
+        >
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <form onSubmit={submit} style={{ marginTop: "10px" }}>
+                <FormLabel>Name*</FormLabel>
+                <TextField
+                    id={"team_name"}
+                    value={data.team_name}
+                    required
+                    onChange={handleTeamNameChange}
+                    sx={fieldStyle}
+                    variant="outlined"
+                    error={teamNameError}
+                    helperText={teamNameError ? "Your team name may only contain letters" : ""}
+                    inputProps={{
+                        pattern: "[A-Za-z ]+"
+                    }}
+                />
+                <FormLabel>Description*</FormLabel>
+                <TextField
+                    id={"description"}
+                    value={data.description}
+                    required
+                    onChange={handleChange}
+                    sx={fieldStyle}
+                    variant="outlined"
+                />
+                <FormLabel>Employees</FormLabel>
+                <Autocomplete
+                    multiple
+                    id={"employees"}
+                    filterSelectedOptions
+                    options={props.employees}
+                    getOptionLabel={(employee: Employee) => employee.first_name + " " + employee.last_name}
+                    value={data.team_members}
+                    onChange={handleEmployeeChange}
+                    sx={fieldStyle}
+                    renderInput={params => <TextField {...params} />}
+                />
+                <div style={{ textAlign: "center" }}>
+                    <Button variant="contained" type={"submit"}>
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </FormModal>
     );
 };
 

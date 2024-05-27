@@ -10,8 +10,10 @@ use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
@@ -21,21 +23,32 @@ class EmployeeController extends Controller
     // It is also in charge of setting up the employees table of the page
     public function index()
     {
-        $employees =
-            QueryBuilder::for(Employee::query())
-                ->allowedSorts('id', 'first_name', 'last_name')
-                ->allowedFilters(
-                    'id',
-                    'first_name',
-                    'last_name',
-                )
-                ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
-                ->withQueryString();
+        $globalSearchColumns = ['first_name', 'last_name'];
 
-        $teams = Team::query()->get(); // To show a list of teams that could be added to the employee
-        $teamMembers = TeamMember::query()->get(); // To show which teams each employee belongs to
-        $desktops = Desktop::query()->get(); // To show a list of desktops that could be added to the employee
-        $laptops = Laptop::query()->get(); // To show a list of laptops that could be added to the employee
+        $employees = QueryBuilder::for(Employee::query())
+            ->allowedSorts('id', 'first_name', 'last_name')
+            ->allowedFilters(
+                'id',
+                'first_name',
+                'last_name',
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                        foreach ($globalSearchColumns as $column) {
+                            if (is_array($value)) {
+                                $value = implode('', $value);
+                            }
+                            $subQuery->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                })
+            )
+            ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
+            ->withQueryString();
+
+        $teams = Team::all(); // To show a list of teams that could be added to the employee
+        $teamMembers = TeamMember::all(); // To show which teams each employee belongs to
+        $desktops = Desktop::all(); // To show a list of desktops that could be added to the employee
+        $laptops = Laptop::all(); // To show a list of laptops that could be added to the employee
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
@@ -49,7 +62,8 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
-                ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true));
+                ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
@@ -74,12 +88,17 @@ class EmployeeController extends Controller
 
         // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee
         $equipment_identifiers = $request->input('equipment_identifiers', []);
-        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
-        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
+        $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
 
-        return redirect(route('employees.index'));
+        if ($desktop) {
+            $desktop->update(['employee_id' => $employee->id]);
+        }
+
+        $laptop = Laptop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => $employee->id]);
+        }
     }
 
     // Function used upon updating an employee in order to modify the entity in the database
@@ -109,38 +128,55 @@ class EmployeeController extends Controller
 
         // If a team is removed from an employee, it is also removed as a team member relation.
         $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('employee_id', $employee->id)
-            ->whereNotIn('team_id', $teamMembersIDs)
-            ->delete();
+        $teamMembersToDelete = TeamMember::where('employee_id', $employee->id)
+            ->whereNotIn('team_id', $teamMembersIDs)->get();
+
+        foreach ($teamMembersToDelete as $teamMember) {
+            $teamMember->delete();
+        }
 
         // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee.
         $equipment_identifiers = $request->input('equipment_identifiers', []);
-        Desktop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
-        Laptop::whereIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => $employee->id]);
+
+        $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($desktop) {
+            $desktop->update(['employee_id' => $employee->id]);
+        }
+
+        $laptop = Laptop::whereIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => $employee->id]);
+        }
 
         // If an equipment is removed from an employee, the equipment is also updated with null instead of the employee ID.
-        Desktop::where('employee_id', $employee->id)
-            ->whereNotIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => null]);
-        Laptop::where('employee_id', $employee->id)
-            ->whereNotIn('full_number_identifier', $equipment_identifiers)
-            ->update(['employee_id' => null]);
+        $desktop = Desktop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
 
-        return redirect(route('employees.index'));
+        if ($desktop) {
+            $desktop->update(['employee_id' => null]);
+        }
+
+        $laptop = Laptop::where('employee_id', $employee->id)
+            ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
+
+        if ($laptop) {
+            $laptop->update(['employee_id' => null]);
+        }
     }
 
     // Function used upon deleting an employee in order to remove the entity from the database
     public function destroy(Employee $employee)
     {
         // First all team-employee relations involving this employee are removed
-        TeamMember::where('employee_id', $employee->id)
-            ->delete();
+        $teamMembers = TeamMember::where('employee_id', $employee->id)->get();
+
+        foreach ($teamMembers as $teamMember) {
+            $teamMember->delete();
+        }
 
         // Then the employee is deleted
         $employee->delete();
-
-        return redirect(route('employees.index'));
     }
 }
