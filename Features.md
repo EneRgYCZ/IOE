@@ -3,8 +3,7 @@
 ## Link with features (Attempted)
 
 ### Database visualisation
-Relevant BDDs: Teams Overview (BDD1) [[Aurelie](https://github.com/alphaaureus)], Team Members Overview (BDD2) [[Aurelie](https://github.com/alphaaureus)], Employees Overview (BDD8) [[Rishabh](https://github.com/RishJohn14)], Equipment Overview (BDD12) [[Luca](https://github.com/luca31)], Logs Overview (BDD19) [[Catalin](https://github.com/EneRgYCZ)],
-Sorting of Columns (BDD22) [[Catalin](https://github.com/EneRgYCZ)], Familiarity with Google Sheets (BDD28) [[Catalin](https://github.com/EneRgYCZ)]
+Relevant BDDs: Teams Overview (BDD1) [[Luca](https://github.com/luca31)], Team Members Overview (BDD2) [[Aurelie](https://github.com/alphaaureus)], Employees Overview (BDD8) [[Rishabh](https://github.com/RishJohn14)], Equipment Overview (BDD12) [[Luca](https://github.com/luca31)], Logs Overview (BDD19) [[Rishabh](https://github.com/RishJohn14)], Sorting of Columns (BDD22) [[Catalin](https://github.com/EneRgYCZ)], Familiarity with Google Sheets (BDD28) [[Catalin](https://github.com/EneRgYCZ)]
 
 ### Database Manipulation
 Relevant BDDs:
