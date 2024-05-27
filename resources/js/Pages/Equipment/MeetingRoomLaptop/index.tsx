@@ -42,7 +42,6 @@ const Equipment = ({
 
     return (
         <GuestLayout>
-            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -54,32 +53,37 @@ const Equipment = ({
                         <Table<MeetingRoomLaptop>
                             data={meetingRoomLaptops}
                             actionRenderer={meetingRoomLaptop => (
-                                <TableCell align="center">
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentMeetingRoomLaptop(meetingRoomLaptop);
-                                            setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
-                                        }}
-                                    >
-                                        EDIT
-                                        <EditRounded sx={{ marginLeft: "10px" }} />
-                                    </Button>
+                                <TableCell
+                                    align="center"
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
+                                >
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {/* Button for Edit */}
+                                        <Button
+                                            variant="outlined"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentMeetingRoomLaptop(meetingRoomLaptop);
+                                                setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
+                                            }}
+                                        >
+                                            EDIT
+                                            <EditRounded sx={{ marginLeft: "10px" }} />
+                                        </Button>
 
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentMeetingRoomLaptop(meetingRoomLaptop);
-                                            setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
+                                        {/* Button for Delete */}
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentMeetingRoomLaptop(meetingRoomLaptop);
+                                                setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
+                                            }}
+                                        >
+                                            <DeleteRounded />
+                                        </Button>
+                                    </Box>
                                 </TableCell>
                             )}
                         />

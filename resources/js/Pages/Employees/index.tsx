@@ -64,32 +64,34 @@ const Employees = ({
                     <Table<Employee>
                         data={employees}
                         actionRenderer={employee => (
-                            <TableCell align="center">
-                                {/* Button for Edit */}
-                                <Button
-                                    variant="outlined"
-                                    sx={tableButtonMargins}
-                                    onClick={() => {
-                                        setEdit(true);
-                                        setEmpEdit(employee);
-                                    }}
-                                >
-                                    EDIT
-                                    <EditRounded sx={{ marginLeft: "10px" }} />
-                                </Button>
+                            <TableCell align="center" style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}>
+                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    {/* Button for Edit */}
+                                    <Button
+                                        variant="outlined"
+                                        sx={tableButtonMargins}
+                                        onClick={() => {
+                                            setEdit(true);
+                                            setEmpEdit(employee);
+                                        }}
+                                    >
+                                        EDIT
+                                        <EditRounded sx={{ marginLeft: "10px" }} />
+                                    </Button>
 
-                                {/* Button for Delete */}
-                                <Button
-                                    variant="outlined"
-                                    sx={tableButtonMargins}
-                                    color="error"
-                                    onClick={() => {
-                                        setDel(true);
-                                        setEmpDel(employee);
-                                    }}
-                                >
-                                    <DeleteRounded />
-                                </Button>
+                                    {/* Button for Delete */}
+                                    <Button
+                                        variant="outlined"
+                                        sx={tableButtonMargins}
+                                        color="error"
+                                        onClick={() => {
+                                            setDel(true);
+                                            setEmpDel(employee);
+                                        }}
+                                    >
+                                        <DeleteRounded />
+                                    </Button>
+                                </Box>
                             </TableCell>
                         )}
                     />
