@@ -80,7 +80,9 @@ export interface Team {
 export interface TeamMember {
     id: number;
     team_id: number;
+    team: Team | null;
     employee_id: number;
+    employee: Employee | null;
     created_at: string;
     updated_at: string;
 }
@@ -142,14 +144,14 @@ export type BaseActivityLog = {
     log_name: string;
     description: string;
     subject_type: string;
-    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | null;
+    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | TeamMember | null;
     event: string;
     subject_id: number;
     causer_type: string;
     causer_id: number;
     causer: User | null;
     properties: {
-        attributes: Record<string, unknown>;
+        attributes: Record<string, unknown> | Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | TeamMember;
     };
     batch_uuid: string;
     created_at: string;
@@ -161,14 +163,14 @@ export type DeleteActivityLog = {
     log_name: string;
     description: string;
     subject_type: string;
-    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | null;
+    subject: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | TeamMember | null;
     event: string;
     subject_id: number;
     causer_type: string;
     causer_id: number;
     causer: User | null;
     properties: {
-        old: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop;
+        old: Employee | Team | DesktopPC | Laptop | MeetingRoomLaptop | TeamMember;
     };
     batch_uuid: string;
     created_at: string;

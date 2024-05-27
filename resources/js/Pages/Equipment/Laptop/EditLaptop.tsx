@@ -3,6 +3,7 @@ import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
 import LaptopForm from "@/Components/forms/laptop-form";
 import FormModal from "@/Components/forms/form-modal";
+import ErrorBox from "@/Components/error-box";
 
 const EditLaptop = (props: {
     isOpen: boolean;
@@ -10,6 +11,8 @@ const EditLaptop = (props: {
     laptop: Laptop | null;
     employees: Employee[];
 }) => {
+    const modalRef = React.useRef<HTMLDivElement>(null);
+
     const { data, setData, patch, hasErrors, errors, clearErrors } = useForm<Laptop>({
         full_number_identifier: props.laptop ? props.laptop.full_number_identifier : "",
         laptop_number: props.laptop ? props.laptop.laptop_number : "",
@@ -25,13 +28,6 @@ const EditLaptop = (props: {
     });
 
     React.useEffect(() => {
-        if (hasErrors) {
-            alert("The request was not successful.\nErrors:\n" + JSON.stringify(errors));
-            clearErrors();
-        }
-    }, [errors]);
-
-    React.useEffect(() => {
         if (props.laptop !== null) {
             setData(props.laptop);
         }
@@ -39,13 +35,33 @@ const EditLaptop = (props: {
 
     const submit = () => {
         if (props.laptop) {
-            patch(route("equipment.updateLaptop", props.laptop.id));
-            props.handleClose();
+            patch(route("equipment.updateLaptop", props.laptop.id), {
+                onSuccess: () => {
+                    props.handleClose();
+                },
+                onError: () => {
+                    if (modalRef.current != null) {
+                        modalRef.current.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
+                }
+            });
         }
     };
 
     return (
-        <FormModal open={props.isOpen} onClose={props.handleClose} title="Edit Laptop">
+        <FormModal
+            open={props.isOpen}
+            onClose={() => {
+                props.handleClose();
+                clearErrors();
+            }}
+            title="Edit Laptop"
+        >
+            <div ref={modalRef}></div>
+            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
         </FormModal>
     );
