@@ -7,20 +7,7 @@ import React, { useEffect, useState } from "react";
 
 import ColumnHeader from "./column-header";
 import Paginator from "./paginator";
-import {
-    Box,
-    Card,
-    Stack,
-    TableCell,
-    Typography,
-    Table as MultiTable,
-    TableRow,
-    Button,
-    TableContainer,
-    Paper,
-    TableHead,
-    TableBody
-} from "@mui/material";
+import { Box, Card, Stack, TableCell, Typography, Table as MultiTable, TableRow, Button } from "@mui/material";
 import FilterDrawer from "@/Components/table/filter-drawer";
 import SearchInput from "./search-input";
 
@@ -49,10 +36,8 @@ export const Table = <T,>({
     name = "default",
     data,
     actionRenderer,
-    cellRenderer = defaultCellRenderer,
-    minWidth
+    cellRenderer = defaultCellRenderer
 }: {
-    minWidth: number;
     name?: string;
     data: PaginatedResponse<T>;
     cellRenderer?: CellRenderer<T>;
@@ -237,109 +222,103 @@ export const Table = <T,>({
                         <Button onClick={() => setFilterDrawerOpen(true)}>Advanced Search</Button>
                     </Box>
                 </Box>
-                <Card variant="outlined">
-                    <Paper sx={{ width: "100%", overflowX: "auto" }}>
-                        <TableContainer sx={{ minWidth: minWidth }}>
-                            <MultiTable>
-                                <TableHead style={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                                    <TableRow>
-                                        {originalData.columns.map(col => {
+                <Card variant="outlined" sx={{ width: "100%", overflowX: "auto" }}>
+                    <MultiTable>
+                        <thead style={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
+                            <tr>
+                                {originalData.columns.map(col => {
+                                    if (col.hidden) {
+                                        return null;
+                                    }
+
+                                    return (
+                                        <ColumnHeader
+                                            key={col.key}
+                                            col={col}
+                                            sortChangeHandler={() => {
+                                                const searchArray = tableData.sort?.split(",") ?? [];
+
+                                                if (
+                                                    !searchArray.find(c =>
+                                                        c.startsWith("-") ? c.substring(1) === col.key : c === col.key
+                                                    )
+                                                ) {
+                                                    searchArray.push(col.key);
+                                                }
+
+                                                setTableData(prev => {
+                                                    return {
+                                                        ...prev,
+                                                        sort: searchArray
+                                                            .map(sort => {
+                                                                if (
+                                                                    sort.startsWith("-") &&
+                                                                    sort.substring(1) === col.key
+                                                                ) {
+                                                                    return col.key;
+                                                                }
+
+                                                                if (sort === col.key) {
+                                                                    return `-${col.key}`;
+                                                                }
+
+                                                                return sort;
+                                                            })
+                                                            .join(","),
+                                                        page: 1
+                                                    };
+                                                });
+                                            }}
+                                            sortRemoveHandler={() => {
+                                                setTableData(prev => {
+                                                    return {
+                                                        ...prev,
+                                                        sort:
+                                                            tableData.sort
+                                                                ?.split(",")
+                                                                .filter(item =>
+                                                                    item.startsWith("-")
+                                                                        ? item.substring(1) !== col.key
+                                                                        : item !== col.key
+                                                                )
+                                                                .join(",") ?? null
+                                                    };
+                                                });
+                                            }}
+                                        />
+                                    );
+                                })}
+
+                                {actionRenderer && (
+                                    <th style={{ textAlign: "center" }}>
+                                        <Typography>Actions</Typography>
+                                    </th>
+                                )}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.data.map((row, idx) => {
+                                return (
+                                    <TableRow key={idx}>
+                                        {tableData.columns.map(col => {
                                             if (col.hidden) {
                                                 return null;
                                             }
 
-                                            return (
-                                                <ColumnHeader
-                                                    key={col.key}
-                                                    col={col}
-                                                    sortChangeHandler={() => {
-                                                        const searchArray = tableData.sort?.split(",") ?? [];
-
-                                                        if (
-                                                            !searchArray.find(c =>
-                                                                c.startsWith("-")
-                                                                    ? c.substring(1) === col.key
-                                                                    : c === col.key
-                                                            )
-                                                        ) {
-                                                            searchArray.push(col.key);
-                                                        }
-
-                                                        setTableData(prev => {
-                                                            return {
-                                                                ...prev,
-                                                                sort: searchArray
-                                                                    .map(sort => {
-                                                                        if (
-                                                                            sort.startsWith("-") &&
-                                                                            sort.substring(1) === col.key
-                                                                        ) {
-                                                                            return col.key;
-                                                                        }
-
-                                                                        if (sort === col.key) {
-                                                                            return `-${col.key}`;
-                                                                        }
-
-                                                                        return sort;
-                                                                    })
-                                                                    .join(","),
-                                                                page: 1
-                                                            };
-                                                        });
-                                                    }}
-                                                    sortRemoveHandler={() => {
-                                                        setTableData(prev => {
-                                                            return {
-                                                                ...prev,
-                                                                sort:
-                                                                    tableData.sort
-                                                                        ?.split(",")
-                                                                        .filter(item =>
-                                                                            item.startsWith("-")
-                                                                                ? item.substring(1) !== col.key
-                                                                                : item !== col.key
-                                                                        )
-                                                                        .join(",") ?? null
-                                                            };
-                                                        });
-                                                    }}
-                                                />
+                                            return cellRenderer(
+                                                row,
+                                                col,
+                                                `table-${name}-row-${idx}-col-${col.key}`,
+                                                idx
                                             );
                                         })}
 
-                                        {actionRenderer && (
-                                            <TableCell style={{ textAlign: "center" }}>
-                                                <Typography>Actions</Typography>
-                                            </TableCell>
-                                        )}
+                                        {actionRenderer && actionRenderer(row)}
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {data.data.map((row, idx) => {
-                                        return (
-                                            <TableRow key={idx}>
-                                                {tableData.columns.map(col => {
-                                                    if (col.hidden) {
-                                                        return null;
-                                                    }
-
-                                                    return cellRenderer(
-                                                        row,
-                                                        col,
-                                                        `table-${name}-row-${idx}-col-${col.key}`,
-                                                        idx
-                                                    );
-                                                })}
-
-                                                {actionRenderer && actionRenderer(row)}
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </MultiTable>
-                        </TableContainer>
-                    </Paper>
+                                );
+                            })}
+                        </tbody>
+                    </MultiTable>
                 </Card>
                 <Paginator
                     perPage={tableData.perPage}

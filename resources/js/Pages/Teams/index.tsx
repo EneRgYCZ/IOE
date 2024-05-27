@@ -54,7 +54,6 @@ const Teams = ({
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
                     <Table<Team>
-                        minWidth={200}
                         data={teams}
                         actionRenderer={team => (
                             <TableCell style={{ display: "flex", justifyContent: "center" }}>

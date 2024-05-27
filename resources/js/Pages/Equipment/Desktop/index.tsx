@@ -54,7 +54,6 @@ const Equipment = ({
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<DesktopPC>
-                            minWidth={1500}
                             data={desktops}
                             actionRenderer={desktop => (
                                 <TableCell align="center">
