@@ -34,6 +34,11 @@ class ColumnFilter implements Arrayable
         $this->options = $columnValues->toArray();
     }
 
+    /**
+     * Convert the ColumnFilter object to an array.
+     *
+     * @return array The converted array representation of the ColumnFilter object.
+     */
     public function toArray(): array
     {
         return [
