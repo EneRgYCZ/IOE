@@ -17,7 +17,7 @@ const AddDesktop = (props: { isOpen: boolean; handleClose: () => void; employees
         floor: undefined,
         island_number: undefined,
         workspace_type: "",
-        updated_in_q1: false,
+        q1: false,
         remarks: "",
         employee_id: null
     };

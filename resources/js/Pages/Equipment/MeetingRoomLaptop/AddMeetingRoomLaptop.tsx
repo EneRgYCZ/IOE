@@ -13,7 +13,7 @@ const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void 
         side: "",
         floor: undefined,
         room_number: undefined,
-        updated_in_q1: false,
+        q1: false,
         remarks: ""
     };
     const { data, setData, post, hasErrors, errors, clearErrors } = useForm(initialValues);

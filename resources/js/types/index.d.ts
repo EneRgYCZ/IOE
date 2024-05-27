@@ -99,7 +99,7 @@ export interface DesktopPC {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -116,7 +116,7 @@ export interface Laptop {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -131,7 +131,7 @@ export interface MeetingRoomLaptop {
     side: string;
     floor?: number;
     room_number?: number;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     created_at?: string;
     updated_at?: string;

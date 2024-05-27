@@ -22,7 +22,7 @@ const EditLaptop = (props: {
         floor: props.laptop ? props.laptop.floor : undefined,
         island_number: props.laptop ? props.laptop.island_number : undefined,
         workspace_type: props.laptop ? props.laptop.workspace_type : "",
-        updated_in_q1: props.laptop ? props.laptop.updated_in_q1 : false,
+        q1: props.laptop ? props.laptop.q1 : false,
         remarks: props.laptop ? props.laptop.remarks : "",
         employee_id: props.laptop ? props.laptop.employee_id : null
     });

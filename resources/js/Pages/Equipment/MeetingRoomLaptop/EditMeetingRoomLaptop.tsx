@@ -19,7 +19,7 @@ const EditMeetingRoomLaptop = (props: {
         side: props.meetingRoomLaptop ? props.meetingRoomLaptop.side : "",
         floor: props.meetingRoomLaptop ? props.meetingRoomLaptop.floor : undefined,
         room_number: props.meetingRoomLaptop ? props.meetingRoomLaptop.room_number : undefined,
-        updated_in_q1: props.meetingRoomLaptop ? props.meetingRoomLaptop.updated_in_q1 : false,
+        q1: props.meetingRoomLaptop ? props.meetingRoomLaptop.q1 : false,
         remarks: props.meetingRoomLaptop ? props.meetingRoomLaptop.remarks : ""
     });
 

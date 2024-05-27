@@ -24,7 +24,7 @@ const EditDesktop = (props: {
         floor: props.desktop ? props.desktop.floor : undefined,
         island_number: props.desktop ? props.desktop.island_number : undefined,
         workspace_type: props.desktop ? props.desktop.workspace_type : "",
-        updated_in_q1: props.desktop ? props.desktop.updated_in_q1 : false,
+        q1: props.desktop ? props.desktop.q1 : false,
         remarks: props.desktop ? props.desktop.remarks : "",
         employee_id: props.desktop ? props.desktop.employee_id : null
     });
