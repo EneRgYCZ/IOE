@@ -13,6 +13,9 @@ Note: The last step was sometimes omitted. The number of commits per person in t
 
 ## Coding Responsabilities
 Aurelie: Team CRUD operations (add, edit and delete), adding employees to teams and vice versa, navigation bar and modal/form implementation and structure
+
 Catalin: Table component (display, search and sort), logs information and Unit Testing
+
 Luca: Equipment CRUD operations (add, edit and delete), adding equipment to employees and vice versa, saving user preferences and modal/form implementation and structure
+
 Rishab: Employee CRUD operations (add, edit and delete) and Unit Testing
