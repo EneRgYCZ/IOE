@@ -301,7 +301,14 @@ export const Table = <T,>({
                                 })}
 
                                 {actionRenderer && (
-                                    <th style={{ textAlign: "center", position: "sticky", right: 0, backgroundColor: "#fff" }}>
+                                    <th
+                                        style={{
+                                            textAlign: "center",
+                                            position: "sticky",
+                                            right: 0,
+                                            backgroundColor: "#fff"
+                                        }}
+                                    >
                                         <Typography>Actions</Typography>
                                     </th>
                                 )}

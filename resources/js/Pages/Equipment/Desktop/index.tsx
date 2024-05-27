@@ -15,7 +15,6 @@ const Equipment = ({
     desktops: PaginatedResponse<DesktopPC>;
     employees: Employee[];
 }>) => {
-
     const tableButtonMargins = {
         margin: "0 10px"
     };
