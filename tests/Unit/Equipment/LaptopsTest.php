@@ -5,7 +5,7 @@ namespace Tests\Unit\Equipment;
 use App\Models\Employee;
 use App\Models\Laptop;
 
-it('can create a laptop', function () {
+it('can create a laptop - BDD 13', function () {
     $laptopData = [
         'full_number_identifier' => 'L12345',
         'laptop_number' => 'L001',
@@ -23,7 +23,7 @@ it('can create a laptop', function () {
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
-it('can search a laptop', function () {
+it('can search a laptop - BDD 21', function () {
     $laptopData = [
         'full_number_identifier' => 'L12345',
         'laptop_number' => 'L001',
@@ -45,7 +45,7 @@ it('can search a laptop', function () {
     $response->assertSee('L12345');
 });
 
-it('can display laptops', function () {
+it('can display laptops - BDD 12', function () {
     Laptop::factory()->count(3)->create();
 
     $response = $this->get(route('equipment.laptops'));
@@ -66,7 +66,7 @@ it('can display laptops', function () {
         );
 });
 
-it('can update the full number identifier of a laptop', function () {
+it('can update the full number identifier of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => 'L54321',
@@ -83,7 +83,7 @@ it('can update the full number identifier of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the laptop number of a laptop', function () {
+it('can update the laptop number of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -100,7 +100,7 @@ it('can update the laptop number of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the location of a laptop', function () {
+it('can update the location of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -117,7 +117,7 @@ it('can update the location of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the side of a laptop', function () {
+it('can update the side of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -134,7 +134,7 @@ it('can update the side of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the floor of a laptop', function () {
+it('can update the floor of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -151,7 +151,7 @@ it('can update the floor of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the island number of a laptop', function () {
+it('can update the island number of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -168,7 +168,7 @@ it('can update the island number of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can update the status of a laptop', function () {
+it('can update the status of a laptop - BDD 14', function () {
     $laptop = Laptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
@@ -185,7 +185,7 @@ it('can update the status of a laptop', function () {
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
-it('can assign a laptop to an employee', function () {
+it('can assign a laptop to an employee - BDD 16', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -214,7 +214,7 @@ it('can assign a laptop to an employee', function () {
 
 });
 
-it('can unassign a laptop from an employee', function () {
+it('can unassign a laptop from an employee - BDD 18', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -245,7 +245,7 @@ it('can unassign a laptop from an employee', function () {
 
 });
 
-it('can delete a laptop', function () {
+it('can delete a laptop - BDD 15', function () {
     $laptop = Laptop::factory()->create();
     $response = $this->delete(route('equipment.destroyLaptop', $laptop));
     $response->assertRedirect(route('equipment.laptops'));

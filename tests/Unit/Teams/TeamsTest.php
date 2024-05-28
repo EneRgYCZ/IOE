@@ -3,7 +3,7 @@
 use App\Models\Employee;
 use App\Models\Team;
 
-test('can display the teams', function () {
+test('can display the teams - BDD1', function () {
     $team = Team::factory()->create();
 
     $response = $this->get(route('teams.index'));
@@ -23,7 +23,7 @@ test('can display the teams', function () {
     );
 });
 
-test('can create a team', function () {
+test('can create a team - BDD 3', function () {
     $teamData = [
         'team_name' => 'Test Team',
         'description' => 'This is a test team',
@@ -36,7 +36,7 @@ test('can create a team', function () {
     expect($team->description)->toBe('This is a test team');
 });
 
-test('can read a team', function () {
+test('can read a team - BDD 1', function () {
     $team = Team::factory()->create();
 
     $foundTeam = Team::find($team->id);
@@ -46,7 +46,7 @@ test('can read a team', function () {
     expect($foundTeam->description)->toBe($team->description);
 });
 
-test('can update a team', function () {
+test('can update a team - BDD 4', function () {
     $team = Team::factory()->create();
 
     $updatedData = [
@@ -60,7 +60,7 @@ test('can update a team', function () {
     expect($team->description)->toBe('This is an updated team');
 });
 
-test('can assign an employee to a team', function () {
+test('can assign an employee to a team - BDD 5', function () {
     $employee = Employee::factory()->create();
 
     $teamData = [
@@ -79,7 +79,7 @@ test('can assign an employee to a team', function () {
 
 });
 
-test('can unassign an employee from a team', function () {
+test('can unassign an employee from a team - BDD 6', function () {
     $employee = Employee::factory()->create();
 
     $teamData = [
@@ -109,7 +109,7 @@ test('can unassign an employee from a team', function () {
 
 });
 
-test('can search for a team', function () {
+test('can search for a team - BDD 21', function () {
     $teamData = [
         'team_name' => 'Test Team A',
         'description' => 'Test Description',
@@ -122,7 +122,7 @@ test('can search for a team', function () {
 
 });
 
-test('can sort teams by name in ascending order', function () {
+test('can sort teams by name in ascending order - BDD 22', function () {
     $teamData1 = [
         'team_name' => 'Team A',
         'description' => 'Test Description',
@@ -146,7 +146,7 @@ test('can sort teams by name in ascending order', function () {
 
 });
 
-test('can sort teams by name in descending order', function () {
+test('can sort teams by name in descending order - BDD 22', function () {
     $teamData1 = [
         'team_name' => 'Team A',
         'description' => 'Test Description',
@@ -169,7 +169,7 @@ test('can sort teams by name in descending order', function () {
     $response->assertSeeInOrder(['Team C', 'Team B', 'Team A']);
 
 });
-test('can sort teams by description in ascending order', function () {
+test('can sort teams by description in ascending order - BDD 22', function () {
     $teamData1 = [
         'team_name' => 'Team A',
         'description' => 'Test DescriptionA',
@@ -193,7 +193,7 @@ test('can sort teams by description in ascending order', function () {
 
 });
 
-test('can sort teams by description in descending order', function () {
+test('can sort teams by description in descending order - BDD 22', function () {
     $teamData1 = [
         'team_name' => 'Team A',
         'description' => 'Test DescriptionA',
@@ -217,7 +217,7 @@ test('can sort teams by description in descending order', function () {
 
 });
 
-test('can delete a team', function () {
+test('can delete a team - BDD 7', function () {
     $team = Team::factory()->create();
 
     $team->delete();

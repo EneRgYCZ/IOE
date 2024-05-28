@@ -5,7 +5,7 @@ namespace Tests\Unit\Equipment;
 use App\Models\Desktop;
 use App\Models\Employee;
 
-it('can create a desktop', function () {
+it('can create a desktop - BDD 13', function () {
     $desktopData = [
         'full_number_identifier' => '12345',
         'pc_number' => 'PC001',
@@ -25,7 +25,7 @@ it('can create a desktop', function () {
     $this->assertDatabaseHas('desktops', $desktopData);
 });
 
-it('can search a desktop', function () {
+it('can search a desktop - BDD 21', function () {
     $desktopData = [
         'full_number_identifier' => '12345',
         'pc_number' => 'PC001',
@@ -49,7 +49,7 @@ it('can search a desktop', function () {
     $response->assertSee('PC001');
 });
 
-it('can display desktops', function () {
+it('can display desktops - BDD 12', function () {
     Desktop::factory()->count(3)->create();
 
     $response = $this->get(route('equipment.desktops'));
@@ -70,7 +70,7 @@ it('can display desktops', function () {
         );
 });
 
-it('can update the full number identifier of a desktop', function () {
+it('can update the full number identifier of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => '54321',
@@ -91,7 +91,7 @@ it('can update the full number identifier of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the PC number of a desktop', function () {
+it('can update the PC number of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -112,7 +112,7 @@ it('can update the PC number of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the location of a desktop', function () {
+it('can update the location of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -133,7 +133,7 @@ it('can update the location of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the side of a desktop', function () {
+it('can update the side of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -154,7 +154,7 @@ it('can update the side of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the floor of a desktop', function () {
+it('can update the floor of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -175,7 +175,7 @@ it('can update the floor of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the island number of a desktop', function () {
+it('can update the island number of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -196,7 +196,7 @@ it('can update the island number of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the double PC flag of a desktop', function () {
+it('can update the double PC flag of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -216,7 +216,7 @@ it('can update the double PC flag of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the needs dock flag of a desktop', function () {
+it('can update the needs dock flag of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -236,7 +236,7 @@ it('can update the needs dock flag of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the workspace type of a desktop', function () {
+it('can update the workspace type of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -256,7 +256,7 @@ it('can update the workspace type of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can update the updated in Q1 flag of a desktop', function () {
+it('can update the updated in Q1 flag of a desktop - BDD 14', function () {
     $desktop = Desktop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
@@ -276,7 +276,7 @@ it('can update the updated in Q1 flag of a desktop', function () {
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
-it('can assign a desktop to an employee', function () {
+it('can assign a desktop to an employee - BDD 16', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -307,7 +307,7 @@ it('can assign a desktop to an employee', function () {
 
 });
 
-it('can unassign a desktop from an employee', function () {
+it('can unassign a desktop from an employee - BDD 18', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -340,7 +340,7 @@ it('can unassign a desktop from an employee', function () {
 
 });
 
-it('can delete a desktop', function () {
+it('can delete a desktop - BDD 15', function () {
     $desktop = Desktop::factory()->create();
     $response = $this->delete(route('equipment.destroyDesktop', $desktop));
     $response->assertRedirect(route('equipment.desktops'));

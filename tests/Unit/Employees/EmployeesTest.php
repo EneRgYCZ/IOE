@@ -6,7 +6,7 @@ use App\Models\Laptop;
 use App\Models\Team;
 use App\Models\TeamMember;
 
-it('can create an employee', function () {
+it('can create an employee - BDD 9', function () {
     $employeeData = [
         'first_name' => 'John',
         'last_name' => 'Doe',
@@ -17,7 +17,7 @@ it('can create an employee', function () {
     $this->assertDatabaseHas('employees', $employeeData);
 });
 
-it('can display the employees', function () {
+it('can display the employees - BDD 8', function () {
     $employee = Employee::factory()->create();
 
     $response = $this->get(route('employees.index'));
@@ -38,7 +38,7 @@ it('can display the employees', function () {
     );
 });
 
-it('can update an employee', function () {
+it('can update an employee  - BDD 10', function () {
     $employee = Employee::factory()->create();
 
     $updatedData = [
@@ -51,7 +51,7 @@ it('can update an employee', function () {
     $this->assertDatabaseHas('employees', $updatedData);
 });
 
-it('can search for an employee', function () {
+it('can search for an employee - BDD 21', function () {
     $employeeData = [
         'first_name' => 'testFirstName',
         'last_name' => 'testLastName',
@@ -63,7 +63,7 @@ it('can search for an employee', function () {
     $response->assertSee('testFirstName');
 });
 
-it('can assign an employee to a team', function () {
+it('can assign an employee to a team - BDD 5', function () {
     $employeeData = [
         'first_name' => 'testFirstName',
         'last_name' => 'testLastName',
@@ -89,7 +89,7 @@ it('can assign an employee to a team', function () {
 
 });
 
-it('can unassign an employee from a team', function () {
+it('can unassign an employee from a team - BDD 6', function () {
     $employeeData = [
         'first_name' => 'testFirstName',
         'last_name' => 'testLastName',
@@ -118,7 +118,7 @@ it('can unassign an employee from a team', function () {
 
 });
 
-it('can assign desktop to an employee', function () {
+it('can assign desktop to an employee - BDD 16', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -143,7 +143,7 @@ it('can assign desktop to an employee', function () {
     $this->assertEquals($desktop->id, $employee->equipment_id);
 });
 
-it('can unassign desktop to an employee', function () {
+it('can unassign desktop to an employee - BDD 18', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -170,7 +170,7 @@ it('can unassign desktop to an employee', function () {
     $this->assertNull($employee->equipment_id);
 });
 
-it('can assign laptop to an employee', function () {
+it('can assign laptop to an employee - BDD 16', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -193,7 +193,7 @@ it('can assign laptop to an employee', function () {
 
     $this->assertEquals($laptop->id, $employee->equipment_id);
 });
-it('can unassign laptop to an employee', function () {
+it('can unassign laptop to an employee - BDD 18', function () {
     $employeeData = [
         'first_name' => 'Test',
         'last_name' => 'Employee',
@@ -218,7 +218,7 @@ it('can unassign laptop to an employee', function () {
     $employee->equipment_id = null;
     $this->assertNull($employee->equipment_id);
 });
-it('can sort employees by first name in ascending order', function () {
+it('can sort employees by first name in ascending order - BDD 22', function () {
     $employeeData = [
         'first_name' => 'Abby',
         'last_name' => 'Abigail',
@@ -242,7 +242,7 @@ it('can sort employees by first name in ascending order', function () {
     $response->assertSeeInOrder(['Abby', 'Bobby', 'Cathy']);
 });
 
-it('can sort employees by first name in descending order', function () {
+it('can sort employees by first name in descending order - BDD 22', function () {
     $employeeData = [
         'first_name' => 'Abby',
         'last_name' => 'Abigail',
@@ -266,7 +266,7 @@ it('can sort employees by first name in descending order', function () {
     $response->assertSeeInOrder(['Cathy', 'Bobby', 'Abby']);
 });
 
-it('can sort employees by last name in ascending order', function () {
+it('can sort employees by last name in ascending order - BDD 22', function () {
     $employeeData = [
         'first_name' => 'Abby',
         'last_name' => 'Abigail',
@@ -290,7 +290,7 @@ it('can sort employees by last name in ascending order', function () {
     $response->assertSeeInOrder(['Abigail', 'Basher', 'Katherine']);
 });
 
-it('can sort employees by last name in descending order', function () {
+it('can sort employees by last name in descending order - BDD 22', function () {
     $employeeData1 = [
         'first_name' => 'Abby',
         'last_name' => 'Abigail',
@@ -314,7 +314,7 @@ it('can sort employees by last name in descending order', function () {
     $response->assertSeeInOrder(['Katherine', 'Basher', 'Abigail']);
 });
 
-it('can delete an employee', function () {
+it('can delete an employee - BDD 11', function () {
     $employee = Employee::factory()->create();
 
     $this->delete(route('employees.destroy', $employee));

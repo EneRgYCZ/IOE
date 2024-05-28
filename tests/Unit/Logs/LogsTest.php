@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 
-it('displays activity logs', function () {
+it('displays activity logs - BDD 19', function () {
     Activity::create([
         'log_name' => 'default',
         'description' => 'Sample activity',
@@ -27,7 +27,7 @@ it('displays activity logs', function () {
         );
 });
 
-it('can search for a log', function () {
+it('can search for a log - BDD 21', function () {
     Activity::create([
         'log_name' => 'default',
         'description' => 'Sample activity',
