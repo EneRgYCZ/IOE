@@ -35,28 +35,6 @@ $ yarn dev
 The last command should run the app
 
 
-## Running the CI tests:
-Backend-Style: 
-```
-./vendor/bin/pint
-```
-Backend-Static: 
-```
-./vendor/bin/phpstan
-```
-Frontend-Style:
-```
-yarn run style:test
-```
-Frontend-Lint:
-```
-yarn run lint:test
-```
-Frontend-Type:
-```
-yarn run type:test
-```
-
 ## Development
 [Development File](Development.md)
 
