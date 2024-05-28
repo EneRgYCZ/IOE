@@ -85,7 +85,7 @@ const Employees = ({
             </Card>
 
             {/* Button for Add */}
-            <AddButton label="Add employee" onClick={() => setAdd(true)}/>
+            <AddButton label="Add employee" onClick={() => setAdd(true)} />
 
             {/* Forms for Adding, Editing and Deleting */}
             <EmployeeForm
@@ -105,10 +105,12 @@ const Employees = ({
                 teamMembers={
                     team_members && empEdit
                         ? teams.filter(team =>
-                              team_members
-                                  .filter(relation => relation.employee_id == empEdit.id)
-                                  .map(relation => relation.team_id)
-                                  .includes(team.id)
+                              team.id
+                                  ? team_members
+                                        .filter(relation => relation.employee_id == empEdit.id)
+                                        .map(relation => relation.team_id)
+                                        .includes(team.id)
+                                  : null
                           )
                         : []
                 }

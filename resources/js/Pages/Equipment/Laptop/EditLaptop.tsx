@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { Employee, Laptop } from "@/types";
-import LaptopForm from "@/Components/crud-forms/laptop-form";
 import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
+import EquipmentForm from "@/Components/crud-forms/equipment-form";
 
 const EditLaptop = (props: {
     isOpen: boolean;
@@ -62,7 +62,7 @@ const EditLaptop = (props: {
         >
             <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-            <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+            <EquipmentForm data={data} setData={setData} onSubmit={submit} employees={props.employees} type="laptop" />
         </FormModal>
     );
 };

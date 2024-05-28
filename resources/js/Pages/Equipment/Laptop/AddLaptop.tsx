@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import LaptopForm from "@/Components/crud-forms/laptop-form";
 import { Employee, Laptop } from "@/types";
 import ErrorBox from "@/Components/error-box";
 import FormModal from "@/Components/form-components/form-modal";
+import EquipmentForm from "@/Components/crud-forms/equipment-form";
 
 const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: Laptop = {
@@ -51,7 +51,7 @@ const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees:
         >
             <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-            <LaptopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+            <EquipmentForm data={data} setData={setData} onSubmit={submit} employees={props.employees} type="laptop" />
         </FormModal>
     );
 };

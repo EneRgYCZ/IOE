@@ -117,13 +117,7 @@ const TeamForm = (props: {
                         pattern: "[A-Za-z ]+"
                     }}
                 />
-                <FormField
-                    id="team_name"
-                    label={"Name"}
-                    data={data}
-                    setData={setData}
-                    required
-                />
+                <FormField id="team_name" label={"Name"} data={data} setData={setData} required />
                 <FormLabel>Description*</FormLabel>
                 <TextField
                     id={"description"}
@@ -133,13 +127,7 @@ const TeamForm = (props: {
                     sx={fieldStyle}
                     variant="outlined"
                 />
-                <FormField
-                    id="description"
-                    label={"Description"}
-                    data={data}
-                    setData={setData}
-                    required
-                />
+                <FormField id="description" label={"Description"} data={data} setData={setData} required />
                 <FormLabel>Employees</FormLabel>
                 <Autocomplete
                     multiple

@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
-import DesktopForm from "@/Components/crud-forms/desktop-form";
+import EquipmentForm from "@/Components/crud-forms/equipment-form";
 import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 
@@ -64,7 +64,7 @@ const EditDesktop = (props: {
         >
             <div ref={modalRef}></div>
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-            <DesktopForm data={data} setData={setData} onSubmit={submit} employees={props.employees} />
+            <EquipmentForm data={data} setData={setData} onSubmit={submit} employees={props.employees} type="desktop" />
         </FormModal>
     );
 };

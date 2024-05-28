@@ -1,10 +1,7 @@
 import React from "react";
-import {Box, Fab} from "@mui/material";
+import { Box, Fab } from "@mui/material";
 
-const AddButton = (props: {
-    label: string;
-    onClick: () => void;
-}) => {
+const AddButton = (props: { label: string; onClick: () => void }) => {
     const addButtonBox = {
         position: "fixed",
         width: "250px",
@@ -22,12 +19,7 @@ const AddButton = (props: {
 
     return (
         <Box sx={addButtonBox}>
-            <Fab
-                variant="extended"
-                color="primary"
-                sx={addButtonStyle}
-                onClick={props.onClick}
-            >
+            <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={props.onClick}>
                 {props.label}
             </Fab>
         </Box>

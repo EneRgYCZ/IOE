@@ -78,7 +78,10 @@ const Equipment = ({
             </Card>
 
             {/* Button for Add */}
-            <AddButton label="Add meeting room laptop" onClick={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: true })} />
+            <AddButton
+                label="Add meeting room laptop"
+                onClick={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: true })}
+            />
 
             {/* Forms for Adding, Editing and Deleting */}
             <AddMeetingRoomLaptop
