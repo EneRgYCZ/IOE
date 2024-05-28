@@ -1,13 +1,13 @@
 import { Autocomplete, Button, FormLabel, MenuItem, TextField } from "@mui/material";
 import React from "react";
-import { Employee, Laptop } from "@/types";
+import { DesktopPC, Employee } from "@/types";
 import FormField from "@/Components/forms/form-field";
-import FormSelect from "@/Components/forms/form-select";
-import FormSwitch from "@/Components/forms/form-switch";
+import FormSelect from "@/Components/form-components/form-select";
+import FormSwitch from "@/Components/form-components/form-switch";
 
-const LaptopForm = (props: {
-    data: Laptop;
-    setData: (data: Laptop) => void;
+const DesktopForm = (props: {
+    data: DesktopPC;
+    setData: (data: DesktopPC) => void;
     onSubmit: () => void;
     employees: Employee[];
 }) => {
@@ -38,7 +38,7 @@ const LaptopForm = (props: {
                 required
             />
 
-            <FormField id="laptop_number" label={"Laptop number"} data={props.data} setData={props.setData} required />
+            <FormField id="pc_number" label={"PC number"} data={props.data} setData={props.setData} required />
 
             <FormSelect id="location" label="Location" data={props.data} setData={props.setData} required>
                 <MenuItem value="ghh">GHH</MenuItem>
@@ -49,6 +49,9 @@ const LaptopForm = (props: {
                 <MenuItem value="north">North</MenuItem>
                 <MenuItem value="south">South</MenuItem>
             </FormSelect>
+
+            <FormSwitch id="double_pc" label="Double PC" data={props.data} setData={props.setData}></FormSwitch>
+            <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
 
             <FormSelect id="status" label="Status" data={props.data} setData={props.setData}>
                 <MenuItem value="static">Static</MenuItem>
@@ -93,4 +96,4 @@ const LaptopForm = (props: {
     );
 };
 
-export default LaptopForm;
+export default DesktopForm;

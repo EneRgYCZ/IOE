@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import MeetingRoomLaptopForm from "@/Components/forms/meeting-room-laptop-form";
+import MeetingRoomLaptopForm from "@/Components/crud-forms/meeting-room-laptop-form";
 import { MeetingRoomLaptop } from "@/types";
-import FormModal from "@/Components/forms/form-modal";
+import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 
 const AddMeetingRoomLaptop = (props: { isOpen: boolean; handleClose: () => void }) => {

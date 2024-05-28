@@ -3,7 +3,7 @@ import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
-import FormModal from "@/Components/forms/form-modal";
+import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 
 const EmployeeForm = (props: {

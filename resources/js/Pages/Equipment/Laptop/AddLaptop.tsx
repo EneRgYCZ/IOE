@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import LaptopForm from "@/Components/forms/laptop-form";
+import LaptopForm from "@/Components/crud-forms/laptop-form";
 import { Employee, Laptop } from "@/types";
 import ErrorBox from "@/Components/error-box";
-import FormModal from "@/Components/forms/form-modal";
+import FormModal from "@/Components/form-components/form-modal";
 
 const AddLaptop = (props: { isOpen: boolean; handleClose: () => void; employees: Employee[] }) => {
     const initialValues: Laptop = {

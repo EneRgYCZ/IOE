@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { Autocomplete, FormLabel } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
-import FormModal from "@/Components/forms/form-modal";
+import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 
 const TeamForm = (props: {
