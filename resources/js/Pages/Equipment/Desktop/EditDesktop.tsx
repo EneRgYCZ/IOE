@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee } from "@/types";
-import DesktopForm from "@/Components/forms/desktop-form";
+import DesktopForm from "@/Components/crud-forms/desktop-form";
 import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 

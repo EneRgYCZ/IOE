@@ -25,6 +25,25 @@ const TeamForm = (props: {
         boxSizing: "border-box"
     };
 
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (props.team) {
+            patch(route("teams.update", props.team.id), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
+        } else {
+            post(route("teams.store"), {
+                onSuccess: () => {
+                    setData(initialValues);
+                    props.handleClose();
+                }
+            });
+        }
+    };
+
     const initialValues: {
         team_name: string;
         description: string;
@@ -70,25 +89,6 @@ const TeamForm = (props: {
             ...data,
             team_members: value
         }));
-    };
-
-    const submit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (props.team) {
-            patch(route("teams.update", props.team.id), {
-                onSuccess: () => {
-                    setData(initialValues);
-                    props.handleClose();
-                }
-            });
-        } else {
-            post(route("teams.store"), {
-                onSuccess: () => {
-                    setData(initialValues);
-                    props.handleClose();
-                }
-            });
-        }
     };
 
     return (

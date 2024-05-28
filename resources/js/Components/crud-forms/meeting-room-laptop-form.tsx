@@ -1,7 +1,7 @@
 import { Button, MenuItem } from "@mui/material";
 import React from "react";
 import { MeetingRoomLaptop } from "@/types";
-import FormField from "@/Components/forms/form-field";
+import FormField from "@/Components/form-components/form-field";
 import FormSelect from "@/Components/form-components/form-select";
 import FormSwitch from "@/Components/form-components/form-switch";
 

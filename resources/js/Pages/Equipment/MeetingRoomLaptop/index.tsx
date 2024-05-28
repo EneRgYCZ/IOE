@@ -5,7 +5,7 @@ import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
 import EditMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/EditMeetingRoomLaptop";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Equipment = ({
