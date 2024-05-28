@@ -2,9 +2,9 @@
 ## How to run the project:
 
 ### Requirements 
-You should have docker installed.
+You should have composer and yarn installed. Docker should be installed and opened.
 
-Inside the project directory
+Inside the project directory:
 ```
 $ composer install
 ```
