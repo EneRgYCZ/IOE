@@ -32,7 +32,8 @@ $ yarn
 ```
 $ yarn dev  
 ```
-The last command should run the app
+The last command should run the app.
+You can access it by searching [“http://localhost”](http://localhost) in the browser of your choice.
 
 
 ## Development
