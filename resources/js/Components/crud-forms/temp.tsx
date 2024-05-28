@@ -6,7 +6,6 @@ import { useForm } from "@inertiajs/react";
 import { Employee, Team } from "@/types";
 import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
-import FormField from "../form-components/form-field";
 
 const TeamForm = (props: {
     isOpen: boolean;
@@ -55,7 +54,7 @@ const TeamForm = (props: {
         team_members: props.team ? props.teamMembers : []
     };
 
-    const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm<Team>(initialValues);
+    const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm(initialValues);
     const [teamNameError, setTeamNameError] = React.useState(false);
 
     React.useEffect(() => {
@@ -117,13 +116,6 @@ const TeamForm = (props: {
                         pattern: "[A-Za-z ]+"
                     }}
                 />
-                <FormField
-                    id="team_name"
-                    label={"Name"}
-                    data={data}
-                    setData={setData}
-                    required
-                />
                 <FormLabel>Description*</FormLabel>
                 <TextField
                     id={"description"}
@@ -132,13 +124,6 @@ const TeamForm = (props: {
                     onChange={handleChange}
                     sx={fieldStyle}
                     variant="outlined"
-                />
-                <FormField
-                    id="description"
-                    label={"Description"}
-                    data={data}
-                    setData={setData}
-                    required
                 />
                 <FormLabel>Employees</FormLabel>
                 <Autocomplete

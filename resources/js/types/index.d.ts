@@ -73,12 +73,12 @@ export interface Employee {
 
 export interface Team {
     [key: string]: any;
-    id: number;
+    id?: number;
     team_name: string;
     description: string;
     team_member?: Employee[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface TeamMember {
