@@ -45,45 +45,19 @@ const TeamForm = (props: {
         }
     };
 
-    const initialValues: {
-        team_name: string;
-        description: string;
-        team_members: Employee[];
-    } = {
+    const initialValues: Team = {
         team_name: props.team ? props.team.team_name : "",
         description: props.team ? props.team.description : "",
         team_members: props.team ? props.teamMembers : []
     };
 
     const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm<Team>(initialValues);
-    const [teamNameError, setTeamNameError] = React.useState(false);
 
     React.useEffect(() => {
         if (props.team) {
             setData(initialValues);
         }
     }, [props.team]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.id;
-        const value = e.target.value;
-        setData(data => ({
-            ...data,
-            [key]: value
-        }));
-    };
-
-    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setData(data => ({
-            ...data,
-            [e.target.id]: e.target.value
-        }));
-        if (e.target.validity.valid) {
-            setTeamNameError(false);
-        } else {
-            setTeamNameError(true);
-        }
-    };
 
     const handleEmployeeChange = (_event: React.SyntheticEvent, value: Employee[]) => {
         setData(data => ({
@@ -103,31 +77,10 @@ const TeamForm = (props: {
         >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
-                <FormLabel>Name*</FormLabel>
-                <TextField
-                    id={"team_name"}
-                    value={data.team_name}
-                    required
-                    onChange={handleTeamNameChange}
-                    sx={fieldStyle}
-                    variant="outlined"
-                    error={teamNameError}
-                    helperText={teamNameError ? "Your team name may only contain letters" : ""}
-                    inputProps={{
-                        pattern: "[A-Za-z ]+"
-                    }}
-                />
                 <FormField id="team_name" label={"Name"} data={data} setData={setData} required />
-                <FormLabel>Description*</FormLabel>
-                <TextField
-                    id={"description"}
-                    value={data.description}
-                    required
-                    onChange={handleChange}
-                    sx={fieldStyle}
-                    variant="outlined"
-                />
+
                 <FormField id="description" label={"Description"} data={data} setData={setData} required />
+
                 <FormLabel>Employees</FormLabel>
                 <Autocomplete
                     multiple

@@ -63,12 +63,12 @@ export interface QueryBuilderProps {
 
 export interface Employee {
     [key: string]: any;
-    id: number;
+    id?: number;
     first_name: string;
     last_name: string;
     teams?: Team[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Team {

@@ -129,10 +129,12 @@ const Teams = ({
                     teamMembers={
                         team_members
                             ? employees.filter(employee =>
-                                  team_members
-                                      .filter(relation => relation.team_id == currentTeam.id)
-                                      .map(relation => relation.employee_id)
-                                      .includes(employee.id)
+                                  employee.id
+                                      ? team_members
+                                            .filter(relation => relation.team_id == currentTeam.id)
+                                            .map(relation => relation.employee_id)
+                                            .includes(employee.id)
+                                      : null
                               )
                             : []
                     }

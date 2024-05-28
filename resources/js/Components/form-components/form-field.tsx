@@ -8,7 +8,8 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
     label: string;
     data: T;
     setData: (data: T) => void;
-    error?: string;
+    patternMismatchError?: string;
+    pattern?: string;
     required?: boolean;
 }) => {
     const fieldStyle = {
@@ -21,6 +22,7 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
     };
 
     const [requiredError, setRequiredError] = React.useState(false);
+    const [patternError, setPatternError] = React.useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -30,7 +32,9 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
             [key]: value
         });
 
-        setRequiredError(!e.target.validity.valid);
+        setRequiredError(!/.*[^ ].*/.test(e.target.value));
+        setPatternError(!e.target.validity.valid);
+        console.log(requiredError);
     };
 
     return (
@@ -39,13 +43,19 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
             <TextField
                 id={props.id}
                 value={props.data[props.id]}
-                inputProps={props.required ? { pattern: ".*[^ ].*" } : {}}
+                inputProps={{ pattern: props.pattern || (props.required && ".*[^ ].*") || undefined }}
                 onChange={handleChange}
                 sx={fieldStyle}
                 required={!!props.required}
                 variant="outlined"
-                error={requiredError || !!props.error}
-                helperText={requiredError ? "This field is required" : props.error}
+                error={requiredError || patternError}
+                helperText={
+                    requiredError || patternError
+                        ? requiredError
+                            ? "This field is required"
+                            : props.patternMismatchError
+                        : ""
+                }
             />
         </>
     );
