@@ -1,18 +1,9 @@
-import {
-    Autocomplete,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Switch,
-    TextField
-} from "@mui/material";
+import { Autocomplete, Button, FormLabel, MenuItem, TextField } from "@mui/material";
 import React from "react";
 import { DesktopPC, Employee } from "@/types";
+import FormField from "@/Components/forms/form-field";
+import FormSelect from "@/Components/forms/form-select";
+import FormSwitch from "@/Components/forms/form-switch";
 
 const DesktopForm = (props: {
     data: DesktopPC;
@@ -31,189 +22,54 @@ const DesktopForm = (props: {
         boxSizing: "border-box"
     };
 
-    const [errors, setErrors] = React.useState({
-        full_number_identifier: false,
-        pc_number: false,
-        location: false,
-        side: false,
-        floor: false,
-        island_number: false
-    });
-
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setErrors({
-            full_number_identifier: props.data.full_number_identifier.trim() == "",
-            pc_number: props.data.pc_number.trim() == "",
-            location: props.data.location.trim() == "",
-            side: props.data.side.trim() == "",
-            floor: props.data.floor == undefined,
-            island_number: props.data.island_number == undefined
-        });
-
-        if (
-            props.data.full_number_identifier.trim() != "" &&
-            props.data.pc_number.trim() != "" &&
-            props.data.location.trim() != "" &&
-            props.data.side.trim() != "" &&
-            props.data.floor != undefined &&
-            props.data.island_number != undefined
-        ) {
-            props.onSubmit();
-        }
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.id;
-        const value = e.target.type === "text" ? e.target.value : e.target.checked;
-        props.setData({
-            ...props.data,
-            [key]: value
-        });
-        setErrors({
-            ...errors,
-            [key]: !e.target.validity.valid
-        });
-    };
-
-    const handleSelectChange = (e: SelectChangeEvent) => {
-        const key = e.target.name;
-        const value = e.target.value;
-        props.setData({
-            ...props.data,
-            [key]: value
-        });
+        props.onSubmit();
     };
 
     return (
         <form onSubmit={submit} style={{ marginTop: "10px" }}>
-            <FormLabel>Full number*</FormLabel>
-            <TextField
-                id={"full_number_identifier"}
-                value={props.data.full_number_identifier}
-                onChange={handleChange}
-                sx={fieldStyle}
+            <FormField
+                id="full_number_identifier"
+                label={"Full Number"}
+                data={props.data}
+                setData={props.setData}
                 required
-                variant="outlined"
-                error={errors.full_number_identifier}
-                helperText={errors.full_number_identifier ? "This field is mandatory" : ""}
             />
 
-            <FormLabel>PC Number*</FormLabel>
-            <TextField
-                id={"pc_number"}
-                value={props.data.pc_number}
-                onChange={handleChange}
-                sx={fieldStyle}
-                required
-                variant="outlined"
-                error={errors.pc_number}
-                helperText={errors.pc_number ? "This field is mandatory" : ""}
-            />
+            <FormField id="pc_number" label={"PC number"} data={props.data} setData={props.setData} required />
 
-            <FormLabel>Location*</FormLabel>
-            <FormControl sx={fieldStyle} required>
-                <Select
-                    name="location"
-                    value={props.data.location}
-                    variant="outlined"
-                    onChange={handleSelectChange}
-                    error={errors.location}
-                >
-                    <MenuItem value="ghh">GHH</MenuItem>
-                    <MenuItem value="waagstraat">Waagstraat</MenuItem>
-                </Select>
-                <FormHelperText error>{errors.location ? "This field is mandatory" : ""}</FormHelperText>
-            </FormControl>
+            <FormSelect id="location" label="Location" data={props.data} setData={props.setData} required>
+                <MenuItem value="ghh">GHH</MenuItem>
+                <MenuItem value="waagstraat">Waagstraat</MenuItem>
+            </FormSelect>
 
-            <FormLabel>Side*</FormLabel>
-            <FormControl sx={fieldStyle} required>
-                <Select
-                    name="side"
-                    value={props.data.side}
-                    variant="outlined"
-                    onChange={handleSelectChange}
-                    error={errors.side}
-                >
-                    <MenuItem value="north">North</MenuItem>
-                    <MenuItem value="south">South</MenuItem>
-                </Select>
-                <FormHelperText error>{errors.side ? "This field is mandatory" : ""}</FormHelperText>
-            </FormControl>
+            <FormSelect id="side" label="Side" data={props.data} setData={props.setData} required>
+                <MenuItem value="north">North</MenuItem>
+                <MenuItem value="south">South</MenuItem>
+            </FormSelect>
 
-            <FormControlLabel
-                control={<Switch checked={props.data.double_pc} id={"double_pc"} onChange={handleChange} />}
-                sx={fieldStyle}
-                label="Double PC"
-            />
+            <FormSwitch id="double_pc" label="Double PC" data={props.data} setData={props.setData}></FormSwitch>
+            <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
 
-            <FormControlLabel
-                control={<Switch checked={props.data.needs_dock} id={"needs_dock"} onChange={handleChange} />}
-                sx={fieldStyle}
-                label="Needs dock"
-            />
+            <FormSelect id="status" label="Status" data={props.data} setData={props.setData}>
+                <MenuItem value="static">Static</MenuItem>
+                <MenuItem value="flex">Flex</MenuItem>
+            </FormSelect>
 
-            <FormLabel>Status</FormLabel>
-            <FormControl sx={fieldStyle}>
-                <Select name="status" value={props.data.status} variant="outlined" onChange={handleSelectChange}>
-                    <MenuItem value="static">Static</MenuItem>
-                    <MenuItem value="flex">Flex</MenuItem>
-                    <MenuItem value="">Not set</MenuItem>
-                </Select>
-            </FormControl>
+            <FormField id="floor" label="Floor" data={props.data} setData={props.setData} required />
 
-            <FormLabel>Floor*</FormLabel>
-            <TextField
-                id={"floor"}
-                value={props.data.floor}
-                onChange={handleChange}
-                sx={fieldStyle}
-                required
-                variant="outlined"
-                error={errors.floor}
-                helperText={errors.floor ? "This field is mandatory" : ""}
-            />
+            <FormField id="island_number" label="Island Number" data={props.data} setData={props.setData} required />
 
-            <FormLabel>Island number*</FormLabel>
-            <TextField
-                id={"island_number"}
-                value={props.data.island_number}
-                onChange={handleChange}
-                sx={fieldStyle}
-                required
-                variant="outlined"
-                error={errors.island_number}
-                helperText={errors.island_number ? "This field is mandatory" : ""}
-            />
+            <FormSelect id="workspace_type" label="Workspace Type" data={props.data} setData={props.setData} required>
+                <MenuItem value="developer">Developer</MenuItem>
+                <MenuItem value="non-developer">Non-developer</MenuItem>
+            </FormSelect>
 
-            <FormLabel>Workspace Type</FormLabel>
-            <FormControl sx={fieldStyle}>
-                <Select
-                    name="workspace_type"
-                    value={props.data.workspace_type}
-                    variant="outlined"
-                    onChange={handleSelectChange}
-                >
-                    <MenuItem value="developer">Developer</MenuItem>
-                    <MenuItem value="non-developer">Non-developer</MenuItem>
-                </Select>
-            </FormControl>
+            <FormSwitch id="updated_in_q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
 
-            <FormControlLabel
-                control={<Switch checked={props.data.updated_in_q1} id={"updated_in_q1"} onChange={handleChange} />}
-                sx={fieldStyle}
-                label="Updated in Q1"
-            />
-
-            <FormLabel>Remarks</FormLabel>
-            <TextField
-                id={"remarks"}
-                value={props.data.remarks}
-                onChange={handleChange}
-                sx={fieldStyle}
-                variant="outlined"
-            />
+            <FormField id="remarks" label={"Remarks"} data={props.data} setData={props.setData} />
 
             <FormLabel>Employee</FormLabel>
             <Autocomplete
