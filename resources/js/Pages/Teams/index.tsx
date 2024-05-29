@@ -2,10 +2,11 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import TeamForm from "@/Components/crud-forms/team-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import dayjs from "dayjs";
 
 const Teams = ({
     teams,
@@ -43,6 +44,31 @@ const Teams = ({
 
     const [currentTeam, setCurrentTeam] = React.useState<Team | null>(null);
 
+    const customCellRenderer: CellRenderer<Team> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+        if (col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -55,6 +81,7 @@ const Teams = ({
                 <Box sx={{ width: "100%", alignItems: "center" }}>
                     <Table<Team>
                         data={teams}
+                        cellRenderer={customCellRenderer}
                         actionRenderer={team => (
                             <TableCell
                                 style={{
