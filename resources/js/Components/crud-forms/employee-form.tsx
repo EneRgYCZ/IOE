@@ -82,7 +82,7 @@ const EmployeeForm = (props: {
             }}
             title={props.title}
         >
-            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <ErrorBox hasErrors={hasErrors} errors={errors} />
             <form onSubmit={submit}>
                 <FormField
                     id="first_name"

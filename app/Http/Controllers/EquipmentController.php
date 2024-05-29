@@ -19,6 +19,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class EquipmentController extends Controller
 {
     const STRING_LENGTH = 'max:50';
+
     const NUMBER_LENGTH = 'max_digits:5';
 
     /**

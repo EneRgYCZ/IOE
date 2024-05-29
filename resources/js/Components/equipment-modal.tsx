@@ -139,7 +139,7 @@ const EquipmentModal = (props: {
             title={title}
         >
             <div ref={modalRef}></div>
-            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <ErrorBox hasErrors={hasErrors} errors={errors} />
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <EquipmentForm
                     data={data}

@@ -75,7 +75,7 @@ const TeamForm = (props: {
             }}
             title={props.title}
         >
-            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
+            <ErrorBox hasErrors={hasErrors} errors={errors} />
             <form onSubmit={submit}>
                 <FormField id="team_name" label={"Name"} data={data} setData={setData} required />
 
