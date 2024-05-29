@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 export interface User {
     id: number;
     name: string;
@@ -60,21 +62,23 @@ export interface QueryBuilderProps {
 }
 
 export interface Employee {
-    id: number;
+    [key: string]: any;
+    id?: number;
     first_name: string;
     last_name: string;
     teams?: Team[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Team {
-    id: number;
+    [key: string]: any;
+    id?: number;
     team_name: string;
     description: string;
     team_member?: Employee[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface TeamMember {
@@ -88,6 +92,7 @@ export interface TeamMember {
 }
 
 export interface DesktopPC {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     pc_number: string;
@@ -107,6 +112,7 @@ export interface DesktopPC {
 }
 
 export interface Laptop {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     laptop_number: string;
@@ -124,6 +130,7 @@ export interface Laptop {
 }
 
 export interface MeetingRoomLaptop {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     laptop_number: string;

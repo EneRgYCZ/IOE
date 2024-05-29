@@ -1,12 +1,13 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
+import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import { useState } from "react";
-import EmployeeForm from "../../Components/forms/employee-form";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import EmployeeForm from "../../Components/crud-forms/employee-form";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import AddButton from "@/Components/form-components/add-button";
 
 const Employees = ({
     employees,
@@ -23,21 +24,6 @@ const Employees = ({
 }>) => {
     const tableButtonMargins = {
         margin: "0 10px"
-    };
-
-    const addButtonBox = {
-        position: "fixed",
-        width: "250px",
-        pointerEvents: "none",
-        bottom: 16,
-        right: 16
-    };
-
-    const addButtonStyle = {
-        display: "block",
-        pointerEvents: "initial",
-        marginTop: "16px",
-        marginLeft: "auto"
     };
 
     const [add, setAdd] = useState(false);
@@ -99,11 +85,7 @@ const Employees = ({
             </Card>
 
             {/* Button for Add */}
-            <Box sx={addButtonBox}>
-                <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
-                    Add employee
-                </Fab>
-            </Box>
+            <AddButton label="Add employee" onClick={() => setAdd(true)} />
 
             {/* Forms for Adding, Editing and Deleting */}
             <EmployeeForm
@@ -123,10 +105,12 @@ const Employees = ({
                 teamMembers={
                     team_members && empEdit
                         ? teams.filter(team =>
-                              team_members
-                                  .filter(relation => relation.employee_id == empEdit.id)
-                                  .map(relation => relation.team_id)
-                                  .includes(team.id)
+                              team.id
+                                  ? team_members
+                                        .filter(relation => relation.employee_id == empEdit.id)
+                                        .map(relation => relation.team_id)
+                                        .includes(team.id)
+                                  : null
                           )
                         : []
                 }
