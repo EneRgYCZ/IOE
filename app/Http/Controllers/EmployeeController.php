@@ -64,6 +64,8 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
                 ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
