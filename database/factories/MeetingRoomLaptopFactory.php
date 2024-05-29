@@ -19,8 +19,8 @@ class MeetingRoomLaptopFactory extends Factory
         return [
             'full_number_identifier' => $this->faker->randomNumber(8),
             'laptop_number' => $this->faker->randomNumber(4),
-            'location' => $this->faker->randomElement(['ghh', 'waagstraat']),
-            'side' => $this->faker->randomElement(['north', 'south']),
+            'location' => $this->faker->randomElement(['GHH', 'Waagstraat']),
+            'side' => $this->faker->randomElement(['North', 'South']),
             'floor' => $this->faker->numberBetween(1, 5),
             'room_number' => $this->faker->numberBetween(1, 50),
             'updated_in_q1' => $this->faker->boolean(),

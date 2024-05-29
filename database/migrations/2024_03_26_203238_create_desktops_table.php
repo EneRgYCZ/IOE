@@ -18,11 +18,11 @@ return new class extends Migration
             $table->boolean('double_pc')->nullable();
             $table->boolean('needs_dock')->nullable();
             $table->enum('status', ['flex', 'static'])->nullable();
-            $table->enum('location', ['ghh', 'waagstraat']);
-            $table->enum('side', ['north', 'south']);
+            $table->enum('location', ['GHH', 'Waagstraat']);
+            $table->enum('side', ['North', 'South']);
             $table->integer('floor');
             $table->integer('island_number');
-            $table->enum('workspace_type', ['developer', 'non-developer'])->nullable();
+            $table->enum('workspace_type', ['Developer', 'Non-developer'])->nullable();
             $table->boolean('updated_in_q1')->nullable();
             $table->string('remarks')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('set null');

@@ -8,12 +8,12 @@ it('can create a laptop', function () {
     $laptopData = [
         'full_number_identifier' => 'L12345',
         'laptop_number' => 'L001',
-        'location' => 'ghh',
-        'side' => 'north',
+        'location' => 'GHH',
+        'side' => 'North',
         'status' => 'static',
         'floor' => 2,
         'island_number' => 102,
-        'workspace_type' => 'non-developer',
+        'workspace_type' => 'Non-developer',
         'updated_in_q1' => true,
     ];
 
@@ -79,7 +79,7 @@ it('can update the location of a laptop', function () {
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
         'laptop_number' => $laptop->laptop_number,
-        'location' => $laptop->location === 'ghh' ? 'waagstraat' : 'ghh',
+        'location' => $laptop->location === 'GHH' ? 'Waagstraat' : 'GHH',
         'side' => $laptop->side,
         'floor' => $laptop->floor,
         'island_number' => $laptop->island_number,
@@ -96,7 +96,7 @@ it('can update the side of a laptop', function () {
         'full_number_identifier' => $laptop->full_number_identifier,
         'laptop_number' => $laptop->laptop_number,
         'location' => $laptop->location,
-        'side' => 'south',
+        'side' => 'South',
         'floor' => $laptop->floor,
         'island_number' => $laptop->island_number,
         'status' => $laptop->status,

@@ -8,8 +8,8 @@ it('can create a meeting room laptop', function () {
     $meetingRoomLaptopData = [
         'full_number_identifier' => 'MR123',
         'laptop_number' => 'MR001',
-        'location' => 'waagstraat',
-        'side' => 'south',
+        'location' => 'Waagstraat',
+        'side' => 'South',
         'floor' => 3,
         'room_number' => '300A',
         'updated_in_q1' => false,
@@ -77,7 +77,7 @@ it('can update the location of a meeting room laptop', function () {
     $updatedData = [
         'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
         'laptop_number' => $meetingRoomLaptop->laptop_number,
-        'location' => $meetingRoomLaptop->location === 'ghh' ? 'waagstraat' : 'ghh',
+        'location' => $meetingRoomLaptop->location === 'GHH' ? 'Waagstraat' : 'GHH',
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
@@ -94,7 +94,7 @@ it('can update the side of a meeting room laptop', function () {
         'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
         'laptop_number' => $meetingRoomLaptop->laptop_number,
         'location' => $meetingRoomLaptop->location,
-        'side' => 'north',
+        'side' => 'North',
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
