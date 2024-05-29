@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -72,6 +73,8 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
+        $this->toast('The employee was create succesfuly', ToastType::Success);
+
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -101,6 +104,8 @@ class EmployeeController extends Controller
             'last_name' => ['required', 'max:40'],
             'equipment_identifiers' => ['array'],
         ]));
+
+        $this->toast('The user was updated succesfuly', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -162,5 +167,7 @@ class EmployeeController extends Controller
         }
 
         $employee->delete();
+
+        $this->toast('The user was deleted succesfuly', ToastType::Success);
     }
 }
