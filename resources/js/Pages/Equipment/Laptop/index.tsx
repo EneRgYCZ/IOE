@@ -3,8 +3,7 @@ import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import AddLaptop from "@/Pages/Equipment/Laptop/AddLaptop";
-import EditLaptop from "@/Pages/Equipment/Laptop/EditLaptop";
+import EquipmentModal from "@/Components/EquipmentModal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
@@ -84,17 +83,19 @@ const Equipment = ({
             <AddButton label="Add laptop" onClick={() => setFormOpen({ ...formOpen, addLaptop: true })} />
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddLaptop
+            <EquipmentModal
                 isOpen={formOpen.addLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
                 employees={employees}
-            ></AddLaptop>
-            <EditLaptop
+                type="Laptop"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editLaptop: false })}
-                laptop={currentLaptop}
+                equipment={currentLaptop}
                 employees={employees}
-            ></EditLaptop>
+                type="Laptop"
+            ></EquipmentModal>
             {currentLaptop && (
                 <DeletionConfirmation
                     isOpen={formOpen.deleteLaptop}

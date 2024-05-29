@@ -3,8 +3,7 @@ import { MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
-import EditMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/EditMeetingRoomLaptop";
+import EquipmentModal from "@/Components/EquipmentModal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
@@ -84,15 +83,17 @@ const Equipment = ({
             />
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddMeetingRoomLaptop
+            <EquipmentModal
                 isOpen={formOpen.addMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: false })}
-            ></AddMeetingRoomLaptop>
-            <EditMeetingRoomLaptop
+                type="MeetingRoomLaptop"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editMeetingRoomLaptop: false })}
-                meetingRoomLaptop={currentMeetingRoomLaptop}
-            ></EditMeetingRoomLaptop>
+                equipment={currentMeetingRoomLaptop}
+                type="MeetingRoomLaptop"
+            ></EquipmentModal>
             {currentMeetingRoomLaptop && (
                 <DeletionConfirmation
                     isOpen={formOpen.deleteMeetingRoomLaptop}

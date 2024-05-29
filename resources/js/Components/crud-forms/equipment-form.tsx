@@ -10,7 +10,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
     setData: (data: T) => void;
     onSubmit: () => void;
     employees?: Employee[];
-    type: "desktop" | "laptop" | "meeting_room_laptop";
+    type: "DesktopPC" | "Laptop" | "MeetingRoomLaptop";
 }) => {
     const fieldStyle = {
         width: "100%",
@@ -38,11 +38,11 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 required
             />
 
-            {props.type == "desktop" && (
+            {props.type == "DesktopPC" && (
                 <FormField id="pc_number" label={"PC number"} data={props.data} setData={props.setData} required />
             )}
 
-            {(props.type == "laptop" || props.type == "meeting_room_laptop") && (
+            {(props.type == "Laptop" || props.type == "MeetingRoomLaptop") && (
                 <FormField
                     id="laptop_number"
                     label={"Laptop number"}
@@ -62,15 +62,15 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 <MenuItem value="south">South</MenuItem>
             </FormSelect>
 
-            {props.type == "desktop" && (
+            {props.type == "DesktopPC" && (
                 <FormSwitch id="double_pc" label="Double PC" data={props.data} setData={props.setData}></FormSwitch>
             )}
 
-            {props.type == "desktop" && (
+            {props.type == "DesktopPC" && (
                 <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
             )}
 
-            {(props.type == "desktop" || props.type == "laptop") && (
+            {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <FormSelect id="status" label="Status" data={props.data} setData={props.setData}>
                     <MenuItem value="static">Static</MenuItem>
                     <MenuItem value="flex">Flex</MenuItem>
@@ -79,7 +79,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
 
             <FormField id="floor" label="Floor" data={props.data} setData={props.setData} required />
 
-            {(props.type == "desktop" || props.type == "laptop") && (
+            {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <FormField
                     id="island_number"
                     label="Island Number"
@@ -89,11 +89,11 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 />
             )}
 
-            {props.type == "meeting_room_laptop" && (
+            {props.type == "MeetingRoomLaptop" && (
                 <FormField id="room_number" label={"Room number"} data={props.data} setData={props.setData} />
             )}
 
-            {(props.type == "desktop" || props.type == "laptop") && (
+            {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <FormSelect
                     id="workspace_type"
                     label="Workspace Type"
@@ -110,7 +110,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
 
             <FormField id="remarks" label={"Remarks"} data={props.data} setData={props.setData} />
 
-            {(props.type == "desktop" || props.type == "laptop") && props.employees && (
+            {(props.type == "DesktopPC" || props.type == "Laptop") && props.employees && (
                 <>
                     <FormLabel>Employee</FormLabel>
                     <Autocomplete

@@ -3,8 +3,7 @@ import { DesktopPC, Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
-import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
+import EquipmentModal from "@/Components/EquipmentModal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
@@ -84,17 +83,19 @@ const Equipment = ({
             <AddButton label="Add desktop" onClick={() => setFormOpen({ ...formOpen, addDesktop: true })} />
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddDesktop
+            <EquipmentModal
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
                 employees={employees}
-            ></AddDesktop>
-            <EditDesktop
+                type="DesktopPC"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
-                desktop={currentDesktop}
+                equipment={currentDesktop}
                 employees={employees}
-            ></EditDesktop>
+                type="DesktopPC"
+            ></EquipmentModal>
             {currentDesktop && (
                 <DeletionConfirmation
                     isOpen={formOpen.deleteDesktop}
