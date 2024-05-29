@@ -1,10 +1,8 @@
 import { QueryBuilderColumn } from "@/types";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
-import { FormControlLabel, Switch, Typography } from "@mui/material";
-import { MenuItem } from "@mui/material";
+import { FormControlLabel, MenuItem, Switch, Typography } from "@mui/material";
 
 const ColumnToggler: React.FC<{
     columns: Array<QueryBuilderColumn>;

@@ -55,7 +55,7 @@ export const Table = <T,>({
     actionRenderer?: (data: T) => React.ReactElement;
 }) => {
     const { queryBuilder } = usePage<PageProps>().props;
-    const [isFilterDrawerOpen, setFilterDrawerOpen] = useState(false);
+    const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
     if (!(name in queryBuilder)) {
         return (
@@ -122,7 +122,7 @@ export const Table = <T,>({
                 .map(column => {
                     return column.key;
                 })
-                .sort();
+                .sort((a, b) => a.localeCompare(b));
         };
 
         const getFiltersForQuery = () => {
@@ -263,7 +263,7 @@ export const Table = <T,>({
                             width: "100%"
                         }}
                     >
-                        <Button onClick={() => setFilterDrawerOpen(true)}>Advanced Search</Button>
+                        <Button onClick={() => setIsFilterDrawerOpen(true)}>Advanced Search</Button>
                     </Box>
                 </Box>
                 <Card variant="outlined" sx={{ width: "100%", overflowX: "auto" }}>
@@ -350,7 +350,7 @@ export const Table = <T,>({
                         <TableBody>
                             {data.data.map((row, idx) => {
                                 return (
-                                    <TableRow key={idx}>
+                                    <TableRow key={`table-${name}-row-${idx}`}>
                                         {tableData.columns.map(col => {
                                             if (col.hidden) {
                                                 return null;
@@ -364,7 +364,7 @@ export const Table = <T,>({
                                             );
                                         })}
 
-                                        {actionRenderer && actionRenderer(row)}
+                                        {actionRenderer?.(row)}
                                     </TableRow>
                                 );
                             })}
@@ -394,7 +394,7 @@ export const Table = <T,>({
             </Card>
             <FilterDrawer
                 isOpen={isFilterDrawerOpen}
-                handleClose={() => setFilterDrawerOpen(false)}
+                handleClose={() => setIsFilterDrawerOpen(false)}
                 tableData={tableData}
                 setTableData={setTableData}
                 tableName={name}

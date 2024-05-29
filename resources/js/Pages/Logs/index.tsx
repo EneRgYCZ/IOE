@@ -276,10 +276,17 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
     };
 
     const getValueStyle = (key: string) => {
+        let color = "inherit";
+        if (key === "oldValue") {
+            color = "red";
+        } else if (key === "newValue") {
+            color = "green";
+        }
+
         return {
             width: "60%",
             textAlign: "right",
-            color: key === "oldValue" ? "red" : key === "newValue" ? "green" : "inherit"
+            color: color
         };
     };
 
@@ -291,11 +298,11 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
                 Changes
             </Typography>
             {filteredData.map((item, index) => (
-                <Card key={index} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
+                <Card key={"log_card_" + index} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
                     <Stack gap={2} sx={{ m: 3 }}>
                         {Object.entries(item).map(([key, value], valueIndex) => (
                             <Stack
-                                key={valueIndex}
+                                key={"log_" + valueIndex}
                                 direction="row"
                                 justifyContent="space-between"
                                 alignItems="flex-end"

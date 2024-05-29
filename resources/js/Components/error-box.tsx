@@ -5,7 +5,6 @@ const ErrorBox = (props: {
     hasErrors: boolean;
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     errors: Partial<Record<keyof any, string>>;
-    clearErrors: () => void;
 }) => {
     return props.hasErrors ? (
         <Box sx={{ color: "#c62828", padding: "6px 0" }}>

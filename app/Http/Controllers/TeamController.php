@@ -16,6 +16,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
 {
+    const STRING_LENGTH = 'max:50';
+
     /**
      * Display a listing of the resource.
      */
@@ -80,8 +82,8 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $team = Team::create($request->validate([
-            'team_name' => ['required', 'max:50'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
 
         $teamMembers = $request->input('team_members');
@@ -115,8 +117,8 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update($request->validate([
-            'team_name' => ['required', 'max:20'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
 
         $teamMembers = $request->input('team_members');

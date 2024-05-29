@@ -18,6 +18,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EquipmentController extends Controller
 {
+    const STRING_LENGTH = 'max:50';
+    const NUMBER_LENGTH = 'max_digits:5';
+
     /**
      * Display a listing of the resource.
      */
@@ -254,59 +257,74 @@ class EquipmentController extends Controller
         });
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function storeDesktop(Request $request)
+    private static function validateDesktop(Request $desktop)
     {
-        Desktop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'pc_number' => ['required', 'max:50'],
+        return $desktop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'pc_number' => ['required', self::STRING_LENGTH],
             'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
             'side' => ['required', Rule::in(['north', 'south'])],
             'double_pc' => ['boolean'],
             'needs_dock' => ['boolean'],
             'status' => [Rule::in(['static', 'flex', ''])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
-        ]));
+        ]);
+    }
+
+    private static function validateLaptop(Request $laptop)
+    {
+        return $laptop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'laptop_number' => ['required', self::STRING_LENGTH],
+            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
+            'side' => ['required', Rule::in(['north', 'south'])],
+            'status' => [Rule::in(['static', 'flex', ''])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'updated_in_q1' => ['boolean'],
+            'remarks' => [],
+            'employee_id' => [],
+        ]);
+    }
+
+    private static function validateMeetingRoomLaptop(Request $meetingRoomLaptop)
+    {
+        return $meetingRoomLaptop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'laptop_number' => ['required', self::STRING_LENGTH],
+            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
+            'side' => ['required', Rule::in(['north', 'south'])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'room_number' => ['max:5'],
+            'updated_in_q1' => ['boolean'],
+            'remarks' => [],
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeDesktop(Request $request)
+    {
+        Desktop::create(self::validateDesktop($request));
 
         return redirect(route('equipment.desktops'));
     }
 
     public function storeLaptop(Request $request)
     {
-        Laptop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'status' => [Rule::in(['static', 'flex', ''])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'updated_in_q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
+        Laptop::create(self::validateLaptop($request));
     }
 
     public function storeMeetingRoomLaptop(Request $request)
     {
-        MeetingRoomLaptop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
-            'remarks' => [],
-        ]));
+        MeetingRoomLaptop::create(self::validateMeetingRoomLaptop($request));
     }
 
     /**
@@ -314,52 +332,17 @@ class EquipmentController extends Controller
      */
     public function updateDesktop(Request $request, Desktop $desktop)
     {
-        $desktop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'pc_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'double_pc' => ['boolean'],
-            'needs_dock' => ['boolean'],
-            'status' => [Rule::in(['static', 'flex'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
+        $desktop->update(self::validateDesktop($request));
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
     {
-        $laptop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'status' => [Rule::in(['static', 'flex'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
+        $laptop->update(self::validateLaptop($request));
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
-        $meetingRoomLaptop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
-            'remarks' => [],
-        ]));
+        $meetingRoomLaptop->update(self::validateMeetingRoomLaptop($request));
     }
 
     /**

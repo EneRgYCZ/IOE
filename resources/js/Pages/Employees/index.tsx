@@ -1,9 +1,8 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { useState } from "react";
 import EmployeeForm from "../../Components/crud-forms/employee-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
@@ -33,8 +32,8 @@ const Employees = ({
     const [empDel, setEmpDel] = useState<Employee | null>(null);
 
     const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
-        desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
-        laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
+        desktops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
+        laptops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
     );
 
     return (
