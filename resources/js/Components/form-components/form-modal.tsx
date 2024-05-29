@@ -10,31 +10,49 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
         left: "50%",
         transform: "translate(-50%, -50%)",
         backgroundColor: "white",
-        padding: "20px",
+        paddingBottom: "20px",
         overflowY: "auto",
         maxHeight: "80%",
-        width: "500px",
+        width: "600px",
         border: "1px solid #ccc",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
     };
 
+    const topBarStyle: React.CSSProperties = {
+        position: "sticky",
+        top: 0,
+        backgroundColor: "white",
+        zIndex: 1000,
+        padding: "15px"
+    };
+
+    const titleStyle: React.CSSProperties = {
+        margin: "0px",
+        textAlign: "center",
+        paddingTop: "5px",
+        fontSize: 18,
+        fontWeight: 500
+    };
+
     const closeButtonStyle: React.CSSProperties = {
         position: "absolute",
-        top: "5px",
-        right: "4px",
+        right: "20px",
         border: "none",
         fontSize: "20px",
-        cursor: "pointer"
+        cursor: "pointer",
+        backgroundColor: "grey"
     };
 
     return (
         <Modal open={props.open} onClose={props.onClose}>
             <Box sx={modalStyle}>
-                <Button sx={closeButtonStyle} onClick={props.onClose} variant="contained" color="error">
-                    <HiMiniXMark />
-                </Button>
-                {props.title ? <h2 style={{ margin: "0px", textAlign: "center" }}>{props.title}</h2> : ""}
-                {props.children}
+                <Box style={topBarStyle}>
+                    <Button sx={closeButtonStyle} onClick={props.onClose} variant="contained" color="error">
+                        <HiMiniXMark />
+                    </Button>
+                    {props.title ? <h2 style={titleStyle}>{props.title}</h2> : ""}
+                </Box>
+                <Box style={{ padding: "20px" }}>{props.children}</Box>
             </Box>
         </Modal>
     );

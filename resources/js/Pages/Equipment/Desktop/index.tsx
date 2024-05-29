@@ -55,7 +55,7 @@ const Equipment = ({
                                                 setFormOpen({ ...formOpen, editDesktop: true });
                                             }}
                                         >
-                                            EDIT
+                                            VIEW & EDIT
                                             <EditRounded sx={{ marginLeft: "10px" }} />
                                         </Button>
 

@@ -52,7 +52,7 @@ const Equipment = ({
                                                 setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
                                             }}
                                         >
-                                            EDIT
+                                            VIEW & EDIT
                                             <EditRounded sx={{ marginLeft: "10px" }} />
                                         </Button>
 
