@@ -5,7 +5,6 @@ import { ExternalToast, Toaster, toast as toastManager } from "sonner";
 import React, { useEffect } from "react";
 
 const Manager: React.FC = () => {
-
     const { toast } = usePage<PageProps>().props;
 
     useEffect(() => {
