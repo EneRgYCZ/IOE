@@ -150,7 +150,7 @@ const EquipmentModal = (props: {
                 />
             )}
             {props.type == "MeetingRoomLaptop" && (
-                <EquipmentForm data={data} setData={setData} onSubmit={submit} type={props.type} />
+                <EquipmentForm data={data} setData={setData} onSubmit={submit} type={props.type} errors={errors} hasErrors={hasErrors} />
             )}
         </FormModal>
     );

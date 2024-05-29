@@ -12,6 +12,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
     onSubmit: () => void;
     employees?: Employee[];
     type: "DesktopPC" | "Laptop" | "MeetingRoomLaptop";
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     errors: Partial<Record<keyof any, string>>;
     hasErrors: boolean;
 }) => {
@@ -80,15 +81,18 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                     <ErrorBox field="double_pc" hasErrors={props.hasErrors} errors={props.errors} />
                 </>
             )}
-            
 
             {props.type == "DesktopPC" && (
                 <>
-                    <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
+                    <FormSwitch
+                        id="needs_dock"
+                        label="Needs dock"
+                        data={props.data}
+                        setData={props.setData}
+                    ></FormSwitch>
                     <ErrorBox field="needs_dock" hasErrors={props.hasErrors} errors={props.errors} />
                 </>
             )}
-            
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <>
@@ -99,40 +103,38 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                     <ErrorBox field="status" hasErrors={props.hasErrors} errors={props.errors} />
                 </>
             )}
-            
+
             <FormField id="floor" label="Floor" data={props.data} setData={props.setData} required />
             <ErrorBox field="floor" hasErrors={props.hasErrors} errors={props.errors} />
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <>
                     <FormField
-                    id="island_number"
-                    label="Island Number"
-                    data={props.data}
-                    setData={props.setData}
-                    required
+                        id="island_number"
+                        label="Island Number"
+                        data={props.data}
+                        setData={props.setData}
+                        required
                     />
                     <ErrorBox field="island_number" hasErrors={props.hasErrors} errors={props.errors} />
                 </>
-                
             )}
-            
 
             {props.type == "MeetingRoomLaptop" && (
                 <>
                     <FormField id="room_number" label={"Room number"} data={props.data} setData={props.setData} />
                     <ErrorBox field="room_number" hasErrors={props.hasErrors} errors={props.errors} />
-                </> 
+                </>
             )}
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <>
                     <FormSelect
-                    id="workspace_type"
-                    label="Workspace Type"
-                    data={props.data}
-                    setData={props.setData}
-                    required
+                        id="workspace_type"
+                        label="Workspace Type"
+                        data={props.data}
+                        setData={props.setData}
+                        required
                     >
                         <MenuItem value="developer">Developer</MenuItem>
                         <MenuItem value="non-developer">Non-developer</MenuItem>
