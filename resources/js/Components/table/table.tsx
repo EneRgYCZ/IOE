@@ -32,6 +32,13 @@ export type CellRenderer<T> = (
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
     const val = get(row, col.key);
+    if (col.key === "employee.first_name") {
+        return (
+            <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {val ? val : "Unassigned"}
+            </TableCell>
+        );
+    }
     if (typeof val === "number" || typeof val === "string") {
         return (
             <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -352,6 +359,10 @@ export const Table = <T,>({
                                 return (
                                     <TableRow key={idx}>
                                         {tableData.columns.map(col => {
+                                            if (col.key === "employee.first_name") {
+                                                col.hidden = false;
+                                            }
+
                                             if (col.hidden) {
                                                 return null;
                                             }
