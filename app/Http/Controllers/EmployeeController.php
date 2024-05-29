@@ -73,7 +73,7 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
-        $this->toast('The employee was create succesfuly', ToastType::Success);
+        $this->toast('The employee was create successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -105,7 +105,7 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
-        $this->toast('The user was updated succesfuly', ToastType::Success);
+        $this->toast('The user was updated successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -168,6 +168,6 @@ class EmployeeController extends Controller
 
         $employee->delete();
 
-        $this->toast('The user was deleted succesfuly', ToastType::Success);
+        $this->toast('The user was deleted successfully', ToastType::Success);
     }
 }

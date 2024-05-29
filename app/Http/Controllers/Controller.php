@@ -16,7 +16,7 @@ class Controller extends BaseController
         ToastType $type,
         string $description = '',
         int $ms = 5000,
-        array $action = null
+        ?array $action = null
     ): void {
         request()?->session()->flash('toast', self::buildToast($title, $type, $description, $ms, $action));
     }
@@ -26,7 +26,7 @@ class Controller extends BaseController
         ToastType $type,
         string $description = '',
         int $ms = 5000,
-        array $action = null
+        ?array $action = null
     ): array {
         return [
             'title' => $title,
