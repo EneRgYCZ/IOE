@@ -35,7 +35,7 @@ const FormSelect = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee 
     return (
         <>
             <FormLabel>{props.required ? props.label + "*" : props.label}</FormLabel>
-            <FormControl sx={fieldStyle} required>
+            <FormControl sx={fieldStyle} required={props.required}>
                 <Select
                     name={props.id}
                     value={props.data[props.id]}
