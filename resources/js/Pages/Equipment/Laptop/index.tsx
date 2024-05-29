@@ -3,7 +3,7 @@ import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import EquipmentModal from "@/Components/EquipmentModal";
+import EquipmentModal from "@/Components/equipment-modal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
