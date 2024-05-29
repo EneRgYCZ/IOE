@@ -25,8 +25,8 @@ const EmployeeForm = (props: {
         backgroundColor: "#f8f8f8",
         boxSizing: "border-box"
     };
-    
-    const boxShadowing = "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px"
+
+    const boxShadowing = "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px";
 
     const initialValues: Employee = {
         first_name: props.employee ? props.employee.first_name : "",
@@ -139,11 +139,11 @@ const EmployeeForm = (props: {
                     renderInput={params => <TextField {...params} />}
                 />
 
-            <div style={{ textAlign: "center", position: "sticky", bottom: 0}}>
-                <Button variant="contained" type={"submit"} sx={{ boxShadow: boxShadowing, marginLeft: "10px" }}>
-                    Submit
-                </Button>
-            </div>
+                <div style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
+                    <Button variant="contained" type={"submit"} sx={{ boxShadow: boxShadowing, marginLeft: "10px" }}>
+                        Submit
+                    </Button>
+                </div>
             </form>
         </FormModal>
     );

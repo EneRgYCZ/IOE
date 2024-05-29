@@ -19,20 +19,20 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
     };
 
     const topBarStyle: React.CSSProperties = {
-        position: "sticky", 
-        top: 0, 
-        backgroundColor: "white", 
-        zIndex: 1000, 
+        position: "sticky",
+        top: 0,
+        backgroundColor: "white",
+        zIndex: 1000,
         padding: "15px"
-    }
+    };
 
     const titleStyle: React.CSSProperties = {
-        margin: "0px", 
-        textAlign: "center", 
+        margin: "0px",
+        textAlign: "center",
         paddingTop: "5px",
         fontSize: 18,
         fontWeight: 500
-    }
+    };
 
     const closeButtonStyle: React.CSSProperties = {
         position: "absolute",
@@ -48,13 +48,11 @@ const FormModal = (props: { children: React.ReactNode; title?: string; open: boo
             <Box sx={modalStyle}>
                 <Box style={topBarStyle}>
                     <Button sx={closeButtonStyle} onClick={props.onClose} variant="contained" color="error">
-                        <HiMiniXMark/>
+                        <HiMiniXMark />
                     </Button>
                     {props.title ? <h2 style={titleStyle}>{props.title}</h2> : ""}
                 </Box>
-                <Box style={{padding: "20px"}}>
-                    {props.children}
-                </Box>
+                <Box style={{ padding: "20px" }}>{props.children}</Box>
             </Box>
         </Modal>
     );

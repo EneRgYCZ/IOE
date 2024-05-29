@@ -40,7 +40,7 @@ const Equipment = ({
                             actionRenderer={meetingRoomLaptop => (
                                 <TableCell
                                     align="center"
-                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff"}}
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
                                 >
                                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                         {/* Button for Edit */}

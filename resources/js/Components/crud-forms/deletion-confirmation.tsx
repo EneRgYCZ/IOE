@@ -36,7 +36,12 @@ const DeletionConfirmation = (props: {
                 <Button variant="outlined" sx={{ marginRight: "10px" }}>
                     CANCEL
                 </Button>
-                <Button variant="outlined" color="error" onClick={() => props.handleClose()} sx={{ marginLeft: "10px" }}>
+                <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => props.handleClose()}
+                    sx={{ marginLeft: "10px" }}
+                >
                     <Link href={route(determineRoute(), props.deleteObject.id)} method="delete">
                         DELETE
                     </Link>
