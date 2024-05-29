@@ -3,8 +3,8 @@ import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/type
 import React from "react";
 import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import TeamForm from "@/Components/forms/team-form";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import TeamForm from "@/Components/crud-forms/team-form";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 
 const Teams = ({
@@ -129,10 +129,12 @@ const Teams = ({
                     teamMembers={
                         team_members
                             ? employees.filter(employee =>
-                                  team_members
-                                      .filter(relation => relation.team_id == currentTeam.id)
-                                      .map(relation => relation.employee_id)
-                                      .includes(employee.id)
+                                  employee.id
+                                      ? team_members
+                                            .filter(relation => relation.team_id == currentTeam.id)
+                                            .map(relation => relation.employee_id)
+                                            .includes(employee.id)
+                                      : null
                               )
                             : []
                     }
