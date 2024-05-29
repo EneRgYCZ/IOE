@@ -29,7 +29,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
     };
 
     return (
-        <form onSubmit={submit} style={{ marginTop: "10px" }}>
+        <form onSubmit={submit}>
             <FormField
                 id="full_number_identifier"
                 label={"Full Number"}
@@ -134,8 +134,8 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                     />
                 </>
             )}
-            <div style={{ textAlign: "center" }}>
-                <Button variant="contained" type={"submit"}>
+            <div style={{ textAlign: "center", position: "sticky", bottom: 0}}>
+                <Button variant="contained" type={"submit"} sx={{ boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;"}}>
                     Submit
                 </Button>
             </div>

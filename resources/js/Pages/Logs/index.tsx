@@ -95,7 +95,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                             <Card
                                 sx={{
                                     p: 2,
-                                    width: "60%",
+                                    width: "30%",
                                     display: "flex",
                                     boxShadow: "lg",
                                     maxHeight: "70%",

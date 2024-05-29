@@ -76,7 +76,7 @@ const TeamForm = (props: {
             title={props.title}
         >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-            <form onSubmit={submit} style={{ marginTop: "10px" }}>
+            <form onSubmit={submit}>
                 <FormField id="team_name" label={"Name"} data={data} setData={setData} required />
 
                 <FormField id="description" label={"Description"} data={data} setData={setData} required />
@@ -93,8 +93,8 @@ const TeamForm = (props: {
                     sx={fieldStyle}
                     renderInput={params => <TextField {...params} />}
                 />
-                <div style={{ textAlign: "center" }}>
-                    <Button variant="contained" type={"submit"}>
+                <div style={{ textAlign: "center", position: "sticky", bottom: 0}}>
+                    <Button variant="contained" type={"submit"} sx={{ boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;"}}>
                         Submit
                     </Button>
                 </div>

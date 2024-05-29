@@ -43,7 +43,7 @@ const Equipment = ({
                             actionRenderer={desktop => (
                                 <TableCell
                                     align="center"
-                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff"}}
                                 >
                                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                         {/* Button for Edit */}
@@ -55,7 +55,7 @@ const Equipment = ({
                                                 setFormOpen({ ...formOpen, editDesktop: true });
                                             }}
                                         >
-                                            EDIT
+                                            VIEW & EDIT
                                             <EditRounded sx={{ marginLeft: "10px" }} />
                                         </Button>
 
