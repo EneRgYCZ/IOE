@@ -4,6 +4,7 @@ import { DesktopPC, Employee, Laptop, MeetingRoomLaptop } from "@/types";
 import FormField from "@/Components/form-components/form-field";
 import FormSelect from "@/Components/form-components/form-select";
 import FormSwitch from "@/Components/form-components/form-switch";
+import ErrorBox from "@/Components/error-box";
 
 const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: {
     data: T;
@@ -11,6 +12,8 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
     onSubmit: () => void;
     employees?: Employee[];
     type: "DesktopPC" | "Laptop" | "MeetingRoomLaptop";
+    errors: Partial<Record<keyof any, string>>;
+    hasErrors: boolean;
 }) => {
     const fieldStyle = {
         width: "100%",
@@ -37,76 +40,109 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 setData={props.setData}
                 required
             />
+            <ErrorBox field="full_number_identifier" hasErrors={props.hasErrors} errors={props.errors} />
 
             {props.type == "DesktopPC" && (
-                <FormField id="pc_number" label={"PC number"} data={props.data} setData={props.setData} required />
+                <>
+                    <FormField id="pc_number" label={"PC number"} data={props.data} setData={props.setData} required />
+                    <ErrorBox field="full_number_identifier" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
 
             {(props.type == "Laptop" || props.type == "MeetingRoomLaptop") && (
-                <FormField
-                    id="laptop_number"
-                    label={"Laptop number"}
-                    data={props.data}
-                    setData={props.setData}
-                    required
-                />
+                <>
+                    <FormField
+                        id="laptop_number"
+                        label={"Laptop number"}
+                        data={props.data}
+                        setData={props.setData}
+                        required
+                    />
+                    <ErrorBox field="laptop_number" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
 
             <FormSelect id="location" label="Location" data={props.data} setData={props.setData} required>
                 <MenuItem value="ghh">GHH</MenuItem>
                 <MenuItem value="waagstraat">Waagstraat</MenuItem>
             </FormSelect>
+            <ErrorBox field="location" hasErrors={props.hasErrors} errors={props.errors} />
 
             <FormSelect id="side" label="Side" data={props.data} setData={props.setData} required>
                 <MenuItem value="north">North</MenuItem>
                 <MenuItem value="south">South</MenuItem>
             </FormSelect>
+            <ErrorBox field="side" hasErrors={props.hasErrors} errors={props.errors} />
 
             {props.type == "DesktopPC" && (
-                <FormSwitch id="double_pc" label="Double PC" data={props.data} setData={props.setData}></FormSwitch>
+                <>
+                    <FormSwitch id="double_pc" label="Double PC" data={props.data} setData={props.setData}></FormSwitch>
+                    <ErrorBox field="double_pc" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
+            
 
             {props.type == "DesktopPC" && (
-                <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
+                <>
+                    <FormSwitch id="needs_dock" label="Needs dock" data={props.data} setData={props.setData}></FormSwitch>
+                    <ErrorBox field="needs_dock" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
+            
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
-                <FormSelect id="status" label="Status" data={props.data} setData={props.setData}>
-                    <MenuItem value="static">Static</MenuItem>
-                    <MenuItem value="flex">Flex</MenuItem>
-                </FormSelect>
+                <>
+                    <FormSelect id="status" label="Status" data={props.data} setData={props.setData}>
+                        <MenuItem value="static">Static</MenuItem>
+                        <MenuItem value="flex">Flex</MenuItem>
+                    </FormSelect>
+                    <ErrorBox field="status" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
-
+            
             <FormField id="floor" label="Floor" data={props.data} setData={props.setData} required />
+            <ErrorBox field="floor" hasErrors={props.hasErrors} errors={props.errors} />
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
-                <FormField
+                <>
+                    <FormField
                     id="island_number"
                     label="Island Number"
                     data={props.data}
                     setData={props.setData}
                     required
-                />
+                    />
+                    <ErrorBox field="island_number" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
+                
             )}
+            
 
             {props.type == "MeetingRoomLaptop" && (
-                <FormField id="room_number" label={"Room number"} data={props.data} setData={props.setData} />
+                <>
+                    <FormField id="room_number" label={"Room number"} data={props.data} setData={props.setData} />
+                    <ErrorBox field="room_number" hasErrors={props.hasErrors} errors={props.errors} />
+                </> 
             )}
 
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
-                <FormSelect
+                <>
+                    <FormSelect
                     id="workspace_type"
                     label="Workspace Type"
                     data={props.data}
                     setData={props.setData}
                     required
-                >
-                    <MenuItem value="developer">Developer</MenuItem>
-                    <MenuItem value="non-developer">Non-developer</MenuItem>
-                </FormSelect>
+                    >
+                        <MenuItem value="developer">Developer</MenuItem>
+                        <MenuItem value="non-developer">Non-developer</MenuItem>
+                    </FormSelect>
+                    <ErrorBox field="workspace_type" hasErrors={props.hasErrors} errors={props.errors} />
+                </>
             )}
 
             <FormSwitch id="updated_in_q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
+            <ErrorBox field="updated_in_q1" hasErrors={props.hasErrors} errors={props.errors} />
 
             <FormField id="remarks" label={"Remarks"} data={props.data} setData={props.setData} />
 

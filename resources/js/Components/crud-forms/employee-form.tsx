@@ -82,7 +82,6 @@ const EmployeeForm = (props: {
             }}
             title={props.title}
         >
-            <ErrorBox hasErrors={hasErrors} errors={errors} />
             <form onSubmit={submit}>
                 <FormField
                     id="first_name"
@@ -93,6 +92,7 @@ const EmployeeForm = (props: {
                     pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
                 />
+                <ErrorBox field="first_name" hasErrors={hasErrors} errors={errors} />
 
                 <FormField
                     id="last_name"
@@ -103,6 +103,7 @@ const EmployeeForm = (props: {
                     pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
                 />
+                <ErrorBox field="last_name" hasErrors={hasErrors} errors={errors} />
 
                 <FormLabel>Teams</FormLabel>
                 <Autocomplete
@@ -138,6 +139,7 @@ const EmployeeForm = (props: {
                     }}
                     renderInput={params => <TextField {...params} />}
                 />
+                <ErrorBox field="equipment_identifiers" hasErrors={hasErrors} errors={errors} />
 
                 <div style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
                     <Button variant="contained" type={"submit"} sx={{ boxShadow: boxShadowing, marginLeft: "10px" }}>

@@ -75,11 +75,12 @@ const TeamForm = (props: {
             }}
             title={props.title}
         >
-            <ErrorBox hasErrors={hasErrors} errors={errors} />
             <form onSubmit={submit}>
                 <FormField id="team_name" label={"Name"} data={data} setData={setData} required />
+                <ErrorBox field="team_name" hasErrors={hasErrors} errors={errors} />
 
                 <FormField id="description" label={"Description"} data={data} setData={setData} required />
+                <ErrorBox field="description" hasErrors={hasErrors} errors={errors} />
 
                 <FormLabel>Employees</FormLabel>
                 <Autocomplete

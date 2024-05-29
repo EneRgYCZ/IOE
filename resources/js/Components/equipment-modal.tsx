@@ -3,7 +3,6 @@ import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Laptop, MeetingRoomLaptop } from "@/types";
 import EquipmentForm from "@/Components/crud-forms/equipment-form";
 import FormModal from "@/Components/form-components/form-modal";
-import ErrorBox from "@/Components/error-box";
 
 const EquipmentModal = (props: {
     isOpen: boolean;
@@ -139,7 +138,6 @@ const EquipmentModal = (props: {
             title={title}
         >
             <div ref={modalRef}></div>
-            <ErrorBox hasErrors={hasErrors} errors={errors} />
             {(props.type == "DesktopPC" || props.type == "Laptop") && (
                 <EquipmentForm
                     data={data}
@@ -147,6 +145,8 @@ const EquipmentModal = (props: {
                     onSubmit={submit}
                     employees={props.employees}
                     type={props.type}
+                    errors={errors}
+                    hasErrors={hasErrors}
                 />
             )}
             {props.type == "MeetingRoomLaptop" && (
