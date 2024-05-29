@@ -281,53 +281,29 @@ export const Table = <T,>({
                                             col={col}
                                             sortChangeHandler={() => {
                                                 const searchArray = tableData.sort?.split(",") ?? [];
+                                                let newSortArray;
 
                                                 if (
-                                                    !searchArray.find(c =>
-                                                        c.startsWith("-") ? c.substring(1) === col.key : c === col.key
-                                                    )
+                                                    !searchArray.includes(col.key) &&
+                                                    !searchArray.includes(`-${col.key}`)
                                                 ) {
-                                                    searchArray.push(col.key);
+                                                    // Sort ascending if not sorted
+                                                    newSortArray = [...searchArray, col.key];
+                                                } else if (searchArray.includes(col.key)) {
+                                                    // Sort descending if currently sorted ascending
+                                                    newSortArray = searchArray.map(sort =>
+                                                        sort === col.key ? `-${col.key}` : sort
+                                                    );
+                                                } else {
+                                                    // Remove sorting if currently sorted descending
+                                                    newSortArray = searchArray.filter(sort => sort !== `-${col.key}`);
                                                 }
 
-                                                setTableData(prev => {
-                                                    return {
-                                                        ...prev,
-                                                        sort: searchArray
-                                                            .map(sort => {
-                                                                if (
-                                                                    sort.startsWith("-") &&
-                                                                    sort.substring(1) === col.key
-                                                                ) {
-                                                                    return col.key;
-                                                                }
-
-                                                                if (sort === col.key) {
-                                                                    return `-${col.key}`;
-                                                                }
-
-                                                                return sort;
-                                                            })
-                                                            .join(","),
-                                                        page: 1
-                                                    };
-                                                });
-                                            }}
-                                            sortRemoveHandler={() => {
-                                                setTableData(prev => {
-                                                    return {
-                                                        ...prev,
-                                                        sort:
-                                                            tableData.sort
-                                                                ?.split(",")
-                                                                .filter(item =>
-                                                                    item.startsWith("-")
-                                                                        ? item.substring(1) !== col.key
-                                                                        : item !== col.key
-                                                                )
-                                                                .join(",") ?? null
-                                                    };
-                                                });
+                                                setTableData(prev => ({
+                                                    ...prev,
+                                                    sort: newSortArray.join(","),
+                                                    page: 1
+                                                }));
                                             }}
                                         />
                                     );
