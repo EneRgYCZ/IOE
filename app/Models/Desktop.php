@@ -28,14 +28,19 @@ class Desktop extends Model
         'remarks',
     ];
 
+    protected $cast = [
+        'double_pc' => 'boolean',
+        'updated_in_q1' => 'boolean',
+        'needs_dock' => 'boolean',
+    ];
+
     use LogsActivity;
 
     public function getActivitylogOptions(): LogOptions
     {
         return
             LogOptions::defaults()
-                ->logAll()
-                ->logOnlyDirty()
+                ->logFillable()
                 ->dontSubmitEmptyLogs();
     }
 }

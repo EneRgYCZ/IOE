@@ -20,7 +20,7 @@ it('can create a desktop - BDD 13', function () {
         'updated_in_q1' => false,
     ];
 
-    $response = $this->post(route('equipment.storeDesktop'), $desktopData);
+    $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
 });
 
@@ -84,7 +84,7 @@ it('can update the full number identifier of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -104,7 +104,7 @@ it('can update the PC number of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -124,7 +124,7 @@ it('can update the location of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -144,7 +144,7 @@ it('can update the side of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -164,7 +164,7 @@ it('can update the floor of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -184,7 +184,7 @@ it('can update the island number of a desktop - BDD 14', function () {
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -203,7 +203,7 @@ it('can update the double PC flag of a desktop - BDD 14', function () {
         'workspace_type' => $desktop->workspace_type,
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -222,7 +222,7 @@ it('can update the needs dock flag of a desktop - BDD 14', function () {
         'workspace_type' => $desktop->workspace_type,
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -241,7 +241,7 @@ it('can update the workspace type of a desktop - BDD 14', function () {
         'workspace_type' => $desktop->workspace_type === 'developer' ? 'non-developer' : 'developer',
         'updated_in_q1' => $desktop->updated_in_q1,
     ];
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -260,7 +260,7 @@ it('can update the updated in Q1 flag of a desktop - BDD 14', function () {
         'workspace_type' => $desktop->workspace_type,
         'updated_in_q1' => ! $desktop->updated_in_q1,
     ];
-    $response = $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
+    $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
 });
 
@@ -328,6 +328,6 @@ it('can unassign a desktop from an employee - BDD 18', function () {
 
 it('can delete a desktop - BDD 15', function () {
     $desktop = Desktop::factory()->create();
-    $response = $this->delete(route('equipment.destroyDesktop', $desktop));
+    $this->delete(route('equipment.destroyDesktop', $desktop));
     $this->assertDatabaseMissing('desktops', ['id' => $desktop->id]);
 });

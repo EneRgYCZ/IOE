@@ -15,7 +15,7 @@ it('can create a meeting room laptop - BDD 13', function () {
         'updated_in_q1' => false,
     ];
 
-    $response = $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
+    $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
 });
 it('can search a meeting room laptop - BDD 21', function () {
@@ -69,7 +69,7 @@ it('can update the full number identifier of a meeting room laptop - BDD 14', fu
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -85,7 +85,7 @@ it('can update the laptop number of a meeting room laptop - BDD 14', function ()
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -101,7 +101,7 @@ it('can update the location of a meeting room laptop - BDD 14', function () {
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -117,7 +117,7 @@ it('can update the side of a meeting room laptop - BDD 14', function () {
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -133,7 +133,7 @@ it('can update the floor of a meeting room laptop - BDD 14', function () {
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
@@ -149,12 +149,12 @@ it('can update the room number of a meeting room laptop - BDD 14/17', function (
         'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
     ];
 
-    $response = $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
+    $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
     $this->assertDatabaseHas('meeting_room_laptops', $updatedData);
 });
 
 it('can delete a meeting room laptop - BDD 15', function () {
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();
-    $response = $this->delete(route('equipment.destroyMeetingRoomLaptop', $meetingRoomLaptop));
+    $this->delete(route('equipment.destroyMeetingRoomLaptop', $meetingRoomLaptop));
     $this->assertDatabaseMissing('meeting_room_laptops', ['id' => $meetingRoomLaptop->id]);
 });

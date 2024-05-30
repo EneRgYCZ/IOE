@@ -11,14 +11,29 @@ const ColumnHeader: React.FC<{
     sortChangeHandler: () => void;
 }> = ({ col, sortRemoveHandler, sortChangeHandler }) => {
     return (
-        <th key={col.key} style={{ minHeight: 32, paddingLeft: 16, paddingTop: 10, paddingBottom: 10 }}>
+        <th
+            key={col.key}
+            style={{
+                minHeight: 32,
+                maxHeight: 50,
+                paddingLeft: 16,
+                paddingTop: 10,
+                paddingBottom: 10,
+                overflow: "hidden"
+            }}
+        >
             {col.sortable ? (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}>
-                    <Typography>{col.label}</Typography>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer", overflow: "hidden" }}>
+                    <Typography
+                        sx={{ whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", flexShrink: 0 }}
+                    >
+                        {col.label}
+                    </Typography>
 
                     <ButtonGroup>
                         <IconButton
                             size="small"
+                            sx={{ whiteSpace: "nowrap", overflow: "hidden" }}
                             onClick={e => {
                                 e.preventDefault();
                                 sortChangeHandler();
@@ -35,6 +50,12 @@ const ColumnHeader: React.FC<{
 
                         {col.sort_number !== null && (
                             <Button
+                                sx={{
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    flexShrink: 0
+                                }}
                                 size="small"
                                 onClick={e => {
                                     e.preventDefault();
@@ -47,7 +68,15 @@ const ColumnHeader: React.FC<{
                     </ButtonGroup>
                 </Box>
             ) : (
-                <Typography sx={{ textTransform: "uppercase" }}>{col.label}</Typography>
+                <Typography
+                    sx={{
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden"
+                    }}
+                >
+                    {col.label}
+                </Typography>
             )}
         </th>
     );

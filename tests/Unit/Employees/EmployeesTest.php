@@ -47,7 +47,6 @@ it('can update an employee  - BDD 10', function () {
     ];
 
     $this->patch(route('employees.update', $employee), $updatedData);
-
     $this->assertDatabaseHas('employees', $updatedData);
 });
 
@@ -318,6 +317,5 @@ it('can delete an employee - BDD 11', function () {
     $employee = Employee::factory()->create();
 
     $this->delete(route('employees.destroy', $employee));
-
     $this->assertDatabaseMissing('employees', ['id' => $employee->id]);
 });

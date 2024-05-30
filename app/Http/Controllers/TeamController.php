@@ -8,8 +8,10 @@ use App\Models\TeamMember;
 use App\Table\Column;
 use App\Table\SearchInput;
 use App\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
@@ -19,6 +21,12 @@ class TeamController extends Controller
      */
     public function index()
     {
+        $globalSearchColumns = [
+            'id',
+            'team_name',
+            'description',
+        ];
+
         $teams =
             QueryBuilder::for(Team::query())
                 ->allowedSorts('id', 'team_name', 'description')
@@ -26,6 +34,16 @@ class TeamController extends Controller
                     'id',
                     'team_name',
                     'description',
+                    AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
+                        $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                            foreach ($globalSearchColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
+                            }
+                        });
+                    })
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
@@ -44,7 +62,8 @@ class TeamController extends Controller
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
-                ->addSearchInput(new SearchInput('description', 'Description', shown: true));
+                ->addSearchInput(new SearchInput('description', 'Description', shown: true))
+                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
 
@@ -53,7 +72,6 @@ class TeamController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -73,8 +91,6 @@ class TeamController extends Controller
                 'employee_id' => $teamMember['id'],
             ]);
         }
-
-        return redirect(route('teams.index'));
     }
 
     /**
@@ -118,11 +134,12 @@ class TeamController extends Controller
         }
 
         $teamMembersIDs = array_column($teamMembers, 'id');
-        TeamMember::where('team_id', $team->id)
-            ->whereNotIn('employee_id', $teamMembersIDs)
-            ->delete();
+        $teamMembersToDelete = TeamMember::where('team_id', $team->id)
+            ->whereNotIn('employee_id', $teamMembersIDs)->get();
 
-        return redirect(route('teams.index'));
+        foreach ($teamMembersToDelete as $teamMember) {
+            $teamMember->delete();
+        }
     }
 
     /**
@@ -130,11 +147,12 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        TeamMember::where('team_id', $team->id)
-            ->delete();
+        $teamMembers = TeamMember::where('team_id', $team->id)->get();
+
+        foreach ($teamMembers as $teamMember) {
+            $teamMember->delete();
+        }
 
         $team->delete();
-
-        return redirect(route('teams.index'));
     }
 }

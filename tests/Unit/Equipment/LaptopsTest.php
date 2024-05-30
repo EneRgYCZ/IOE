@@ -18,7 +18,7 @@ it('can create a laptop - BDD 13', function () {
         'updated_in_q1' => true,
     ];
 
-    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
@@ -76,7 +76,7 @@ it('can update the full number identifier of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -92,7 +92,7 @@ it('can update the laptop number of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -108,7 +108,7 @@ it('can update the location of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -124,7 +124,7 @@ it('can update the side of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -140,7 +140,7 @@ it('can update the floor of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -156,7 +156,7 @@ it('can update the island number of a laptop - BDD 14', function () {
         'status' => $laptop->status,
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -172,7 +172,7 @@ it('can update the status of a laptop - BDD 14', function () {
         'status' => $laptop->location === 'flex' ? 'static' : 'flex',
     ];
 
-    $response = $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
+    $this->patch(route('equipment.updateLaptop', $laptop), $updatedData);
     $this->assertDatabaseHas('laptops', $updatedData);
 });
 
@@ -236,6 +236,6 @@ it('can unassign a laptop from an employee - BDD 18', function () {
 
 it('can delete a laptop - BDD 15', function () {
     $laptop = Laptop::factory()->create();
-    $response = $this->delete(route('equipment.destroyLaptop', $laptop));
+    $this->delete(route('equipment.destroyLaptop', $laptop));
     $this->assertDatabaseMissing('laptops', ['id' => $laptop->id]);
 });

@@ -1,11 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { DesktopPC, Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
+import { Box, Button, Card, TableCell, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
-import { Link } from "@inertiajs/react";
-import AddDesktop from "@/Pages/Equipment/Desktop/AddDesktop";
-import EditDesktop from "@/Pages/Equipment/Desktop/EditDesktop";
+import EquipmentModal from "@/Components/equipment-modal";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
+import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import AddButton from "@/Components/form-components/add-button";
 
 const Equipment = ({
     desktops,
@@ -18,30 +19,17 @@ const Equipment = ({
         margin: "0 10px"
     };
 
-    const addButtonBox = {
-        position: "fixed",
-        width: "250px",
-        pointerEvents: "none",
-        bottom: 16,
-        right: 16
-    };
-
-    const addButtonStyle = {
-        display: "block",
-        pointerEvents: "initial",
-        marginTop: "16px",
-        marginLeft: "auto"
-    };
-
     const [formOpen, setFormOpen] = React.useState({
         addDesktop: false,
-        editDesktop: false
+        editDesktop: false,
+        deleteDesktop: false
     });
 
     const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
 
     return (
         <GuestLayout>
+            {/* Table display */}
             <Card variant="outlined" sx={{ width: "70%" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="h4" sx={{ m: 2 }}>
@@ -49,63 +37,73 @@ const Equipment = ({
                     </Typography>
                 </Box>
                 <Box width="100%" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box sx={{ width: "100%", alignItems: "center", marginBottom: "30px" }}>
+                    <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<DesktopPC>
-                            name="desktops"
                             data={desktops}
                             actionRenderer={desktop => (
-                                <TableCell align="center">
-                                    <Button
-                                        variant="contained"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentDesktop(desktop);
-                                            setFormOpen({ ...formOpen, editDesktop: true });
-                                        }}
-                                    >
-                                        EDIT
-                                    </Button>
-                                    <Link
-                                        href={route("equipment.destroyDesktop", desktop.id)}
-                                        method="delete"
-                                        onBefore={() =>
-                                            window.confirm(
-                                                "Are you sure that you want to eliminate this piece of equipment?"
-                                            )
-                                        }
-                                    >
-                                        <Button variant="contained" color="error">
-                                            DELETE
+                                <TableCell
+                                    align="center"
+                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
+                                >
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {/* Button for Edit */}
+                                        <Button
+                                            variant="outlined"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentDesktop(desktop);
+                                                setFormOpen({ ...formOpen, editDesktop: true });
+                                            }}
+                                        >
+                                            EDIT
+                                            <EditRounded sx={{ marginLeft: "10px" }} />
                                         </Button>
-                                    </Link>
+
+                                        {/* Button for Delete */}
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            sx={tableButtonMargins}
+                                            onClick={() => {
+                                                setCurrentDesktop(desktop);
+                                                setFormOpen({ ...formOpen, deleteDesktop: true });
+                                            }}
+                                        >
+                                            <DeleteRounded />
+                                        </Button>
+                                    </Box>
                                 </TableCell>
                             )}
                         />
                     </Box>
                 </Box>
             </Card>
-            <Box sx={addButtonBox}>
-                <Fab
-                    variant="extended"
-                    color="primary"
-                    sx={addButtonStyle}
-                    onClick={() => setFormOpen({ ...formOpen, addDesktop: true })}
-                >
-                    Add desktop
-                </Fab>
-            </Box>
-            <AddDesktop
+
+            {/* Button for Add */}
+            <AddButton label="Add desktop" onClick={() => setFormOpen({ ...formOpen, addDesktop: true })} />
+
+            {/* Forms for Adding, Editing and Deleting */}
+            <EquipmentModal
                 isOpen={formOpen.addDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, addDesktop: false })}
                 employees={employees}
-            ></AddDesktop>
-
-            <EditDesktop
+                type="DesktopPC"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editDesktop}
                 handleClose={() => setFormOpen({ ...formOpen, editDesktop: false })}
-                desktop={currentDesktop}
+                equipment={currentDesktop}
                 employees={employees}
-            ></EditDesktop>
+                type="DesktopPC"
+            ></EquipmentModal>
+            {currentDesktop && (
+                <DeletionConfirmation
+                    isOpen={formOpen.deleteDesktop}
+                    handleClose={() => setFormOpen({ ...formOpen, deleteDesktop: false })}
+                    deleteObject={currentDesktop}
+                    type="DesktopPC"
+                />
+            )}
         </GuestLayout>
     );
 };
