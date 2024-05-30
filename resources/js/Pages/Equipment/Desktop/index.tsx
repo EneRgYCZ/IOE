@@ -39,18 +39,6 @@ const Equipment = ({
                 </TableCell>
             );
         }
-        // if (col.key === "updated_in_q1") {
-        //     const value = row.updated_in_q1;
-        //     return (
-        //         <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
-        //             { value == 1 ? (
-        //                 <div>Yes</div>
-        //             ) : (
-        //                 <div>No</div>
-        //             )}
-        //         </TableCell>
-        //     );
-        // }
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
