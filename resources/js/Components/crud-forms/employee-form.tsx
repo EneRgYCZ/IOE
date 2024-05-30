@@ -3,8 +3,9 @@ import { Autocomplete, Button, FormLabel, TextField } from "@mui/material";
 import { useForm } from "@inertiajs/react";
 import { DesktopPC, Employee, Team, Laptop } from "@/types";
 
-import FormModal from "@/Components/forms/form-modal";
+import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
+import FormField from "@/Components/form-components/form-field";
 
 const EmployeeForm = (props: {
     isOpen: boolean;
@@ -25,12 +26,7 @@ const EmployeeForm = (props: {
         boxSizing: "border-box"
     };
 
-    const initialValues: {
-        first_name: string;
-        last_name: string;
-        team_members: Team[];
-        equipment_identifiers: string[];
-    } = {
+    const initialValues: Employee = {
         first_name: props.employee ? props.employee.first_name : "",
         last_name: props.employee ? props.employee.last_name : "",
         team_members: props.employee ? props.teamMembers : [],
@@ -41,46 +37,13 @@ const EmployeeForm = (props: {
             : []
     };
 
-    const { data, setData, patch, post, errors, hasErrors, clearErrors } = useForm(initialValues);
-    const [firstNameError, setFirstNameError] = React.useState(false);
-    const [lastNameError, setLastNameError] = React.useState(false);
-    const [emptyFirstNameError, setEmptyFirstNameError] = React.useState(false);
-    const [emptyLastNameError, setEmptyLastNameError] = React.useState(false);
+    const { data, setData, patch, post, errors, hasErrors, clearErrors } = useForm<Employee>(initialValues);
 
     React.useEffect(() => {
         if (props.employee) {
             setData(initialValues);
         }
     }, [props.employee, props.equipment]);
-
-    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.id;
-        const value = e.target.value;
-        setData(data => ({
-            ...data,
-            [key]: value
-        }));
-        if (e.target.validity.valid) setFirstNameError(false);
-        else setFirstNameError(true);
-
-        if (value == "") setEmptyFirstNameError(true);
-        else setEmptyFirstNameError(false);
-    };
-
-    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.id;
-        const value = e.target.value;
-        setData(data => ({
-            ...data,
-            [key]: value
-        }));
-
-        if (e.target.validity.valid) setLastNameError(false);
-        else setLastNameError(true);
-
-        if (value == "") setEmptyLastNameError(true);
-        else setEmptyLastNameError(false);
-    };
 
     const handleTeamChange = (_event: React.SyntheticEvent, value: Team[]) => {
         setData(data => ({
@@ -119,46 +82,24 @@ const EmployeeForm = (props: {
         >
             <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
             <form onSubmit={submit} style={{ marginTop: "10px" }}>
-                <FormLabel>First Name*</FormLabel>
-                <TextField
-                    id={"first_name"}
-                    sx={fieldStyle}
-                    value={data.first_name}
+                <FormField
+                    id="first_name"
+                    label={"First Name"}
+                    data={data}
+                    setData={setData}
+                    patternMismatchError={"Employee's first name should only contain letters"}
+                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
-                    onChange={handleFirstNameChange}
-                    error={firstNameError || emptyFirstNameError}
-                    helperText={
-                        emptyFirstNameError
-                            ? "Required Field"
-                            : firstNameError
-                              ? "Employee's first name should only contain letters"
-                              : ""
-                    }
-                    inputProps={{
-                        pattern: "[A-Z a-z]+"
-                    }}
-                    variant="outlined"
                 />
 
-                <FormLabel>Last Name*</FormLabel>
-                <TextField
-                    id={"last_name"}
-                    sx={fieldStyle}
-                    value={data.last_name}
+                <FormField
+                    id="last_name"
+                    label={"Last Name"}
+                    data={data}
+                    setData={setData}
+                    patternMismatchError={"Employee's last name should only contain letters"}
+                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
-                    onChange={handleLastNameChange}
-                    error={lastNameError}
-                    helperText={
-                        emptyLastNameError
-                            ? "Required Field"
-                            : lastNameError
-                              ? "Employee's last name should only contain letters"
-                              : ""
-                    }
-                    inputProps={{
-                        pattern: "[A-Z a-z]+"
-                    }}
-                    variant="outlined"
                 />
 
                 <FormLabel>Teams</FormLabel>
