@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 import { Box } from "@mui/material";
 import NavigationBar from "@/Components/navigation/navigation-bar";
 
-export default function GuestLayout({ children }: PropsWithChildren) {
+export default function GuestLayout({ children }: Readonly<PropsWithChildren>) {
     return (
         <>
             <NavigationBar />

@@ -48,7 +48,7 @@ class EquipmentController extends Controller
      */
     public function desktopsIndex()
     {
-        $globalSearchColumns = [
+        $desktopColumns = [
             'id',
             'full_number_identifier',
             'pc_number',
@@ -66,40 +66,12 @@ class EquipmentController extends Controller
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
-            ->allowedSorts(
-                'id',
-                'full_number_identifier',
-                'pc_number',
-                'location',
-                'side',
-                'double_pc',
-                'needs_dock',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'updated_in_q1',
-                'remarks',
-                'employee_id'
-            )
+            ->allowedSorts($desktopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'pc_number',
-                'location',
-                'side',
-                'double_pc',
-                'needs_dock',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'updated_in_q1',
-                'remarks',
-                'employee_id',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
+                $desktopColumns,
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($desktopColumns) {
+                    $query->where(function ($subQuery) use ($desktopColumns, $value) {
+                        foreach ($desktopColumns as $column) {
                             if (is_array($value)) {
                                 $value = implode('', $value);
                             }
@@ -133,7 +105,7 @@ class EquipmentController extends Controller
 
     public function laptopsIndex()
     {
-        $globalSearchColumns = [
+        $laptopColumns = [
             'id',
             'full_number_identifier',
             'laptop_number',
@@ -149,36 +121,12 @@ class EquipmentController extends Controller
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
-            ->allowedSorts(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'updated_in_q1',
-                'remarks',
-                'employee_id'
-            )
+            ->allowedSorts($laptopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'updated_in_q1',
-                'remarks',
-                'employee_id',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
+                $laptopColumns,
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($laptopColumns) {
+                    $query->where(function ($subQuery) use ($laptopColumns, $value) {
+                        foreach ($laptopColumns as $column) {
                             if (is_array($value)) {
                                 $value = implode('', $value);
                             }
@@ -210,7 +158,7 @@ class EquipmentController extends Controller
 
     public function meetingRoomLaptopIndex()
     {
-        $globalSearchColumns = [
+        $meetingRoomLaptopColumns = [
             'id',
             'full_number_identifier',
             'laptop_number',
@@ -223,29 +171,12 @@ class EquipmentController extends Controller
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'floor',
-                'room_number',
-                'updated_in_q1',
-                'remarks')
+            ->allowedSorts($meetingRoomLaptopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'floor',
-                'room_number',
-                'updated_in_q1',
-                'remarks',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
+                $meetingRoomLaptopColumns,
+                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
+                    $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
+                        foreach ($meetingRoomLaptopColumns as $column) {
                             if (is_array($value)) {
                                 $value = implode('', $value);
                             }

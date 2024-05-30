@@ -43,88 +43,14 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
     }
 
     const customCellRenderer: CellRenderer<ActivityLog> = (row, col, cellKey, rowIdx) => {
-        if (col.key === "event") {
-            if (row.subject_type === "App\\Models\\TeamMember") {
-                if (row.event === "created") {
-                    return <TableCell>added</TableCell>;
-                }
-                if (row.event === "deleted") {
-                    return <TableCell>removed</TableCell>;
-                }
-            }
-        }
-        if (col.key === "properties" && row.event === "updated") {
-            if (updateTypeGuard(row)) {
-                const newAttributes = flattenObject(row.properties.attributes);
-                const oldAttributes = flattenObject(row.properties.old);
+        const renderSubjectType = (type: string) => {
+            const wasDeletedOrUpdated = deleteTypeGuard(row) || updateTypeGuard(row);
 
-                const handleOpenModal = () => {
-                    const data = Object.entries(newAttributes)
-                        .map(([attribute, newValue]) => {
-                            const oldValue = oldAttributes[attribute];
-                            if (oldValue === newValue) {
-                                return null;
-                            }
-                            return {
-                                attribute,
-                                oldValue,
-                                newValue
-                            };
-                        })
-                        .filter(Boolean) as { attribute: string; oldValue: unknown; newValue: unknown }[];
-                    setDiffData(data);
-                    setOpenModal(true);
-                };
-
-                return (
-                    <TableCell key={cellKey} align="center">
-                        <Button size="small" onClick={handleOpenModal}>
-                            Show Changes
-                        </Button>
-                        <Modal
-                            open={openModal}
-                            onClose={() => setOpenModal(false)}
-                            aria-labelledby="modal-title"
-                            aria-describedby="modal-desc"
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center"
-                            }}
-                        >
-                            <Card
-                                sx={{
-                                    p: 2,
-                                    width: "30%",
-                                    display: "flex",
-                                    boxShadow: "lg",
-                                    maxHeight: "70%",
-                                    borderRadius: "md",
-                                    flexDirection: "column"
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        overflowY: "auto",
-                                        p: 2,
-                                        pt: 6
-                                    }}
-                                >
-                                    <TransposedTable data={diffData} />
-                                </Box>
-                            </Card>
-                        </Modal>
-                    </TableCell>
-                );
-            }
-        }
-        if (col.key === "updated_at") {
-            return <TableCell key={cellKey}>{dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}</TableCell>;
-        }
-        if (col.key === "subject_type") {
-            if (row.subject_type === "App\\Models\\Employee") {
-                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
-                    const employee = row.properties.old as Employee;
+            switch (type) {
+                case "App\\Models\\Employee": {
+                    const employee = wasDeletedOrUpdated
+                        ? (row.properties.old as Employee)
+                        : (row.properties.attributes as Employee);
                     return (
                         <TableCell key={cellKey}>
                             {"Employee: "}
@@ -132,18 +58,10 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-
-                const employee = row.properties.attributes as Employee;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Employee: "}
-                        {employee.first_name}
-                    </TableCell>
-                );
-            }
-            if (row.subject_type === "App\\Models\\Team") {
-                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
-                    const team = row.properties.old as Team;
+                case "App\\Models\\Team": {
+                    const team = wasDeletedOrUpdated
+                        ? (row.properties.old as Team)
+                        : (row.properties.attributes as Team);
                     return (
                         <TableCell key={cellKey}>
                             {"Team: "}
@@ -151,17 +69,10 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const team = row.properties.attributes as Team;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Team: "}
-                        {team.team_name}
-                    </TableCell>
-                );
-            }
-            if (row.subject_type === "App\\Models\\Desktop") {
-                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
-                    const desktop = row.properties.old as DesktopPC;
+                case "App\\Models\\Desktop": {
+                    const desktop = wasDeletedOrUpdated
+                        ? (row.properties.old as DesktopPC)
+                        : (row.properties.attributes as DesktopPC);
                     return (
                         <TableCell key={cellKey}>
                             {"Desktop: "}
@@ -169,17 +80,10 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const desktop = row.properties.attributes as DesktopPC;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Desktop: "}
-                        {desktop.full_number_identifier}
-                    </TableCell>
-                );
-            }
-            if (row.subject_type === "App\\Models\\Laptop") {
-                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
-                    const laptop = row.properties.old as Laptop;
+                case "App\\Models\\Laptop": {
+                    const laptop = wasDeletedOrUpdated
+                        ? (row.properties.old as Laptop)
+                        : (row.properties.attributes as Laptop);
                     return (
                         <TableCell key={cellKey}>
                             {"Laptop: "}
@@ -187,55 +91,121 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
-                const laptop = row.properties.attributes as Laptop;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Laptop: "}
-                        {laptop.full_number_identifier}
-                    </TableCell>
-                );
-            }
-            if (row.subject_type === "App\\Models\\MeetingRoomLaptop") {
-                if (deleteTypeGuard(row) || updateTypeGuard(row)) {
-                    const meetingRoomLaptop = row.properties.old as MeetingRoomLaptop;
+                case "App\\Models\\MeetingRoomLaptop": {
+                    const meetingRoomLaptop = wasDeletedOrUpdated
+                        ? (row.properties.old as MeetingRoomLaptop)
+                        : (row.properties.attributes as MeetingRoomLaptop);
                     return (
                         <TableCell key={cellKey}>
-                            {"MeetingRoomLaptop: "}
-                            {meetingRoomLaptop.full_number_identifier}
+                            {"Meeting Room Laptop: "} {meetingRoomLaptop.full_number_identifier}
                         </TableCell>
                     );
                 }
-                const MeetingRoomLaptop = row.properties.attributes as MeetingRoomLaptop;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Meeting Room Laptop: "} {MeetingRoomLaptop.full_number_identifier}
-                    </TableCell>
-                );
-            }
-            if (row.subject_type === "App\\Models\\TeamMember") {
-                if (deleteTypeGuard(row)) {
-                    const teamMember = row.properties.old as TeamMember;
+                case "App\\Models\\TeamMember": {
+                    if (deleteTypeGuard(row)) {
+                        const teamMember = row.properties.old as TeamMember;
+                        return (
+                            <TableCell key={cellKey}>
+                                {"Employee: "}
+                                {teamMember.employee?.first_name}
+                                {" was removed from the team: "}
+                                {teamMember.team?.team_name}
+                            </TableCell>
+                        );
+                    }
+                    const teamMember = row.properties.attributes as TeamMember;
                     return (
                         <TableCell key={cellKey}>
                             {"Employee: "}
                             {teamMember.employee?.first_name}
-                            {" was removed from the team: "}
+                            {" was added to the team: "}
                             {teamMember.team?.team_name}
                         </TableCell>
                     );
                 }
-                const teamMember = row.properties.attributes as TeamMember;
-                return (
-                    <TableCell key={cellKey}>
-                        {"Employee: "}
-                        {teamMember.employee?.first_name}
-                        {" was added to the team: "}
-                        {teamMember.team?.team_name}
-                    </TableCell>
-                );
             }
 
             return <TableCell key={cellKey}>{row.subject_type}</TableCell>;
+        };
+
+        switch (col.key) {
+            case "event":
+                if (row.subject_type === "App\\Models\\TeamMember" && row.event === "created") {
+                    return <TableCell>added</TableCell>;
+                }
+                if (row.subject_type === "App\\Models\\TeamMember" && row.event === "deleted") {
+                    return <TableCell>removed</TableCell>;
+                }
+                break;
+            case "properties":
+                if (row.event === "updated" && updateTypeGuard(row)) {
+                    const newAttributes = flattenObject(row.properties.attributes);
+                    const oldAttributes = flattenObject(row.properties.old);
+
+                    const handleOpenModal = () => {
+                        const data = Object.entries(newAttributes)
+                            .map(([attribute, newValue]) => {
+                                const oldValue = oldAttributes[attribute];
+                                if (oldValue === newValue) {
+                                    return null;
+                                }
+                                return {
+                                    attribute,
+                                    oldValue,
+                                    newValue
+                                };
+                            })
+                            .filter(Boolean) as { attribute: string; oldValue: unknown; newValue: unknown }[];
+                        setDiffData(data);
+                        setOpenModal(true);
+                    };
+
+                    return (
+                        <TableCell key={cellKey} align="center">
+                            <Button size="small" onClick={handleOpenModal}>
+                                Show Changes
+                            </Button>
+                            <Modal
+                                open={openModal}
+                                onClose={() => setOpenModal(false)}
+                                aria-labelledby="modal-title"
+                                aria-describedby="modal-desc"
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
+                                }}
+                            >
+                                <Card
+                                    sx={{
+                                        p: 2,
+                                        width: "30%",
+                                        display: "flex",
+                                        boxShadow: "lg",
+                                        maxHeight: "70%",
+                                        borderRadius: "md",
+                                        flexDirection: "column"
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            overflowY: "auto",
+                                            p: 2,
+                                            pt: 6
+                                        }}
+                                    >
+                                        <TransposedTable data={diffData} />
+                                    </Box>
+                                </Card>
+                            </Modal>
+                        </TableCell>
+                    );
+                }
+                break;
+            case "updated_at":
+                return <TableCell key={cellKey}>{dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}</TableCell>;
+            case "subject_type":
+                renderSubjectType(row.subject_type);
         }
 
         return defaultCellRenderer(row, col, cellKey, rowIdx);

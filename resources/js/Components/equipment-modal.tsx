@@ -96,39 +96,42 @@ const EquipmentModal = (props: {
     let initialValues;
     let title;
     let determinedRoute;
-    if (props.type == "DesktopPC") {
-        initialValues = initialValuesDesktop;
-        if (props.equipment) {
-            title = "Edit Desktop";
-            determinedRoute = "equipment.updateDesktop";
-        } else {
-            title = "Add Desktop";
-            determinedRoute = "equipment.storeDesktop";
-        }
-    } else if (props.type == "Laptop") {
-        initialValues = initialValuesLaptop;
-        if (props.equipment) {
-            title = "Edit Laptop";
-            determinedRoute = "equipment.updateLaptop";
-        } else {
-            title = "Add Laptop";
-            determinedRoute = "equipment.storeLaptop";
-        }
-    } else {
-        initialValues = initialValuesMeetingRoom;
-        if (props.equipment) {
-            title = "Edit Meeting Room Laptop";
-            determinedRoute = "equipment.updateMeetingRoomLaptop";
-        } else {
-            title = "Add Meeting Room Laptop";
-            determinedRoute = "equipment.storeMeetingRoomLaptop";
-        }
+    switch (props.type) {
+        case "DesktopPC":
+            initialValues = initialValuesDesktop;
+            if (props.equipment) {
+                title = "Edit Desktop";
+                determinedRoute = "equipment.updateDesktop";
+            } else {
+                title = "Add Desktop";
+                determinedRoute = "equipment.storeDesktop";
+            }
+            break;
+        case "Laptop":
+            initialValues = initialValuesLaptop;
+            if (props.equipment) {
+                title = "Edit Laptop";
+                determinedRoute = "equipment.updateLaptop";
+            } else {
+                title = "Add Laptop";
+                determinedRoute = "equipment.storeLaptop";
+            }
+            break;
+        case "MeetingRoomLaptop":
+            initialValues = initialValuesMeetingRoom;
+            if (props.equipment) {
+                title = "Edit Meeting Room Laptop";
+                determinedRoute = "equipment.updateMeetingRoomLaptop";
+            } else {
+                title = "Add Meeting Room Laptop";
+                determinedRoute = "equipment.storeMeetingRoomLaptop";
+            }
+            break;
     }
 
     const { data, setData, patch, post, hasErrors, errors, clearErrors } = useForm<
         DesktopPC | Laptop | MeetingRoomLaptop
     >(initialValues);
-    const modalRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
         if (props.equipment) {
@@ -141,14 +144,6 @@ const EquipmentModal = (props: {
             patch(route(determinedRoute, props.equipment.id), {
                 onSuccess: () => {
                     props.handleClose();
-                },
-                onError: () => {
-                    if (modalRef.current != null) {
-                        modalRef.current.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }
                 }
             });
         } else {
@@ -156,14 +151,6 @@ const EquipmentModal = (props: {
                 onSuccess: () => {
                     setData(initialValues);
                     props.handleClose();
-                },
-                onError: () => {
-                    if (modalRef.current != null) {
-                        modalRef.current.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }
                 }
             });
         }
@@ -178,28 +165,15 @@ const EquipmentModal = (props: {
             }}
             title={title}
         >
-            <div ref={modalRef}></div>
-            {(props.type == "DesktopPC" || props.type == "Laptop") && (
-                <EquipmentForm
-                    data={data}
-                    setData={setData}
-                    onSubmit={submit}
-                    employees={props.employees}
-                    type={props.type}
-                    errors={errors}
-                    hasErrors={hasErrors}
-                />
-            )}
-            {props.type == "MeetingRoomLaptop" && (
-                <EquipmentForm
-                    data={data}
-                    setData={setData}
-                    onSubmit={submit}
-                    type={props.type}
-                    errors={errors}
-                    hasErrors={hasErrors}
-                />
-            )}
+            <EquipmentForm
+                data={data}
+                setData={setData}
+                onSubmit={submit}
+                employees={props.type == "DesktopPC" || props.type == "Laptop" ? props.employees : undefined}
+                type={props.type}
+                errors={errors}
+                hasErrors={hasErrors}
+            />
         </FormModal>
     );
 };

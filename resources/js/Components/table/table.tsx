@@ -57,22 +57,12 @@ export const Table = <T,>({
     const { queryBuilder } = usePage<PageProps>().props;
     const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-    if (!(name in queryBuilder)) {
-        return (
-            <Typography color="danger">
-                There was an error generating your table. Table <kbd>{name}</kbd> not found.
-            </Typography>
-        );
-    }
-
     const originalData = queryBuilder[name];
 
-    originalData.searchInputs = originalData.searchInputs.map(search => {
+    originalData.searchInputs.forEach(search => {
         if (search.value) {
             search.shown = true;
         }
-
-        return search;
     });
 
     // Get saved filters
