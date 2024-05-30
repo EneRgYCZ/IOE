@@ -29,23 +29,13 @@ const Equipment = ({
     const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
 
     const customCellRenderer: CellRenderer<Laptop> = (row, col, cellKey, rowIdx) => {
-        if (col.key === "updated_at") {
+        if (col.key === "updated_at" || col.key === "created_at") {
             return (
                 <TableCell
                     key={cellKey}
                     sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
                 >
-                    {dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}
-                </TableCell>
-            );
-        }
-        if (col.key === "created_at") {
-            return (
-                <TableCell
-                    key={cellKey}
-                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
-                >
-                    {dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
                 </TableCell>
             );
         }
