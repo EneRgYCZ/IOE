@@ -2,7 +2,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { DesktopPC, Employee, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
+import { Table, CellRenderer, defaultCellRenderer } from "@/Components/table/table";
 import EquipmentModal from "@/Components/equipment-modal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
@@ -26,6 +26,33 @@ const Equipment = ({
     });
 
     const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
+    const customCellRenderer: CellRenderer<any> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "needs_dock") {
+            const value = row.needs_dock;
+            return (
+                <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+                    { value == 1 ? (
+                        <div>Yes</div>
+                    ) : (
+                        <div>No</div>
+                    )}
+                </TableCell>
+            );
+        }
+        // if (col.key === "updated_in_q1") {
+        //     const value = row.updated_in_q1;
+        //     return (
+        //         <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+        //             { value == 1 ? (
+        //                 <div>Yes</div>
+        //             ) : (
+        //                 <div>No</div>
+        //             )}
+        //         </TableCell>
+        //     );
+        // }
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
 
     return (
         <GuestLayout>
@@ -40,6 +67,8 @@ const Equipment = ({
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<DesktopPC>
                             data={desktops}
+                            cellRenderer={customCellRenderer}
+                            
                             actionRenderer={desktop => (
                                 <TableCell
                                     align="center"
