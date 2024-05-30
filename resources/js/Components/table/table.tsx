@@ -31,14 +31,16 @@ export type CellRenderer<T> = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
-    const val = get(row, col.key);
     if (col.key === "employee.first_name") {
         return (
             <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {val ? val : "Unassigned"}
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    {row.employee ? row.employee.first_name + " " + row.employee.last_name : "Unassigned"}
+                </Box>
             </TableCell>
         );
     }
+    const val = get(row, col.key);
     if (typeof val === "number" || typeof val === "string") {
         return (
             <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
