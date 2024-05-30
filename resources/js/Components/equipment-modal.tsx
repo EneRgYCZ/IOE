@@ -11,46 +11,87 @@ const EquipmentModal = (props: {
     employees?: Employee[];
     type: "DesktopPC" | "Laptop" | "MeetingRoomLaptop";
 }) => {
-    const initialValuesDesktop: DesktopPC = {
-        full_number_identifier: props.equipment ? props.equipment.full_number_identifier : "",
-        pc_number: props.equipment ? props.equipment.pc_number : "",
-        location: props.equipment ? props.equipment.location : "",
-        side: props.equipment ? props.equipment.side : "",
-        double_pc: props.equipment ? props.equipment.double_pc : false,
-        needs_dock: props.equipment ? props.equipment.needs_dock : false,
-        status: props.equipment ? props.equipment.status : "",
-        floor: props.equipment ? props.equipment.floor : undefined,
-        island_number: props.equipment ? props.equipment.island_number : undefined,
-        workspace_type: props.equipment ? props.equipment.workspace_type : "",
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
-        remarks: props.equipment ? props.equipment.remarks : "",
-        employee_id: props.equipment ? props.equipment.employee_id : null
-    };
+    const initialValuesDesktop: DesktopPC = props.equipment
+        ? {
+              full_number_identifier: props.equipment.full_number_identifier,
+              pc_number: props.equipment.pc_number,
+              location: props.equipment.location,
+              side: props.equipment.side,
+              double_pc: props.equipment.double_pc,
+              needs_dock: props.equipment.needs_dock,
+              status: props.equipment.status,
+              floor: props.equipment.floor,
+              island_number: props.equipment.island_number,
+              workspace_type: props.equipment.workspace_type,
+              updated_in_q1: props.equipment.updated_in_q1,
+              remarks: props.equipment.remarks,
+              employee_id: props.equipment.employee_id
+          }
+        : {
+              full_number_identifier: "",
+              pc_number: "",
+              location: "",
+              side: "",
+              double_pc: false,
+              needs_dock: false,
+              status: "",
+              floor: undefined,
+              island_number: undefined,
+              workspace_type: "",
+              updated_in_q1: false,
+              remarks: "",
+              employee_id: null
+          };
 
-    const initialValuesLaptop: Laptop = {
-        full_number_identifier: props.equipment ? props.equipment.full_number_identifier : "",
-        laptop_number: props.equipment ? props.equipment.laptop_number : "",
-        location: props.equipment ? props.equipment.location : "",
-        side: props.equipment ? props.equipment.side : "",
-        status: props.equipment ? props.equipment.status : "",
-        floor: props.equipment ? props.equipment.floor : undefined,
-        island_number: props.equipment ? props.equipment.island_number : undefined,
-        workspace_type: props.equipment ? props.equipment.workspace_type : "",
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
-        remarks: props.equipment ? props.equipment.remarks : "",
-        employee_id: props.equipment ? props.equipment.employee_id : null
-    };
+    const initialValuesLaptop: Laptop = props.equipment
+        ? {
+              full_number_identifier: props.equipment.full_number_identifier,
+              laptop_number: props.equipment.laptop_number,
+              location: props.equipment.location,
+              side: props.equipment.side,
+              status: props.equipment.status,
+              floor: props.equipment.floor,
+              island_number: props.equipment.island_number,
+              workspace_type: props.equipment.workspace_type,
+              updated_in_q1: props.equipment.updated_in_q1,
+              remarks: props.equipment.remarks,
+              employee_id: props.equipment.employee_id
+          }
+        : {
+              full_number_identifier: "",
+              laptop_number: "",
+              location: "",
+              side: "",
+              status: "",
+              floor: undefined,
+              island_number: undefined,
+              workspace_type: "",
+              updated_in_q1: false,
+              remarks: "",
+              employee_id: null
+          };
 
-    const initialValuesMeetingRoom: MeetingRoomLaptop = {
-        full_number_identifier: props.equipment ? props.equipment.full_number_identifier : "",
-        laptop_number: props.equipment ? props.equipment.laptop_number : "",
-        location: props.equipment ? props.equipment.location : "",
-        side: props.equipment ? props.equipment.side : "",
-        floor: props.equipment ? props.equipment.floor : undefined,
-        room_number: props.equipment ? props.equipment.room_number : undefined,
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
-        remarks: props.equipment ? props.equipment.remarks : ""
-    };
+    const initialValuesMeetingRoom: MeetingRoomLaptop = props.equipment
+        ? {
+              full_number_identifier: props.equipment.full_number_identifier,
+              laptop_number: props.equipment.laptop_number,
+              location: props.equipment.location,
+              side: props.equipment.side,
+              floor: props.equipment.floor,
+              room_number: props.equipment.room_number,
+              updated_in_q1: props.equipment.updated_in_q1,
+              remarks: props.equipment.remarks
+          }
+        : {
+              full_number_identifier: "",
+              laptop_number: "",
+              location: "",
+              side: "",
+              floor: undefined,
+              room_number: undefined,
+              updated_in_q1: false,
+              remarks: ""
+          };
 
     let initialValues;
     let title;

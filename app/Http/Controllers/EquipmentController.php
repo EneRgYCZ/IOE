@@ -22,6 +22,27 @@ class EquipmentController extends Controller
 
     const NUMBER_LENGTH = 'max_digits:5';
 
+    const FIELDS = [
+        ['full_number_identifier', 'Full Number', false],
+        ['location', 'Location', false],
+        ['side', 'Side', false],
+        ['floor', 'Floor', false],
+        ['updated_in_q1', 'Updated in Q1', false],
+        ['remarks', 'Remarks', true],
+    ];
+
+    private static function addColumnsAndSearch(Table $table, array $fields)
+    {
+        $table->addColumn(new Column('id', 'Id', hidden: true, sortable: true));
+
+        foreach ($fields as $field) {
+            $table->addColumn(new Column($field[0], $field[1], hidden: $field[2], sortable: true));
+            $table->addSearchInput(new SearchInput($field[0], $field[1], shown: true));
+        }
+
+        $table->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -45,7 +66,22 @@ class EquipmentController extends Controller
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts(
+                'id',
+                'full_number_identifier',
+                'pc_number',
+                'location',
+                'side',
+                'double_pc',
+                'needs_dock',
+                'status',
+                'floor',
+                'island_number',
+                'workspace_type',
+                'updated_in_q1',
+                'remarks',
+                'employee_id'
+            )
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -81,35 +117,17 @@ class EquipmentController extends Controller
             'desktops' => $desktops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('pc_number', 'PC Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('double_pc', 'Double PC', sortable: true, hidden: true))
-                ->addColumn(new Column('needs_dock', 'Needs Dock', sortable: true))
-                ->addColumn(new Column('status', 'Status', sortable: true, hidden: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('island_number', 'Island Number', sortable: true, hidden: true))
-                ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('pc_number', 'PC Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('double_pc', 'Double PC', shown: true))
-                ->addSearchInput(new SearchInput('needs_dock', 'Needs Dock', shown: true))
-                ->addSearchInput(new SearchInput('status', 'Status', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['pc_number', 'PC Number', false],
+                ['double_pc', 'Double PC', true],
+                ['needs_dock', 'Needs Dock', false],
+                ['status', 'Status', true],
+                ['island_number', 'Island Number', true],
+                ['workspace_type', 'Workspace Type', false],
+                ['employee_id', 'Employee Id', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
     }
 
@@ -131,7 +149,20 @@ class EquipmentController extends Controller
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts(
+                'id',
+                'full_number_identifier',
+                'laptop_number',
+                'location',
+                'side',
+                'status',
+                'floor',
+                'island_number',
+                'workspace_type',
+                'updated_in_q1',
+                'remarks',
+                'employee_id'
+            )
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -165,31 +196,15 @@ class EquipmentController extends Controller
             'laptops' => $laptops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('status', 'Status', sortable: true, hidden: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('island_number', 'Island Number', sortable: true))
-                ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true, hidden: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('status', 'Status', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['laptop_number', 'Laptop Number', false],
+                ['status', 'Status', true],
+                ['island_number', 'Island Number', false],
+                ['workspace_type', 'Workspace Type', false],
+                ['employee_id', 'Employee Id', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
     }
 
@@ -208,7 +223,16 @@ class EquipmentController extends Controller
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
+            ->allowedSorts(
+                'id',
+                'full_number_identifier',
+                'laptop_number',
+                'location',
+                'side',
+                'floor',
+                'room_number',
+                'updated_in_q1',
+                'remarks')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -236,25 +260,12 @@ class EquipmentController extends Controller
         return Inertia::render('Equipment/MeetingRoomLaptop/index', [
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('room_number', 'Room Number', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['laptop_number', 'Laptop Number', false],
+                ['room_number', 'Room Number', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
     }
 
