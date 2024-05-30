@@ -73,7 +73,7 @@ class EmployeeController extends Controller
             'equipment_identifiers' => ['array'],
         ]));
 
-        $this->toast('The employee was create successfully', ToastType::Success);
+        $this->toast('The employee was created successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
