@@ -2,7 +2,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
-import { CellRenderer, CellRenderer, Table, defaultCellRenderer, defaultCellRenderer } from "@/Components/table/table";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import { useState } from "react";
 import EmployeeForm from "../../Components/crud-forms/employee-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
@@ -56,10 +56,6 @@ const Employees = ({
                 </TableCell>
             );
         }
-        return defaultCellRenderer(row, col, cellKey, rowIdx);
-    };
-
-    const customCellRenderer: CellRenderer<Employee> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
                 <TableCell
@@ -70,7 +66,6 @@ const Employees = ({
                 </TableCell>
             );
         }
-
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
