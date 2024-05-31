@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\TeamMember;
@@ -74,13 +75,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -89,6 +83,8 @@ class TeamController extends Controller
             'team_name' => ['required', 'max:50'],
             'description' => ['required', 'max:50'],
         ]));
+
+        $this->toast('The team was created successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -100,22 +96,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Team $team)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Team $team)
@@ -124,6 +104,8 @@ class TeamController extends Controller
             'team_name' => ['required', 'max:20'],
             'description' => ['required', 'max:50'],
         ]));
+
+        $this->toast('The team was updated successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -160,5 +142,7 @@ class TeamController extends Controller
         }
 
         $team->delete();
+
+        $this->toast('The team was deleted successfully', ToastType::Success);
     }
 }

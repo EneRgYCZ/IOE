@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -295,7 +296,7 @@ class EquipmentController extends Controller
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.desktops'));
+        $this->toast('The desktop was created successfully', ToastType::Success);
     }
 
     public function storeLaptop(Request $request)
@@ -313,6 +314,8 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The laptop was created successfully', ToastType::Success);
     }
 
     public function storeMeetingRoomLaptop(Request $request)
@@ -327,6 +330,8 @@ class EquipmentController extends Controller
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));
+
+        $this->toast('The meeting room laptop was created successfully', ToastType::Success);
     }
 
     /**
@@ -349,6 +354,8 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The desktop was updated successfully', ToastType::Success);
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
@@ -366,6 +373,8 @@ class EquipmentController extends Controller
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The laptop was updated successfully', ToastType::Success);
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
@@ -380,6 +389,8 @@ class EquipmentController extends Controller
             'updated_in_q1' => ['boolean'],
             'remarks' => [],
         ]));
+
+        $this->toast('The meeting room laptop was updated successfully', ToastType::Success);
     }
 
     /**
@@ -388,15 +399,21 @@ class EquipmentController extends Controller
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
+
+        $this->toast('The desktop was deleted successfully', ToastType::Success);
     }
 
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
+
+        $this->toast('The laptop was deleted successfully', ToastType::Success);
     }
 
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
+
+        $this->toast('The meeting room laptop was deleted successfully', ToastType::Success);
     }
 }
