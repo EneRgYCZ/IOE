@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('floor');
             $table->integer('island_number');
             $table->enum('workspace_type', ['developer', 'non-developer'])->nullable();
-            $table->boolean('updated_in_q1')->nullable();
+            $table->boolean('q1')->nullable();
             $table->string('remarks')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();

@@ -14,7 +14,7 @@ it('can create a laptop', function () {
         'floor' => 2,
         'island_number' => 102,
         'workspace_type' => 'non-developer',
-        'updated_in_q1' => true,
+        'q1' => true,
     ];
 
     $this->post(route('equipment.storeLaptop'), $laptopData);

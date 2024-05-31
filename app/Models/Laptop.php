@@ -23,13 +23,13 @@ class Laptop extends Model
         'floor',
         'island_number',
         'workspace_type',
-        'updated_in_q1',
+        'q1',
         'employee_id',
         'remarks',
     ];
 
     protected $cast = [
-        'updated_in_q1' => 'boolean',
+        'q1' => 'boolean',
     ];
 
     public function employee(): BelongsTo

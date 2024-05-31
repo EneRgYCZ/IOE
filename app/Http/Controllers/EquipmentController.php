@@ -36,14 +36,14 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
+            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -56,7 +56,7 @@ class EquipmentController extends Controller
                 'floor',
                 'island_number',
                 'workspace_type',
-                'updated_in_q1',
+                'q1',
                 'remarks',
                 'employee_id',
                 'updated_at',
@@ -93,7 +93,7 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('island_number', 'Island Number', sortable: true, hidden: true))
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
                 ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
                 ->addColumn(new Column('created_at', 'Create At', sortable: true))
@@ -108,7 +108,7 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
                 ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
@@ -129,14 +129,14 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -147,7 +147,7 @@ class EquipmentController extends Controller
                 'floor',
                 'island_number',
                 'workspace_type',
-                'updated_in_q1',
+                'q1',
                 'remarks',
                 'employee_id',
                 'updated_at',
@@ -182,7 +182,7 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('island_number', 'Island Number', sortable: true))
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true, hidden: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true, hidden: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
                 ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
                 ->addColumn(new Column('created_at', 'Create At', sortable: true))
@@ -195,7 +195,7 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
                 ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
@@ -214,12 +214,12 @@ class EquipmentController extends Controller
             'side',
             'floor',
             'room_number',
-            'updated_in_q1',
+            'q1',
             'remarks',
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks', 'updated_at', 'created_at')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'q1', 'remarks', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -228,7 +228,7 @@ class EquipmentController extends Controller
                 'side',
                 'floor',
                 'room_number',
-                'updated_in_q1',
+                'q1',
                 'remarks',
                 'updated_at',
                 'created_at',
@@ -257,7 +257,7 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('side', 'Side', sortable: true))
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('room_number', 'Room Number', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
                 ->addColumn(new Column('created_at', 'Create At', sortable: true))
                 ->addColumn(new Column('updated_at', 'Update At', sortable: true))
@@ -267,7 +267,7 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('side', 'Side', shown: true))
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
                 ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
@@ -291,7 +291,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
@@ -310,7 +310,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
@@ -327,7 +327,7 @@ class EquipmentController extends Controller
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
         ]));
 
@@ -350,7 +350,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
@@ -369,7 +369,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
@@ -386,7 +386,7 @@ class EquipmentController extends Controller
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
         ]));
 

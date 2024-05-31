@@ -25,7 +25,7 @@ class Desktop extends Model
         'floor',
         'island_number',
         'workspace_type',
-        'updated_in_q1',
+        'q1',
         'employee_id',
         'remarks',
     ];
@@ -36,7 +36,7 @@ class Desktop extends Model
 
     protected $cast = [
         'double_pc' => 'boolean',
-        'updated_in_q1' => 'boolean',
+        'q1' => 'boolean',
         'needs_dock' => 'boolean',
     ];
 
