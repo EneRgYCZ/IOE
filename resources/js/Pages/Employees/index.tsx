@@ -1,12 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
 import React, { useState } from "react";
-import { Box, Button, Card, TableCell, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import EmployeeForm from "../../Components/crud-forms/employee-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
-import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
+import TableActions from "@/Components/table/table-actions";
 
 const Employees = ({
     employees,
@@ -21,15 +21,10 @@ const Employees = ({
     desktops: DesktopPC[];
     laptops: Laptop[];
 }>) => {
-    const tableButtonMargins = {
-        margin: "0 10px"
-    };
-
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [empEdit, setEmpEdit] = useState<Employee | null>(null);
+    const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
     const [del, setDel] = useState(false);
-    const [empDel, setEmpDel] = useState<Employee | null>(null);
 
     const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
         desktops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
@@ -49,35 +44,16 @@ const Employees = ({
                     <Table<Employee>
                         data={employees}
                         actionRenderer={employee => (
-                            <TableCell align="center" style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}>
-                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setEdit(true);
-                                            setEmpEdit(employee);
-                                        }}
-                                    >
-                                        VIEW & EDIT
-                                        <EditRounded sx={{ marginLeft: "10px" }} />
-                                    </Button>
-
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        color="error"
-                                        onClick={() => {
-                                            setDel(true);
-                                            setEmpDel(employee);
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
-                                </Box>
-                            </TableCell>
+                            <TableActions
+                                current={employee}
+                                setCurrent={setCurrentEmployee}
+                                setEditFormOpen={() => {
+                                    setEdit(true);
+                                }}
+                                setDeleteFormOpen={() => {
+                                    setDel(true);
+                                }}
+                            />
                         )}
                     />
                 </Box>
@@ -99,14 +75,14 @@ const Employees = ({
             <EmployeeForm
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
-                employee={empEdit}
+                employee={currentEmployee}
                 teams={teams}
                 teamMembers={
-                    team_members && empEdit
+                    team_members && currentEmployee
                         ? teams.filter(team =>
                               team.id
                                   ? team_members
-                                        .filter(relation => relation.employee_id == empEdit.id)
+                                        .filter(relation => relation.employee_id == currentEmployee.id)
                                         .map(relation => relation.team_id)
                                         .includes(team.id)
                                   : null
@@ -116,11 +92,11 @@ const Employees = ({
                 equipment={equipment}
                 title="Edit Employee"
             />
-            {empDel && (
+            {currentEmployee && (
                 <DeletionConfirmation
                     isOpen={del}
                     handleClose={() => setDel(false)}
-                    deleteObject={empDel}
+                    deleteObject={currentEmployee}
                     type="Employee"
                 />
             )}

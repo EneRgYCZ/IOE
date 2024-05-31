@@ -1,11 +1,11 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
+import { Box, Card, Fab, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import TeamForm from "@/Components/crud-forms/team-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
-import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import TableActions from "@/Components/table/table-actions";
 
 const Teams = ({
     teams,
@@ -16,10 +16,6 @@ const Teams = ({
     employees: Employee[];
     team_members: TeamMember[];
 }>) => {
-    const tableButtonMargins = {
-        margin: "0 10px"
-    };
-
     const addButtonBox = {
         position: "fixed",
         width: "250px",
@@ -56,43 +52,16 @@ const Teams = ({
                     <Table<Team>
                         data={teams}
                         actionRenderer={team => (
-                            <TableCell
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    position: "sticky",
-                                    right: 0,
-                                    backgroundColor: "#fff"
+                            <TableActions
+                                current={team}
+                                setCurrent={setCurrentTeam}
+                                setEditFormOpen={() => {
+                                    setFormOpen({ ...formOpen, editTeam: true });
                                 }}
-                            >
-                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentTeam(team);
-                                            setFormOpen({ ...formOpen, editTeam: true });
-                                        }}
-                                    >
-                                        VIEW & EDIT
-                                        <EditRounded />
-                                    </Button>
-
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentTeam(team);
-                                            setFormOpen({ ...formOpen, deleteTeam: true });
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
-                                </Box>
-                            </TableCell>
+                                setDeleteFormOpen={() => {
+                                    setFormOpen({ ...formOpen, deleteTeam: true });
+                                }}
+                            />
                         )}
                     />
                 </Box>

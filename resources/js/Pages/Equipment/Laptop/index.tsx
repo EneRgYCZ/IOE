@@ -1,12 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, TableCell, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { Table } from "@/Components/table/table";
 import EquipmentModal from "@/Components/equipment-modal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
-import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
+import TableActions from "@/Components/table/table-actions";
 
 const Equipment = ({
     laptops,
@@ -15,10 +15,6 @@ const Equipment = ({
     laptops: PaginatedResponse<Laptop>;
     employees: Employee[];
 }>) => {
-    const tableButtonMargins = {
-        margin: "0 10px"
-    };
-
     const [formOpen, setFormOpen] = React.useState({
         addLaptop: false,
         editLaptop: false,
@@ -41,38 +37,16 @@ const Equipment = ({
                         <Table<Laptop>
                             data={laptops}
                             actionRenderer={laptop => (
-                                <TableCell
-                                    align="center"
-                                    style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}
-                                >
-                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        {/* Button for Edit */}
-                                        <Button
-                                            variant="outlined"
-                                            sx={tableButtonMargins}
-                                            onClick={() => {
-                                                setCurrentLaptop(laptop);
-                                                setFormOpen({ ...formOpen, editLaptop: true });
-                                            }}
-                                        >
-                                            VIEW & EDIT
-                                            <EditRounded sx={{ marginLeft: "10px" }} />
-                                        </Button>
-
-                                        {/* Button for Delete */}
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            sx={tableButtonMargins}
-                                            onClick={() => {
-                                                setCurrentLaptop(laptop);
-                                                setFormOpen({ ...formOpen, deleteLaptop: true });
-                                            }}
-                                        >
-                                            <DeleteRounded />
-                                        </Button>
-                                    </Box>
-                                </TableCell>
+                                <TableActions
+                                    current={laptop}
+                                    setCurrent={setCurrentLaptop}
+                                    setEditFormOpen={() => {
+                                        setFormOpen({ ...formOpen, editLaptop: true });
+                                    }}
+                                    setDeleteFormOpen={() => {
+                                        setFormOpen({ ...formOpen, deleteLaptop: true });
+                                    }}
+                                />
                             )}
                         />
                     </Box>

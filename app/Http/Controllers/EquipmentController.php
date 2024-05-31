@@ -174,16 +174,17 @@ class EquipmentController extends Controller
             ->allowedSorts($meetingRoomLaptopColumns)
             ->allowedFilters(
                 $meetingRoomLaptopColumns,
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
-                    $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
-                        foreach ($meetingRoomLaptopColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
+                AllowedFilter::callback('global_search',
+                    function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
+                        $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
+                            foreach ($meetingRoomLaptopColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
                             }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                        });
+                    })
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
