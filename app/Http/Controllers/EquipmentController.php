@@ -31,7 +31,7 @@ class EquipmentController extends Controller
         ['q1', 'Updated in Q1', false],
         ['remarks', 'Remarks', true],
         ['updated_at', 'Updated At', false],
-        ['created_at', 'Created At', false]
+        ['created_at', 'Created At', false],
     ];
 
     private static function addColumnsAndSearch(Table $table, array $fields)
@@ -67,24 +67,25 @@ class EquipmentController extends Controller
             'remarks',
             'employee_id',
             'updated_at',
-            'created_at'
+            'created_at',
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
             ->with('employee')
             ->allowedSorts($desktopColumns)
             ->allowedFilters(
-                $desktopColumns,
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($desktopColumns) {
-                    $query->where(function ($subQuery) use ($desktopColumns, $value) {
-                        foreach ($desktopColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
+                ...array_merge($desktopColumns,
+                    [AllowedFilter::callback('global_search', function (Builder $query, $value) use ($desktopColumns) {
+                        $query->where(function ($subQuery) use ($desktopColumns, $value) {
+                            foreach ($desktopColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
                             }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                        });
+                    })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -125,24 +126,25 @@ class EquipmentController extends Controller
             'remarks',
             'employee_id',
             'updated_at',
-            'created_at'
+            'created_at',
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
             ->with('employee')
             ->allowedSorts($laptopColumns)
             ->allowedFilters(
-                $laptopColumns,
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($laptopColumns) {
-                    $query->where(function ($subQuery) use ($laptopColumns, $value) {
-                        foreach ($laptopColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
+                ...array_merge($laptopColumns,
+                    [AllowedFilter::callback('global_search', function (Builder $query, $value) use ($laptopColumns) {
+                        $query->where(function ($subQuery) use ($laptopColumns, $value) {
+                            foreach ($laptopColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
                             }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                        });
+                    })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -178,24 +180,25 @@ class EquipmentController extends Controller
             'q1',
             'remarks',
             'updated_at',
-            'created_at'
+            'created_at',
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
             ->allowedSorts($meetingRoomLaptopColumns)
             ->allowedFilters(
-                $meetingRoomLaptopColumns,
-                AllowedFilter::callback('global_search',
-                    function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
-                        $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
-                            foreach ($meetingRoomLaptopColumns as $column) {
-                                if (is_array($value)) {
-                                    $value = implode('', $value);
+                ...array_merge($meetingRoomLaptopColumns,
+                    [AllowedFilter::callback('global_search',
+                        function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
+                            $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
+                                foreach ($meetingRoomLaptopColumns as $column) {
+                                    if (is_array($value)) {
+                                        $value = implode('', $value);
+                                    }
+                                    $subQuery->orWhere($column, 'like', "%{$value}%");
                                 }
-                                $subQuery->orWhere($column, 'like', "%{$value}%");
-                            }
-                        });
-                    })
+                            });
+                        })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();

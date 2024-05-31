@@ -123,9 +123,9 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
                         </TableCell>
                     );
                 }
+                default:
+                    return <TableCell key={cellKey}>{row.subject_type}</TableCell>;
             }
-
-            return <TableCell key={cellKey}>{row.subject_type}</TableCell>;
         };
 
         switch (col.key) {
@@ -205,7 +205,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
             case "updated_at":
                 return <TableCell key={cellKey}>{dayjs(row.updated_at).format("YYYY-MM-DD HH:mm:ss")}</TableCell>;
             case "subject_type":
-                renderSubjectType(row.subject_type);
+                return renderSubjectType(row.subject_type);
         }
 
         return defaultCellRenderer(row, col, cellKey, rowIdx);

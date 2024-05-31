@@ -1,8 +1,8 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
-import {Box, Card, Fab, TableCell, Typography} from "@mui/material";
-import {CellRenderer, Table, defaultCellRenderer} from "@/Components/table/table";
+import { Box, Card, Fab, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import TeamForm from "@/Components/crud-forms/team-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import TableActions from "@/Components/table/table-actions";
