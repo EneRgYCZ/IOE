@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -24,11 +25,13 @@ class EmployeeController extends Controller
 
         $employees = QueryBuilder::for(Employee::query())
             ->with('teamMember.team')
-            ->allowedSorts('id', 'first_name', 'last_name')
+            ->allowedSorts('id', 'first_name', 'last_name', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'first_name',
                 'last_name',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -60,8 +63,12 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
                 ->addColumn(new Column('team_member.team', 'Team Name'))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
                 ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -73,6 +80,8 @@ class EmployeeController extends Controller
             'last_name' => ['required', 'max:40'],
             'equipment_identifiers' => ['array'],
         ]));
+
+        $this->toast('The employee was created successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -103,6 +112,8 @@ class EmployeeController extends Controller
             'last_name' => ['required', 'max:40'],
             'equipment_identifiers' => ['array'],
         ]));
+
+        $this->toast('The user was updated successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -164,5 +175,7 @@ class EmployeeController extends Controller
         }
 
         $employee->delete();
+
+        $this->toast('The user was deleted successfully', ToastType::Success);
     }
 }
