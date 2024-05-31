@@ -267,12 +267,12 @@ const TransposedTable: React.FC<TransposedTableProps> = ({ data }) => {
             <Typography variant="h4" sx={{ mb: 2 }}>
                 Changes
             </Typography>
-            {filteredData.map((item, index) => (
-                <Card key={"log_card_" + index} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
+            {filteredData.map(item => (
+                <Card key={"log_card_" + item.attribute} variant="outlined" sx={{ mb: 5, overflow: "auto" }}>
                     <Stack gap={2} sx={{ m: 3 }}>
-                        {Object.entries(item).map(([key, value], valueIndex) => (
+                        {Object.entries(item).map(([key, value]) => (
                             <Stack
-                                key={"log_" + valueIndex}
+                                key={"log_" + key}
                                 direction="row"
                                 justifyContent="space-between"
                                 alignItems="flex-end"

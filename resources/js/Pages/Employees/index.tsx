@@ -41,7 +41,7 @@ const Employees = ({
                     {teams.length > 0 ? (
                         teams.map((entry: TeamMember) => (
                             <div key={entry.id}>
-                                <span>&#8226;</span> {entry.team && entry.team.team_name}
+                                <span>&#8226;</span> {entry.team?.team_name}
                             </div>
                         ))
                     ) : (
