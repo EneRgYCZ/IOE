@@ -29,11 +29,13 @@ class TeamController extends Controller
 
         $teams =
             QueryBuilder::for(Team::query())
-                ->allowedSorts('id', 'team_name', 'description')
+                ->allowedSorts('id', 'team_name', 'description', 'updated_at', 'created_at')
                 ->allowedFilters(
                     'id',
                     'team_name',
                     'description',
+                    'updated_at',
+                    'created_at',
                     AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                         $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                             foreach ($globalSearchColumns as $column) {
@@ -61,8 +63,12 @@ class TeamController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }

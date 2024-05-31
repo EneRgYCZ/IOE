@@ -2,12 +2,13 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import { useState } from "react";
 import EmployeeForm from "../../Components/crud-forms/employee-form";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
 
 const Employees = ({
     employees,
@@ -37,6 +38,21 @@ const Employees = ({
         laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
     );
 
+    const customCellRenderer: CellRenderer<Employee> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -49,6 +65,7 @@ const Employees = ({
                 <Box sx={{ width: "100%", alignItems: "center" }}>
                     <Table<Employee>
                         data={employees}
+                        cellRenderer={customCellRenderer}
                         actionRenderer={employee => (
                             <TableCell align="center" style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>

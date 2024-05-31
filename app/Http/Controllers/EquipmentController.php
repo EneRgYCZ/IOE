@@ -42,7 +42,7 @@ class EquipmentController extends Controller
 
         $desktops = QueryBuilder::for(Desktop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -58,6 +58,8 @@ class EquipmentController extends Controller
                 'updated_in_q1',
                 'remarks',
                 'employee_id',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -93,6 +95,8 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
                 ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('pc_number', 'PC Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -106,6 +110,8 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -129,7 +135,7 @@ class EquipmentController extends Controller
 
         $laptops = QueryBuilder::for(Laptop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -143,6 +149,8 @@ class EquipmentController extends Controller
                 'updated_in_q1',
                 'remarks',
                 'employee_id',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -176,6 +184,8 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true, hidden: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
                 ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -187,6 +197,8 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -206,7 +218,7 @@ class EquipmentController extends Controller
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -217,6 +229,8 @@ class EquipmentController extends Controller
                 'room_number',
                 'updated_in_q1',
                 'remarks',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -244,6 +258,8 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('room_number', 'Room Number', sortable: true))
                 ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -252,6 +268,8 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
                 ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
