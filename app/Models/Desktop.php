@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Desktop extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'full_number_identifier',
@@ -28,13 +30,20 @@ class Desktop extends Model
         'remarks',
     ];
 
+    protected $with = [
+        'employee',
+    ];
+
     protected $cast = [
         'double_pc' => 'boolean',
         'updated_in_q1' => 'boolean',
         'needs_dock' => 'boolean',
     ];
 
-    use LogsActivity;
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
