@@ -24,6 +24,7 @@ class EmployeeController extends Controller
         $globalSearchColumns = ['first_name', 'last_name'];
 
         $employees = QueryBuilder::for(Employee::query())
+            ->with('teamMember.team')
             ->allowedSorts('id', 'first_name', 'last_name', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
@@ -61,6 +62,7 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
+                ->addColumn(new Column('team_member.team', 'Team Name'))
                 ->addColumn(new Column('created_at', 'Create At', sortable: true))
                 ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))

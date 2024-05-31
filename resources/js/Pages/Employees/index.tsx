@@ -38,7 +38,24 @@ const Employees = ({
         laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
     );
 
-    const customCellRenderer: CellRenderer<Employee> = (row, col, cellKey, rowIdx) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const customCellRenderer: CellRenderer<any> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "team_member.team") {
+            const teams = row.team_member;
+            return (
+                <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+                    {teams.length > 0 ? (
+                        teams.map((entry: TeamMember) => (
+                            <div key={entry.id}>
+                                <span>&#8226;</span> {entry.team && entry.team.team_name}
+                            </div>
+                        ))
+                    ) : (
+                        <div>Unassigned</div>
+                    )}
+                </TableCell>
+            );
+        }
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
                 <TableCell
@@ -49,7 +66,6 @@ const Employees = ({
                 </TableCell>
             );
         }
-
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
