@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -27,8 +28,10 @@ class EquipmentController extends Controller
         ['location', 'Location', false],
         ['side', 'Side', false],
         ['floor', 'Floor', false],
-        ['updated_in_q1', 'Updated in Q1', false],
+        ['q1', 'Updated in Q1', false],
         ['remarks', 'Remarks', true],
+        ['updated_at', 'Updated At', false],
+        ['created_at', 'Created At', false]
     ];
 
     private static function addColumnsAndSearch(Table $table, array $fields)
@@ -60,12 +63,15 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
+            'updated_at',
+            'created_at'
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
+            ->with('employee')
             ->allowedSorts($desktopColumns)
             ->allowedFilters(
                 $desktopColumns,
@@ -115,12 +121,15 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
+            'updated_at',
+            'created_at'
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
+            ->with('employee')
             ->allowedSorts($laptopColumns)
             ->allowedFilters(
                 $laptopColumns,
@@ -166,8 +175,10 @@ class EquipmentController extends Controller
             'side',
             'floor',
             'room_number',
-            'updated_in_q1',
+            'q1',
             'remarks',
+            'updated_at',
+            'created_at'
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
@@ -214,7 +225,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
             'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]);
@@ -231,7 +242,7 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
             'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]);
@@ -246,7 +257,7 @@ class EquipmentController extends Controller
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
             'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
         ]);
     }
@@ -257,18 +268,19 @@ class EquipmentController extends Controller
     public function storeDesktop(Request $request)
     {
         Desktop::create(self::validateDesktop($request));
-
-        return redirect(route('equipment.desktops'));
+        $this->toast('The desktop was created successfully', ToastType::Success);
     }
 
     public function storeLaptop(Request $request)
     {
         Laptop::create(self::validateLaptop($request));
+        $this->toast('The laptop was created successfully', ToastType::Success);
     }
 
     public function storeMeetingRoomLaptop(Request $request)
     {
         MeetingRoomLaptop::create(self::validateMeetingRoomLaptop($request));
+        $this->toast('The meeting room laptop was created successfully', ToastType::Success);
     }
 
     /**
@@ -277,16 +289,20 @@ class EquipmentController extends Controller
     public function updateDesktop(Request $request, Desktop $desktop)
     {
         $desktop->update(self::validateDesktop($request));
+        $this->toast('The desktop was updated successfully', ToastType::Success);
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
     {
         $laptop->update(self::validateLaptop($request));
+        $this->toast('The laptop was updated successfully', ToastType::Success);
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->update(self::validateMeetingRoomLaptop($request));
+        $this->toast('The meeting room laptop was updated successfully', ToastType::Success);
+
     }
 
     /**
@@ -295,15 +311,21 @@ class EquipmentController extends Controller
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
+
+        $this->toast('The desktop was deleted successfully', ToastType::Success);
     }
 
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
+
+        $this->toast('The laptop was deleted successfully', ToastType::Success);
     }
 
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
+
+        $this->toast('The meeting room laptop was deleted successfully', ToastType::Success);
     }
 }

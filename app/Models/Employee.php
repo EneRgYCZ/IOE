@@ -23,6 +23,16 @@ class Employee extends Model
         return $this->hasMany(TeamMember::class);
     }
 
+    public function desktop(): HasMany
+    {
+        return $this->hasMany(Desktop::class);
+    }
+
+    public function laptop(): HasMany
+    {
+        return $this->hasMany(Laptop::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return

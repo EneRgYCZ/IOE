@@ -143,8 +143,8 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 </>
             )}
 
-            <FormSwitch id="updated_in_q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
-            <ErrorBox field="updated_in_q1" hasErrors={props.hasErrors} errors={props.errors} />
+            <FormSwitch id="q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
+            <ErrorBox field="q1" hasErrors={props.hasErrors} errors={props.errors} />
 
             <FormField id="remarks" label={"Remarks"} data={props.data} setData={props.setData} />
 

@@ -23,7 +23,7 @@ const EquipmentModal = (props: {
               floor: props.equipment.floor,
               island_number: props.equipment.island_number,
               workspace_type: props.equipment.workspace_type,
-              updated_in_q1: props.equipment.updated_in_q1,
+              q1: props.equipment.q1,
               remarks: props.equipment.remarks,
               employee_id: props.equipment.employee_id
           }
@@ -38,7 +38,7 @@ const EquipmentModal = (props: {
               floor: undefined,
               island_number: undefined,
               workspace_type: "",
-              updated_in_q1: false,
+              q1: false,
               remarks: "",
               employee_id: null
           };
@@ -53,7 +53,7 @@ const EquipmentModal = (props: {
               floor: props.equipment.floor,
               island_number: props.equipment.island_number,
               workspace_type: props.equipment.workspace_type,
-              updated_in_q1: props.equipment.updated_in_q1,
+              q1: props.equipment.q1,
               remarks: props.equipment.remarks,
               employee_id: props.equipment.employee_id
           }
@@ -66,7 +66,7 @@ const EquipmentModal = (props: {
               floor: undefined,
               island_number: undefined,
               workspace_type: "",
-              updated_in_q1: false,
+              q1: false,
               remarks: "",
               employee_id: null
           };
@@ -79,7 +79,7 @@ const EquipmentModal = (props: {
               side: props.equipment.side,
               floor: props.equipment.floor,
               room_number: props.equipment.room_number,
-              updated_in_q1: props.equipment.updated_in_q1,
+              q1: props.equipment.updated_in_q1,
               remarks: props.equipment.remarks
           }
         : {
@@ -89,7 +89,7 @@ const EquipmentModal = (props: {
               side: "",
               floor: undefined,
               room_number: undefined,
-              updated_in_q1: false,
+              q1: false,
               remarks: ""
           };
 

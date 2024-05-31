@@ -1,11 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Card, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
+import { Box, Card, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import EquipmentModal from "@/Components/equipment-modal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
 import TableActions from "@/Components/table/table-actions";
 
 const Equipment = ({
@@ -23,6 +24,21 @@ const Equipment = ({
 
     const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
 
+    const customCellRenderer: CellRenderer<Laptop> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -36,6 +52,7 @@ const Equipment = ({
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
                             data={laptops}
+                            cellRenderer={customCellRenderer}
                             actionRenderer={laptop => (
                                 <TableActions
                                     current={laptop}

@@ -12,7 +12,7 @@ it('can create a meeting room laptop', function () {
         'side' => 'south',
         'floor' => 3,
         'room_number' => '300A',
-        'updated_in_q1' => false,
+        'q1' => false,
     ];
 
     $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
@@ -49,7 +49,7 @@ it('can update the full number identifier of a meeting room laptop', function ()
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
@@ -65,7 +65,7 @@ it('can update the laptop number of a meeting room laptop', function () {
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
@@ -81,7 +81,7 @@ it('can update the location of a meeting room laptop', function () {
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
@@ -97,7 +97,7 @@ it('can update the side of a meeting room laptop', function () {
         'side' => 'north',
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
@@ -113,7 +113,7 @@ it('can update the floor of a meeting room laptop', function () {
         'side' => $meetingRoomLaptop->side,
         'floor' => 4,
         'room_number' => $meetingRoomLaptop->room_number,
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);
@@ -129,7 +129,7 @@ it('can update the room number of a meeting room laptop', function () {
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => '302A',
-        'updated_in_q1' => $meetingRoomLaptop->updated_in_q1,
+        'q1' => $meetingRoomLaptop->q1,
     ];
 
     $this->patch(route('equipment.updateMeetingRoomLaptop', $meetingRoomLaptop), $updatedData);

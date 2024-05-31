@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\TeamMember;
@@ -31,11 +32,13 @@ class TeamController extends Controller
 
         $teams =
             QueryBuilder::for(Team::query())
-                ->allowedSorts('id', 'team_name', 'description')
+                ->allowedSorts('id', 'team_name', 'description', 'updated_at', 'created_at')
                 ->allowedFilters(
                     'id',
                     'team_name',
                     'description',
+                    'updated_at',
+                    'created_at',
                     AllowedFilter::callback(
                         'global_search',
                         function (Builder $query, $value) use ($globalSearchColumns) {
@@ -65,17 +68,14 @@ class TeamController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
     }
 
     /**
@@ -88,6 +88,8 @@ class TeamController extends Controller
             'description' => ['required', self::STRING_LENGTH],
         ]));
 
+        $this->toast('The team was created successfully', ToastType::Success);
+
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -95,22 +97,6 @@ class TeamController extends Controller
                 'employee_id' => $teamMember['id'],
             ]);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Team $team)
-    {
-        //
     }
 
     /**
@@ -122,6 +108,8 @@ class TeamController extends Controller
             'team_name' => ['required', self::STRING_LENGTH],
             'description' => ['required', self::STRING_LENGTH],
         ]));
+
+        $this->toast('The team was updated successfully', ToastType::Success);
 
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
@@ -158,5 +146,7 @@ class TeamController extends Controller
         }
 
         $team->delete();
+
+        $this->toast('The team was deleted successfully', ToastType::Success);
     }
 }
