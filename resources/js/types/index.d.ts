@@ -11,8 +11,22 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
+    notificationCount: number;
+    toast?: Toast;
     queryBuilder: Record<string, QueryBuilderProps>;
 };
+
+export interface Toast {
+    title: string;
+    description: string;
+    timeout: number;
+    action: null | {
+        label: string;
+        redirect: string;
+    };
+    type: "success" | "danger" | "info" | "warning";
+}
+
 export interface PaginatedResponse<T> {
     current_page: number;
     data: Array<T>;
