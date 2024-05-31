@@ -41,6 +41,7 @@ class EquipmentController extends Controller
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
+            ->with('employee')
             ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
             ->allowedFilters(
                 'id',
@@ -91,7 +92,7 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
                 ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
+                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('pc_number', 'PC Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -127,6 +128,7 @@ class EquipmentController extends Controller
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
+            ->with('employee')
             ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
             ->allowedFilters(
                 'id',
@@ -173,7 +175,7 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
                 ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true, hidden: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
+                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
