@@ -25,7 +25,7 @@ class LaptopFactory extends Factory
             'floor' => $this->faker->numberBetween(1, 5),
             'island_number' => $this->faker->numberBetween(1, 10),
             'workspace_type' => $this->faker->randomElement(['developer', 'non-developer']),
-            'updated_in_q1' => $this->faker->boolean(),
+            'q1' => $this->faker->boolean(),
             'remarks' => null,
             'employee_id' => null,
         ];

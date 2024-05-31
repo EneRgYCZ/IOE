@@ -1,12 +1,13 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, Laptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
-import AddLaptop from "@/Pages/Equipment/Laptop/AddLaptop";
-import EditLaptop from "@/Pages/Equipment/Laptop/EditLaptop";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { Box, Button, Card, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
+import EquipmentModal from "@/Components/equipment-modal";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
 
 const Equipment = ({
     laptops,
@@ -19,21 +20,6 @@ const Equipment = ({
         margin: "0 10px"
     };
 
-    const addButtonBox = {
-        position: "fixed",
-        width: "250px",
-        pointerEvents: "none",
-        bottom: 16,
-        right: 16
-    };
-
-    const addButtonStyle = {
-        display: "block",
-        pointerEvents: "initial",
-        marginTop: "16px",
-        marginLeft: "auto"
-    };
-
     const [formOpen, setFormOpen] = React.useState({
         addLaptop: false,
         editLaptop: false,
@@ -41,6 +27,21 @@ const Equipment = ({
     });
 
     const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
+
+    const customCellRenderer: CellRenderer<Laptop> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
 
     return (
         <GuestLayout>
@@ -55,6 +56,7 @@ const Equipment = ({
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<Laptop>
                             data={laptops}
+                            cellRenderer={customCellRenderer}
                             actionRenderer={laptop => (
                                 <TableCell
                                     align="center"
@@ -95,29 +97,22 @@ const Equipment = ({
             </Card>
 
             {/* Button for Add */}
-            <Box sx={addButtonBox}>
-                <Fab
-                    variant="extended"
-                    color="primary"
-                    sx={addButtonStyle}
-                    onClick={() => setFormOpen({ ...formOpen, addLaptop: true })}
-                >
-                    Add laptop
-                </Fab>
-            </Box>
+            <AddButton label="Add laptop" onClick={() => setFormOpen({ ...formOpen, addLaptop: true })} />
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddLaptop
+            <EquipmentModal
                 isOpen={formOpen.addLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addLaptop: false })}
                 employees={employees}
-            ></AddLaptop>
-            <EditLaptop
+                type="Laptop"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editLaptop: false })}
-                laptop={currentLaptop}
+                equipment={currentLaptop}
                 employees={employees}
-            ></EditLaptop>
+                type="Laptop"
+            ></EquipmentModal>
             {currentLaptop && (
                 <DeletionConfirmation
                     isOpen={formOpen.deleteLaptop}

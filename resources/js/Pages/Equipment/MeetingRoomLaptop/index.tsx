@@ -1,12 +1,13 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
-import AddMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/AddMeetingRoomLaptop";
-import EditMeetingRoomLaptop from "@/Pages/Equipment/MeetingRoomLaptop/EditMeetingRoomLaptop";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
+import { Box, Button, Card, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
+import EquipmentModal from "@/Components/equipment-modal";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
 
 const Equipment = ({
     meetingRoomLaptops
@@ -17,21 +18,6 @@ const Equipment = ({
         margin: "0 10px"
     };
 
-    const addButtonBox = {
-        position: "fixed",
-        width: "250px",
-        pointerEvents: "none",
-        bottom: 16,
-        right: 16
-    };
-
-    const addButtonStyle = {
-        display: "block",
-        pointerEvents: "initial",
-        marginTop: "16px",
-        marginLeft: "auto"
-    };
-
     const [formOpen, setFormOpen] = React.useState({
         addMeetingRoomLaptop: false,
         editMeetingRoomLaptop: false,
@@ -39,6 +25,21 @@ const Equipment = ({
     });
 
     const [currentMeetingRoomLaptop, setCurrentMeetingRoomLaptop] = React.useState<MeetingRoomLaptop | null>(null);
+
+    const customCellRenderer: CellRenderer<MeetingRoomLaptop> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
 
     return (
         <GuestLayout>
@@ -52,6 +53,7 @@ const Equipment = ({
                     <Box sx={{ width: "100%", alignItems: "center" }}>
                         <Table<MeetingRoomLaptop>
                             data={meetingRoomLaptops}
+                            cellRenderer={customCellRenderer}
                             actionRenderer={meetingRoomLaptop => (
                                 <TableCell
                                     align="center"
@@ -92,27 +94,23 @@ const Equipment = ({
             </Card>
 
             {/* Button for Add */}
-            <Box sx={addButtonBox}>
-                <Fab
-                    variant="extended"
-                    color="primary"
-                    sx={addButtonStyle}
-                    onClick={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: true })}
-                >
-                    Add meeting room laptop
-                </Fab>
-            </Box>
+            <AddButton
+                label="Add meeting room laptop"
+                onClick={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: true })}
+            />
 
             {/* Forms for Adding, Editing and Deleting */}
-            <AddMeetingRoomLaptop
+            <EquipmentModal
                 isOpen={formOpen.addMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, addMeetingRoomLaptop: false })}
-            ></AddMeetingRoomLaptop>
-            <EditMeetingRoomLaptop
+                type="MeetingRoomLaptop"
+            ></EquipmentModal>
+            <EquipmentModal
                 isOpen={formOpen.editMeetingRoomLaptop}
                 handleClose={() => setFormOpen({ ...formOpen, editMeetingRoomLaptop: false })}
-                meetingRoomLaptop={currentMeetingRoomLaptop}
-            ></EditMeetingRoomLaptop>
+                equipment={currentMeetingRoomLaptop}
+                type="MeetingRoomLaptop"
+            ></EquipmentModal>
             {currentMeetingRoomLaptop && (
                 <DeletionConfirmation
                     isOpen={formOpen.deleteMeetingRoomLaptop}

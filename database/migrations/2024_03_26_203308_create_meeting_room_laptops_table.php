@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('side', ['north', 'south']);
             $table->integer('floor');
             $table->string('room_number')->nullable();
-            $table->boolean('updated_in_q1')->nullable();
+            $table->boolean('q1')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

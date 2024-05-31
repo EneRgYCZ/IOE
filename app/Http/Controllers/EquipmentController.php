@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -35,13 +36,14 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->with('employee')
+            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -54,9 +56,11 @@ class EquipmentController extends Controller
                 'floor',
                 'island_number',
                 'workspace_type',
-                'updated_in_q1',
+                'q1',
                 'remarks',
                 'employee_id',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -89,9 +93,11 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('island_number', 'Island Number', sortable: true, hidden: true))
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
+                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('pc_number', 'PC Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -102,9 +108,11 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -121,13 +129,14 @@ class EquipmentController extends Controller
             'floor',
             'island_number',
             'workspace_type',
-            'updated_in_q1',
+            'q1',
             'remarks',
             'employee_id',
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'updated_in_q1', 'remarks', 'employee_id')
+            ->with('employee')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -138,9 +147,11 @@ class EquipmentController extends Controller
                 'floor',
                 'island_number',
                 'workspace_type',
-                'updated_in_q1',
+                'q1',
                 'remarks',
                 'employee_id',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -171,9 +182,11 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('island_number', 'Island Number', sortable: true))
                 ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true, hidden: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true, hidden: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee_id', 'Employee Id', sortable: true))
+                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
@@ -182,9 +195,11 @@ class EquipmentController extends Controller
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
                 ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
                 ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -199,12 +214,12 @@ class EquipmentController extends Controller
             'side',
             'floor',
             'room_number',
-            'updated_in_q1',
+            'q1',
             'remarks',
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'updated_in_q1', 'remarks')
+            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'q1', 'remarks', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'full_number_identifier',
@@ -213,8 +228,10 @@ class EquipmentController extends Controller
                 'side',
                 'floor',
                 'room_number',
-                'updated_in_q1',
+                'q1',
                 'remarks',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -240,16 +257,20 @@ class EquipmentController extends Controller
                 ->addColumn(new Column('side', 'Side', sortable: true))
                 ->addColumn(new Column('floor', 'Floor', sortable: true))
                 ->addColumn(new Column('room_number', 'Room Number', sortable: true))
-                ->addColumn(new Column('updated_in_q1', 'Updated in Q1', sortable: true))
+                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
                 ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
                 ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
                 ->addSearchInput(new SearchInput('location', 'Location', shown: true))
                 ->addSearchInput(new SearchInput('side', 'Side', shown: true))
                 ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
                 ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
-                ->addSearchInput(new SearchInput('updated_in_q1', 'Updated in Q1', shown: true))
+                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
                 ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -270,12 +291,12 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
 
-        return redirect(route('equipment.desktops'));
+        $this->toast('The desktop was created successfully', ToastType::Success);
     }
 
     public function storeLaptop(Request $request)
@@ -289,10 +310,12 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The laptop was created successfully', ToastType::Success);
     }
 
     public function storeMeetingRoomLaptop(Request $request)
@@ -304,9 +327,11 @@ class EquipmentController extends Controller
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
         ]));
+
+        $this->toast('The meeting room laptop was created successfully', ToastType::Success);
     }
 
     /**
@@ -325,10 +350,12 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The desktop was updated successfully', ToastType::Success);
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
@@ -342,10 +369,12 @@ class EquipmentController extends Controller
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'island_number' => ['numeric', 'required', 'max_digits:5'],
             'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
             'employee_id' => [],
         ]));
+
+        $this->toast('The laptop was updated successfully', ToastType::Success);
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
@@ -357,9 +386,11 @@ class EquipmentController extends Controller
             'side' => ['required', Rule::in(['north', 'south'])],
             'floor' => ['numeric', 'required', 'max_digits:5'],
             'room_number' => ['max:5'],
-            'updated_in_q1' => ['boolean'],
+            'q1' => ['boolean'],
             'remarks' => [],
         ]));
+
+        $this->toast('The meeting room laptop was updated successfully', ToastType::Success);
     }
 
     /**
@@ -368,15 +399,21 @@ class EquipmentController extends Controller
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
+
+        $this->toast('The desktop was deleted successfully', ToastType::Success);
     }
 
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
+
+        $this->toast('The laptop was deleted successfully', ToastType::Success);
     }
 
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();
+
+        $this->toast('The meeting room laptop was deleted successfully', ToastType::Success);
     }
 }
