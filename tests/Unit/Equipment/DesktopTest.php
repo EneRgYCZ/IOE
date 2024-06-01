@@ -39,7 +39,7 @@ it('can search a desktop - BDD 21', function () {
         'q1' => false,
     ];
 
-    $response = $this->post(route('equipment.storeDesktop'), $desktopData);
+    $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
 
     $response = $this->get('/equipment/desktops?search=PC001');
@@ -286,7 +286,7 @@ it('can assign a desktop to an employee - BDD 16', function () {
 
     $desktop = Desktop::create($desktopData);
 
-    $response = $this->post(route('equipment.storeDesktop'), $desktopData);
+    $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
 
     $desktop->update(['employee_id' => $employee->id]);
@@ -315,7 +315,7 @@ it('can unassign a desktop from an employee - BDD 18', function () {
     ];
 
     $desktop = Desktop::create($desktopData);
-    $response = $this->post(route('equipment.storeDesktop'), $desktopData);
+    $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
 
     $desktop->update(['employee_id' => $employee->id]);

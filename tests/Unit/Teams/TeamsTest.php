@@ -70,7 +70,6 @@ test('can assign an employee to a team - BDD 5', function () {
             ['id' => $employee->id],
         ],
     ];
-    $team = Team::create($teamData);
 
     $this->post(route('teams.store'), $teamData);
     $this->assertDatabaseHas('team_members', [
@@ -99,11 +98,12 @@ test('can unassign an employee from a team - BDD 6', function () {
     $updatedData = [
         'team_name' => 'Updated Team',
         'description' => 'This is an updated team',
+        'team_members' => [],
     ];
 
-    $team->update($updatedData);
+    $this->patch(route('teams.update', $team), $updatedData);
 
-    ! $this->assertDatabaseHas('team_members', [
+    $this->assertDatabaseMissing('team_members', [
         'employee_id' => $employee->id,
     ]);
 
@@ -139,7 +139,6 @@ test('can sort teams by name in ascending order - BDD 22', function () {
     Team::create($teamData1);
     Team::create($teamData2);
     Team::create($teamData3);
-    $response = $this->get('/teams');
 
     $response = $this->get('/teams?sort=team_name');
     $response->assertSeeInOrder(['Team A', 'Team B', 'Team C']);
@@ -163,7 +162,6 @@ test('can sort teams by name in descending order - BDD 22', function () {
     Team::create($teamData1);
     Team::create($teamData2);
     Team::create($teamData3);
-    $response = $this->get('/teams');
 
     $response = $this->get('/teams?sort=-team_name');
     $response->assertSeeInOrder(['Team C', 'Team B', 'Team A']);
@@ -186,7 +184,6 @@ test('can sort teams by description in ascending order - BDD 22', function () {
     Team::create($teamData1);
     Team::create($teamData2);
     Team::create($teamData3);
-    $response = $this->get('/teams');
 
     $response = $this->get('/teams?sort=description');
     $response->assertSeeInOrder(['Test DescriptionA', 'Test DescriptionB', 'Test DescriptionC']);
@@ -210,7 +207,6 @@ test('can sort teams by description in descending order - BDD 22', function () {
     Team::create($teamData1);
     Team::create($teamData2);
     Team::create($teamData3);
-    $response = $this->get('/teams');
 
     $response = $this->get('/teams?sort=-description');
     $response->assertSeeInOrder(['Test DescriptionC', 'Test DescriptionB', 'Test DescriptionA']);

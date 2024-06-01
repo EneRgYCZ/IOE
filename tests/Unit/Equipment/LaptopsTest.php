@@ -35,7 +35,7 @@ it('can search a laptop - BDD 21', function () {
         'q1' => true,
     ];
 
-    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 
     $response = $this->get('/equipment/laptops?search=L12345');
@@ -196,7 +196,7 @@ it('can assign a laptop to an employee - BDD 16', function () {
 
     $laptop = Laptop::create($laptopData);
 
-    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 
     $laptop->update(['employee_id' => $employee->id]);
@@ -224,7 +224,7 @@ it('can unassign a laptop from an employee - BDD 18', function () {
 
     $laptop = Laptop::create($laptopData);
 
-    $response = $this->post(route('equipment.storeLaptop'), $laptopData);
+    $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 
     $laptop->update(['employee_id' => $employee->id]);

@@ -29,7 +29,7 @@ it('can search a meeting room laptop - BDD 21', function () {
         'q1' => false,
     ];
 
-    $response = $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
+    $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
     $response = $this->get('/equipment/meeting-room-laptops?search=MR123');
     $response->assertStatus(200);

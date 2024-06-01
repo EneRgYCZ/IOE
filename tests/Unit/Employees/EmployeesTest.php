@@ -235,8 +235,6 @@ it('can sort employees by first name in ascending order - BDD 22', function () {
     Employee::create($employeeData2);
     Employee::create($employeeData3);
 
-    $response = $this->get('/employees');
-
     $response = $this->get('/employees?sort=first_name');
     $response->assertSeeInOrder(['Abby', 'Bobby', 'Cathy']);
 });
@@ -258,8 +256,6 @@ it('can sort employees by first name in descending order - BDD 22', function () 
     Employee::create($employeeData);
     Employee::create($employeeData2);
     Employee::create($employeeData3);
-
-    $response = $this->get('/employees');
 
     $response = $this->get('/employees?sort=-first_name');
     $response->assertSeeInOrder(['Cathy', 'Bobby', 'Abby']);
@@ -283,8 +279,6 @@ it('can sort employees by last name in ascending order - BDD 22', function () {
     Employee::create($employeeData2);
     Employee::create($employeeData3);
 
-    $response = $this->get('/employees');
-
     $response = $this->get('/employees?sort=last_name');
     $response->assertSeeInOrder(['Abigail', 'Basher', 'Katherine']);
 });
@@ -306,8 +300,6 @@ it('can sort employees by last name in descending order - BDD 22', function () {
     Employee::create($employeeData1);
     Employee::create($employeeData2);
     Employee::create($employeeData3);
-
-    $response = $this->get('/employees');
 
     $response = $this->get('/employees?sort=-last_name');
     $response->assertSeeInOrder(['Katherine', 'Basher', 'Abigail']);
