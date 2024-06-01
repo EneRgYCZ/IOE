@@ -23,7 +23,7 @@ class MeetingRoomLaptopFactory extends Factory
             'side' => $this->faker->randomElement(['north', 'south']),
             'floor' => $this->faker->numberBetween(1, 5),
             'room_number' => $this->faker->numberBetween(1, 50),
-            'updated_in_q1' => $this->faker->boolean(),
+            'q1' => $this->faker->boolean(),
             'remarks' => null,
         ];
     }

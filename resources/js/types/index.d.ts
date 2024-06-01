@@ -11,8 +11,22 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
+    notificationCount: number;
+    toast?: Toast;
     queryBuilder: Record<string, QueryBuilderProps>;
 };
+
+export interface Toast {
+    title: string;
+    description: string;
+    timeout: number;
+    action: null | {
+        label: string;
+        redirect: string;
+    };
+    type: "success" | "danger" | "info" | "warning";
+}
+
 export interface PaginatedResponse<T> {
     current_page: number;
     data: Array<T>;
@@ -104,7 +118,7 @@ export interface DesktopPC {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -122,7 +136,7 @@ export interface Laptop {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -138,7 +152,7 @@ export interface MeetingRoomLaptop {
     side: string;
     floor?: number;
     room_number?: number;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     created_at?: string;
     updated_at?: string;

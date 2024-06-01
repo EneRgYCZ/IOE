@@ -17,7 +17,7 @@ it('can create a desktop - BDD 13', function () {
         'floor' => 1,
         'island_number' => 101,
         'workspace_type' => 'developer',
-        'updated_in_q1' => false,
+        'q1' => false,
     ];
 
     $this->post(route('equipment.storeDesktop'), $desktopData);
@@ -36,7 +36,7 @@ it('can search a desktop - BDD 21', function () {
         'floor' => 1,
         'island_number' => 101,
         'workspace_type' => 'developer',
-        'updated_in_q1' => false,
+        'q1' => false,
     ];
 
     $response = $this->post(route('equipment.storeDesktop'), $desktopData);
@@ -81,7 +81,7 @@ it('can update the full number identifier of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -101,7 +101,7 @@ it('can update the PC number of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -121,7 +121,7 @@ it('can update the location of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -141,7 +141,7 @@ it('can update the side of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -161,7 +161,7 @@ it('can update the floor of a desktop - BDD 14', function () {
         'floor' => 2,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -181,7 +181,7 @@ it('can update the island number of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => 102,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
 
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
@@ -201,7 +201,7 @@ it('can update the double PC flag of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
@@ -220,7 +220,7 @@ it('can update the needs dock flag of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
@@ -239,7 +239,7 @@ it('can update the workspace type of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type === 'developer' ? 'non-developer' : 'developer',
-        'updated_in_q1' => $desktop->updated_in_q1,
+        'q1' => $desktop->q1,
     ];
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
@@ -258,7 +258,7 @@ it('can update the updated in Q1 flag of a desktop - BDD 14', function () {
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
         'workspace_type' => $desktop->workspace_type,
-        'updated_in_q1' => ! $desktop->updated_in_q1,
+        'q1' => ! $desktop->q1,
     ];
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
     $this->assertDatabaseHas('desktops', $updatedData);
@@ -281,7 +281,7 @@ it('can assign a desktop to an employee - BDD 16', function () {
         'floor' => 1,
         'island_number' => 101,
         'workspace_type' => 'developer',
-        'updated_in_q1' => false,
+        'q1' => false,
     ];
 
     $desktop = Desktop::create($desktopData);
@@ -311,7 +311,7 @@ it('can unassign a desktop from an employee - BDD 18', function () {
         'floor' => 1,
         'island_number' => 101,
         'workspace_type' => 'developer',
-        'updated_in_q1' => false,
+        'q1' => false,
     ];
 
     $desktop = Desktop::create($desktopData);

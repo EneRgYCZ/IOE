@@ -15,7 +15,7 @@ it('can create a laptop - BDD 13', function () {
         'floor' => 2,
         'island_number' => 102,
         'workspace_type' => 'non-developer',
-        'updated_in_q1' => true,
+        'q1' => true,
     ];
 
     $this->post(route('equipment.storeLaptop'), $laptopData);
@@ -32,7 +32,7 @@ it('can search a laptop - BDD 21', function () {
         'floor' => 2,
         'island_number' => 102,
         'workspace_type' => 'non-developer',
-        'updated_in_q1' => true,
+        'q1' => true,
     ];
 
     $response = $this->post(route('equipment.storeLaptop'), $laptopData);
@@ -191,7 +191,7 @@ it('can assign a laptop to an employee - BDD 16', function () {
         'floor' => 2,
         'island_number' => 102,
         'workspace_type' => 'non-developer',
-        'updated_in_q1' => true,
+        'q1' => true,
     ];
 
     $laptop = Laptop::create($laptopData);
@@ -219,7 +219,7 @@ it('can unassign a laptop from an employee - BDD 18', function () {
         'floor' => 2,
         'island_number' => 102,
         'workspace_type' => 'non-developer',
-        'updated_in_q1' => true,
+        'q1' => true,
     ];
 
     $laptop = Laptop::create($laptopData);
