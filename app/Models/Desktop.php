@@ -30,8 +30,6 @@ class Desktop extends Model
         'remarks',
     ];
 
-    use LogsActivity;
-
     protected $with = [
         'employee',
     ];
