@@ -21,6 +21,9 @@ class EmployeeController extends Controller
 {
     const STRING_LENGTH = 'max:40';
 
+    // Function to load the main page for the employees.
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the employees table of the page
     public function index()
     {
         $globalSearchColumns = ['first_name', 'last_name'];
@@ -48,10 +51,10 @@ class EmployeeController extends Controller
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
 
-        $teams = Team::all();
-        $teamMembers = TeamMember::all();
-        $desktops = Desktop::all();
-        $laptops = Laptop::all();
+        $teams = Team::all(); // To show a list of teams that could be added to the employee
+        $teamMembers = TeamMember::all(); // To show which teams each employee belongs to
+        $desktops = Desktop::all(); // To show a list of desktops that could be added to the employee
+        $laptops = Laptop::all(); // To show a list of laptops that could be added to the employee
 
         return Inertia::render('Employees/index', [
             'employees' => $employees,
@@ -75,8 +78,10 @@ class EmployeeController extends Controller
         });
     }
 
+    // Function used upon creating an employee in order to store the entity in the database
     public function store(Request $request)
     {
+        // Employee creation if backend validation of input is passed
         $employee = Employee::create($request->validate([
             'first_name' => ['required', self::STRING_LENGTH],
             'last_name' => ['required', self::STRING_LENGTH],
@@ -85,6 +90,7 @@ class EmployeeController extends Controller
 
         $this->toast('The employee was created successfully', ToastType::Success);
 
+        // If a team is added to an employee, the team-employee relation is stored separately as team member relations
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -93,6 +99,7 @@ class EmployeeController extends Controller
             ]);
         }
 
+        // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee
         $equipment_identifiers = $request->input('equipment_identifiers', []);
         $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
 
@@ -107,8 +114,10 @@ class EmployeeController extends Controller
         }
     }
 
+    // Function used upon updating an employee in order to modify the entity in the database
     public function update(Request $request, Employee $employee)
     {
+        // Employee update if backend validation of input is passed
         $employee->update($request->validate([
             'first_name' => ['required', self::STRING_LENGTH],
             'last_name' => ['required', self::STRING_LENGTH],
@@ -117,6 +126,7 @@ class EmployeeController extends Controller
 
         $this->toast('The user was updated successfully', ToastType::Success);
 
+        // Using the new team members list, if the employee-team relation did not exist before, it is created.
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('employee_id', $employee->id)
@@ -131,6 +141,7 @@ class EmployeeController extends Controller
             }
         }
 
+        // If a team is removed from an employee, it is also removed as a team member relation.
         $teamMembersIDs = array_column($teamMembers, 'id');
         $teamMembersToDelete = TeamMember::where('employee_id', $employee->id)
             ->whereNotIn('team_id', $teamMembersIDs)->get();
@@ -139,6 +150,7 @@ class EmployeeController extends Controller
             $teamMember->delete();
         }
 
+        // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee.
         $equipment_identifiers = $request->input('equipment_identifiers', []);
 
         $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
@@ -153,6 +165,7 @@ class EmployeeController extends Controller
             $laptop->update(['employee_id' => $employee->id]);
         }
 
+        // If an equipment is removed from an employee, the equipment is also updated with null instead of the employee ID.
         $desktop = Desktop::where('employee_id', $employee->id)
             ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
 
@@ -168,14 +181,17 @@ class EmployeeController extends Controller
         }
     }
 
+    // Function used upon deleting an employee in order to remove the entity from the database
     public function destroy(Employee $employee)
     {
+        // First all team-employee relations involving this employee are removed
         $teamMembers = TeamMember::where('employee_id', $employee->id)->get();
 
         foreach ($teamMembers as $teamMember) {
             $teamMember->delete();
         }
 
+        // Then the employee is deleted
         $employee->delete();
 
         $this->toast('The user was deleted successfully', ToastType::Success);

@@ -46,9 +46,9 @@ class EquipmentController extends Controller
         $table->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    // Function to load the main page for the desktops.
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the desktops table of the page
     public function desktopsIndex()
     {
         $desktopColumns = [
@@ -110,6 +110,9 @@ class EquipmentController extends Controller
         });
     }
 
+    // Function to load the main page for the laptops.
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the laptops table of the page
     public function laptopsIndex()
     {
         $laptopColumns = [
@@ -167,6 +170,9 @@ class EquipmentController extends Controller
         });
     }
 
+    // Function to load the main page for the meeting room laptops.
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the meeting room laptops table of the page
     public function meetingRoomLaptopIndex()
     {
         $meetingRoomLaptopColumns = [
@@ -215,6 +221,7 @@ class EquipmentController extends Controller
         });
     }
 
+    // Function to validate input when creating or updating a desktop
     private static function validateDesktop(Request $desktop)
     {
         return $desktop->validate([
@@ -234,6 +241,7 @@ class EquipmentController extends Controller
         ]);
     }
 
+    // Function to validate input when creating or updating a laptop
     private static function validateLaptop(Request $laptop)
     {
         return $laptop->validate([
@@ -251,6 +259,7 @@ class EquipmentController extends Controller
         ]);
     }
 
+    // Function to validate input when creating or updating a meeting room laptop
     private static function validateMeetingRoomLaptop(Request $meetingRoomLaptop)
     {
         return $meetingRoomLaptop->validate([
@@ -265,52 +274,56 @@ class EquipmentController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Function to store created desktop in the database
     public function storeDesktop(Request $request)
     {
+        // Creates if backend user validation is passed
         Desktop::create(self::validateDesktop($request));
         $this->toast('The desktop was created successfully', ToastType::Success);
     }
 
+    // Function to store created laptop in the database
     public function storeLaptop(Request $request)
     {
+        // Creates if backend user validation is passed
         Laptop::create(self::validateLaptop($request));
         $this->toast('The laptop was created successfully', ToastType::Success);
     }
 
+    // Function to store created meeting room laptop in the database
     public function storeMeetingRoomLaptop(Request $request)
     {
+        // Creates if backend user validation is passed
         MeetingRoomLaptop::create(self::validateMeetingRoomLaptop($request));
         $this->toast('The meeting room laptop was created successfully', ToastType::Success);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Function to modify the updated desktop in the database
     public function updateDesktop(Request $request, Desktop $desktop)
     {
+        // Updates if backend user validation is passed
         $desktop->update(self::validateDesktop($request));
         $this->toast('The desktop was updated successfully', ToastType::Success);
     }
 
+    // Function to modify the updated laptop in the database
     public function updateLaptop(Request $request, Laptop $laptop)
     {
+        // Updates if backend user validation is passed
         $laptop->update(self::validateLaptop($request));
         $this->toast('The laptop was updated successfully', ToastType::Success);
     }
 
+    // Function to modify the updated meeting room laptop in the database
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
+        // Updates if backend user validation is passed
         $meetingRoomLaptop->update(self::validateMeetingRoomLaptop($request));
         $this->toast('The meeting room laptop was updated successfully', ToastType::Success);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Function used upon deleting a desktop in order to remove the entity from the database
     public function destroyDesktop(Desktop $desktop)
     {
         $desktop->delete();
@@ -318,6 +331,7 @@ class EquipmentController extends Controller
         $this->toast('The desktop was deleted successfully', ToastType::Success);
     }
 
+    // Function used upon deleting a laptop in order to remove the entity from the database
     public function destroyLaptop(Laptop $laptop)
     {
         $laptop->delete();
@@ -325,6 +339,7 @@ class EquipmentController extends Controller
         $this->toast('The laptop was deleted successfully', ToastType::Success);
     }
 
+    // Function used upon deleting a meeting room laptop in order to remove the entity from the database
     public function destroyMeetingRoomLaptop(MeetingRoomLaptop $meetingRoomLaptop)
     {
         $meetingRoomLaptop->delete();

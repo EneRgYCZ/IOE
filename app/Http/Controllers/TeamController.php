@@ -19,9 +19,9 @@ class TeamController extends Controller
 {
     const STRING_LENGTH = 'max:50';
 
-    /**
-     * Display a listing of the resource.
-     */
+    // Function to load the main page for the teams.
+    // Includes getting necessary information for the page and rendering it via Inertia
+    // It is also in charge of setting up the teams table of the page
     public function index()
     {
         $globalSearchColumns = [
@@ -55,9 +55,8 @@ class TeamController extends Controller
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
 
-        $employees = Employee::query()->get();
-
-        $teamMembers = TeamMember::query()->get();
+        $employees = Employee::query()->get(); // To show a list of employees that could be added to the team
+        $teamMembers = TeamMember::query()->get(); // To show which employees are in which teams
 
         return Inertia::render('Teams/index', [
             'teams' => $teams,
@@ -78,11 +77,10 @@ class TeamController extends Controller
         });
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Function to create a team and add it to the database
     public function store(Request $request)
     {
+        // Creates a team if backend validation is passed
         $team = Team::create($request->validate([
             'team_name' => ['required', self::STRING_LENGTH],
             'description' => ['required', self::STRING_LENGTH],
@@ -90,6 +88,7 @@ class TeamController extends Controller
 
         $this->toast('The team was created successfully', ToastType::Success);
 
+        // The team-employee relations are individually stored as team member relations if employees are added to a team
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -99,11 +98,26 @@ class TeamController extends Controller
         }
     }
 
+    // Function to edit a team and update it in the database
+    public function show(Team $team)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Team $team)
+    {
+        //
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Team $team)
     {
+        // Updates a team if backend validation is passed
         $team->update($request->validate([
             'team_name' => ['required', self::STRING_LENGTH],
             'description' => ['required', self::STRING_LENGTH],
@@ -111,6 +125,7 @@ class TeamController extends Controller
 
         $this->toast('The team was updated successfully', ToastType::Success);
 
+        // The team-employee relations are added if they didn't exist already
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('team_id', $team->id)
@@ -125,6 +140,8 @@ class TeamController extends Controller
             }
         }
 
+        // The team-employee relations are removed if the passed list of employees
+        // does not tie a specific employee to a team anymore
         $teamMembersIDs = array_column($teamMembers, 'id');
         $teamMembersToDelete = TeamMember::where('team_id', $team->id)
             ->whereNotIn('employee_id', $teamMembersIDs)->get();
@@ -134,17 +151,17 @@ class TeamController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Function used upon deleting a team in order to remove the entity from the database
     public function destroy(Team $team)
     {
+        // First all team-employee relations involving this team are removed
         $teamMembers = TeamMember::where('team_id', $team->id)->get();
 
         foreach ($teamMembers as $teamMember) {
             $teamMember->delete();
         }
 
+        // Then the team is deleted
         $team->delete();
 
         $this->toast('The team was deleted successfully', ToastType::Success);

@@ -4,13 +4,17 @@ import { Button } from "@mui/material";
 import React from "react";
 import FormModal from "../form-components/form-modal";
 
+{
+    /* Component to be used for deletion confirmation for all entities */
+}
 const DeletionConfirmation = (props: {
     isOpen: boolean;
     handleClose: () => void;
-    deleteObject: Employee | MeetingRoomLaptop | Laptop | DesktopPC | Team;
+    deleteObject: Employee | MeetingRoomLaptop | Laptop | DesktopPC | Team; // Accepts employees, equipment or teams
     type: string;
 }) => {
     const determineRoute = () => {
+        // Determines deletion route according to the entity type
         switch (props.type) {
             case "Employee":
                 return "employees.destroy";
