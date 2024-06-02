@@ -20,12 +20,12 @@ class MeetingRoomLaptop extends Model
         'serial_number',
         'floor',
         'room_number',
-        'updated_in_q1',
+        'q1',
         'remarks',
     ];
 
     protected $cast = [
-        'updated_in_q1' => 'boolean',
+        'q1' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

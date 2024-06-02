@@ -23,7 +23,7 @@ const EquipmentModal = (props: {
         floor: props.equipment ? props.equipment.floor : undefined,
         island_number: props.equipment ? props.equipment.island_number : undefined,
         workspace_type: props.equipment ? props.equipment.workspace_type : "",
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
+        q1: props.equipment ? props.equipment.q1 : false,
         remarks: props.equipment ? props.equipment.remarks : "",
         employee_id: props.equipment ? props.equipment.employee_id : null
     };
@@ -37,7 +37,7 @@ const EquipmentModal = (props: {
         floor: props.equipment ? props.equipment.floor : undefined,
         island_number: props.equipment ? props.equipment.island_number : undefined,
         workspace_type: props.equipment ? props.equipment.workspace_type : "",
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
+        q1: props.equipment ? props.equipment.q1 : false,
         remarks: props.equipment ? props.equipment.remarks : "",
         employee_id: props.equipment ? props.equipment.employee_id : null
     };
@@ -49,7 +49,7 @@ const EquipmentModal = (props: {
         side: props.equipment ? props.equipment.side : "",
         floor: props.equipment ? props.equipment.floor : undefined,
         room_number: props.equipment ? props.equipment.room_number : undefined,
-        updated_in_q1: props.equipment ? props.equipment.updated_in_q1 : false,
+        q1: props.equipment ? props.equipment.q1 : false,
         remarks: props.equipment ? props.equipment.remarks : ""
     };
 

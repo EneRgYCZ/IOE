@@ -106,7 +106,7 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                 </FormSelect>
             )}
 
-            <FormSwitch id="updated_in_q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
+            <FormSwitch id="q1" label="Updated in Q1" data={props.data} setData={props.setData}></FormSwitch>
 
             <FormField id="remarks" label={"Remarks"} data={props.data} setData={props.setData} />
 

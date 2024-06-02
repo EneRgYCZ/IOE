@@ -2,11 +2,12 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { MeetingRoomLaptop, PageProps, PaginatedResponse } from "@/types";
 import React from "react";
 import { Box, Button, Card, TableCell, Typography } from "@mui/material";
-import { Table, CellRenderer, defaultCellRenderer } from "@/Components/table/table";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
 import EquipmentModal from "@/Components/equipment-modal";
 import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
 import { EditRounded, DeleteRounded } from "@mui/icons-material";
 import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
 
 const Equipment = ({
     meetingRoomLaptops
@@ -26,14 +27,26 @@ const Equipment = ({
     const [currentMeetingRoomLaptop, setCurrentMeetingRoomLaptop] = React.useState<MeetingRoomLaptop | null>(null);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const customCellRenderer: CellRenderer<any> = (row, col, cellKey, rowIdx) => {
-        if (col.key === "updated_in_q1") {
-            const value = row.updated_in_q1;
+        if (col.key === "q1") {
+            const value = row.q1;
             return (
                 <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
                     {value == 1 ? <div>Yes</div> : <div>No</div>}
                 </TableCell>
             );
         }
+        
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
