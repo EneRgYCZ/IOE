@@ -29,6 +29,7 @@ export type CellRenderer<T> = (
     rowIdx: number
 ) => React.ReactElement;
 
+// Default cell renderer function to handle display of table cells
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
     if (col.key === "employee.first_name") {
@@ -52,11 +53,12 @@ export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
     return <TableCell key={cellKey} sx={{ pl: 2 }}></TableCell>;
 };
 
+// Table component definition
 export const Table = <T,>({
-    name = "default",
-    data,
-    actionRenderer,
-    cellRenderer = defaultCellRenderer
+    name = "default", // Default table name
+    data, // Paginated response data
+    actionRenderer, // Optional renderer for action buttons
+    cellRenderer = defaultCellRenderer // Renderer for table cells
 }: {
     name?: string;
     data: PaginatedResponse<T>;
@@ -68,6 +70,7 @@ export const Table = <T,>({
 
     const originalData = queryBuilder[name];
 
+    // Show search inputs that have values
     originalData.searchInputs.forEach(search => {
         if (search.value) {
             search.shown = true;
@@ -109,21 +112,18 @@ export const Table = <T,>({
         }
     }, [tableData.sort]);
 
+    // Function to generate query data for URL
     const dataForNewString = () => {
+        // Get visible columns for the query
         const getColumnsForQuery = () => {
             const columns = tableData.columns;
 
-            const visibleColumns = columns.filter(column => {
-                return !column.hidden;
-            });
+            const visibleColumns = columns.filter(column => !column.hidden);
 
-            return visibleColumns
-                .map(column => {
-                    return column.key;
-                })
-                .sort((a, b) => a.localeCompare(b));
+            return visibleColumns.map(column => column.key).sort((a, b) => a.localeCompare(b));
         };
 
+        // Get filters with values for the query
         const getFiltersForQuery = () => {
             const filtersWithValue: Record<string, string> = {};
 
@@ -166,18 +166,19 @@ export const Table = <T,>({
         return queryData;
     };
 
+    // Function to generate new query string for URL
     const newQs = () => {
         const existingData = qs.parse(location.search.substring(1));
-        // prefix with table name
+        // Prefix with table name
         const prefix = name === "default" ? "" : name + "_";
 
-        // reset existing data
+        // Reset existing data
         ["columns", "filter", "sort"].forEach(key => {
             delete existingData[prefix + key];
         });
         delete existingData[tableData.pageName];
 
-        // add new data
+        // Add new data
         const newData = dataForNewString();
         Object.entries(newData).forEach(([key, value]) => {
             if (key === "page") {
@@ -191,6 +192,7 @@ export const Table = <T,>({
             }
         });
 
+        // Sort keys alphabetically
         function alphabeticalSort(a: string, b: string) {
             return a.localeCompare(b);
         }
@@ -209,9 +211,10 @@ export const Table = <T,>({
         });
     };
 
+    // Update the URL when tableData changes
     useEffect(() => {
         const newUrl = location.pathname + "?" + newQs();
-        if (location.pathname + location.search == newUrl) {
+        if (location.pathname + location.search === newUrl) {
             return;
         }
         router.visit(newUrl, { preserveScroll: true, preserveState: true });

@@ -17,6 +17,11 @@ class Column implements Arrayable
     ) {
     }
 
+    /**
+     * Convert the Column object to an array.
+     *
+     * @return array The converted array representation of the Column object.
+     */
     public function toArray(): array
     {
         return [

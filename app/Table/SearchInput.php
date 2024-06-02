@@ -14,6 +14,11 @@ class SearchInput implements Arrayable
     ) {
     }
 
+    /**
+     * Convert the SearchInput object to an array.
+     *
+     * @return array The converted array representation of the SearchInput object.
+     */
     public function toArray(): array
     {
         return [
