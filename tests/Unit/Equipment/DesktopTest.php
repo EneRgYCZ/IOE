@@ -445,7 +445,7 @@ it('can sort desktops by Needs Dock in descending order - BDD 22', function () {
     Desktop::create($desktop2);
     Desktop::create($desktop3);
 
-    $response = $this->get('/equipment/desktops?sort=-needds_dock');
+    $response = $this->get('/equipment/desktops?sort=-needs_dock');
     $response->assertSeeInOrder(['true', 'true', 'false']);
 });
 it('can sort desktops by Floor in ascending order - BDD 22', function () {
