@@ -11,10 +11,32 @@ const LAPTOP_DATA = [
     'location' => 'GHH',
     'side' => 'North',
     'status' => 'static',
-    'floor' => 2,
+    'floor' => 1,
     'island_number' => 102,
     'workspace_type' => 'Non-developer',
     'q1' => true,
+];
+const LAPTOP_DATA2 = [
+    'full_number_identifier' => 'L22345',
+    'laptop_number' => 'L002',
+    'location' => 'GHH',
+    'side' => 'North',
+    'status' => 'static',
+    'floor' => 2,
+    'island_number' => 202,
+    'workspace_type' => 'Non-developer',
+    'q1' => true,
+];
+const LAPTOP_DATA3 = [
+    'full_number_identifier' => 'L32345',
+    'laptop_number' => 'L003',
+    'location' => 'Waagstraat',
+    'side' => 'South',
+    'status' => 'static',
+    'floor' => 3,
+    'island_number' => 302,
+    'workspace_type' => 'Developer',
+    'q1' => false,
 ];
 
 it('can create a laptop - BDD 13', function () {
@@ -24,6 +46,212 @@ it('can create a laptop - BDD 13', function () {
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
+it('can sort laptops by ID in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=full_number_identifier');
+    $response->assertSeeInOrder(['L12345', 'L22345', 'L32345']);
+});
+
+it('can sort laptops by ID in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-full_number_identifier');
+    $response->assertSeeInOrder(['L32345', 'L22345', 'L12345']);
+});
+it('can sort laptops by laptop number in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=laptop_number');
+    $response->assertSeeInOrder(['L001', 'L002', 'L003']);
+});
+
+it('can sort laptops by laptop number in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-laptop_number');
+    $response->assertSeeInOrder(['L003', 'L002', 'L001']);
+});
+
+it('can sort laptops by location in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=location');
+    $response->assertSeeInOrder(['GHH', 'GHH', 'Waagstraat']);
+});
+
+it('can sort laptops by location in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-location');
+    $response->assertSeeInOrder(['Waagstraat', 'GHH', 'GHH']);
+});
+
+it('can sort laptops by side in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=side');
+    $response->assertSeeInOrder(['North', 'North', 'South']);
+});
+
+it('can sort laptops by side in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-side');
+    $response->assertSeeInOrder(['South', 'North', 'North']);
+});
+
+it('can sort laptops by floor in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=floor');
+    $response->assertSeeInOrder(['1', '2', '3']);
+});
+
+it('can sort laptops by floor in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-floor');
+    $response->assertSeeInOrder(['3', '2', '1']);
+});
+
+it('can sort laptops by Q1 in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=q1');
+    $response->assertSeeInOrder(['true', 'true', 'false']);
+});
+
+it('can sort laptops by Q1 in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-q1');
+    $response->assertSeeInOrder(['false', 'true', 'true']);
+});
+
+it('can sort laptops by island number in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=island_number');
+    $response->assertSeeInOrder(['102', '202', '302']);
+});
+
+it('can sort laptops by Island Number in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-island_number');
+    $response->assertSeeInOrder(['302', '202', '102']);
+});
+
+it('can sort laptops by workspace type in ascending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=workspace_type');
+    $response->assertSeeInOrder(['Developer', 'Non-developer', 'Non-developer']);
+});
+
+it('can sort laptops by workspace type in descending order - BDD 22', function () {
+    $laptop1 = LAPTOP_DATA;
+    $laptop2 = LAPTOP_DATA2;
+    $laptop3 = LAPTOP_DATA3;
+
+    Laptop::create($laptop1);
+    Laptop::create($laptop2);
+    Laptop::create($laptop3);
+
+    $response = $this->get('/equipment/laptops?sort=-workspace_type');
+    $response->assertSeeInOrder(['Non-developer', 'Non-developer', 'Developer']);
+});
 it('can search a laptop - BDD 21', function () {
     $laptopData = LAPTOP_DATA;
 

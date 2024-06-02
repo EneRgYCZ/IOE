@@ -49,7 +49,9 @@ const NavigationBar = () => {
                     alignItems: "center",
                     justifyContent: "center"
                 }}
-            > {/* Display logo */}
+            >
+                {" "}
+                {/* Display logo */}
                 <img
                     src={logo}
                     alt="Gomibo logo"

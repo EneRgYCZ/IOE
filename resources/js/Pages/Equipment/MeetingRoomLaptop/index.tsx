@@ -36,7 +36,7 @@ const Equipment = ({
 
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
-    //component for action buttons of edit and delete       
+    //component for action buttons of edit and delete
     const actionButtons = (meetingRoomLaptop: MeetingRoomLaptop): React.ReactElement => {
         return (
             <TableActions

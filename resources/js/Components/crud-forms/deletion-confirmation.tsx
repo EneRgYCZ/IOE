@@ -11,7 +11,7 @@ const DeletionConfirmation = (props: {
     type: string;
 }) => {
     //Determine routes according to type of selection
-    
+
     const determineRoute = () => {
         switch (props.type) {
             case "Employee":

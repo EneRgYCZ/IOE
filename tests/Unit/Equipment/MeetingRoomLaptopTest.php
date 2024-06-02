@@ -7,6 +7,24 @@ use App\Models\MeetingRoomLaptop;
 const MEETING_ROOM_LAPTOP_DATA = [
     'full_number_identifier' => 'MR123',
     'laptop_number' => 'MR001',
+    'location' => 'GHH',
+    'side' => 'North',
+    'floor' => 1,
+    'room_number' => '100A',
+    'q1' => true,
+];
+const MEETING_ROOM_LAPTOP_DATA2 = [
+    'full_number_identifier' => 'MR223',
+    'laptop_number' => 'MR002',
+    'location' => 'GHH',
+    'side' => 'North',
+    'floor' => 2,
+    'room_number' => '200A',
+    'q1' => false,
+];
+const MEETING_ROOM_LAPTOP_DATA3 = [
+    'full_number_identifier' => 'MR323',
+    'laptop_number' => 'MR003',
     'location' => 'Waagstraat',
     'side' => 'South',
     'floor' => 3,
@@ -28,6 +46,188 @@ it('can search a meeting room laptop - BDD 21', function () {
     $response = $this->get('/equipment/meeting-room-laptops?search=MR123');
     $response->assertStatus(200);
     $response->assertSee('MR123');
+});
+
+it('can sort MR laptops by ID in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=full_number_identifier');
+    $response->assertSeeInOrder(['MR123', 'MR223', 'MR323']);
+});
+
+it('can sort MR laptops by ID in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-full_number_identifier');
+    $response->assertSeeInOrder(['MR323', 'MR223', 'MR123']);
+});
+
+it('can sort MR laptops by Laptop Number in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=laptop_number');
+    $response->assertSeeInOrder(['MR001', 'MR002', 'MR003']);
+});
+
+it('can sort MR laptops by Laptop Number in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-laptop_number');
+    $response->assertSeeInOrder(['MR003', 'MR002', 'MR001']);
+});
+
+it('can sort MR laptops by location in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=location');
+    $response->assertSeeInOrder(['GHH', 'GHH', 'Waagstraat']);
+});
+
+it('can sort MR laptops by Location in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-location');
+    $response->assertSeeInOrder(['Waagstraat', 'GHH', 'GHH']);
+});
+
+it('can sort MR laptops by side in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=side');
+    $response->assertSeeInOrder(['North', 'North', 'South']);
+});
+
+it('can sort MR laptops by side in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-side');
+    $response->assertSeeInOrder(['South', 'North', 'North']);
+});
+
+it('can sort MR laptops by floor in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=floor');
+    $response->assertSeeInOrder(['1', '2', '3']);
+});
+
+it('can sort MR laptops by floor in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-floor');
+    $response->assertSeeInOrder(['3', '2', '1']);
+});
+
+it('can sort MR laptops by q1 in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=q1');
+    $response->assertSeeInOrder(['false', 'false', 'true']);
+});
+
+it('can sort MR laptops by q1 in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-q1');
+    $response->assertSeeInOrder(['true', 'false', 'false']);
+});
+
+it('can sort MR laptops by room number in ascending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=room_number');
+    $response->assertSeeInOrder(['100A', '200A', '300A']);
+});
+
+it('can sort MR laptops by room number in descending order - BDD 22', function () {
+    $mr1 = MEETING_ROOM_LAPTOP_DATA;
+    $mr2 = MEETING_ROOM_LAPTOP_DATA2;
+    $mr3 = MEETING_ROOM_LAPTOP_DATA3;
+
+    MeetingRoomLaptop::create($mr1);
+    MeetingRoomLaptop::create($mr2);
+    MeetingRoomLaptop::create($mr3);
+
+    $response = $this->get('/equipment/meeting-room-laptops?sort=-room_number');
+    $response->assertSeeInOrder(['300A', '200A', '100A']);
 });
 
 it('can display meeting room laptops - BDD 12', function () {
