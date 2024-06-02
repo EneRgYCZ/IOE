@@ -26,16 +26,13 @@ const Equipment = ({
     });
 
     const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const customCellRenderer: CellRenderer<any> = (row, col, cellKey, rowIdx) => {
         if (col.key === "needs_dock") {
             const value = row.needs_dock;
             return (
                 <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
-                    { value == 1 ? (
-                        <div>Yes</div>
-                    ) : (
-                        <div>No</div>
-                    )}
+                    {value == 1 ? <div>Yes</div> : <div>No</div>}
                 </TableCell>
             );
         }
@@ -56,7 +53,6 @@ const Equipment = ({
                         <Table<DesktopPC>
                             data={desktops}
                             cellRenderer={customCellRenderer}
-                            
                             actionRenderer={desktop => (
                                 <TableCell
                                     align="center"
