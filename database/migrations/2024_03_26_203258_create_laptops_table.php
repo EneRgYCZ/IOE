@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('full_number_identifier');
             $table->string('laptop_number');
             $table->enum('status', ['flex', 'static'])->nullable();
-            $table->enum('location', ['ghh', 'waagstraat']);
-            $table->enum('side', ['north', 'south']);
+            $table->enum('location', ['GHH', 'Waagstraat']);
+            $table->enum('side', ['North', 'South']);
             $table->integer('floor');
             $table->integer('island_number');
-            $table->enum('workspace_type', ['developer', 'non-developer'])->nullable();
+            $table->enum('workspace_type', ['Developer', 'Non-developer'])->nullable();
             $table->boolean('q1')->nullable();
             $table->string('remarks')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('set null');

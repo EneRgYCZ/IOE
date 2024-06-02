@@ -64,14 +64,14 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
             )}
 
             <FormSelect id="location" label="Location" data={props.data} setData={props.setData} required>
-                <MenuItem value="ghh">GHH</MenuItem>
-                <MenuItem value="waagstraat">Waagstraat</MenuItem>
+                <MenuItem value="GHH">GHH</MenuItem>
+                <MenuItem value="Waagstraat">Waagstraat</MenuItem>
             </FormSelect>
             <ErrorBox field="location" hasErrors={props.hasErrors} errors={props.errors} />
 
             <FormSelect id="side" label="Side" data={props.data} setData={props.setData} required>
-                <MenuItem value="north">North</MenuItem>
-                <MenuItem value="south">South</MenuItem>
+                <MenuItem value="North">North</MenuItem>
+                <MenuItem value="South">South</MenuItem>
             </FormSelect>
             <ErrorBox field="side" hasErrors={props.hasErrors} errors={props.errors} />
 
@@ -136,8 +136,8 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
                         setData={props.setData}
                         required
                     >
-                        <MenuItem value="developer">Developer</MenuItem>
-                        <MenuItem value="non-developer">Non-developer</MenuItem>
+                        <MenuItem value="Developer">Developer</MenuItem>
+                        <MenuItem value="Non-developer">Non-Developer</MenuItem>
                     </FormSelect>
                     <ErrorBox field="workspace_type" hasErrors={props.hasErrors} errors={props.errors} />
                 </>

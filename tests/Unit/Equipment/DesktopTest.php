@@ -8,14 +8,14 @@ use App\Models\Employee;
 const DESKTOP_DATA = [
     'full_number_identifier' => '12345',
     'pc_number' => 'PC001',
-    'location' => 'ghh',
-    'side' => 'north',
+    'location' => 'GHH',
+    'side' => 'North',
     'double_pc' => false,
     'needs_dock' => true,
     'status' => 'static',
     'floor' => 1,
     'island_number' => 101,
-    'workspace_type' => 'developer',
+    'workspace_type' => 'Developer',
     'q1' => false,
 ];
 
@@ -103,7 +103,7 @@ it('can update the location of a desktop - BDD 14', function () {
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
         'pc_number' => $desktop->pc_number,
-        'location' => $desktop->location === 'ghh' ? 'waagstraat' : 'ghh',
+        'location' => $desktop->location === 'GHH' ? 'Waagstraat' : 'GHH',
         'side' => $desktop->side,
         'double_pc' => $desktop->double_pc,
         'needs_dock' => $desktop->needs_dock,
@@ -124,7 +124,7 @@ it('can update the side of a desktop - BDD 14', function () {
         'full_number_identifier' => $desktop->full_number_identifier,
         'pc_number' => $desktop->pc_number,
         'location' => $desktop->location,
-        'side' => 'south',
+        'side' => 'South',
         'double_pc' => $desktop->double_pc,
         'needs_dock' => $desktop->needs_dock,
         'status' => $desktop->status,
@@ -228,7 +228,7 @@ it('can update the workspace type of a desktop - BDD 14', function () {
         'status' => $desktop->status,
         'floor' => $desktop->floor,
         'island_number' => $desktop->island_number,
-        'workspace_type' => $desktop->workspace_type === 'developer' ? 'non-developer' : 'developer',
+        'workspace_type' => $desktop->workspace_type === 'Developer' ? 'Non-developer' : 'Developer',
         'q1' => $desktop->q1,
     ];
     $this->patch(route('equipment.updateDesktop', $desktop), $updatedData);
