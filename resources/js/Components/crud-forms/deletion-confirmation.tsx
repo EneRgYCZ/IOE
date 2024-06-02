@@ -10,6 +10,8 @@ const DeletionConfirmation = (props: {
     deleteObject: Employee | MeetingRoomLaptop | Laptop | DesktopPC | Team;
     type: string;
 }) => {
+    //Determine routes according to type of selection
+    
     const determineRoute = () => {
         switch (props.type) {
             case "Employee":

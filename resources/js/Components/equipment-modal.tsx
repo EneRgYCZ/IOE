@@ -96,6 +96,7 @@ const EquipmentModal = (props: {
     let initialValues;
     let title;
     let determinedRoute;
+    //set values according to chosen equipment
     switch (props.type) {
         case "DesktopPC":
             initialValues = initialValuesDesktop;
@@ -165,6 +166,7 @@ const EquipmentModal = (props: {
             }}
             title={title}
         >
+            {/* Generate form data */}
             <EquipmentForm
                 data={data}
                 setData={setData}

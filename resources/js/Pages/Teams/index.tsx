@@ -39,7 +39,7 @@ const Teams = ({
     });
 
     const [currentTeam, setCurrentTeam] = React.useState<Team | null>(null);
-
+    //customCellRenderer to handle display of coloumn entries
     const customCellRenderer: CellRenderer<Team> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
@@ -54,7 +54,7 @@ const Teams = ({
 
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
-
+    //component for action buttons of edit and delete
     const actionButtons = (team: Team): React.ReactElement => {
         return (
             <TableActions

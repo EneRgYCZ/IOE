@@ -49,7 +49,7 @@ const NavigationBar = () => {
                     alignItems: "center",
                     justifyContent: "center"
                 }}
-            >
+            > {/* Display logo */}
                 <img
                     src={logo}
                     alt="Gomibo logo"
@@ -62,6 +62,7 @@ const NavigationBar = () => {
                         transform: "translateY(-50%)"
                     }}
                 />
+                {/* Display Page Tabs */}
                 <Tabs
                     value={selectedUrl}
                     centered
@@ -84,6 +85,7 @@ const NavigationBar = () => {
                         }
                     }}
                 >
+                    {/* Navigate to selected Pages */}
                     <Link href={route("employees.index")} value="/employees">
                         <Tab
                             className={selectedUrl === "/employees" ? "Mui-selected" : ""}

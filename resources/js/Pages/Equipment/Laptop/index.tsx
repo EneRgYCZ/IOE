@@ -23,7 +23,7 @@ const Equipment = ({
     });
 
     const [currentLaptop, setCurrentLaptop] = React.useState<Laptop | null>(null);
-
+    //customCellRenderer to handle display of coloumn entries
     const customCellRenderer: CellRenderer<Laptop> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
@@ -37,7 +37,7 @@ const Equipment = ({
         }
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
-
+    //component for action buttons of edit and delete
     const actionButtons = (laptop: Laptop): React.ReactElement => {
         return (
             <TableActions
