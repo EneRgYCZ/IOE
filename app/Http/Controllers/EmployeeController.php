@@ -90,7 +90,8 @@ class EmployeeController extends Controller
 
         $this->toast('The employee was created successfully', ToastType::Success);
 
-        // If a team is added to an employee, the team-employee relation is stored separately as team member relations
+        // If a team is added to an employee,
+        // the team-employee relation is stored separately as team member relations
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             TeamMember::create([
@@ -99,7 +100,8 @@ class EmployeeController extends Controller
             ]);
         }
 
-        // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee
+        // If an equipment is added to an employee,
+        // the equipment is also updated with the ID of the newly created employee
         $equipment_identifiers = $request->input('equipment_identifiers', []);
         $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
 
@@ -126,7 +128,8 @@ class EmployeeController extends Controller
 
         $this->toast('The user was updated successfully', ToastType::Success);
 
-        // Using the new team members list, if the employee-team relation did not exist before, it is created.
+        // Using the new team members list,
+        // if the employee-team relation did not exist before, it is created.
         $teamMembers = $request->input('team_members');
         foreach ($teamMembers as $teamMember) {
             $alreadyExists = TeamMember::where('employee_id', $employee->id)
@@ -150,7 +153,8 @@ class EmployeeController extends Controller
             $teamMember->delete();
         }
 
-        // If an equipment is added to an employee, the equipment is also updated with the ID of the newly created employee.
+        // If an equipment is added to an employee,
+        // the equipment is also updated with the ID of the newly created employee.
         $equipment_identifiers = $request->input('equipment_identifiers', []);
 
         $desktop = Desktop::whereIn('full_number_identifier', $equipment_identifiers)->first();
@@ -165,7 +169,8 @@ class EmployeeController extends Controller
             $laptop->update(['employee_id' => $employee->id]);
         }
 
-        // If an equipment is removed from an employee, the equipment is also updated with null instead of the employee ID.
+        // If an equipment is removed from an employee,
+        // the equipment is also updated with null instead of the employee ID.
         $desktop = Desktop::where('employee_id', $employee->id)
             ->whereNotIn('full_number_identifier', $equipment_identifiers)->first();
 

@@ -5,8 +5,12 @@ namespace Tests\Unit\Equipment;
 use App\Models\Desktop;
 use App\Models\Employee;
 
+const IDENTFIER_A = '12345';
+const IDENTFIER_B = '22345';
+const IDENTFIER_C = '32345';
+
 const DESKTOP_DATA = [
-    'full_number_identifier' => '12345',
+    'full_number_identifier' => IDENTFIER_A,
     'pc_number' => 'PC001',
     'location' => 'GHH',
     'side' => 'North',
@@ -20,7 +24,7 @@ const DESKTOP_DATA = [
 ];
 
 const DESKTOP_DATA2 = [
-    'full_number_identifier' => '22345',
+    'full_number_identifier' => IDENTFIER_B,
     'pc_number' => 'PC002',
     'location' => 'GHH',
     'side' => 'North',
@@ -34,7 +38,7 @@ const DESKTOP_DATA2 = [
 ];
 
 const DESKTOP_DATA3 = [
-    'full_number_identifier' => '32345',
+    'full_number_identifier' => IDENTFIER_C,
     'pc_number' => 'PC003',
     'location' => 'Waagstraat',
     'side' => 'South',
@@ -330,7 +334,7 @@ it('can sort desktops by ID in ascending order - BDD 22', function () {
     Desktop::create($desktop3);
 
     $response = $this->get('/equipment/desktops?sort=full_number_identifier');
-    $response->assertSeeInOrder(['12345', '22345', '32345']);
+    $response->assertSeeInOrder([IDENTFIER_A, IDENTFIER_B, IDENTFIER_C]);
 });
 
 it('can sort desktops by ID in descending order - BDD 22', function () {
@@ -343,7 +347,7 @@ it('can sort desktops by ID in descending order - BDD 22', function () {
     Desktop::create($desktop3);
 
     $response = $this->get('/equipment/desktops?sort=-full_number_identifier');
-    $response->assertSeeInOrder(['32345', '22345', '12345']);
+    $response->assertSeeInOrder([IDENTFIER_C, IDENTFIER_B, IDENTFIER_A]);
 });
 
 it('can sort desktops by PC Number in ascending order - BDD 22', function () {
