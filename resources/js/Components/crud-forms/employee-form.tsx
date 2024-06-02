@@ -7,9 +7,6 @@ import FormModal from "@/Components/form-components/form-modal";
 import ErrorBox from "@/Components/error-box";
 import FormField from "@/Components/form-components/form-field";
 
-{
-    /* Component to be used for creating or editing employees */
-}
 const EmployeeForm = (props: {
     isOpen: boolean;
     handleClose: () => void;
