@@ -55,6 +55,21 @@ const Teams = ({
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
+    const actionButtons = (team: Team): React.ReactElement => {
+        return (
+            <TableActions
+                current={team}
+                setCurrent={setCurrentTeam}
+                setEditFormOpen={() => {
+                    setFormOpen({ ...formOpen, editTeam: true });
+                }}
+                setDeleteFormOpen={() => {
+                    setFormOpen({ ...formOpen, deleteTeam: true });
+                }}
+            />
+        );
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -65,22 +80,7 @@ const Teams = ({
                     </Typography>
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
-                    <Table<Team>
-                        data={teams}
-                        cellRenderer={customCellRenderer}
-                        actionRenderer={team => (
-                            <TableActions
-                                current={team}
-                                setCurrent={setCurrentTeam}
-                                setEditFormOpen={() => {
-                                    setFormOpen({ ...formOpen, editTeam: true });
-                                }}
-                                setDeleteFormOpen={() => {
-                                    setFormOpen({ ...formOpen, deleteTeam: true });
-                                }}
-                            />
-                        )}
-                    />
+                    <Table<Team> data={teams} cellRenderer={customCellRenderer} actionRenderer={actionButtons} />
                 </Box>
             </Card>
 

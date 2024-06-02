@@ -63,6 +63,21 @@ const Employees = ({
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
+    const actionButtons = (employee: Employee): React.ReactElement => {
+        return (
+            <TableActions
+                current={employee}
+                setCurrent={setCurrentEmployee}
+                setEditFormOpen={() => {
+                    setEdit(true);
+                }}
+                setDeleteFormOpen={() => {
+                    setDel(true);
+                }}
+            />
+        );
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -76,18 +91,7 @@ const Employees = ({
                     <Table<Employee>
                         data={employees}
                         cellRenderer={customCellRenderer}
-                        actionRenderer={employee => (
-                            <TableActions
-                                current={employee}
-                                setCurrent={setCurrentEmployee}
-                                setEditFormOpen={() => {
-                                    setEdit(true);
-                                }}
-                                setDeleteFormOpen={() => {
-                                    setDel(true);
-                                }}
-                            />
-                        )}
+                        actionRenderer={actionButtons}
                     />
                 </Box>
             </Card>

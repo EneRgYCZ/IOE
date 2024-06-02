@@ -4,30 +4,24 @@ namespace Tests\Unit\Equipment;
 
 use App\Models\MeetingRoomLaptop;
 
+const MEETING_ROOM_LAPTOP_DATA = [
+    'full_number_identifier' => 'MR123',
+    'laptop_number' => 'MR001',
+    'location' => 'waagstraat',
+    'side' => 'south',
+    'floor' => 3,
+    'room_number' => '300A',
+    'q1' => false,
+];
+
 it('can create a meeting room laptop - BDD 13', function () {
-    $meetingRoomLaptopData = [
-        'full_number_identifier' => 'MR123',
-        'laptop_number' => 'MR001',
-        'location' => 'waagstraat',
-        'side' => 'south',
-        'floor' => 3,
-        'room_number' => '300A',
-        'q1' => false,
-    ];
+    $meetingRoomLaptopData = MEETING_ROOM_LAPTOP_DATA;
 
     $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);
 });
 it('can search a meeting room laptop - BDD 21', function () {
-    $meetingRoomLaptopData = [
-        'full_number_identifier' => 'MR123',
-        'laptop_number' => 'MR001',
-        'location' => 'waagstraat',
-        'side' => 'south',
-        'floor' => 3,
-        'room_number' => '300A',
-        'q1' => false,
-    ];
+    $meetingRoomLaptopData = MEETING_ROOM_LAPTOP_DATA;
 
     $this->post(route('equipment.storeMeetingRoomLaptop'), $meetingRoomLaptopData);
     $this->assertDatabaseHas('meeting_room_laptops', $meetingRoomLaptopData);

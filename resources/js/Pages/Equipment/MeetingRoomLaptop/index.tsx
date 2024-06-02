@@ -37,6 +37,21 @@ const Equipment = ({
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
+    const actionButtons = (meetingRoomLaptop: MeetingRoomLaptop): React.ReactElement => {
+        return (
+            <TableActions
+                current={meetingRoomLaptop}
+                setCurrent={setCurrentMeetingRoomLaptop}
+                setEditFormOpen={() => {
+                    setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
+                }}
+                setDeleteFormOpen={() => {
+                    setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
+                }}
+            />
+        );
+    };
+
     return (
         <GuestLayout>
             <Card variant="outlined" sx={{ width: "70%" }}>
@@ -50,18 +65,7 @@ const Equipment = ({
                         <Table<MeetingRoomLaptop>
                             data={meetingRoomLaptops}
                             cellRenderer={customCellRenderer}
-                            actionRenderer={meetingRoomLaptop => (
-                                <TableActions
-                                    current={meetingRoomLaptop}
-                                    setCurrent={setCurrentMeetingRoomLaptop}
-                                    setEditFormOpen={() => {
-                                        setFormOpen({ ...formOpen, editMeetingRoomLaptop: true });
-                                    }}
-                                    setDeleteFormOpen={() => {
-                                        setFormOpen({ ...formOpen, deleteMeetingRoomLaptop: true });
-                                    }}
-                                />
-                            )}
+                            actionRenderer={actionButtons}
                         />
                     </Box>
                 </Box>

@@ -5,35 +5,27 @@ namespace Tests\Unit\Equipment;
 use App\Models\Employee;
 use App\Models\Laptop;
 
+const LAPTOP_DATA = [
+    'full_number_identifier' => 'L12345',
+    'laptop_number' => 'L001',
+    'location' => 'ghh',
+    'side' => 'north',
+    'status' => 'static',
+    'floor' => 2,
+    'island_number' => 102,
+    'workspace_type' => 'non-developer',
+    'q1' => true,
+];
+
 it('can create a laptop - BDD 13', function () {
-    $laptopData = [
-        'full_number_identifier' => 'L12345',
-        'laptop_number' => 'L001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'status' => 'static',
-        'floor' => 2,
-        'island_number' => 102,
-        'workspace_type' => 'non-developer',
-        'q1' => true,
-    ];
+    $laptopData = LAPTOP_DATA;
 
     $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
 });
 
 it('can search a laptop - BDD 21', function () {
-    $laptopData = [
-        'full_number_identifier' => 'L12345',
-        'laptop_number' => 'L001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'status' => 'static',
-        'floor' => 2,
-        'island_number' => 102,
-        'workspace_type' => 'non-developer',
-        'q1' => true,
-    ];
+    $laptopData = LAPTOP_DATA;
 
     $this->post(route('equipment.storeLaptop'), $laptopData);
     $this->assertDatabaseHas('laptops', $laptopData);
@@ -182,17 +174,7 @@ it('can assign a laptop to an employee - BDD 16', function () {
         'last_name' => 'Employee',
     ];
     $employee = Employee::create($employeeData);
-    $laptopData = [
-        'full_number_identifier' => 'L12345',
-        'laptop_number' => 'L001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'status' => 'static',
-        'floor' => 2,
-        'island_number' => 102,
-        'workspace_type' => 'non-developer',
-        'q1' => true,
-    ];
+    $laptopData = LAPTOP_DATA;
 
     $laptop = Laptop::create($laptopData);
 
@@ -210,17 +192,7 @@ it('can unassign a laptop from an employee - BDD 18', function () {
         'last_name' => 'Employee',
     ];
     $employee = Employee::create($employeeData);
-    $laptopData = [
-        'full_number_identifier' => 'L12345',
-        'laptop_number' => 'L001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'status' => 'static',
-        'floor' => 2,
-        'island_number' => 102,
-        'workspace_type' => 'non-developer',
-        'q1' => true,
-    ];
+    $laptopData = LAPTOP_DATA;
 
     $laptop = Laptop::create($laptopData);
 

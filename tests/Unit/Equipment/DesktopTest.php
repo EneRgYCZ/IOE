@@ -5,39 +5,29 @@ namespace Tests\Unit\Equipment;
 use App\Models\Desktop;
 use App\Models\Employee;
 
+const DESKTOP_DATA = [
+    'full_number_identifier' => '12345',
+    'pc_number' => 'PC001',
+    'location' => 'ghh',
+    'side' => 'north',
+    'double_pc' => false,
+    'needs_dock' => true,
+    'status' => 'static',
+    'floor' => 1,
+    'island_number' => 101,
+    'workspace_type' => 'developer',
+    'q1' => false,
+];
+
 it('can create a desktop - BDD 13', function () {
-    $desktopData = [
-        'full_number_identifier' => '12345',
-        'pc_number' => 'PC001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'double_pc' => false,
-        'needs_dock' => true,
-        'status' => 'static',
-        'floor' => 1,
-        'island_number' => 101,
-        'workspace_type' => 'developer',
-        'q1' => false,
-    ];
+    $desktopData = DESKTOP_DATA;
 
     $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
 });
 
 it('can search a desktop - BDD 21', function () {
-    $desktopData = [
-        'full_number_identifier' => '12345',
-        'pc_number' => 'PC001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'double_pc' => false,
-        'needs_dock' => true,
-        'status' => 'static',
-        'floor' => 1,
-        'island_number' => 101,
-        'workspace_type' => 'developer',
-        'q1' => false,
-    ];
+    $desktopData = DESKTOP_DATA;
 
     $this->post(route('equipment.storeDesktop'), $desktopData);
     $this->assertDatabaseHas('desktops', $desktopData);
@@ -270,19 +260,7 @@ it('can assign a desktop to an employee - BDD 16', function () {
         'last_name' => 'Employee',
     ];
     $employee = Employee::create($employeeData);
-    $desktopData = [
-        'full_number_identifier' => '12345',
-        'pc_number' => 'PC001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'double_pc' => false,
-        'needs_dock' => true,
-        'status' => 'static',
-        'floor' => 1,
-        'island_number' => 101,
-        'workspace_type' => 'developer',
-        'q1' => false,
-    ];
+    $desktopData = DESKTOP_DATA;
 
     $desktop = Desktop::create($desktopData);
 
@@ -300,19 +278,7 @@ it('can unassign a desktop from an employee - BDD 18', function () {
         'last_name' => 'Employee',
     ];
     $employee = Employee::create($employeeData);
-    $desktopData = [
-        'full_number_identifier' => '12345',
-        'pc_number' => 'PC001',
-        'location' => 'ghh',
-        'side' => 'north',
-        'double_pc' => false,
-        'needs_dock' => true,
-        'status' => 'static',
-        'floor' => 1,
-        'island_number' => 101,
-        'workspace_type' => 'developer',
-        'q1' => false,
-    ];
+    $desktopData = DESKTOP_DATA;
 
     $desktop = Desktop::create($desktopData);
     $this->post(route('equipment.storeDesktop'), $desktopData);

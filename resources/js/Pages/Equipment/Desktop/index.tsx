@@ -39,6 +39,21 @@ const Equipment = ({
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
+    const actionButtons = (desktop: DesktopPC): React.ReactElement => {
+        return (
+            <TableActions
+                current={desktop}
+                setCurrent={setCurrentDesktop}
+                setEditFormOpen={() => {
+                    setFormOpen({ ...formOpen, editDesktop: true });
+                }}
+                setDeleteFormOpen={() => {
+                    setFormOpen({ ...formOpen, deleteDesktop: true });
+                }}
+            />
+        );
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -53,18 +68,7 @@ const Equipment = ({
                         <Table<DesktopPC>
                             data={desktops}
                             cellRenderer={customCellRenderer}
-                            actionRenderer={desktop => (
-                                <TableActions
-                                    current={desktop}
-                                    setCurrent={setCurrentDesktop}
-                                    setEditFormOpen={() => {
-                                        setFormOpen({ ...formOpen, editDesktop: true });
-                                    }}
-                                    setDeleteFormOpen={() => {
-                                        setFormOpen({ ...formOpen, deleteDesktop: true });
-                                    }}
-                                />
-                            )}
+                            actionRenderer={actionButtons}
                         />
                     </Box>
                 </Box>
