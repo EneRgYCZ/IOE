@@ -27,6 +27,7 @@ const Employees = ({
     const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
     const [del, setDel] = useState(false);
 
+    //
     const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
         desktops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
         laptops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
