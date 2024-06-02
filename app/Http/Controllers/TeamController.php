@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\TeamMember;
@@ -16,6 +17,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
 {
+    const STRING_LENGTH = 'max:50';
+
     // Function to load the main page for the teams.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the teams table of the page
@@ -29,21 +32,25 @@ class TeamController extends Controller
 
         $teams =
             QueryBuilder::for(Team::query())
-                ->allowedSorts('id', 'team_name', 'description')
+                ->allowedSorts('id', 'team_name', 'description', 'updated_at', 'created_at')
                 ->allowedFilters(
                     'id',
                     'team_name',
                     'description',
-                    AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                        $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                            foreach ($globalSearchColumns as $column) {
-                                if (is_array($value)) {
-                                    $value = implode('', $value);
+                    'updated_at',
+                    'created_at',
+                    AllowedFilter::callback(
+                        'global_search',
+                        function (Builder $query, $value) use ($globalSearchColumns) {
+                            $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                                foreach ($globalSearchColumns as $column) {
+                                    if (is_array($value)) {
+                                        $value = implode('', $value);
+                                    }
+                                    $subQuery->orWhere($column, 'like', "%{$value}%");
                                 }
-                                $subQuery->orWhere($column, 'like', "%{$value}%");
-                            }
-                        });
-                    })
+                            });
+                        })
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
@@ -60,8 +67,12 @@ class TeamController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('team_name', 'Team Name', sortable: true))
                 ->addColumn(new Column('description', 'Description', sortable: true))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('team_name', 'Team Name', shown: true))
                 ->addSearchInput(new SearchInput('description', 'Description', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -71,9 +82,11 @@ class TeamController extends Controller
     {
         // Creates a team if backend validation is passed
         $team = Team::create($request->validate([
-            'team_name' => ['required', 'max:50'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
+
+        $this->toast('The team was created successfully', ToastType::Success);
 
         // The team-employee relations are individually stored as team member relations if employees are added to a team
         $teamMembers = $request->input('team_members');
@@ -86,13 +99,31 @@ class TeamController extends Controller
     }
 
     // Function to edit a team and update it in the database
+    public function show(Team $team)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Team $team)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Team $team)
     {
         // Updates a team if backend validation is passed
         $team->update($request->validate([
-            'team_name' => ['required', 'max:20'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
+
+        $this->toast('The team was updated successfully', ToastType::Success);
 
         // The team-employee relations are added if they didn't exist already
         $teamMembers = $request->input('team_members');
@@ -132,5 +163,7 @@ class TeamController extends Controller
 
         // Then the team is deleted
         $team->delete();
+
+        $this->toast('The team was deleted successfully', ToastType::Success);
     }
 }

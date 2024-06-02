@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 export interface User {
     id: number;
     name: string;
@@ -9,8 +11,22 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
+    notificationCount: number;
+    toast?: Toast;
     queryBuilder: Record<string, QueryBuilderProps>;
 };
+
+export interface Toast {
+    title: string;
+    description: string;
+    timeout: number;
+    action: null | {
+        label: string;
+        redirect: string;
+    };
+    type: "success" | "danger" | "info" | "warning";
+}
+
 export interface PaginatedResponse<T> {
     current_page: number;
     data: Array<T>;
@@ -60,21 +76,23 @@ export interface QueryBuilderProps {
 }
 
 export interface Employee {
-    id: number;
+    [key: string]: any;
+    id?: number;
     first_name: string;
     last_name: string;
     teams?: Team[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Team {
-    id: number;
+    [key: string]: any;
+    id?: number;
     team_name: string;
     description: string;
     team_member?: Employee[];
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface TeamMember {
@@ -88,6 +106,7 @@ export interface TeamMember {
 }
 
 export interface DesktopPC {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     pc_number: string;
@@ -99,7 +118,7 @@ export interface DesktopPC {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -107,6 +126,7 @@ export interface DesktopPC {
 }
 
 export interface Laptop {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     laptop_number: string;
@@ -116,7 +136,7 @@ export interface Laptop {
     floor?: number;
     island_number?: number;
     workspace_type: string;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     employee_id: number | null;
     created_at?: string;
@@ -124,6 +144,7 @@ export interface Laptop {
 }
 
 export interface MeetingRoomLaptop {
+    [key: string]: any;
     id?: number;
     full_number_identifier: string;
     laptop_number: string;
@@ -131,7 +152,7 @@ export interface MeetingRoomLaptop {
     side: string;
     floor?: number;
     room_number?: number;
-    updated_in_q1: boolean;
+    q1: boolean;
     remarks?: string;
     created_at?: string;
     updated_at?: string;

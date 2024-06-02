@@ -1,12 +1,13 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { PageProps, PaginatedResponse, Employee, TeamMember, Team, DesktopPC, Laptop } from "@/types";
-import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
-import { useState } from "react";
-import EmployeeForm from "../../Components/forms/employee-form";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
-import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import React, { useState } from "react";
+import { Box, Card, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
+import EmployeeForm from "../../Components/crud-forms/employee-form";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
+import AddButton from "@/Components/form-components/add-button";
+import dayjs from "dayjs";
+import TableActions from "@/Components/table/table-actions";
 
 const Employees = ({
     employees,
@@ -21,35 +22,61 @@ const Employees = ({
     desktops: DesktopPC[];
     laptops: Laptop[];
 }>) => {
-    const tableButtonMargins = {
-        margin: "0 10px"
-    };
-
-    const addButtonBox = {
-        position: "fixed",
-        width: "250px",
-        pointerEvents: "none",
-        bottom: 16,
-        right: 16
-    };
-
-    const addButtonStyle = {
-        display: "block",
-        pointerEvents: "initial",
-        marginTop: "16px",
-        marginLeft: "auto"
-    };
-
     const [add, setAdd] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [empEdit, setEmpEdit] = useState<Employee | null>(null);
+    const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
     const [del, setDel] = useState(false);
-    const [empDel, setEmpDel] = useState<Employee | null>(null);
 
     const equipment: (DesktopPC | Laptop)[] = Array.prototype.concat(
-        desktops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
-        laptops.sort((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
+        desktops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier)),
+        laptops.toSorted((a, b) => a.full_number_identifier.localeCompare(b.full_number_identifier))
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const customCellRenderer: CellRenderer<any> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "team_member.team") {
+            const teams = row.team_member;
+            return (
+                <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+                    {teams.length > 0 ? (
+                        teams.map((entry: TeamMember) => (
+                            <div key={entry.id}>
+                                <span>&#8226;</span> {entry.team?.team_name}
+                            </div>
+                        ))
+                    ) : (
+                        <div>Unassigned</div>
+                    )}
+                </TableCell>
+            );
+        }
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
+
+    const actionButtons = (employee: Employee): React.ReactElement => {
+        return (
+            <TableActions
+                current={employee}
+                setCurrent={setCurrentEmployee}
+                setEditFormOpen={() => {
+                    setEdit(true);
+                }}
+                setDeleteFormOpen={() => {
+                    setDel(true);
+                }}
+            />
+        );
+    };
 
     return (
         <GuestLayout>
@@ -63,47 +90,14 @@ const Employees = ({
                 <Box sx={{ width: "100%", alignItems: "center" }}>
                     <Table<Employee>
                         data={employees}
-                        actionRenderer={employee => (
-                            <TableCell align="center" style={{ position: "sticky", right: 0, backgroundColor: "#fff" }}>
-                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setEdit(true);
-                                            setEmpEdit(employee);
-                                        }}
-                                    >
-                                        EDIT
-                                        <EditRounded sx={{ marginLeft: "10px" }} />
-                                    </Button>
-
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        color="error"
-                                        onClick={() => {
-                                            setDel(true);
-                                            setEmpDel(employee);
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
-                                </Box>
-                            </TableCell>
-                        )}
+                        cellRenderer={customCellRenderer}
+                        actionRenderer={actionButtons}
                     />
                 </Box>
             </Card>
 
             {/* Button for Add */}
-            <Box sx={addButtonBox}>
-                <Fab variant="extended" color="primary" sx={addButtonStyle} onClick={() => setAdd(true)}>
-                    Add employee
-                </Fab>
-            </Box>
+            <AddButton label="Add employee" onClick={() => setAdd(true)} />
 
             {/* Forms for Adding, Editing and Deleting */}
             <EmployeeForm
@@ -118,26 +112,28 @@ const Employees = ({
             <EmployeeForm
                 isOpen={edit}
                 handleClose={() => setEdit(false)}
-                employee={empEdit}
+                employee={currentEmployee}
                 teams={teams}
                 teamMembers={
-                    team_members && empEdit
+                    team_members && currentEmployee
                         ? teams.filter(team =>
-                              team_members
-                                  .filter(relation => relation.employee_id == empEdit.id)
-                                  .map(relation => relation.team_id)
-                                  .includes(team.id)
+                              team.id
+                                  ? team_members
+                                        .filter(relation => relation.employee_id == currentEmployee.id)
+                                        .map(relation => relation.team_id)
+                                        .includes(team.id)
+                                  : null
                           )
                         : []
                 }
                 equipment={equipment}
                 title="Edit Employee"
             />
-            {empDel && (
+            {currentEmployee && (
                 <DeletionConfirmation
                     isOpen={del}
                     handleClose={() => setDel(false)}
-                    deleteObject={empDel}
+                    deleteObject={currentEmployee}
                     type="Employee"
                 />
             )}

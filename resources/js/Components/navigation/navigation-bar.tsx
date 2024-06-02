@@ -66,7 +66,6 @@ const NavigationBar = () => {
                     value={selectedUrl}
                     centered
                     aria-label="Navigation Tabs"
-                    role="navigation"
                     selectionFollowsFocus
                     sx={{
                         "& .MuiTab-root": {

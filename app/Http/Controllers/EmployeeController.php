@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ToastType;
 use App\Models\Desktop;
 use App\Models\Employee;
 use App\Models\Laptop;
@@ -18,6 +19,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
 {
+    const STRING_LENGTH = 'max:40';
+
     // Function to load the main page for the employees.
     // Includes getting necessary information for the page and rendering it via Inertia
     // It is also in charge of setting up the employees table of the page
@@ -26,11 +29,14 @@ class EmployeeController extends Controller
         $globalSearchColumns = ['first_name', 'last_name'];
 
         $employees = QueryBuilder::for(Employee::query())
-            ->allowedSorts('id', 'first_name', 'last_name')
+            ->with('teamMember.team')
+            ->allowedSorts('id', 'first_name', 'last_name', 'updated_at', 'created_at')
             ->allowedFilters(
                 'id',
                 'first_name',
                 'last_name',
+                'updated_at',
+                'created_at',
                 AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
                     $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
                         foreach ($globalSearchColumns as $column) {
@@ -61,8 +67,13 @@ class EmployeeController extends Controller
                 ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
                 ->addColumn(new Column('first_name', 'First Name', sortable: true))
                 ->addColumn(new Column('last_name', 'Last Name', sortable: true))
+                ->addColumn(new Column('team_member.team', 'Team Name'))
+                ->addColumn(new Column('created_at', 'Create At', sortable: true))
+                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
                 ->addSearchInput(new SearchInput('first_name', 'First Name', shown: true))
                 ->addSearchInput(new SearchInput('last_name', 'Last Name', shown: true))
+                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
+                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
                 ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
         });
     }
@@ -72,10 +83,12 @@ class EmployeeController extends Controller
     {
         // Employee creation if backend validation of input is passed
         $employee = Employee::create($request->validate([
-            'first_name' => ['required', 'max:40'],
-            'last_name' => ['required', 'max:40'],
+            'first_name' => ['required', self::STRING_LENGTH],
+            'last_name' => ['required', self::STRING_LENGTH],
             'equipment_identifiers' => ['array'],
         ]));
+
+        $this->toast('The employee was created successfully', ToastType::Success);
 
         // If a team is added to an employee, the team-employee relation is stored separately as team member relations
         $teamMembers = $request->input('team_members');
@@ -106,10 +119,12 @@ class EmployeeController extends Controller
     {
         // Employee update if backend validation of input is passed
         $employee->update($request->validate([
-            'first_name' => ['required', 'max:40'],
-            'last_name' => ['required', 'max:40'],
+            'first_name' => ['required', self::STRING_LENGTH],
+            'last_name' => ['required', self::STRING_LENGTH],
             'equipment_identifiers' => ['array'],
         ]));
+
+        $this->toast('The user was updated successfully', ToastType::Success);
 
         // Using the new team members list, if the employee-team relation did not exist before, it is created.
         $teamMembers = $request->input('team_members');
@@ -178,5 +193,7 @@ class EmployeeController extends Controller
 
         // Then the employee is deleted
         $employee->delete();
+
+        $this->toast('The user was deleted successfully', ToastType::Success);
     }
 }

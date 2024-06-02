@@ -31,6 +31,15 @@ export type CellRenderer<T> = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const defaultCellRenderer: CellRenderer<any> = (row, col, cellKey) => {
+    if (col.key === "employee.first_name") {
+        return (
+            <TableCell key={cellKey} sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    {row.employee ? row.employee.first_name + " " + row.employee.last_name : "Unassigned"}
+                </Box>
+            </TableCell>
+        );
+    }
     const val = get(row, col.key);
     if (typeof val === "number" || typeof val === "string") {
         return (
@@ -55,24 +64,14 @@ export const Table = <T,>({
     actionRenderer?: (data: T) => React.ReactElement;
 }) => {
     const { queryBuilder } = usePage<PageProps>().props;
-    const [isFilterDrawerOpen, setFilterDrawerOpen] = useState(false);
-
-    if (!(name in queryBuilder)) {
-        return (
-            <Typography color="danger">
-                There was an error generating your table. Table <kbd>{name}</kbd> not found.
-            </Typography>
-        );
-    }
+    const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
     const originalData = queryBuilder[name];
 
-    originalData.searchInputs = originalData.searchInputs.map(search => {
+    originalData.searchInputs.forEach(search => {
         if (search.value) {
             search.shown = true;
         }
-
-        return search;
     });
 
     // Get saved filters
@@ -122,7 +121,7 @@ export const Table = <T,>({
                 .map(column => {
                     return column.key;
                 })
-                .sort();
+                .sort((a, b) => a.localeCompare(b));
         };
 
         const getFiltersForQuery = () => {
@@ -263,7 +262,7 @@ export const Table = <T,>({
                             width: "100%"
                         }}
                     >
-                        <Button onClick={() => setFilterDrawerOpen(true)}>Advanced Search</Button>
+                        <Button onClick={() => setIsFilterDrawerOpen(true)}>Advanced Search</Button>
                     </Box>
                 </Box>
                 <Card variant="outlined" sx={{ width: "100%", overflowX: "auto" }}>
@@ -281,53 +280,29 @@ export const Table = <T,>({
                                             col={col}
                                             sortChangeHandler={() => {
                                                 const searchArray = tableData.sort?.split(",") ?? [];
+                                                let newSortArray;
 
                                                 if (
-                                                    !searchArray.find(c =>
-                                                        c.startsWith("-") ? c.substring(1) === col.key : c === col.key
-                                                    )
+                                                    !searchArray.includes(col.key) &&
+                                                    !searchArray.includes(`-${col.key}`)
                                                 ) {
-                                                    searchArray.push(col.key);
+                                                    // Sort ascending if not sorted
+                                                    newSortArray = [...searchArray, col.key];
+                                                } else if (searchArray.includes(col.key)) {
+                                                    // Sort descending if currently sorted ascending
+                                                    newSortArray = searchArray.map(sort =>
+                                                        sort === col.key ? `-${col.key}` : sort
+                                                    );
+                                                } else {
+                                                    // Remove sorting if currently sorted descending
+                                                    newSortArray = searchArray.filter(sort => sort !== `-${col.key}`);
                                                 }
 
-                                                setTableData(prev => {
-                                                    return {
-                                                        ...prev,
-                                                        sort: searchArray
-                                                            .map(sort => {
-                                                                if (
-                                                                    sort.startsWith("-") &&
-                                                                    sort.substring(1) === col.key
-                                                                ) {
-                                                                    return col.key;
-                                                                }
-
-                                                                if (sort === col.key) {
-                                                                    return `-${col.key}`;
-                                                                }
-
-                                                                return sort;
-                                                            })
-                                                            .join(","),
-                                                        page: 1
-                                                    };
-                                                });
-                                            }}
-                                            sortRemoveHandler={() => {
-                                                setTableData(prev => {
-                                                    return {
-                                                        ...prev,
-                                                        sort:
-                                                            tableData.sort
-                                                                ?.split(",")
-                                                                .filter(item =>
-                                                                    item.startsWith("-")
-                                                                        ? item.substring(1) !== col.key
-                                                                        : item !== col.key
-                                                                )
-                                                                .join(",") ?? null
-                                                    };
-                                                });
+                                                setTableData(prev => ({
+                                                    ...prev,
+                                                    sort: newSortArray.join(","),
+                                                    page: 1
+                                                }));
                                             }}
                                         />
                                     );
@@ -350,8 +325,12 @@ export const Table = <T,>({
                         <TableBody>
                             {data.data.map((row, idx) => {
                                 return (
-                                    <TableRow key={idx}>
+                                    <TableRow key={`table-${name}-row-${idx}`}>
                                         {tableData.columns.map(col => {
+                                            if (col.key === "employee.first_name") {
+                                                col.hidden = false;
+                                            }
+
                                             if (col.hidden) {
                                                 return null;
                                             }
@@ -364,7 +343,7 @@ export const Table = <T,>({
                                             );
                                         })}
 
-                                        {actionRenderer && actionRenderer(row)}
+                                        {actionRenderer?.(row)}
                                     </TableRow>
                                 );
                             })}
@@ -394,7 +373,7 @@ export const Table = <T,>({
             </Card>
             <FilterDrawer
                 isOpen={isFilterDrawerOpen}
-                handleClose={() => setFilterDrawerOpen(false)}
+                handleClose={() => setIsFilterDrawerOpen(false)}
                 tableData={tableData}
                 setTableData={setTableData}
                 tableName={name}

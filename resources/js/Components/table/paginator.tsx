@@ -67,10 +67,10 @@ const Paginator: React.FC<{
                 </Box>
 
                 <Stack direction="row" gap={1}>
-                    {paginationLinks.map((link, idx) => {
+                    {paginationLinks.map(link => {
                         if (link.label === "...") {
                             // The key for ellipses needs to be unique, so we use a combination of label and index
-                            return <Typography key={`ellipsis-${idx}`}>...</Typography>;
+                            return <Typography key={`ellipsis-${link.label}`}>...</Typography>;
                         }
                         return (
                             <Button

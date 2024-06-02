@@ -1,11 +1,12 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Employee, PageProps, PaginatedResponse, Team, TeamMember } from "@/types";
 import React from "react";
-import { Box, Button, Card, Fab, TableCell, Typography } from "@mui/material";
-import { Table } from "@/Components/table/table";
-import TeamForm from "@/Components/forms/team-form";
-import DeletionConfirmation from "@/Components/forms/deletion-confirmation";
-import { EditRounded, DeleteRounded } from "@mui/icons-material";
+import { Box, Card, Fab, TableCell, Typography } from "@mui/material";
+import { CellRenderer, Table, defaultCellRenderer } from "@/Components/table/table";
+import TeamForm from "@/Components/crud-forms/team-form";
+import DeletionConfirmation from "@/Components/crud-forms/deletion-confirmation";
+import TableActions from "@/Components/table/table-actions";
+import dayjs from "dayjs";
 
 const Teams = ({
     teams,
@@ -16,10 +17,6 @@ const Teams = ({
     employees: Employee[];
     team_members: TeamMember[];
 }>) => {
-    const tableButtonMargins = {
-        margin: "0 10px"
-    };
-
     const addButtonBox = {
         position: "fixed",
         width: "250px",
@@ -43,6 +40,36 @@ const Teams = ({
 
     const [currentTeam, setCurrentTeam] = React.useState<Team | null>(null);
 
+    const customCellRenderer: CellRenderer<Team> = (row, col, cellKey, rowIdx) => {
+        if (col.key === "updated_at" || col.key === "created_at") {
+            return (
+                <TableCell
+                    key={cellKey}
+                    sx={{ pl: 2, maxHeight: "50px", overflow: "hidden", textOverflow: "ellipsis" }}
+                >
+                    {dayjs(row[col.key]).format("YYYY-MM-DD HH:mm:ss")}
+                </TableCell>
+            );
+        }
+
+        return defaultCellRenderer(row, col, cellKey, rowIdx);
+    };
+
+    const actionButtons = (team: Team): React.ReactElement => {
+        return (
+            <TableActions
+                current={team}
+                setCurrent={setCurrentTeam}
+                setEditFormOpen={() => {
+                    setFormOpen({ ...formOpen, editTeam: true });
+                }}
+                setDeleteFormOpen={() => {
+                    setFormOpen({ ...formOpen, deleteTeam: true });
+                }}
+            />
+        );
+    };
+
     return (
         <GuestLayout>
             {/* Table display */}
@@ -53,48 +80,7 @@ const Teams = ({
                     </Typography>
                 </Box>
                 <Box sx={{ width: "100%", alignItems: "center" }}>
-                    <Table<Team>
-                        data={teams}
-                        actionRenderer={team => (
-                            <TableCell
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    position: "sticky",
-                                    right: 0,
-                                    backgroundColor: "#fff"
-                                }}
-                            >
-                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    {/* Button for Edit */}
-                                    <Button
-                                        variant="outlined"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentTeam(team);
-                                            setFormOpen({ ...formOpen, editTeam: true });
-                                        }}
-                                    >
-                                        VIEW & EDIT
-                                        <EditRounded />
-                                    </Button>
-
-                                    {/* Button for Delete */}
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        sx={tableButtonMargins}
-                                        onClick={() => {
-                                            setCurrentTeam(team);
-                                            setFormOpen({ ...formOpen, deleteTeam: true });
-                                        }}
-                                    >
-                                        <DeleteRounded />
-                                    </Button>
-                                </Box>
-                            </TableCell>
-                        )}
-                    />
+                    <Table<Team> data={teams} cellRenderer={customCellRenderer} actionRenderer={actionButtons} />
                 </Box>
             </Card>
 
@@ -129,10 +115,12 @@ const Teams = ({
                     teamMembers={
                         team_members
                             ? employees.filter(employee =>
-                                  team_members
-                                      .filter(relation => relation.team_id == currentTeam.id)
-                                      .map(relation => relation.employee_id)
-                                      .includes(employee.id)
+                                  employee.id
+                                      ? team_members
+                                            .filter(relation => relation.team_id == currentTeam.id)
+                                            .map(relation => relation.employee_id)
+                                            .includes(employee.id)
+                                      : null
                               )
                             : []
                     }
