@@ -41,7 +41,7 @@ const Log = ({ logs }: PageProps<{ logs: PaginatedResponse<ActivityLog> }>) => {
             {} as Record<string, unknown>
         );
     }
-
+    //customCellRenderer to handle display of coloumn entries
     const customCellRenderer: CellRenderer<ActivityLog> = (row, col, cellKey, rowIdx) => {
         const renderSubjectType = (type: string) => {
             const wasDeletedOrUpdated = deleteTypeGuard(row) || updateTypeGuard(row);

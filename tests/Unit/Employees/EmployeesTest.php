@@ -22,26 +22,26 @@ const TEST_EMPLOYEE3 = [
 const DESKTOP_DATA = [
     'full_number_identifier' => '12345',
     'pc_number' => 'PC001',
-    'location' => 'ghh',
-    'side' => 'north',
+    'location' => 'GHH',
+    'side' => 'North',
     'double_pc' => false,
     'needs_dock' => true,
     'status' => 'static',
     'floor' => 1,
     'island_number' => 101,
-    'workspace_type' => 'developer',
+    'workspace_type' => 'Developer',
     'updated_in_q1' => false,
 ];
 
 const LAPTOP_DATA = [
     'full_number_identifier' => 'L12345',
     'laptop_number' => 'L001',
-    'location' => 'ghh',
-    'side' => 'north',
+    'location' => 'GHH',
+    'side' => 'North',
     'status' => 'static',
     'floor' => 2,
     'island_number' => 102,
-    'workspace_type' => 'non-developer',
+    'workspace_type' => 'Non-developer',
     'updated_in_q1' => true,
 ];
 

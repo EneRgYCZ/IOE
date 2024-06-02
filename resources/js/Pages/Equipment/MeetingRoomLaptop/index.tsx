@@ -21,7 +21,7 @@ const Equipment = ({
     });
 
     const [currentMeetingRoomLaptop, setCurrentMeetingRoomLaptop] = React.useState<MeetingRoomLaptop | null>(null);
-
+    //customCellRenderer to handle display of coloumn entries
     const customCellRenderer: CellRenderer<MeetingRoomLaptop> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
@@ -36,7 +36,7 @@ const Equipment = ({
 
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
-
+    //component for action buttons of edit and delete
     const actionButtons = (meetingRoomLaptop: MeetingRoomLaptop): React.ReactElement => {
         return (
             <TableActions

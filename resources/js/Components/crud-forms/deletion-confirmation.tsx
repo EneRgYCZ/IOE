@@ -13,6 +13,8 @@ const DeletionConfirmation = (props: {
     deleteObject: Employee | MeetingRoomLaptop | Laptop | DesktopPC | Team; // Accepts employees, equipment or teams
     type: string;
 }) => {
+    //Determine routes according to type of selection
+
     const determineRoute = () => {
         // Determines deletion route according to the entity type
         switch (props.type) {
@@ -37,7 +39,7 @@ const DeletionConfirmation = (props: {
                 Are you sure you want to delete this {props.type} entity?
             </h2>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button variant="outlined" sx={{ marginRight: "10px" }}>
+                <Button variant="outlined" sx={{ marginRight: "10px" }} onClick={() => props.handleClose()}>
                     CANCEL
                 </Button>
                 <Button

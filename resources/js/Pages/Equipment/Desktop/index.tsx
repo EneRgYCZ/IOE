@@ -23,7 +23,7 @@ const Equipment = ({
     });
 
     const [currentDesktop, setCurrentDesktop] = React.useState<DesktopPC | null>(null);
-
+    //customCellRenderer to handle display of coloumn entries
     const customCellRenderer: CellRenderer<DesktopPC> = (row, col, cellKey, rowIdx) => {
         if (col.key === "updated_at" || col.key === "created_at") {
             return (
@@ -36,9 +36,17 @@ const Equipment = ({
             );
         }
 
+        if (col.key === "needs_dock") {
+            const value = row.needs_dock;
+            return (
+                <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+                    {value == true ? <div>Yes</div> : <div>No</div>}
+                </TableCell>
+            );
+        }
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
-
+    //component for action buttons of edit and delete
     const actionButtons = (desktop: DesktopPC): React.ReactElement => {
         return (
             <TableActions
