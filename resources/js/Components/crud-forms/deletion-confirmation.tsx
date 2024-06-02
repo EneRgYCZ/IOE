@@ -35,7 +35,7 @@ const DeletionConfirmation = (props: {
                 Are you sure you want to delete this {props.type} entity?
             </h2>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button variant="outlined" sx={{ marginRight: "10px" }}>
+                <Button variant="outlined" sx={{ marginRight: "10px" }} onClick={() => props.handleClose()}>
                     CANCEL
                 </Button>
                 <Button
