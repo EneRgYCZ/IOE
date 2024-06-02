@@ -19,6 +19,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
 {
+    const STRING_LENGTH = 'max:40';
+
     public function index()
     {
         $globalSearchColumns = ['first_name', 'last_name'];
@@ -76,8 +78,8 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $employee = Employee::create($request->validate([
-            'first_name' => ['required', 'max:40'],
-            'last_name' => ['required', 'max:40'],
+            'first_name' => ['required', self::STRING_LENGTH],
+            'last_name' => ['required', self::STRING_LENGTH],
             'equipment_identifiers' => ['array'],
         ]));
 
@@ -108,8 +110,8 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $employee->update($request->validate([
-            'first_name' => ['required', 'max:40'],
-            'last_name' => ['required', 'max:40'],
+            'first_name' => ['required', self::STRING_LENGTH],
+            'last_name' => ['required', self::STRING_LENGTH],
             'equipment_identifiers' => ['array'],
         ]));
 

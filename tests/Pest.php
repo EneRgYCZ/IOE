@@ -44,5 +44,5 @@ expect()->extend('toBeOne', function () {
 
 function something()
 {
-    // ..
+    // global function example
 }

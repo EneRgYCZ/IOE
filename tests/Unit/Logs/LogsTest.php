@@ -50,7 +50,7 @@ it('can search for a log - BDD 21', function () {
                 )
         );
 
-    $resp = $this->get('/logs?search=default');
+    $response = $this->get('/logs?search=default');
     $response->assertStatus(200);
     $response->assertSee('default');
 });

@@ -29,11 +29,19 @@ const DeletionConfirmation = (props: {
 
     return (
         <FormModal open={props.isOpen} onClose={props.handleClose}>
-            <h2 style={{ margin: "0px", padding: "35px" }}>
+            <h2 style={{ margin: "0px", padding: "35px", textAlign: "center" }}>
                 Are you sure you want to delete this {props.type} entity?
             </h2>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button variant="outlined" color="error" onClick={() => props.handleClose()}>
+                <Button variant="outlined" sx={{ marginRight: "10px" }}>
+                    CANCEL
+                </Button>
+                <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => props.handleClose()}
+                    sx={{ marginLeft: "10px" }}
+                >
                     <Link href={route(determineRoute(), props.deleteObject.id)} method="delete">
                         DELETE
                     </Link>
