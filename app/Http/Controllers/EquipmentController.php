@@ -19,12 +19,39 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EquipmentController extends Controller
 {
+    const STRING_LENGTH = 'max:50';
+
+    const NUMBER_LENGTH = 'max_digits:5';
+
+    const FIELDS = [
+        ['full_number_identifier', 'Full Number', false],
+        ['location', 'Location', false],
+        ['side', 'Side', false],
+        ['floor', 'Floor', false],
+        ['q1', 'Updated in Q1', false],
+        ['remarks', 'Remarks', true],
+        ['updated_at', 'Updated At', false],
+        ['created_at', 'Created At', false],
+    ];
+
+    private static function addColumnsAndSearch(Table $table, array $fields)
+    {
+        $table->addColumn(new Column('id', 'Id', hidden: true, sortable: true));
+
+        foreach ($fields as $field) {
+            $table->addColumn(new Column($field[0], $field[1], hidden: $field[2], sortable: true));
+            $table->addSearchInput(new SearchInput($field[0], $field[1], shown: true));
+        }
+
+        $table->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function desktopsIndex()
     {
-        $globalSearchColumns = [
+        $desktopColumns = [
             'id',
             'full_number_identifier',
             'pc_number',
@@ -39,38 +66,26 @@ class EquipmentController extends Controller
             'q1',
             'remarks',
             'employee_id',
+            'updated_at',
+            'created_at',
         ];
 
         $desktops = QueryBuilder::for(Desktop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'pc_number', 'location', 'side', 'double_pc', 'needs_dock', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
+            ->allowedSorts($desktopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'pc_number',
-                'location',
-                'side',
-                'double_pc',
-                'needs_dock',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'q1',
-                'remarks',
-                'employee_id',
-                'updated_at',
-                'created_at',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
+                ...array_merge($desktopColumns,
+                    [AllowedFilter::callback('global_search', function (Builder $query, $value) use ($desktopColumns) {
+                        $query->where(function ($subQuery) use ($desktopColumns, $value) {
+                            foreach ($desktopColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
                             }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                        });
+                    })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -81,45 +96,23 @@ class EquipmentController extends Controller
             'desktops' => $desktops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('pc_number', 'PC Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('double_pc', 'Double PC', sortable: true, hidden: true))
-                ->addColumn(new Column('needs_dock', 'Needs Dock', sortable: true))
-                ->addColumn(new Column('status', 'Status', sortable: true, hidden: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('island_number', 'Island Number', sortable: true, hidden: true))
-                ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
-                ->addColumn(new Column('created_at', 'Create At', sortable: true))
-                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('pc_number', 'PC Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('double_pc', 'Double PC', shown: true))
-                ->addSearchInput(new SearchInput('needs_dock', 'Needs Dock', shown: true))
-                ->addSearchInput(new SearchInput('status', 'Status', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
-                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
-                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['pc_number', 'PC Number', false],
+                ['double_pc', 'Double PC', true],
+                ['needs_dock', 'Needs Dock', false],
+                ['status', 'Status', true],
+                ['island_number', 'Island Number', true],
+                ['workspace_type', 'Workspace Type', false],
+                ['employee_id', 'Employee Id', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
     }
 
     public function laptopsIndex()
     {
-        $globalSearchColumns = [
+        $laptopColumns = [
             'id',
             'full_number_identifier',
             'laptop_number',
@@ -132,36 +125,26 @@ class EquipmentController extends Controller
             'q1',
             'remarks',
             'employee_id',
+            'updated_at',
+            'created_at',
         ];
 
         $laptops = QueryBuilder::for(Laptop::query())
             ->with('employee')
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'status', 'floor', 'island_number', 'workspace_type', 'q1', 'remarks', 'employee_id', 'updated_at', 'created_at')
+            ->allowedSorts($laptopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'status',
-                'floor',
-                'island_number',
-                'workspace_type',
-                'q1',
-                'remarks',
-                'employee_id',
-                'updated_at',
-                'created_at',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
+                ...array_merge($laptopColumns,
+                    [AllowedFilter::callback('global_search', function (Builder $query, $value) use ($laptopColumns) {
+                        $query->where(function ($subQuery) use ($laptopColumns, $value) {
+                            foreach ($laptopColumns as $column) {
+                                if (is_array($value)) {
+                                    $value = implode('', $value);
+                                }
+                                $subQuery->orWhere($column, 'like', "%{$value}%");
                             }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                        });
+                    })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -172,41 +155,21 @@ class EquipmentController extends Controller
             'laptops' => $laptops,
             'employees' => $employees,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('status', 'Status', sortable: true, hidden: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('island_number', 'Island Number', sortable: true))
-                ->addColumn(new Column('workspace_type', 'Workspace Type', sortable: true))
-                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true, hidden: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('employee.first_name', 'Employee', sortable: false))
-                ->addColumn(new Column('created_at', 'Create At', sortable: true))
-                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('status', 'Status', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('island_number', 'Island Number', shown: true))
-                ->addSearchInput(new SearchInput('workspace_type', 'Workspace Type', shown: true))
-                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('employee_id', 'Employee Id', shown: true))
-                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
-                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['laptop_number', 'Laptop Number', false],
+                ['status', 'Status', true],
+                ['island_number', 'Island Number', false],
+                ['workspace_type', 'Workspace Type', false],
+                ['employee_id', 'Employee Id', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
     }
 
     public function meetingRoomLaptopIndex()
     {
-        $globalSearchColumns = [
+        $meetingRoomLaptopColumns = [
             'id',
             'full_number_identifier',
             'laptop_number',
@@ -216,32 +179,26 @@ class EquipmentController extends Controller
             'room_number',
             'q1',
             'remarks',
+            'updated_at',
+            'created_at',
         ];
 
         $meetingRoomLaptops = QueryBuilder::for(MeetingRoomLaptop::query())
-            ->allowedSorts('id', 'full_number_identifier', 'laptop_number', 'location', 'side', 'floor', 'room_number', 'q1', 'remarks', 'updated_at', 'created_at')
+            ->allowedSorts($meetingRoomLaptopColumns)
             ->allowedFilters(
-                'id',
-                'full_number_identifier',
-                'laptop_number',
-                'location',
-                'side',
-                'floor',
-                'room_number',
-                'q1',
-                'remarks',
-                'updated_at',
-                'created_at',
-                AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                    $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                        foreach ($globalSearchColumns as $column) {
-                            if (is_array($value)) {
-                                $value = implode('', $value);
-                            }
-                            $subQuery->orWhere($column, 'like', "%{$value}%");
-                        }
-                    });
-                })
+                ...array_merge($meetingRoomLaptopColumns,
+                    [AllowedFilter::callback('global_search',
+                        function (Builder $query, $value) use ($meetingRoomLaptopColumns) {
+                            $query->where(function ($subQuery) use ($meetingRoomLaptopColumns, $value) {
+                                foreach ($meetingRoomLaptopColumns as $column) {
+                                    if (is_array($value)) {
+                                        $value = implode('', $value);
+                                    }
+                                    $subQuery->orWhere($column, 'like', "%{$value}%");
+                                }
+                            });
+                        })]
+                )
             )
             ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
             ->withQueryString();
@@ -249,30 +206,63 @@ class EquipmentController extends Controller
         return Inertia::render('Equipment/MeetingRoomLaptop/index', [
             'meetingRoomLaptops' => $meetingRoomLaptops,
         ])->table(function (Table $table) {
-            $table
-                ->addColumn(new Column('id', 'Id', hidden: true, sortable: true))
-                ->addColumn(new Column('full_number_identifier', 'Full Number', sortable: true))
-                ->addColumn(new Column('laptop_number', 'Laptop Number', sortable: true))
-                ->addColumn(new Column('location', 'Location', sortable: true))
-                ->addColumn(new Column('side', 'Side', sortable: true))
-                ->addColumn(new Column('floor', 'Floor', sortable: true))
-                ->addColumn(new Column('room_number', 'Room Number', sortable: true))
-                ->addColumn(new Column('q1', 'Updated in Q1', sortable: true))
-                ->addColumn(new Column('remarks', 'Remarks', sortable: true, hidden: true))
-                ->addColumn(new Column('created_at', 'Create At', sortable: true))
-                ->addColumn(new Column('updated_at', 'Update At', sortable: true))
-                ->addSearchInput(new SearchInput('full_number_identifier', 'Full Number', shown: true))
-                ->addSearchInput(new SearchInput('laptop_number', 'Laptop Number', shown: true))
-                ->addSearchInput(new SearchInput('location', 'Location', shown: true))
-                ->addSearchInput(new SearchInput('side', 'Side', shown: true))
-                ->addSearchInput(new SearchInput('floor', 'Floor', shown: true))
-                ->addSearchInput(new SearchInput('room_number', 'Room Number', shown: true))
-                ->addSearchInput(new SearchInput('q1', 'Updated in Q1', shown: true))
-                ->addSearchInput(new SearchInput('remarks', 'Remarks', shown: true))
-                ->addSearchInput(new SearchInput('updated_at', 'Updated At', shown: true))
-                ->addSearchInput(new SearchInput('created_at', 'Created At', shown: true))
-                ->addSearchInput(new SearchInput('global_search', 'Global Search', shown: false));
+            $specific_fields = [
+                ['laptop_number', 'Laptop Number', false],
+                ['room_number', 'Room Number', false],
+            ];
+            $fields = array_merge(self::FIELDS, $specific_fields);
+            self::addColumnsAndSearch($table, $fields);
         });
+    }
+
+    private static function validateDesktop(Request $desktop)
+    {
+        return $desktop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'pc_number' => ['required', self::STRING_LENGTH],
+            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
+            'side' => ['required', Rule::in(['north', 'south'])],
+            'double_pc' => ['boolean'],
+            'needs_dock' => ['boolean'],
+            'status' => [Rule::in(['static', 'flex', ''])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'q1' => ['boolean'],
+            'remarks' => [],
+            'employee_id' => [],
+        ]);
+    }
+
+    private static function validateLaptop(Request $laptop)
+    {
+        return $laptop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'laptop_number' => ['required', self::STRING_LENGTH],
+            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
+            'side' => ['required', Rule::in(['north', 'south'])],
+            'status' => [Rule::in(['static', 'flex', ''])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
+            'q1' => ['boolean'],
+            'remarks' => [],
+            'employee_id' => [],
+        ]);
+    }
+
+    private static function validateMeetingRoomLaptop(Request $meetingRoomLaptop)
+    {
+        return $meetingRoomLaptop->validate([
+            'full_number_identifier' => ['required', self::STRING_LENGTH],
+            'laptop_number' => ['required', self::STRING_LENGTH],
+            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
+            'side' => ['required', Rule::in(['north', 'south'])],
+            'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
+            'room_number' => ['max:5'],
+            'q1' => ['boolean'],
+            'remarks' => [],
+        ]);
     }
 
     /**
@@ -280,57 +270,19 @@ class EquipmentController extends Controller
      */
     public function storeDesktop(Request $request)
     {
-        Desktop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'pc_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'double_pc' => ['boolean'],
-            'needs_dock' => ['boolean'],
-            'status' => [Rule::in(['static', 'flex', ''])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
-
+        Desktop::create(self::validateDesktop($request));
         $this->toast('The desktop was created successfully', ToastType::Success);
     }
 
     public function storeLaptop(Request $request)
     {
-        Laptop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'status' => [Rule::in(['static', 'flex', ''])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer', ''])],
-            'q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
-
+        Laptop::create(self::validateLaptop($request));
         $this->toast('The laptop was created successfully', ToastType::Success);
     }
 
     public function storeMeetingRoomLaptop(Request $request)
     {
-        MeetingRoomLaptop::create($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'room_number' => ['max:5'],
-            'q1' => ['boolean'],
-            'remarks' => [],
-        ]));
-
+        MeetingRoomLaptop::create(self::validateMeetingRoomLaptop($request));
         $this->toast('The meeting room laptop was created successfully', ToastType::Success);
     }
 
@@ -339,58 +291,21 @@ class EquipmentController extends Controller
      */
     public function updateDesktop(Request $request, Desktop $desktop)
     {
-        $desktop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'pc_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'double_pc' => ['boolean'],
-            'needs_dock' => ['boolean'],
-            'status' => [Rule::in(['static', 'flex'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
-
+        $desktop->update(self::validateDesktop($request));
         $this->toast('The desktop was updated successfully', ToastType::Success);
     }
 
     public function updateLaptop(Request $request, Laptop $laptop)
     {
-        $laptop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'status' => [Rule::in(['static', 'flex'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'island_number' => ['numeric', 'required', 'max_digits:5'],
-            'workspace_type' => [Rule::in(['developer', 'non-developer'])],
-            'q1' => ['boolean'],
-            'remarks' => [],
-            'employee_id' => [],
-        ]));
-
+        $laptop->update(self::validateLaptop($request));
         $this->toast('The laptop was updated successfully', ToastType::Success);
     }
 
     public function updateMeetingRoomLaptop(Request $request, MeetingRoomLaptop $meetingRoomLaptop)
     {
-        $meetingRoomLaptop->update($request->validate([
-            'full_number_identifier' => ['required', 'max:50'],
-            'laptop_number' => ['required', 'max:50'],
-            'location' => ['required', Rule::in(['ghh', 'waagstraat'])],
-            'side' => ['required', Rule::in(['north', 'south'])],
-            'floor' => ['numeric', 'required', 'max_digits:5'],
-            'room_number' => ['max:5'],
-            'q1' => ['boolean'],
-            'remarks' => [],
-        ]));
-
+        $meetingRoomLaptop->update(self::validateMeetingRoomLaptop($request));
         $this->toast('The meeting room laptop was updated successfully', ToastType::Success);
+
     }
 
     /**

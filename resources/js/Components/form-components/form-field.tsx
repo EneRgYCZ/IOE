@@ -37,6 +37,18 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
         console.log(requiredError);
     };
 
+    const getErrrorMessage = () => {
+        if (requiredError || patternError) {
+            if (requiredError) {
+                return "This field is required";
+            } else {
+                return props.patternMismatchError;
+            }
+        } else {
+            return "";
+        }
+    };
+
     return (
         <>
             <FormLabel>{props.required ? props.label + "*" : props.label}</FormLabel>
@@ -49,13 +61,7 @@ const FormField = <T extends Laptop | DesktopPC | MeetingRoomLaptop | Employee |
                 required={!!props.required}
                 variant="outlined"
                 error={requiredError || patternError}
-                helperText={
-                    requiredError || patternError
-                        ? requiredError
-                            ? "This field is required"
-                            : props.patternMismatchError
-                        : ""
-                }
+                helperText={getErrrorMessage()}
             />
         </>
     );

@@ -26,6 +26,8 @@ const EmployeeForm = (props: {
         boxSizing: "border-box"
     };
 
+    const boxShadowing = "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px";
+
     const initialValues: Employee = {
         first_name: props.employee ? props.employee.first_name : "",
         last_name: props.employee ? props.employee.last_name : "",
@@ -80,8 +82,7 @@ const EmployeeForm = (props: {
             }}
             title={props.title}
         >
-            <ErrorBox hasErrors={hasErrors} errors={errors} clearErrors={clearErrors} />
-            <form onSubmit={submit} style={{ marginTop: "10px" }}>
+            <form onSubmit={submit}>
                 <FormField
                     id="first_name"
                     label={"First Name"}
@@ -91,6 +92,7 @@ const EmployeeForm = (props: {
                     pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
                 />
+                <ErrorBox field="first_name" hasErrors={hasErrors} errors={errors} />
 
                 <FormField
                     id="last_name"
@@ -101,6 +103,7 @@ const EmployeeForm = (props: {
                     pattern="[A-Za-zÀ-ÖØ-öø-ÿ\- ]+"
                     required
                 />
+                <ErrorBox field="last_name" hasErrors={hasErrors} errors={errors} />
 
                 <FormLabel>Teams</FormLabel>
                 <Autocomplete
@@ -136,9 +139,10 @@ const EmployeeForm = (props: {
                     }}
                     renderInput={params => <TextField {...params} />}
                 />
+                <ErrorBox field="equipment_identifiers" hasErrors={hasErrors} errors={errors} />
 
-                <div style={{ textAlign: "center" }}>
-                    <Button variant="contained" type={"submit"}>
+                <div style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
+                    <Button variant="contained" type={"submit"} sx={{ boxShadow: boxShadowing, marginLeft: "10px" }}>
                         Submit
                     </Button>
                 </div>

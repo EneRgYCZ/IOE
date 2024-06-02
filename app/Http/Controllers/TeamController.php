@@ -17,6 +17,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamController extends Controller
 {
+    const STRING_LENGTH = 'max:50';
+
     /**
      * Display a listing of the resource.
      */
@@ -37,16 +39,18 @@ class TeamController extends Controller
                     'description',
                     'updated_at',
                     'created_at',
-                    AllowedFilter::callback('global_search', function (Builder $query, $value) use ($globalSearchColumns) {
-                        $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
-                            foreach ($globalSearchColumns as $column) {
-                                if (is_array($value)) {
-                                    $value = implode('', $value);
+                    AllowedFilter::callback(
+                        'global_search',
+                        function (Builder $query, $value) use ($globalSearchColumns) {
+                            $query->where(function ($subQuery) use ($globalSearchColumns, $value) {
+                                foreach ($globalSearchColumns as $column) {
+                                    if (is_array($value)) {
+                                        $value = implode('', $value);
+                                    }
+                                    $subQuery->orWhere($column, 'like', "%{$value}%");
                                 }
-                                $subQuery->orWhere($column, 'like', "%{$value}%");
-                            }
-                        });
-                    })
+                            });
+                        })
                 )
                 ->paginate(request('perPage') ?? Table::DEFAULT_PER_PAGE)
                 ->withQueryString();
@@ -80,8 +84,8 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $team = Team::create($request->validate([
-            'team_name' => ['required', 'max:50'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
 
         $this->toast('The team was created successfully', ToastType::Success);
@@ -101,8 +105,8 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update($request->validate([
-            'team_name' => ['required', 'max:20'],
-            'description' => ['required', 'max:50'],
+            'team_name' => ['required', self::STRING_LENGTH],
+            'description' => ['required', self::STRING_LENGTH],
         ]));
 
         $this->toast('The team was updated successfully', ToastType::Success);
