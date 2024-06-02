@@ -35,7 +35,30 @@ const Equipment = ({
                 </TableCell>
             );
         }
-
+        // if (col.key === "q1") {
+        //     const value = row.q1;
+        //     return (
+        //         <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+        //             { value == 1 ? (
+        //                 <div>Yes</div>
+        //             ) : (
+        //                 <div>No</div>
+        //             )}
+        //         </TableCell>
+        //     );
+        // }
+        if (col.key === "needs_dock") {
+            const value = row.needs_dock;
+            return (
+                <TableCell key={rowIdx} sx={{ pl: 2, textAlign: "center" }}>
+                    { value == 1 ? (
+                        <div>Yes</div>
+                    ) : (
+                        <div>No</div>
+                    )}
+                </TableCell>
+            );
+        }
         return defaultCellRenderer(row, col, cellKey, rowIdx);
     };
 
