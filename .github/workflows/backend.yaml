@@ -72,7 +72,7 @@ jobs:
       mysql:
         image: "mysql:8.0"
         env:
-          MYSQL_DATABASE: gomibo_ioe
+          MYSQL_DATABASE: ioe
           MYSQL_USER: sail
           MYSQL_PASSWORD: password
           MYSQL_ROOT_PASSWORD: password

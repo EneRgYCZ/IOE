@@ -1,4 +1,4 @@
-# Gomibo-IOE
+# IOE
 ## How to run the project:
 
 ### Requirements 

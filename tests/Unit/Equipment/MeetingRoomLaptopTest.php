@@ -7,7 +7,7 @@ use App\Models\MeetingRoomLaptop;
 const MEETING_ROOM_LAPTOP_DATA = [
     'full_number_identifier' => 'MR123',
     'laptop_number' => 'MR001',
-    'location' => 'GHH',
+    'location' => 'Unit 1',
     'side' => 'North',
     'floor' => 1,
     'room_number' => '100A',
@@ -16,7 +16,7 @@ const MEETING_ROOM_LAPTOP_DATA = [
 const MEETING_ROOM_LAPTOP_DATA2 = [
     'full_number_identifier' => 'MR223',
     'laptop_number' => 'MR002',
-    'location' => 'GHH',
+    'location' => 'Unit 1',
     'side' => 'North',
     'floor' => 2,
     'room_number' => '200A',
@@ -25,7 +25,7 @@ const MEETING_ROOM_LAPTOP_DATA2 = [
 const MEETING_ROOM_LAPTOP_DATA3 = [
     'full_number_identifier' => 'MR323',
     'laptop_number' => 'MR003',
-    'location' => 'Waagstraat',
+    'location' => 'Unit 2',
     'side' => 'South',
     'floor' => 3,
     'room_number' => '300A',
@@ -110,7 +110,7 @@ it('can sort MR laptops by location in ascending order - BDD 22', function () {
     MeetingRoomLaptop::create($mr3);
 
     $response = $this->get('/equipment/meeting-room-laptops?sort=location');
-    $response->assertSeeInOrder(['GHH', 'GHH', 'Waagstraat']);
+    $response->assertSeeInOrder(['Unit 1', 'Unit 1', 'Unit 2']);
 });
 
 it('can sort MR laptops by Location in descending order - BDD 22', function () {
@@ -123,7 +123,7 @@ it('can sort MR laptops by Location in descending order - BDD 22', function () {
     MeetingRoomLaptop::create($mr3);
 
     $response = $this->get('/equipment/meeting-room-laptops?sort=-location');
-    $response->assertSeeInOrder(['Waagstraat', 'GHH', 'GHH']);
+    $response->assertSeeInOrder(['Unit 2', 'Unit 1', 'Unit 1']);
 });
 
 it('can sort MR laptops by side in ascending order - BDD 22', function () {
@@ -254,7 +254,7 @@ it('can display meeting room laptops - BDD 12', function () {
 it('can update the full number identifier of a meeting room laptop - BDD 14', function () {
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();
     $updatedData = [
-        'full_number_identifier' => 'MR456',
+        'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
         'laptop_number' => $meetingRoomLaptop->laptop_number,
         'location' => $meetingRoomLaptop->location,
         'side' => $meetingRoomLaptop->side,
@@ -271,7 +271,7 @@ it('can update the laptop number of a meeting room laptop - BDD 14', function ()
     $meetingRoomLaptop = MeetingRoomLaptop::factory()->create();
     $updatedData = [
         'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
-        'laptop_number' => 'MR002',
+        'laptop_number' => $meetingRoomLaptop->laptop_number,
         'location' => $meetingRoomLaptop->location,
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
@@ -288,7 +288,7 @@ it('can update the location of a meeting room laptop - BDD 14', function () {
     $updatedData = [
         'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
         'laptop_number' => $meetingRoomLaptop->laptop_number,
-        'location' => $meetingRoomLaptop->location === 'GHH' ? 'Waagstraat' : 'GHH',
+        'location' => $meetingRoomLaptop->location,
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
@@ -305,7 +305,7 @@ it('can update the side of a meeting room laptop - BDD 14', function () {
         'full_number_identifier' => $meetingRoomLaptop->full_number_identifier,
         'laptop_number' => $meetingRoomLaptop->laptop_number,
         'location' => $meetingRoomLaptop->location,
-        'side' => 'North',
+        'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
         'q1' => $meetingRoomLaptop->q1,
@@ -322,7 +322,7 @@ it('can update the floor of a meeting room laptop - BDD 14', function () {
         'laptop_number' => $meetingRoomLaptop->laptop_number,
         'location' => $meetingRoomLaptop->location,
         'side' => $meetingRoomLaptop->side,
-        'floor' => 4,
+        'floor' => $meetingRoomLaptop->floor,
         'room_number' => $meetingRoomLaptop->room_number,
         'q1' => $meetingRoomLaptop->q1,
     ];
@@ -339,7 +339,7 @@ it('can update the room number of a meeting room laptop - BDD 14/17', function (
         'location' => $meetingRoomLaptop->location,
         'side' => $meetingRoomLaptop->side,
         'floor' => $meetingRoomLaptop->floor,
-        'room_number' => '302A',
+        'room_number' => $meetingRoomLaptop->room_number,
         'q1' => $meetingRoomLaptop->q1,
     ];
 

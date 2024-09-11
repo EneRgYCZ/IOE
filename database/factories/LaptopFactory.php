@@ -19,8 +19,8 @@ class LaptopFactory extends Factory
         return [
             'full_number_identifier' => $this->faker->randomNumber(8),
             'laptop_number' => $this->faker->randomNumber(4),
-            'location' => $this->faker->randomElement(['GHH', 'Waagstraat']),
-            'side' => $this->faker->randomElement(['North', 'South']),
+            'location' => $this->faker->randomElement(['Unit 1', 'Unit 2']),
+            'side' => $this->faker->randomElement(['Left', 'Right']),
             'status' => $this->faker->randomElement(['flex', 'static']),
             'floor' => $this->faker->numberBetween(1, 5),
             'island_number' => $this->faker->numberBetween(1, 10),

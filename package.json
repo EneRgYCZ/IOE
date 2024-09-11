@@ -49,7 +49,7 @@
         "react-icons": "^5.0.1",
         "sonner": "^1.4.41"
     },
-    "name": "gomibo_ioe",
+    "name": "ioe",
     "version": "1.0.0",
     "license": "MIT"
 }

@@ -1,4 +1,4 @@
-# Gomibo-IOE Development
+# IOE Development
 
 ## General Procedure
 - Tasks are added to the backlog

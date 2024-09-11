@@ -12,7 +12,7 @@ const IDENTFIER_C = '32345';
 const DESKTOP_DATA = [
     'full_number_identifier' => IDENTFIER_A,
     'pc_number' => 'PC001',
-    'location' => 'GHH',
+    'location' => 'Unit 1',
     'side' => 'North',
     'double_pc' => false,
     'needs_dock' => true,
@@ -26,7 +26,7 @@ const DESKTOP_DATA = [
 const DESKTOP_DATA2 = [
     'full_number_identifier' => IDENTFIER_B,
     'pc_number' => 'PC002',
-    'location' => 'GHH',
+    'location' => 'Unit 1',
     'side' => 'North',
     'double_pc' => false,
     'needs_dock' => true,
@@ -40,7 +40,7 @@ const DESKTOP_DATA2 = [
 const DESKTOP_DATA3 = [
     'full_number_identifier' => IDENTFIER_C,
     'pc_number' => 'PC003',
-    'location' => 'Waagstraat',
+    'location' => 'Unit 2',
     'side' => 'South',
     'double_pc' => true,
     'needs_dock' => false,
@@ -135,7 +135,7 @@ it('can update the location of a desktop - BDD 14', function () {
     $updatedData = [
         'full_number_identifier' => $desktop->full_number_identifier,
         'pc_number' => $desktop->pc_number,
-        'location' => $desktop->location === 'GHH' ? 'Waagstraat' : 'GHH',
+        'location' => $desktop->location === 'Unit 1' ? 'Unit 2' : 'Unit 1',
         'side' => $desktop->side,
         'double_pc' => $desktop->double_pc,
         'needs_dock' => $desktop->needs_dock,
@@ -386,7 +386,7 @@ it('can sort desktops by Location in ascending order - BDD 22', function () {
     Desktop::create($desktop3);
 
     $response = $this->get('/equipment/desktops?sort=location');
-    $response->assertSeeInOrder(['GHH', 'GHH', 'Waagstraat']);
+    $response->assertSeeInOrder(['Unit 1', 'Unit 1', 'Unit 2']);
 });
 
 it('can sort desktops by Location in descending order - BDD 22', function () {
@@ -399,7 +399,7 @@ it('can sort desktops by Location in descending order - BDD 22', function () {
     Desktop::create($desktop3);
 
     $response = $this->get('/equipment/desktops?sort=-location');
-    $response->assertSeeInOrder(['Waagstraat', 'GHH', 'GHH']);
+    $response->assertSeeInOrder(['Unit 2', 'Unit 1', 'Unit 1']);
 });
 it('can sort desktops by side in ascending order - BDD 22', function () {
     $desktop1 = DESKTOP_DATA;

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('full_number_identifier');
             $table->string('laptop_number');
-            $table->enum('location', ['GHH', 'Waagstraat']);
-            $table->enum('side', ['North', 'South']);
+            $table->string('location');
+            $table->string('side');
             $table->integer('floor');
             $table->string('room_number')->nullable();
             $table->boolean('q1')->nullable();

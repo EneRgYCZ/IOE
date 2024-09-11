@@ -18,8 +18,8 @@ return new class extends Migration
             $table->boolean('double_pc')->nullable();
             $table->boolean('needs_dock')->nullable();
             $table->enum('status', ['flex', 'static'])->nullable();
-            $table->enum('location', ['GHH', 'Waagstraat']);
-            $table->enum('side', ['North', 'South']);
+            $table->string('location');
+            $table->string('side');
             $table->integer('floor');
             $table->integer('island_number');
             $table->enum('workspace_type', ['Developer', 'Non-developer'])->nullable();

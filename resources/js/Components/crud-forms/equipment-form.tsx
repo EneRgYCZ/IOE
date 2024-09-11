@@ -64,8 +64,8 @@ const EquipmentForm = <T extends DesktopPC | Laptop | MeetingRoomLaptop>(props: 
             )}
 
             <FormSelect id="location" label="Location" data={props.data} setData={props.setData} required>
-                <MenuItem value="GHH">GHH</MenuItem>
-                <MenuItem value="Waagstraat">Waagstraat</MenuItem>
+                <MenuItem value="Unit 1">Unit 1</MenuItem>
+                <MenuItem value="Unit 2">Unit 2</MenuItem>
             </FormSelect>
             <ErrorBox field="location" hasErrors={props.hasErrors} errors={props.errors} />
 

@@ -19,8 +19,8 @@ class DesktopFactory extends Factory
         return [
             'full_number_identifier' => $this->faker->randomNumber(8),
             'pc_number' => $this->faker->randomNumber(4),
-            'location' => $this->faker->randomElement(['GHH', 'Waagstraat']),
-            'side' => $this->faker->randomElement(['North', 'South']),
+            'location' => $this->faker->randomElement(['Unit 1', 'Unit 2']),
+            'side' => $this->faker->randomElement(['Left', 'Right']),
             'double_pc' => $this->faker->boolean(),
             'needs_dock' => $this->faker->boolean(),
             'status' => $this->faker->randomElement(['flex', 'static']),

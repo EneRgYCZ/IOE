@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('full_number_identifier');
             $table->string('laptop_number');
             $table->enum('status', ['flex', 'static'])->nullable();
-            $table->enum('location', ['GHH', 'Waagstraat']);
-            $table->enum('side', ['North', 'South']);
+            $table->string('location');
+            $table->string('side');
             $table->integer('floor');
             $table->integer('island_number');
             $table->enum('workspace_type', ['Developer', 'Non-developer'])->nullable();

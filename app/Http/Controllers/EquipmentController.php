@@ -227,8 +227,8 @@ class EquipmentController extends Controller
         return $desktop->validate([
             'full_number_identifier' => ['required', self::STRING_LENGTH],
             'pc_number' => ['required', self::STRING_LENGTH],
-            'location' => ['required', Rule::in(['GHH', 'Waagstraat'])],
-            'side' => ['required', Rule::in(['North', 'South'])],
+            'location' => ['required'],
+            'side' => ['required'],
             'double_pc' => ['boolean'],
             'needs_dock' => ['boolean'],
             'status' => [Rule::in(['static', 'flex', ''])],
@@ -247,8 +247,8 @@ class EquipmentController extends Controller
         return $laptop->validate([
             'full_number_identifier' => ['required', self::STRING_LENGTH],
             'laptop_number' => ['required', self::STRING_LENGTH],
-            'location' => ['required', Rule::in(['GHH', 'Waagstraat'])],
-            'side' => ['required', Rule::in(['North', 'South'])],
+            'location' => ['required'],
+            'side' => ['required'],
             'status' => [Rule::in(['static', 'flex', ''])],
             'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
             'island_number' => ['numeric', 'required', self::NUMBER_LENGTH],
@@ -265,7 +265,7 @@ class EquipmentController extends Controller
         return $meetingRoomLaptop->validate([
             'full_number_identifier' => ['required', self::STRING_LENGTH],
             'laptop_number' => ['required', self::STRING_LENGTH],
-            'location' => ['required', Rule::in(['GHH', 'Waagstraat'])],
+            'location' => ['required'],
             'side' => ['required', Rule::in(['North', 'South'])],
             'floor' => ['numeric', 'required', self::NUMBER_LENGTH],
             'room_number' => ['max:5'],

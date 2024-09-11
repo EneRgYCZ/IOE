@@ -1,4 +1,4 @@
-# Gomibo-IOE Features
+# IOE Features
 
 ## Link with features (Attempted)
 

@@ -4,7 +4,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Link } from "@inertiajs/react";
 import { Menu, MenuItem } from "@mui/material";
-import logo from "../../../../public/img/gomibo.png";
 import "../../../css/navigation-bar.css";
 
 const NavigationBar = () => {
@@ -50,20 +49,6 @@ const NavigationBar = () => {
                     justifyContent: "center"
                 }}
             >
-                {" "}
-                {/* Display logo */}
-                <img
-                    src={logo}
-                    alt="Gomibo logo"
-                    className="logo"
-                    width={150}
-                    style={{
-                        position: "absolute",
-                        left: "20px",
-                        top: "50%",
-                        transform: "translateY(-50%)"
-                    }}
-                />
                 {/* Display Page Tabs */}
                 <Tabs
                     value={selectedUrl}

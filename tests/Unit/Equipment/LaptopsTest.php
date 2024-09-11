@@ -8,8 +8,8 @@ use App\Models\Laptop;
 const LAPTOP_DATA = [
     'full_number_identifier' => 'L12345',
     'laptop_number' => 'L001',
-    'location' => 'GHH',
-    'side' => 'North',
+    'location' => 'Unit 1',
+    'side' => 'Right',
     'status' => 'static',
     'floor' => 1,
     'island_number' => 102,
@@ -19,8 +19,8 @@ const LAPTOP_DATA = [
 const LAPTOP_DATA2 = [
     'full_number_identifier' => 'L22345',
     'laptop_number' => 'L002',
-    'location' => 'GHH',
-    'side' => 'North',
+    'location' => 'Unit 1',
+    'side' => 'Right',
     'status' => 'static',
     'floor' => 2,
     'island_number' => 202,
@@ -30,8 +30,8 @@ const LAPTOP_DATA2 = [
 const LAPTOP_DATA3 = [
     'full_number_identifier' => 'L32345',
     'laptop_number' => 'L003',
-    'location' => 'Waagstraat',
-    'side' => 'South',
+    'location' => 'Unit 2',
+    'side' => 'Left',
     'status' => 'static',
     'floor' => 3,
     'island_number' => 302,
@@ -107,7 +107,7 @@ it('can sort laptops by location in ascending order - BDD 22', function () {
     Laptop::create($laptop3);
 
     $response = $this->get('/equipment/laptops?sort=location');
-    $response->assertSeeInOrder(['GHH', 'GHH', 'Waagstraat']);
+    $response->assertSeeInOrder(['Unit 1', 'Unit 1', 'Unit 2']);
 });
 
 it('can sort laptops by location in descending order - BDD 22', function () {
@@ -120,7 +120,7 @@ it('can sort laptops by location in descending order - BDD 22', function () {
     Laptop::create($laptop3);
 
     $response = $this->get('/equipment/laptops?sort=-location');
-    $response->assertSeeInOrder(['Waagstraat', 'GHH', 'GHH']);
+    $response->assertSeeInOrder(['Unit 2', 'Unit 1', 'Unit 1']);
 });
 
 it('can sort laptops by side in ascending order - BDD 22', function () {
@@ -133,7 +133,7 @@ it('can sort laptops by side in ascending order - BDD 22', function () {
     Laptop::create($laptop3);
 
     $response = $this->get('/equipment/laptops?sort=side');
-    $response->assertSeeInOrder(['North', 'North', 'South']);
+    $response->assertSeeInOrder(['Left', 'Right', 'Right']);
 });
 
 it('can sort laptops by side in descending order - BDD 22', function () {
@@ -146,7 +146,7 @@ it('can sort laptops by side in descending order - BDD 22', function () {
     Laptop::create($laptop3);
 
     $response = $this->get('/equipment/laptops?sort=-side');
-    $response->assertSeeInOrder(['South', 'North', 'North']);
+    $response->assertSeeInOrder(['Right', 'Right', 'Left']);
 });
 
 it('can sort laptops by floor in ascending order - BDD 22', function () {
@@ -321,7 +321,7 @@ it('can update the location of a laptop - BDD 14', function () {
     $updatedData = [
         'full_number_identifier' => $laptop->full_number_identifier,
         'laptop_number' => $laptop->laptop_number,
-        'location' => $laptop->location === 'GHH' ? 'Waagstraat' : 'GHH',
+        'location' => $laptop->location === 'Unit 1' ? 'Unit 2' : 'Unit 1',
         'side' => $laptop->side,
         'floor' => $laptop->floor,
         'island_number' => $laptop->island_number,
@@ -338,7 +338,7 @@ it('can update the side of a laptop - BDD 14', function () {
         'full_number_identifier' => $laptop->full_number_identifier,
         'laptop_number' => $laptop->laptop_number,
         'location' => $laptop->location,
-        'side' => 'South',
+        'side' => 'Left',
         'floor' => $laptop->floor,
         'island_number' => $laptop->island_number,
         'status' => $laptop->status,
